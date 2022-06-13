@@ -51,7 +51,8 @@ export default function Router({prefersDarkMode,setPrefersDarkMode}) {
 
 
     const LoginPage = useRoutes([ 
-        { path: "login", element: <Login /> }, 
+        { path: "", element: <Login /> }, 
+        { path: "login", element: <Login /> },
         { path: "forgotpassword", element: <ForgotPasswork /> },
         // { path: "*" , element: <Page404 /> },   
     ]);
