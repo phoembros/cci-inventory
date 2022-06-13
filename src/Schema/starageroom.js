@@ -1,0 +1,188 @@
+import {gql} from "@apollo/client";
+
+export const GET_STORAGE_ROOM = gql`
+  query Query {
+    getStorageRoom {
+      _id
+      name
+      address
+      type
+      remark
+      updatedAt
+      createdAt
+    }
+  }
+`
+
+export const GET_STORAGE_ROOM_PAGINATION = gql`
+  query GetStorageRoomWithPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean) {
+    getStorageRoomWithPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination) {
+      storageRoom {
+        _id
+        name
+        address
+        type
+        remark
+        updatedAt
+        createdAt
+      }
+      paginator {
+        slNo
+        prev
+        next
+        perPage
+        totalPosts
+        totalPages
+        currentPage
+        hasPrevPage
+        hasNextPage
+        totalDocs
+      }
+    }
+  }
+`
+
+export const GET_PURCHASE_RAW_MATERAIL_PAGINATION = gql`
+query GetPurchaseRawMaterialPagination($storageId: ID!, $page: Int, $limit: Int, $keyword: String, $pagination: Boolean) {
+  getPurchaseRawMaterialPagination(storageId: $storageId, page: $page, limit: $limit, keyword: $keyword, pagination: $pagination) {
+    purchaseRawMaterial {
+      _id
+      purchaseId
+      PurchaseProduct
+      purchaseDate
+      createdAt
+      purchaseBy {
+        _id
+        first_name
+        last_name
+        gender
+      }
+      approveBy {
+        _id
+        first_name
+        last_name
+        gender
+      }
+      status
+      priority
+      storageRoom {
+        _id
+        name
+        address
+      }
+      productsItems {
+        rawMaterialId {
+          _id
+          materialName
+          category {
+            _id
+            categoryName
+            remark
+          }
+          totalStockAmount
+          usedStockAmount
+          unit
+          unitPrice
+          remark
+        }
+        newQty
+        unitPrice
+        rawName
+        suppliersId {
+          _id
+          name
+          email
+          phoneNumber
+        }
+        suppliersName
+        key
+      }
+      remark
+    }
+    paginator {
+      slNo
+      prev
+      next
+      perPage
+      totalPosts
+      totalPages
+      currentPage
+      hasPrevPage
+      hasNextPage
+      totalDocs
+    }
+  }
+}
+`
+export const GET_PRODUCT_STORAGE_ROOM_BY = gql`
+  query GetProductByStorageRoomId($storageRoomId: ID) {
+    getProductByStorageRoomId(storageRoomId: $storageRoomId) {
+      _id
+      category {
+        _id
+        categoryName
+        remark
+        updatedAt
+        createdAt
+      }
+      unit
+      unitPrice
+      durationProduce
+      qtyInThisStorage
+      totalStockAmount
+      usedStockAmount
+      ingredients {
+        rawName
+        rawMaterialId {
+          _id
+          materialName
+          category {
+            _id
+            categoryName
+            remark
+            updatedAt
+            createdAt
+          }
+          totalStockAmount
+          usedStockAmount
+          unit
+          unitPrice
+          remark
+          updatedAt
+          createdAt
+        }
+        amount
+        key
+      }
+      remark
+      updatedAt
+      createdAt
+      productName
+    }
+  }
+`
+export const CREATE_STORAGE_ROOM = gql`
+  mutation Mutation($newStorage: StorageRoomInput) {
+    createStorageRoom(newStorage: $newStorage) {
+      success
+      message
+    }
+  }
+
+`
+export const UPDATE_STORAGE_ROOM = gql`
+  mutation Mutation($id: ID!, $storageEdit: StorageRoomInput) {
+    updateStorageRoom(_id: $id, storageEdit: $storageEdit) {
+      success
+      message
+    }
+  }
+`
+export const DELETE_STORAGE_ROOM = gql`
+  mutation DeleteStorageRoom($id: ID!) {
+    deleteStorageRoom(_id: $id) {
+      success
+      message
+    }
+  }
+`

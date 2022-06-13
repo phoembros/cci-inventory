@@ -1,0 +1,51 @@
+@import '../themes.scss';
+
+.report-page {
+
+    .slash {
+        width: 4px;
+        height: 45px;
+        background-color: $primary-color;
+    }
+    .color {
+        color: $primary-color;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .stack-btn {             
+       
+        .btn-add {
+            text-transform: none;            
+            border-radius: 6px;
+            background-color: #fff; 
+
+            .MuiButton-startIcon {
+                margin-right: 0px !important;
+                margin-left: 0px !important;
+            }
+
+            .btn-text {
+                font-weight: bold;
+                margin: 0px 5px 0px 5px;
+            }
+        }
+    }
+
+    .container {
+        margin-top: 20px;
+        width: 100%;
+        display: flex;
+
+        .title-filter {
+            color: $primary-color;
+            font-weight: bold;
+        }
+
+
+    }
+
+
+
+    
+}

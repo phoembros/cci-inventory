@@ -1,0 +1,171 @@
+@import '../themes.scss';
+
+.sales-pages {
+
+    .text-field {
+        
+        .MuiOutlinedInput-input {
+            color: black !important;
+        }   
+        .MuiInputLabel-root {
+            color: black !important;
+        }        
+        .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }        
+        :hover .MuiOutlinedInput-input {
+            color: #fff;
+        }        
+        :hover .MuiInputLabel-root {
+            color: black;
+        }        
+        :hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input {
+            color: black;
+        }        
+        .MuiInputLabel-root.Mui-focused {
+            color: black;
+        }        
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+
+    }
+
+    
+    .slash {
+        width: 4px;
+        height: 45px;
+        background-color: $primary-color;
+    }
+    .color {
+        color: $primary-color;
+        font-size: 22px;
+        font-weight: bold;        
+    }
+
+    .btn-add{
+        border-radius: 5px;
+        background-color: white;
+        .style-add{
+            color:  $primary-color;
+            font-size: $font-Size-Subtitle;
+            font-weight: bold;
+        }
+    }
+    
+     .btn {
+
+        .btn-text-field {
+            display: flex;
+            align-items: center;
+            width:300px;
+            background-color: #fff;
+            border-radius:10px;
+        }
+
+        .btn-add-style {
+            border-radius: 5px;
+            background-color: white;
+            text-transform: none;
+                       
+            .style-add {
+                color:  $primary-color;
+                font-size: $font-Size-Subtitle;
+                font-weight: bold;
+            }
+        }
+
+    }
+
+
+    .container {
+        margin-top: 20px;
+
+        .table-head {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0px 8px;
+
+            .header-row {            
+                .header-title {
+                    padding: 10px;
+                    border: none;
+                    font-size: $font-Size-Subtitle;
+                    font-weight: bold;
+                }
+            }
+            
+            .body {
+                box-shadow: none;
+                :hover {
+                    background-color: $background-table-modal;
+                    cursor: pointer;
+                }
+
+                .body-row {       
+                    // background-color: #fff;
+        
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status-paid{
+                            color:#20D819;
+                            font-weight: bold;
+                        }
+                        .status-unpaid{
+                            color:red;
+                            font-weight: bold;
+                        }
+                        .status-Pending{
+                            color:red;
+                            font-weight: bold;
+                        }
+                       
+                    }
+                }
+            }
+
+            .body-odd {
+                box-shadow: none;
+                :hover {
+                    background-color: $background-table-modal;
+                    cursor: pointer;
+                }
+
+                .body-row {       
+                    background-color: $background-table-modal;
+        
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+                        
+                        .status-paid{
+                            color:#20D819;
+                            font-weight: bold;
+                        }
+                        .status-unpaid{
+                            color:red;
+                            font-weight: bold;
+                        }
+                        .status-Pending{
+                            color:red;
+                            font-weight: bold;
+                        }
+                       
+                    }
+                }
+            }
+
+
+        
+        }
+    }
+
+    
+}

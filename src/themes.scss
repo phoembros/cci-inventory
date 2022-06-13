@@ -1,0 +1,57 @@
+
+// -----------Color
+$primary-color: #0969A0;
+$secondary-color: #3C64F6;
+$gray-color:#e0e0e0;
+$radius : 10px;
+
+//background Color
+$background-menu : linear-gradient(180deg, rgba(255,255,255,1) 20%, rgba(221,233,243,1) 100%);
+$background-menu-dark : black;
+$background-table-modal : #d0e3ed;
+$background-table-hover:#e7f0f4;
+
+//font 
+$font-title : "Century Gothic";
+$font-color:#0969A0;
+//font-size
+$font-Size-title: 22px;
+$font-Size-Subtitle: 15px;
+// Login Page
+
+@mixin desktop {
+    @media (min-width: #{1025px}) and (max-width: #{1650px}) {
+        @content;
+    }
+}
+
+@mixin laptop {
+    @media (min-width: #{769px}) and (max-width: #{1024px}) {
+        @content;
+    }
+}
+@mixin tablet {
+    @media (min-width: #{426px}) and (max-width: #{768px}) {
+        @content;
+    }
+}
+
+@mixin mobile-large {
+    @media (min-width: #{426px}) and (max-width: #{600px}) {
+        @content;
+    }
+}
+
+@mixin mobile {
+    @media (min-width: #{377px}) and (max-width: #{425px}) {
+        @content;
+    }
+}
+
+@mixin mobile-small {
+    @media (min-width : #{0px}) and (max-width: #{376px}) {
+        @content;
+    }
+}
+
+  

@@ -1,0 +1,26 @@
+@import '../../themes.scss';
+
+.customer {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;    
+    background-color: #fff;
+    box-shadow: 30px;
+    border-radius: 10px;
+    padding: 20px;
+
+
+    .title{
+        color: $primary-color;
+        font-size: $font-Size-title;
+        font-weight: bold;
+    }
+    .field{
+        color: $font-color;
+        font-size: $font-Size-Subtitle;
+        font-weight: bold;
+    }
+}

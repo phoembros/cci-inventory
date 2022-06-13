@@ -1,0 +1,26 @@
+@import '../../themes.scss';
+
+.qaulity-check {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;    
+    background-color: #fff;
+    box-shadow: 30px;
+    border-radius: 10px;
+    padding: 20px;
+
+
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+
+    .body-title {
+        font-weight: bold;
+        color: $primary-color;
+    }
+
+}

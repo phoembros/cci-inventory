@@ -1,0 +1,150 @@
+@import '../themes.scss';
+
+@import '../themes.scss';
+
+.rawmaterial-page {
+
+    .text-field {
+        
+        .MuiOutlinedInput-input {
+            color: black !important;
+        }   
+        .MuiInputLabel-root {
+            color: black !important;
+        }        
+        .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }        
+        :hover .MuiOutlinedInput-input {
+            color: #fff;
+        }        
+        :hover .MuiInputLabel-root {
+            color: black;
+        }        
+        :hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input {
+            color: black;
+        }        
+        .MuiInputLabel-root.Mui-focused {
+            color: black;
+        }        
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+
+    }
+
+    
+    .slash {
+        width: 4px;
+        height: 45px;
+        background-color: $primary-color;
+    }
+    .color {
+        color: $primary-color;
+        font-size: 22px;
+        font-weight: bold;        
+    }
+
+    .btn-search {
+        background-color: #fff;
+        border-radius:10px;
+
+        .btn-text-field {
+            display: flex;
+            align-items: center;
+            width:300px;
+            background-color: #fff;
+            border-radius:10px;
+        }
+
+    }
+
+    .btn {     
+
+        .btn-add {
+            border-radius: 5px;
+            background-color: white;
+            text-transform: none;
+                       
+            .style-add {
+                color:  $primary-color;
+                font-size: $font-Size-Subtitle;
+                font-weight: bold;
+            }
+        }
+
+    }
+    
+
+    .container {
+        margin-top: 20px;
+
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0px 8px;
+
+            .header-row {            
+                .header-title {
+                    padding: 10px;
+                    border: none;
+                    font-size: $font-Size-Subtitle;
+                    font-weight: bold;
+                }
+            }
+            
+            .body {
+                box-shadow: none;
+
+                .body-row {       
+                    background-color: #fff;
+        
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+                    }
+                }
+            }
+            
+            .body-odd {
+                box-shadow: none;
+
+                .body-row {       
+                    background-color: $background-table-modal;
+        
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status-Pending {
+                            font-weight: bold;      
+                            color: red;                      
+                        }
+
+                        .status-Rejected {
+                            font-weight: bold;      
+                            color: #006FFF;                      
+                        }
+                        .status-Approval {
+                            font-weight: bold;      
+                            color: #20D819;                      
+                        }                        
+
+                    }
+                }
+            }
+
+
+        }
+        
+
+    }
+    
+
+    
+}

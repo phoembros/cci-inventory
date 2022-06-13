@@ -1,0 +1,108 @@
+@import '../themes.scss';
+
+.login-page {   
+    width: 100%;
+    height: 100vh;
+    background-color: $primary-color;
+
+    .text-field {
+
+        background-color: #fff;
+        border-radius: 6px;
+        .MuiOutlinedInput-input {
+            color: black !important;
+        }   
+        .MuiInputLabel-root {
+            color: black !important;
+        }        
+        .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }        
+        :hover .MuiOutlinedInput-input {
+            color: #fff;
+        }        
+        :hover .MuiInputLabel-root {
+            color: black;
+        }        
+        :hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input {
+            color: black;
+        }        
+        .MuiInputLabel-root.Mui-focused {
+            color: black;
+        }        
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+
+    }
+    
+    .background-image {       
+        background-image: url("../Assets/backgroundImages.png");
+        background-repeat: no-repeat;
+        background-size: 80%;
+        background-position: 50% 50%;
+        position: fixed;
+        opacity: 0.2;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    
+    }
+    
+    .container {
+        width: 100%;
+        height: 95%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        .box-logo {
+            display: flex;
+            justify-content: center;
+        }
+
+        .box-text {
+            display: flex;
+            justify-content: center;
+
+            .title {
+                color: #fff;
+                font-weight: bold;
+            }
+
+            .sub-title {
+                color: #fff;
+            }
+        }
+
+        .box-login {
+            display: flex;
+            justify-content: center;
+
+            .icon {
+                color: $primary-color;
+            }
+
+            .btn-sign-in {
+                background-color: #fff;
+                color: $primary-color;
+                font-weight: bold;
+                text-transform: none;
+                font-size: 18px;
+                // :hover{
+                //     background-color: red;
+                // }
+            }
+        }
+
+
+    }
+
+}
+
+

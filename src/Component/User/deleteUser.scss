@@ -1,0 +1,25 @@
+@import '../../themes.scss';
+
+.delete-user{
+    .title{
+    
+        font-weight: bold;
+        color: $primary-color;  
+    }
+    .body-title {
+        color: $primary-color;
+    }
+
+    .body-void {
+        color: $primary-color;
+        text-transform: uppercase;   
+        font-weight: bold;     
+    }
+
+    .btn-void {
+        background-color: red;
+        color: white;
+        border: none;
+    }
+
+}

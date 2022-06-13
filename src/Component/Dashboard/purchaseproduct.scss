@@ -1,0 +1,22 @@
+@import '../../themes.scss';
+
+.purchase{
+    
+    .title{
+        align-items: center;
+        justify-content: space-evenly;
+        font-size:$font-Size-title;
+        font-weight: bold;
+        color: $primary-color;  
+    }
+    .left-make{
+        align-items: flex-end;
+        justify-content: space-evenly;
+        color: $secondary-color;
+        
+    }
+    .set-product{
+        align-items: flex-start;
+        justify-content: space-evenly;
+    }
+}

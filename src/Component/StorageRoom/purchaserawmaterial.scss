@@ -1,0 +1,124 @@
+@import '../../themes.scss';
+
+.raw-material-purchase-creates {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;    
+    background-color: #fff;
+    box-shadow: 30px;
+    border-radius: 10px;
+    padding: 20px;
+    max-height: 100%;
+    overflow-y: auto;
+
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+    
+    .container {
+
+        .table-top {
+            width: 100%;      
+            .header-row {            
+                .header-title {
+                    padding: 10px 0px 10px 0px;
+                    border: none;
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #000;
+                }
+            }
+            
+            .body {
+                // box-shadow: none;
+
+                .body-row {    
+                    .body-title {
+                        padding: 0px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status {
+                            font-weight: bold;      
+                            color: $primary-color;                      
+                        }
+                    }
+                }
+            }           
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0px 8px;
+
+            .header-row {            
+                .header-title {
+                    padding: 5px;
+                    border: none;
+                    font-size: $font-Size-Subtitle;
+                    font-weight: bold;
+                }
+            }
+            
+            .body {
+                box-shadow: none;
+
+                .body-row {       
+                    background-color: $background-table-modal;
+        
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status {
+                            font-weight: bold;      
+                            color: $primary-color;                      
+                        }
+                    }
+                }
+            }
+
+        }
+
+        .table-buttom {
+            width: 100%;      
+            .header-row {            
+                .header-title {
+                    padding: 10px 5px 10px 5px;
+                    border: none;
+                    font-size: 15px;
+                    font-weight: bold;
+                    color: #000;
+                }
+            }
+            
+            .body {
+                box-shadow: none;
+                .body-row {    
+                    .body-title {
+                        padding: 0px 5px 0px 5px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status {
+                            font-weight: bold;      
+                            color: $primary-color;                      
+                        }
+                    }
+                }
+            }           
+        }
+
+
+        
+
+    }
+
+
+}

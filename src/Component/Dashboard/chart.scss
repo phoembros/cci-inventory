@@ -1,0 +1,36 @@
+@import '../../themes.scss';
+
+.chart{
+    .chart-absotute{
+        // inset: auto 0px 1px;
+        // position: absolute;
+        max-height: 150px;
+    }
+    .title{
+        align-items: center;
+        justify-content: space-evenly;
+        font-size:$font-Size-title;
+        font-weight: bold;
+        color: $primary-color;  
+    }
+    .sub-title{
+        display: flex;
+        align-items: flex-end;
+        font-size:$font-Size-Subtitle;
+        justify-content: space-around;
+
+        // .line-spacing{
+        //     direction: row;
+        //     align-items: center;
+        //     justify-content: space-around;
+
+        // }
+    }
+    .left-make{
+        display:flex;
+        align-items: flex-end;
+        justify-content: space-evenly;
+        color: $secondary-color;
+        
+    }
+}

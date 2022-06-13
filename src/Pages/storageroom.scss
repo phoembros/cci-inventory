@@ -1,0 +1,72 @@
+@import '../themes.scss';
+
+.storageroom-page {
+    .slash {
+        width: 4px;
+        height: 45px;
+        background-color: $primary-color;
+    }
+    .color {
+        color: $primary-color;
+        font-size: 22px;
+        font-weight: bold;        
+    }
+
+    .btn-add{
+        border-radius: 5px;
+        background-color: white;
+
+        .style-add{
+            color:  $primary-color;
+            font-size: $font-Size-Subtitle;
+            font-weight: bold;
+        }
+    }
+    
+    .container {
+        margin-top: 20px;
+
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0px 8px;            
+
+            .header-row {            
+                .header-title {
+                    padding: 10px;
+                    border: none;
+                    font-size: $font-Size-Subtitle;
+                    font-weight: bold;
+                }
+            }
+            
+            .body {
+                box-shadow: none;                
+                :hover {
+                    cursor: pointer;     
+                    background-color: $background-table-modal;           
+                }
+                
+                .body-row {       
+                    // background-color: #fff;                   
+
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .material-type {
+                            font-weight: bold;      
+                            color: $primary-color;                      
+                        }
+                    }
+                }
+            }
+            
+
+        }
+        
+
+    }
+    
+}

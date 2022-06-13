@@ -1,0 +1,29 @@
+@import '../../themes.scss';
+
+.view-customer {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 530px;    
+    background-color: #fff;
+    box-shadow: 30px;
+    border-radius: 10px;
+    padding: 20px;
+    
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+    
+    .sub-title{
+        font-weight: bold;
+        color: $primary-color; 
+        font-size:16px; 
+    }
+    .btn-view{
+        display:flex;
+        justify-content: center;
+    }
+}

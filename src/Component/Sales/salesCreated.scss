@@ -1,0 +1,125 @@
+@import '../../themes.scss';
+
+.sales-page {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 630px;
+    background-color: #fff;
+    box-shadow: 30px;
+    border-radius: 10px;
+    padding: 20px;
+    max-height: 100%;
+    overflow-y: auto;
+
+
+    .title {
+        position: 'absolute';
+        font-size: $font-Size-title;
+        font-weight: bold;
+        color: $font-color;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0px 8px;
+
+        .header-row {            
+            .header-title {
+                padding: 5px;
+                border: none;
+                font-size: $font-Size-Subtitle;
+                font-weight: bold;
+            }
+        }
+        
+        .body {
+            box-shadow: none;
+
+            .body-row {       
+                background-color: $background-table-modal;
+    
+                .body-title {
+                    padding: 10px;
+                    border: none;
+                    font-size: $font-Size-Subtitle;
+
+                    .status {
+                        font-weight: bold;      
+                        color: $primary-color;                      
+                    }
+                }
+            }
+        }
+
+    }
+
+    .main {
+        direction: column;
+
+        .container {
+            align-items: flex-end;
+            justify-content: center;
+
+            .field {
+                color: $font-color;
+                font-size: $font-Size-Subtitle;
+                font-weight: bold;
+            }
+
+            .text-field {
+
+                .MuiOutlinedInput-input {
+                    color: black !important;
+                }
+
+                .MuiInputLabel-root {
+                    color: black !important;
+                }
+
+                .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+                    border-color: #fff;
+                }
+
+                :hover .MuiOutlinedInput-input {
+                    color: #fff;
+                }
+
+                :hover .MuiInputLabel-root {
+                    color: black;
+                }
+
+                :hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+                    border-color: #fff;
+                }
+
+                .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input {
+                    color: black;
+                }
+
+                .MuiInputLabel-root.Mui-focused {
+                    color: black;
+                }
+
+                .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+                    border-color: #fff;
+                }
+            }
+        }
+
+    }
+
+    .type-field {
+        color: $font-color;
+        font-size: $font-Size-Subtitle;
+        font-weight: bold;
+    }
+
+
+    .btn-create {
+        width: 100%;
+    }
+}

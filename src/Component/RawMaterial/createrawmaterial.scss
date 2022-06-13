@@ -1,0 +1,59 @@
+@import '../../themes.scss';
+
+.create-raw-material{
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 520px;    
+    background-color: #fff;
+    box-shadow: 30px;
+    border-radius: 10px;
+    padding: 20px;
+
+
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+    
+    .container {
+
+        .table-top {
+            width: 100%;      
+            .header-row {            
+                .header-title {
+                    padding: 10px 0px 10px 0px;
+                    border: none;
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: $primary-color;
+                }
+            }
+            
+            .body {
+                box-shadow: none;
+                .body-row {    
+                    .body-title {
+                        padding: 0px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status {
+                            font-weight: bold;      
+                            color: $primary-color;                      
+                        }
+                    }
+                }
+            }           
+        }
+
+        
+
+        
+
+    }
+
+
+}

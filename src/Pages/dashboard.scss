@@ -1,0 +1,218 @@
+@import '../themes.scss';
+
+.dashboard-page {
+   
+    .text-field {
+        
+        .MuiOutlinedInput-input {
+            color: black !important;
+        }   
+        .MuiInputLabel-root {
+            color: black !important;
+        }        
+        .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }        
+        :hover .MuiOutlinedInput-input {
+            color: #fff;
+        }        
+        :hover .MuiInputLabel-root {
+            color: black;
+        }        
+        :hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input {
+            color: black;
+        }        
+        .MuiInputLabel-root.Mui-focused {
+            color: black;
+        }        
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+
+    }
+
+    .btn-search {
+        border-radius: 6px;
+        background-color: #fff;
+
+        .search {
+            display: flex;
+            align-items: center;
+            width: 300px;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+    }
+
+    
+    .slash {
+        width: 4px;
+        height: 45px;
+        background-color: $primary-color;
+    }
+    .color {
+        color: $primary-color;
+        font-size: 22px;
+        font-weight: bold;
+
+    }
+    
+    .make{
+        align-items: center;
+        justify-content: flex-start ;
+        direction: row;
+    }
+
+    .left-icon{
+        display: flex;
+        direction: column;
+        justify-content: center;
+        align-items: flex-end;
+
+    }
+    //inline space
+    .make-icon{
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+    }
+    
+    .card{
+        align-items: center;
+        justify-content: center;
+        direction: row;
+
+        .icon{
+            width: 50px;
+            height:50px;
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            background-color:#C0E1FF;
+            border-radius: 10px;
+        }
+        .icon-mark{
+            width: 50px;
+            height:50px;
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            background-color:#5A5A5A;
+            border-radius: 10px;
+        }
+
+        .text{
+            color: $gray-color;
+        }
+        .num-make{
+            font-size: 40px;
+            font-weight: bold;
+            color: $primary-color;
+        }
+      
+    }
+    .center{
+        line-height: 1;
+        justify-content: space-evenly;
+        align-items: center;
+        orientation: center;
+
+        .text-inline{
+            // flex-direction:row ;
+            text-align: left;
+            justify-content: flex-start;
+            font-weight: bold;
+        }
+        .sub-color{
+            color: #e0e0e0;
+            font-size: small;
+        }
+
+        .success {
+            font-size: large;
+            color: green;
+        }
+
+        .warning {
+            font-size: large;
+            color: orange;
+        }
+
+        .btn-maker{
+            color: #e89014;
+            background-color:rgb(255, 255, 141);
+                .circle{
+                width: 30px;
+                height:30px;
+                border-radius: 20%;
+                margin-right: 5px;
+                font-weight: bold;
+                font-size: large;
+                color: #e89014;
+            }
+            .text-padding{
+                font-size: 22;
+                font-weight: bold;
+                color: #e89014;
+            }
+        }
+        
+    }
+
+    .title{
+        .right{
+            color: $primary-color;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .text{
+            font-size: 22px;
+            font-weight: bold;  
+        }
+        .buttom{
+            color: orange;
+        }
+        .start-merge{
+            margin-top: 5%;
+            text-align: left;
+            display: block;
+              
+                    .success {
+                        font-size: small;
+                        color: green;
+                    }
+            
+                    .warning {
+                        font-size: small;
+                        color: orange;
+                    }
+            
+                    .error {
+                        font-size: small;
+                        color: orangered;
+                    }
+            
+                    .primary {
+                        font-size: small;
+                        color: rgb(0, 145, 255);
+                    }
+               
+            }
+            .footer{
+                display: flex;
+                align-items: flex-start;
+                .color{
+                    color: $primary-color;
+                    font-size: 22px;
+                    font-weight: bold;
+                }
+                .modal{
+                    color: #e0e0e0;
+                    font-size: small;
+                }
+            }
+    }
+}

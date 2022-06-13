@@ -1,0 +1,35 @@
+@import '../../themes.scss';
+
+.delete-supplies {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 520px;    
+    background-color: #fff;
+    box-shadow: 30px;
+    border-radius: 10px;
+    padding: 20px;
+
+
+    .title{
+        font-weight: bold;
+        color: $primary-color;  
+    }
+    .body-title {
+        color: $primary-color;
+    }
+
+    .body-void {
+        color: $primary-color;
+        text-transform: uppercase;   
+        font-weight: bold;     
+    }
+
+    .btn-void {
+        background-color: red;
+        color: white;
+        border: none;
+    }
+}
