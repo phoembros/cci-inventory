@@ -27,18 +27,7 @@ import { GET_PRODUCT_WITH_PAGINATION , GET_PRODUCT_BYID } from '../../Schema/pro
 import { CREATE_PRODUCTION } from '../../Schema/production';
 // getuser Login
 import { GET_USER_LOGIN } from '../../Schema/user';
-
-
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-  
-const rows = [
-    createData('Frozen yoghurt',24,"Cosmetic" ,  4.0),
-    createData('Ice cream sandwich',37,"Cosmetic",   4.3),
-    createData('Eclair',24,"Cosmetic" ,  6.0),
-    createData('Cupcake',67,"Cosmetic" ,  4.3),    
-];
+import { GET_STORAGE_ROOM_PRODUCT } from '../../Schema/starageroom';
 
 
 export default function CreateProduction({
@@ -72,6 +61,8 @@ export default function CreateProduction({
         }
 
     });
+
+    
 
     // Get User ID  
     const { data: userLoginData } = useQuery(GET_USER_LOGIN);  
@@ -117,18 +108,13 @@ export default function CreateProduction({
 
     // Get Storage Room
     const [storageRoom,setStorageRoom] = React.useState([])
-    const { data , refetch } = useQuery(GET_STORAGE_ROOM_PAGINATION, {
-        variables: {          
-          keyword: "",
-          pagination: false,
-        },
-    })
+    const { data , refetch } = useQuery(GET_STORAGE_ROOM_PRODUCT)
 
     React.useEffect( () => {
-        if(data?.getStorageRoomWithPagination?.storageRoom){
-            // console.log(data?.getStorageRoomWithPagination?.storageRoom, "Storage Room")
+        if(data?.getStorageRoomProducts){
+            console.log(data?.getStorageRoomProducts, "Storage Room")
             let rows = [];
-            data?.getStorageRoomWithPagination?.storageRoom?.forEach((element) => {
+            data?.getStorageRoomProducts?.forEach((element) => {
                 const allrow = {
                     label: element?.name,
                     _id: element?._id,
@@ -137,13 +123,13 @@ export default function CreateProduction({
             });
             setStorageRoom(rows);
         }
-    },[data?.getStorageRoomWithPagination?.storageRoom])    
+    },[data?.getStorageRoomProducts])    
     // End Get Storage Room
 
    
     // Formik
     const createProduction = Yup.object().shape({        
-        storageRoomId: Yup.string(),
+        storageRoomId: Yup.string().required("Storage Room is required!"),
         startDate: Yup.date(),
         dueDate: Yup.date(),
         priority: Yup.string(),
@@ -235,7 +221,15 @@ export default function CreateProduction({
                         id="combo-box-demo"
                         options={storageRoom}                        
                         onChange={(e, value) => setFieldValue( "storageRoomId" , value?._id )}
-                        renderInput={(params) => <TextField {...params} size="small" label="Storage Room" />}
+                        renderInput={(params) => 
+                            <TextField 
+                                {...params} 
+                                size="small" 
+                                label="Storage Room" 
+                                error={Boolean(touched.storageRoomId && errors.storageRoomId)}
+                                helperText={touched.storageRoomId && errors.storageRoomId}
+                            />
+                        }
                     />                    
                 </Box>
                                 
@@ -265,7 +259,7 @@ export default function CreateProduction({
                                                 setFieldValue( "qtyOnHand" , value?.qtyOnHand )   
                                                 getProductById({ variables: { productId: value?._id } })                 
                                             }}
-                                            renderInput={(params) => <TextField {...params} size="small" label="Category" />}
+                                            renderInput={(params) => <TextField {...params} size="small" />}
                                         /> 
                                     
                                     </TableCell>

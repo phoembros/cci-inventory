@@ -47,50 +47,57 @@ export default function ProductionAction({
         <IconButton onClick={handleClick}>
             <MoreVertIcon sx={{color:"#3C64F6"}}/>   
         </IconButton>
-        <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-                'aria-labelledby': 'basic-button',
-            }}
-        >
-            <MenuItem onClick={()=> {
-                handleClose();
-                handleOpenEdit();
-            }}>
-                <Stack direction="row" spacing={1}>
-                    <EditIcon sx={{color:"blue"}}/>
-                    <Typography>Edit</Typography>
-                </Stack> 
-            </MenuItem> 
-    
-            {
-                editDataProduction?.status === 'approve' ?
-                    <MenuItem onClick={()=> {
-                        handleClose();
-                        handleOpenQualityCheck();
-                    }}>
-                        <Stack direction="row" spacing={1}>
-                            <CheckCircleOutlineOutlinedIcon sx={{color:"orange"}}/>
-                            <Typography>Quality</Typography>
-                        </Stack> 
-                    </MenuItem> 
-                :
-                    null
-            }
-                 
-            <MenuItem  onClick={()=> {
-                handleClose();
-                handleOpenVoid();
-            }}>
-                <Stack direction="row" spacing={1}>
-                    <DeleteIcon sx={{color:"red"}}/>
-                    <Typography>Delete</Typography>
-                </Stack>    
-            </MenuItem>
-        </Menu>
+
+        {
+            editDataProduction?.progress !== 'completed' ?
+
+            <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                }}
+            >
+                <MenuItem onClick={()=> {
+                    handleClose();
+                    handleOpenEdit();
+                }}>
+                    <Stack direction="row" spacing={1}>
+                        <EditIcon sx={{color:"blue"}}/>
+                        <Typography>Edit</Typography>
+                    </Stack> 
+                </MenuItem> 
+        
+                {
+                    editDataProduction?.status === 'approve' ?
+                        <MenuItem onClick={()=> {
+                            handleClose();
+                            handleOpenQualityCheck();
+                        }}>
+                            <Stack direction="row" spacing={1}>
+                                <CheckCircleOutlineOutlinedIcon sx={{color:"orange"}}/>
+                                <Typography>Quality</Typography>
+                            </Stack> 
+                        </MenuItem> 
+                    :
+                        null
+                }
+                    
+                <MenuItem  onClick={()=> {
+                    handleClose();
+                    handleOpenVoid();
+                }}>
+                    <Stack direction="row" spacing={1}>
+                        <DeleteIcon sx={{color:"red"}}/>
+                        <Typography>Delete</Typography>
+                    </Stack>    
+                </MenuItem>
+            </Menu>
+
+            : null
+        }
         
         {/*  */}
         <Modal open={openEdit} >

@@ -36,6 +36,10 @@ export default function PurchaseRawMaterialUpdate({
         setAlert(true);
         handleClose();
         setRefetch();
+      } else {
+        setCheckMessage('error')
+        setAlert(true)
+        setMessage("Invalit Input!");
       }
     },
     onError: (error) => {     

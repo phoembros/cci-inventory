@@ -28,6 +28,8 @@ import Page404 from "./Pages/Page404";
 import ForgotPasswork from "./Pages/ForgotPasswork"
 import { AuthContext } from './context/AuthContext'
 import { useContext } from "react";
+import { GET_USER_LOGIN } from "./Schema/user";
+import { useQuery } from "@apollo/client";
 
 export default function Router({prefersDarkMode,setPrefersDarkMode}) {
 
@@ -40,14 +42,14 @@ export default function Router({prefersDarkMode,setPrefersDarkMode}) {
     // const [systemSettingPath, setSystemSettingPath] = React.useState('')
     // const [reportPath, setreportPath] = React.useState('')
 
-    // const {data, loading, error} = useQuery(GET_USER_LOGIN, {
-    //     onCompleted: ({getuserLogin}) => {
-    //         console.log("getuserLogin::", getuserLogin)
-    //     },
-    //     onError:(error)=>{
-    //         console.log(error.message,'error')
-    //     }
-    // })
+    const {data, loading, error} = useQuery(GET_USER_LOGIN, {
+        onCompleted: ({getuserLogin}) => {
+            console.log("getuserLogin::", getuserLogin)
+        },
+        onError:(error)=>{
+            console.log(error.message,'error')
+        }
+    })
 
 
     const LoginPage = useRoutes([ 

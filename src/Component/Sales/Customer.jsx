@@ -17,17 +17,6 @@ import {useQuery} from "@apollo/client";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat,  carbs, protein};
-  }
-  
-const rows = [
-    createData('Customer Name', 'cosmetic@gmail.com','#National Road 6 ,Siemreap Cambodia', ''),
-    createData('Customer Name', 'cosmetic@gmail.com','#National Road 6 ,Siemreap Cambodia', ''),
-    createData('Customer Name', 'cosmetic@gmail.com','#National Road 6 ,Siemreap Cambodia', ''),
-    createData('Customer Name', 'cosmetic@gmail.com','#National Road 6 ,Siemreap Cambodia', ''),
-];
-  
 
 export default function Customer() {
 
@@ -44,7 +33,7 @@ export default function Customer() {
      const [message, setMessage] = React.useState('');
      const [checkMessage, setCheckMessage]= React.useState('')
     // useQuery 
-    const [pageShow, setShowPage] = React.useState()
+    const [pageShow, setShowPage] = React.useState(1);
     const [page, setPage] = React.useState(1)
     const [limit, setLimit] = React.useState(10)
     const [keyword, setKeyword] = React.useState("")
@@ -62,8 +51,9 @@ export default function Customer() {
     });
 
     React.useEffect(()=>{
-        setShowPage(data, 'data')
-    },[page, limit])
+        refetch();
+        setShowPage(page);
+    },[page, keyword])
 
     return (
       <div className="customer-setup-page">
@@ -86,7 +76,7 @@ export default function Customer() {
           >
             <Box className="btn-text-field">
               <TextField
-                onChange={(event)=>setKeyword(event?.target?.value)}
+                onChange={ (event)=> setKeyword(event?.target?.value)}
                 className="text-field"
                 fullWidth
                 id="input-with-sx"
@@ -97,14 +87,7 @@ export default function Customer() {
                     <InputAdornment position="start">
                       <SearchIcon />
                     </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton disableRipple={true} size="small">
-                        <TuneIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
+                  ),                 
                 }}
               />
             </Box>
@@ -145,6 +128,7 @@ export default function Customer() {
               </TableHead>
               {data?.getCustomerPagination?.customers.map((row, index) => (
                 <TableBody
+                  key={index}
                   component={Paper}
                   className={index % 2 === 0 ? "body" : "body-odd"}
                 >
@@ -214,8 +198,8 @@ export default function Customer() {
             <Stack direction="column" justifyContent="center">
               <Pagination
                   page={pageShow}
-                  hideNextButton="true"
-                  hidePrevButton="true"
+                  hideNextButton={true}
+                  hidePrevButton={true}
                   count={data?.getCustomerPagination?.paginator?.totalPages}
                   variant="outlined"
                   color="primary"

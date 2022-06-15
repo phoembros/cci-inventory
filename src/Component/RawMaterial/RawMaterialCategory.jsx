@@ -81,13 +81,13 @@ export default function RawMaterialCategory() {
                                         <SearchIcon />
                                     </InputAdornment>
                                 ),
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton disableRipple={true} size="small">
-                                            <TuneIcon />
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
+                                // endAdornment: (
+                                //     <InputAdornment position="end">
+                                //         <IconButton disableRipple={true} size="small">
+                                //             <TuneIcon />
+                                //         </IconButton>
+                                //     </InputAdornment>
+                                // ),
                             }}
                         />
                     </Box> 
@@ -122,7 +122,7 @@ export default function RawMaterialCategory() {
                             </TableRow>
                         </TableHead>
                         {data?.getRawMaterialCategoryPagination?.rawMaterialCategory?.map((row , index) => (
-                            <TableBody component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
+                            <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
                                 <TableRow  className="body-row">
                                     <TableCell className="body-title" component="th" scope="row" width="5%" > {index+1}- </TableCell>
                                     <TableCell className="body-title" component="th" scope="row" width="25%"> {row?.categoryName} </TableCell>                                                                      

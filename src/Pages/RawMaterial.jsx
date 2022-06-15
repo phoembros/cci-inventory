@@ -94,7 +94,7 @@ export default function RawMaterial() {
               className="text-field"
               fullWidth
               id="input-with-sx"
-              placeholder="Search Dashboard"
+              placeholder="Raw Material Name"
               size="small"
               // variant="standard"
               InputProps={{
@@ -103,13 +103,13 @@ export default function RawMaterial() {
                     <SearchIcon />
                   </InputAdornment>
                 ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton disableRipple={true} size="small">
-                      <TuneIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
+                // endAdornment: (
+                //   <InputAdornment position="end">
+                //     <IconButton disableRipple={true} size="small">
+                //       <TuneIcon />
+                //     </IconButton>
+                //   </InputAdornment>
+                // ),
               }}
             />
           </Box>
@@ -161,8 +161,7 @@ export default function RawMaterial() {
                             <TableCell className="header-title" colSpan={2}>
                               Name
                             </TableCell>
-                            <TableCell className="header-title">Category</TableCell>
-                            {/* <TableCell className="header-title">Supplies</TableCell> */}
+                            <TableCell className="header-title">Category</TableCell>                            
                             <TableCell className="header-title">Unit Price</TableCell>
                             <TableCell className="header-title">Unit</TableCell>
                             <TableCell className="header-title">Remark</TableCell>

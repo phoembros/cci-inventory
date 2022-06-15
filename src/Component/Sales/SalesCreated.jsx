@@ -200,7 +200,8 @@ export default function SalesCreated({
       date: Yup.date(),  
       vat: Yup.number(),
       tin: Yup.string(),
-      remark: Yup.string(),
+      remark: Yup.string(), 
+      status: Yup.string(),    
     });
 
     const formik = useFormik({
@@ -211,6 +212,7 @@ export default function SalesCreated({
         vat: 0,
         tin: "",
         remark: "",
+        status: "unpaid",       
       },
 
     validationSchema: SalesAdd,
@@ -228,6 +230,7 @@ export default function SalesCreated({
               remark: values?.remark,   
               totalAmount: finalAmount, 
               paidAmount: parseFloat(paidAmount),   
+              status: values?.status,
           } 
           // console.log(newValue)
 
@@ -359,7 +362,7 @@ export default function SalesCreated({
                         <Stack direction="column" justifyContent="center">
                             <Typography className="type-field"> VAT : </Typography>
                         </Stack>
-                        <Box sx={{width:"100px"}}>
+                        <Box sx={{width:"110px"}}>
                           <TextField                      
                                 fullWidth
                                 type="number"
@@ -379,6 +382,7 @@ export default function SalesCreated({
                                         </IconButton>
                                       </InputAdornment>
                                     ),
+                                    inputProps: { min: 0 }
                                 }}                      
                           />
                         </Box>
@@ -392,8 +396,16 @@ export default function SalesCreated({
                         <Box sx={{width:"150px"}}>
                             <TextField 
                               size="small"                              
-                              placeholder="0" 
-                              onChange={(e)=> setPaidAmount(e.target.value) }
+                              placeholder="0"
+                              type="number" 
+                              
+                              onChange={(e)=> {
+                                setPaidAmount(e.target.value);                                
+                                if(parseFloat(e.target.value) !== 0){                                  
+                                  setFieldValue("status", "owe") 
+                                  console.log(e.target.value)
+                                }
+                              }}
                               fullWidth 
                               InputProps={{                  
                                 endAdornment: (
@@ -403,7 +415,8 @@ export default function SalesCreated({
                                     </IconButton>
                                   </InputAdornment>
                                 ),
-                            }}
+                                inputProps: { min: 0 }
+                              }}
                           />
                         </Box>
                   </Stack>

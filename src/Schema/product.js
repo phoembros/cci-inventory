@@ -95,6 +95,7 @@ export const GET_PRODUCT_WITH_PAGINATION = gql`
               unitPrice
             }
             amount
+            unitRawMaterial
             key
           }
           remark

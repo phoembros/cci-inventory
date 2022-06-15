@@ -99,6 +99,7 @@ export default function StorageRoom() {
               setMessage={setMessage}
               checkMessage={checkMessage}
               setCheckMessage={setCheckMessage}
+              setRefetch={refetch}
             />
           </Modal>
           {/* End Storage Room */}
@@ -124,9 +125,9 @@ export default function StorageRoom() {
                         <TableCell
                             onClick={()=>
                               row.type === "Products" ? 
-                                navigate(`/storage-room/roomdetail?storageId=${row._id}`) 
+                                navigate(`/storage-room/roomdetail?storageId=${row._id}&name=${row.name}`) 
                               : 
-                                navigate(`/storage-room/purchase?storageId=${row._id}`) 
+                                navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`) 
                             }                        
                             className="body-title"
                             width="3%"
@@ -136,9 +137,9 @@ export default function StorageRoom() {
                         <TableCell
                           onClick={()=>
                             row.type === "Products" ? 
-                              navigate(`/storage-room/roomdetail?storageId=${row._id}`) 
+                              navigate(`/storage-room/roomdetail?storageId=${row._id}&name=${row.name}`) 
                             : 
-                            navigate(`/storage-room/purchase?storageId=${row._id}`)
+                            navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`)
                           } 
                           className="body-title"
                           width="20%"
@@ -148,9 +149,9 @@ export default function StorageRoom() {
                         <TableCell
                           onClick={()=>
                             row.type === "Products" ? 
-                              navigate(`/storage-room/roomdetail?storageId=${row._id}`) 
+                              navigate(`/storage-room/roomdetail?storageId=${row._id}&name=${row.name}`) 
                             : 
-                            navigate(`/storage-room/purchase?storageId=${row._id}`)
+                            navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`)
                           } 
                           className="body-title"
                           width="30%"
@@ -160,9 +161,9 @@ export default function StorageRoom() {
                         <TableCell
                           onClick={()=>
                             row.type === "Products" ? 
-                            navigate(`/storage-room/roomdetail?storageId=${row._id}`) 
+                            navigate(`/storage-room/roomdetail?storageId=${row._id}&name=${row.name}`) 
                             : 
-                            navigate(`/storage-room/purchase?storageId=${row._id}`)
+                            navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`)
                           } 
                           className="body-title"
                           align="left"
@@ -173,9 +174,9 @@ export default function StorageRoom() {
                         <TableCell
                           onClick={()=>
                             row.type === "Products" ? 
-                            navigate(`/storage-room/roomdetail?storageId=${row._id}`)  
+                            navigate(`/storage-room/roomdetail?storageId=${row._id}&name=${row.name}`)  
                             : 
-                            navigate(`/storage-room/purchase?storageId=${row._id}`)
+                            navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`)
                           } 
                           className="body-title"
                           align="left"                      

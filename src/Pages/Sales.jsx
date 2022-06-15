@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import AlertMessage from "../Component/AlertMessage/AlertMessage";
 import { GET_SALE_WITH_PAGINATION } from "../Schema/sales";
 import { useQuery } from "@apollo/client";
+import Filter from "../Component/Sales/Filter";
 //component
 import SalesCreated from "../Component/Sales/SalesCreated";
 import SalesAction from "../Component/Sales/SalesAction";
@@ -45,6 +46,7 @@ export default function Sales() {
   const [limit, setLimit] = React.useState(8);
   const [keyword, setKeyword] = React.useState("");
   const [loading,setLoading] = React.useState(true)
+  const [status,setStatus] = React.useState("")
 
   const { data, refetch } = useQuery(GET_SALE_WITH_PAGINATION, {
       variables: {
@@ -52,6 +54,7 @@ export default function Sales() {
           limit: limit,
           keyword: keyword,
           pagination: true,
+          status: status,
       },
       onCompleted: () => {
           setLoading(false)
@@ -64,7 +67,7 @@ export default function Sales() {
   React.useEffect(()=>{
     refetch()
     setPageShow(page)
-  }, [page, limit , keyword ])
+  }, [page, limit , keyword , status ])
 
   console.log(data?.getSaleWithPagination?.sales , "data")
   
@@ -81,30 +84,24 @@ export default function Sales() {
           <Stack direction="row" spacing={2} className="btn">
               <Box className="btn-text-field">
                   <TextField
-                        onChange={(event) => {
-                          setKeyword(event?.target?.value) 
-                          console.log(event.target.value)
-                        }}
+                        onChange={(event) => setKeyword(event?.target?.value)}
                         className="text-field"
                         fullWidth
                         id="input-with-sx"
-                        placeholder="Search Dashboard"
-                        size="small"
-                        // variant="standard"
+                        placeholder="Customer Name"
+                        size="small"                       
                         InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <SearchIcon />
-                        </InputAdornment>
-                      ),
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton disableRipple={true} size="small">
-                            <TuneIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <SearchIcon />
+                              </InputAdornment>
+                            ),
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                  <Filter  setStatus={setStatus} />
+                              </InputAdornment>
+                            ),
+                        }}
                   />
               </Box>
               
@@ -154,7 +151,7 @@ export default function Sales() {
                     </TableHead>
 
                   {data?.getSaleWithPagination?.sales?.map((row, index) => (
-                      <TableBody component={Paper} className={index%2 === 0 ? "body" : "body-odd" }>
+                      <TableBody key={index} component={Paper} className={index%2 === 0 ? "body" : "body-odd" }>
                         <TableRow className="body-row" >
                           <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="15%">CCI{moment(row?.createdAt).format("YYYY")}-{row?.invoiceNo.padStart(4, '0')}</TableCell>
                           <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="20%">{row?.billTo?.label}</TableCell>
@@ -163,9 +160,7 @@ export default function Sales() {
                           <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="10%">{row?.vat}%</TableCell>
                           <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="15%">{moment(row?.date).format("DD/MM/YYYY")}</TableCell>                    
                           <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" >
-                              <Typography  className={row?.totalAmount === row?.paidAmount ? "status-paid" : "status-unpaid"} >
-                                  {row?.totalAmount === row?.paidAmount ? "Paid" : "Unpaid"}  
-                              </Typography> 
+                              <Typography  className={`status-${row?.status}`} >{row?.status} </Typography> 
                           </TableCell>
                           <TableCell className="body-title" >
                               <SalesAction 
@@ -193,8 +188,8 @@ export default function Sales() {
                 <Stack direction="column" justifyContent="center">
                   <Pagination
                       page={pageShow}
-                      hideNextButton="true"
-                      hidePrevButton="true"
+                      hideNextButton={true}
+                      hidePrevButton={true}
                       variant="outlined"
                       color="primary"
                       count={data?.getSaleWithPagination?.paginator?.totalPages}

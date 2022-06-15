@@ -2,8 +2,11 @@ import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Sta
 import * as React from "react";
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import './modaldeletepurchaserawmaterial.scss';
-import { DELETE_PURCHASE_RAW_MATERIAL } from "../../Schema/rawmaterial";
-import { useMutation } from "@apollo/client";
+import { DELETE_PURCHASE_RAW_MATERIAL , UPDATE_PURCHASE_RAW_MATERIAL } from "../../Schema/rawmaterial";
+import { useMutation, useQuery } from "@apollo/client";
+import { GET_USER_LOGIN } from "../../Schema/user";
+
+
 
 export default function ModalDeletePurchaseRawMaterial({
     handleClose,
@@ -16,12 +19,35 @@ export default function ModalDeletePurchaseRawMaterial({
 
     const [valueVoid,setValueVoid] = React.useState("");
 
-    const [deletePurchaseRawMaterial] = useMutation(DELETE_PURCHASE_RAW_MATERIAL, {
-        onCompleted:({deletePurchaseRawMaterial})=>{
-        // console.log(deletePurchaseRawMaterial?.message, 'room')
-            if(deletePurchaseRawMaterial?.success){
+    // const [deletePurchaseRawMaterial] = useMutation(DELETE_PURCHASE_RAW_MATERIAL, {
+    //     onCompleted:({deletePurchaseRawMaterial})=>{        
+    //         if(deletePurchaseRawMaterial?.success){
+    //         setCheckMessage('success')
+    //         setMessage(deletePurchaseRawMaterial?.message)
+    //         setAlert(true)
+    //         setRefetch();
+    //         handleClose()
+    //         }
+    //     }, 
+    //     onError:(error) =>{
+    //         // console.log(error.message)
+    //         setAlert(true)
+    //         setCheckMessage('error')
+    //         setMessage(error.message)
+    //     }
+    // })
+
+    // Get User ID  
+    const { data: userLoginData } = useQuery(GET_USER_LOGIN);  
+    const userId =  userLoginData?.getuserLogin?._id;
+    // End Get User ID
+
+
+    const [updatePurchaseRawMaterial] = useMutation(UPDATE_PURCHASE_RAW_MATERIAL, {
+        onCompleted:({updatePurchaseRawMaterial})=>{        
+            if(updatePurchaseRawMaterial?.success){
             setCheckMessage('success')
-            setMessage(deletePurchaseRawMaterial?.message)
+            setMessage(updatePurchaseRawMaterial?.message)
             setAlert(true)
             setRefetch();
             handleClose()
@@ -37,9 +63,13 @@ export default function ModalDeletePurchaseRawMaterial({
 
 
     const handleVoid = () => {
-        deletePurchaseRawMaterial({
-            variables:{
-                id: editData?._id, 
+        updatePurchaseRawMaterial({
+            variables: {
+                id: editData?._id,
+                purchaseRawMaterialEdit: {
+                    status: "voided",
+                    approveBy: userId,
+                }
             }
         })
     }

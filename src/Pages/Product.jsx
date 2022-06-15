@@ -53,13 +53,11 @@ export default function Product() {
             setLoading(false);
         }
     })
-    console.log(data?.getProductPagination?.products, 'p')
+    // console.log(data?.getProductPagination?.products, 'p')
 
     React.useEffect( () => {
-
         refetch()
         setPageShow(page)
-
         if(data?.getProductPagination?.products){
             setProductData(data?.getProductPagination?.products);
         }
@@ -89,13 +87,13 @@ export default function Product() {
                                         <SearchIcon />
                                     </InputAdornment>
                                 ),
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton disableRipple={true} size="small">
-                                            <TuneIcon />
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
+                                // endAdornment: (
+                                //     <InputAdornment position="end">
+                                //         <IconButton disableRipple={true} size="small">
+                                //             <TuneIcon />
+                                //         </IconButton>
+                                //     </InputAdornment>
+                                // ),
                             }}
                         />
                     </Box>  
@@ -178,8 +176,8 @@ export default function Product() {
                         <Stack direction='column' justifyContent='center'>
                             <Pagination
                                 page={pageShow}
-                                hidePrevButton="true"
-                                hideNextButton="true"
+                                hidePrevButton={true}
+                                hideNextButton={true}
                                 variant="outlined"
                                 color="primary"
                                 count={data?.getProductPagination?.paginator?.totalPages}

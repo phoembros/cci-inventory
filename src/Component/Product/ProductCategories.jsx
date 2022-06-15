@@ -80,13 +80,13 @@ export default function ProductCategories() {
                                         <SearchIcon />
                                     </InputAdornment>
                                 ),
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton disableRipple={true} size="small">
-                                            <TuneIcon />
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
+                                // endAdornment: (
+                                //     <InputAdornment position="end">
+                                //         <IconButton disableRipple={true} size="small">
+                                //             <TuneIcon />
+                                //         </IconButton>
+                                //     </InputAdornment>
+                                // ),
                             }}
                         />
                     </Box> 
@@ -121,7 +121,7 @@ export default function ProductCategories() {
                             </TableRow>
                         </TableHead>
                         {data?.getProductCategoryPagination?.ProductCategory?.map((row , index) => (
-                            <TableBody component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
+                            <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
                                 <TableRow  className="body-row">
                                     <TableCell className="body-title" component="th" scope="row" width="5%" > {index+1}- </TableCell>
                                     <TableCell className="body-title" component="th" scope="row" width="25%"> {row?.categoryName} </TableCell>                                                                      
@@ -144,20 +144,19 @@ export default function ProductCategories() {
             
             <Stack direction='row' justifyContent='right' spacing={2}>
                 <IconButton disabled={data?.getProductCategoryPagination?.paginator?.prev === null ? true : false }
-                    onClick={() => setPage(data?.getProductCategoryPagination?.paginator?.prev )}>
+                    onClick={() => setPage(data?.getProductCategoryPagination?.paginator?.prev)}>
                     <ArrowBackIosNewIcon sx={{':hover':{color:'#0969A0'}}}/>
                 </IconButton>
 
                 <Stack direction='column' justifyContent='center'>
                     <Pagination 
                             page={pageShow}
-                            hidePrevButton="true" 
-                            hideNextButton="true" 
+                            hidePrevButton={true}
+                            hideNextButton={true}
                             variant="outlined" 
                             color="primary" 
                             count={data?.getProductCategoryPagination?.paginator?.totalPages}
-                            onChange={(event)=>setPage(parseInt(event?.target?.textContent))}
-                            />
+                            onChange={(event)=>setPage(parseInt(event?.target?.textContent))} />
                 </Stack>
                 <IconButton
                     disabled={data?.getProductCategoryPagination?.paginator?.next === null ? true : false }

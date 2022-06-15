@@ -98,8 +98,13 @@
             .body {
                 box-shadow: none;
 
+                :hover {
+                    background-color: $background-table-modal;
+                    cursor: pointer;
+                }
+
                 .body-row {       
-                    background-color: #fff;
+                    // background-color: #fff;
         
                     .body-title {
                         padding: 10px;
@@ -119,11 +124,21 @@
                             font-weight: bold;      
                             color: #20D819;                      
                         }  
+
+                        .status-voided {
+                            font-weight: bold;      
+                            color: red;                      
+                        }
+                        .status-completed {
+                            font-weight: bold;      
+                            color: green;                      
+                        } 
                         
                     }
                 }
             }
 
+            
             .body-odd {
                 box-shadow: none;
 
@@ -147,7 +162,16 @@
                         .status-approved {
                             font-weight: bold;      
                             color: #20D819;                      
-                        }                      
+                        }           
+                        .status-voided {
+                            font-weight: bold;      
+                            color: red;                      
+                        }      
+                        
+                        .status-completed {
+                            font-weight: bold;      
+                            color: green;                      
+                        } 
 
                     }
                 }

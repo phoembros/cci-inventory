@@ -30,16 +30,33 @@ const AuthProvider = ({ children }) => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
 
             if (user) {
-                // console.log(user, "user");
-                const idTokenResult = await user?.accessToken;
-                // console.log(idTokenResult , "token")
-                dispatch({
-                    type: 'LOGGED_IN_USER',
-                    payload: {
-                        email: user?.email,
-                        token: idTokenResult,
-                    }
+                // console.log(user?.auth?.currentUser, "user");
+                user?.auth?.currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+                    // Send token to your backend via HTTPS
+                    // ...
+                    // console.log( "idToken" ,idToken);
+                    dispatch({
+                        type: 'LOGGED_IN_USER',
+                        payload: {
+                            email: user?.email,
+                            token: idToken,
+                        }
+                    });
+
+                }).catch(function(error) {
+                    // Handle error
                 });
+
+                // const idTokenResult = await user?.accessToken;
+                // // console.log(idTokenResult , "token")
+                // dispatch({
+                //     type: 'LOGGED_IN_USER',
+                //     payload: {
+                //         email: user?.email,
+                //         token: idToken,
+                //     }
+                // });
+                
             } else {
                 dispatch({
                     type: 'LOGGED_IN_USER',

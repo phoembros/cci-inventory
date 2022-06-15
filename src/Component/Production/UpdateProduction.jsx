@@ -27,6 +27,7 @@ import { GET_PRODUCT_WITH_PAGINATION , GET_PRODUCT_BYID } from '../../Schema/pro
 import { UPDATE_PRODUCTION } from '../../Schema/production';
 // getuser Login
 import { GET_USER_LOGIN } from '../../Schema/user';
+import { GET_STORAGE_ROOM_PRODUCT } from '../../Schema/starageroom';
 
 
 function createData(name, calories, fat, carbs, protein) {
@@ -138,18 +139,13 @@ export default function UpdateProduction({
 
     // Get Storage Room
     const [storageRoom,setStorageRoom] = React.useState([])
-    const { data , refetch } = useQuery(GET_STORAGE_ROOM_PAGINATION, {
-        variables: {          
-          keyword: "",
-          pagination: false,
-        },
-    })
+    const { data , refetch } = useQuery(GET_STORAGE_ROOM_PRODUCT)
 
-    React.useMemo( () => {
-        if(data?.getStorageRoomWithPagination?.storageRoom){
-            console.log(data?.getStorageRoomWithPagination?.storageRoom, "Storage Room")
+    React.useEffect( () => {
+        if(data?.getStorageRoomProducts){
+            console.log(data?.getStorageRoomProducts, "Storage Room")
             let rows = [];
-            data?.getStorageRoomWithPagination?.storageRoom?.forEach((element) => {
+            data?.getStorageRoomProducts?.forEach((element) => {
                 const allrow = {
                     label: element?.name,
                     _id: element?._id,
@@ -158,7 +154,7 @@ export default function UpdateProduction({
             });
             setStorageRoom(rows);
         }
-    },[data?.getStorageRoomWithPagination?.storageRoom])    
+    },[data?.getStorageRoomProducts])    
     // End Get Storage Room
 
     // StorageRoom Selected
@@ -201,7 +197,7 @@ export default function UpdateProduction({
             productId: editDataProduction?.production?.productId?._id,
             productName: editDataProduction?.production?.productName,
             qtyOnHand: editDataProduction?.production?.qtyOnHand,
-            progress: editDataProduction?.progress,
+            progress: "not started",
             comment: editDataProduction?.comment,
             remark: editDataProduction?.remark,
         },
@@ -277,7 +273,15 @@ export default function UpdateProduction({
                             setFieldValue( "storageRoomId" , value?._id );
                             setStorageRoomSelected(value);
                         }}
-                        renderInput={(params) => <TextField {...params} size="small" label="Storage Room" />}
+                        renderInput={(params) => 
+                            <TextField 
+                                {...params} 
+                                size="small" 
+                                label="Storage Room" 
+                                error={Boolean(touched.storageRoomId && errors.storageRoomId)}
+                                helperText={touched.storageRoomId && errors.storageRoomId}
+                            />
+                        }
                     />                    
                 </Box>
                                 
@@ -385,7 +389,7 @@ export default function UpdateProduction({
                                                         <Typography>Not started</Typography>
                                                     </Stack>
                                                 </MenuItem>                                                
-                                                <MenuItem value="in progress">
+                                                {/* <MenuItem value="in progress">
                                                     <Stack direction="row" spacing={1}>
                                                         <WifiProtectedSetupIcon sx={{color:"green", width:"17px"}} />
                                                         <Typography>In Progress</Typography>
@@ -396,7 +400,7 @@ export default function UpdateProduction({
                                                         <CheckCircleIcon sx={{color:"#0969A0", width:"17px"}} />
                                                         <Typography>Completed</Typography>
                                                     </Stack>
-                                                </MenuItem>                                        
+                                                </MenuItem>                                         */}
                                             </Select>
                                         </FormControl>
                                     </TableCell>

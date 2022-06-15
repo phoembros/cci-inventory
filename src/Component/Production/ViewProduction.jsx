@@ -131,10 +131,8 @@ export default function ViewProduction({
             <Typography className='header-title'>
                 Remark
             </Typography>     
-            <TextField size='small' multiline rows={2} value={ViewData?.remark} fullWidth/>        
-            {/* <Typography variant="body">
-            {ViewData?.remark}
-            </Typography>  */}
+            <TextField disabled size='small' multiline rows={2} value={ViewData?.remark} fullWidth/>        
+            
         </Box>
 
         <Box className="container">
@@ -306,9 +304,7 @@ export default function ViewProduction({
             {
                 ViewData?.status !== "pending" ?
 
-                <Typography variant='body1'>
-                    {ViewData?.comment}
-                </Typography> 
+                <TextField disabled size='small' multiline rows={2} value={ViewData?.comment} fullWidth/>   
                 
             :
                 <TextField

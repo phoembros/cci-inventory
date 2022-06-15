@@ -23,13 +23,18 @@ export default function CreateRawMaterials({
   setRefetch,
 }) {
 
-//  console.log(DataRow ,'cc')
-
+  // Get Unit Material
+  const [unitRawMaterial,setUnitRawMaterial] = React.useState([])
+  const { data: unitRawData } = useQuery(GET_RAW_MATERIAL_UNIT,{
+    onCompleted: ({getRawMaterialsUnits}) => {
+        setUnitRawMaterial(getRawMaterialsUnits)
+    }
+  });
+  // 
   const [categoryMaterail, setCategoryMaterail] = React.useState([]);
   const [selected, setSelected] = React.useState({});
   
-  console.log(selected);
-
+  
   const [valueTest,setValueTest] = React.useState({
     label: DataRow?.category?.categoryName,
     _id: DataRow?.category?._id, 
@@ -55,6 +60,7 @@ export default function CreateRawMaterials({
     }
   }, [data]);
 
+  // Create
   const [createRawMaterial] = useMutation(CREATE_RAW_MATERAIL, {
     onCompleted: ({ createRawMaterial }) => {
       if (createRawMaterial?.success) {
@@ -70,9 +76,8 @@ export default function CreateRawMaterials({
       }
     },
     onError: (error) => {
-      console.log(error.message, "err");
-      setCheckMessage("error");
-      setMessage(error.message);
+          setCheckMessage("error");
+          setMessage(error.message);
     },
   });
 
@@ -98,6 +103,8 @@ export default function CreateRawMaterials({
         setMessage(error.message);
       },
   })
+
+
   // Formik
   const CreateCategory = Yup.object().shape({
     materialName: Yup.string().required("categoryName is required!"),
@@ -111,13 +118,13 @@ export default function CreateRawMaterials({
       materialName: DataRow?.materialName,
       remark:  DataRow?.remark,
       unitPrice: DataRow?.unitPrice,
-      unit: DataRow?.unit,      
+      unit: DataRow?.unit,  
+
     },
 
     validationSchema: CreateCategory,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      console.log(values, 'hhh')
-
+      // console.log(values, 'hhh')
       if(checkStatus === 'create'){
         createRawMaterial({
           variables: {
@@ -141,8 +148,8 @@ export default function CreateRawMaterials({
                 rawMaterialEdit: {
                   materialName: values?.materialName,
                   category: selected?._id,
-                  totalStockAmount: null,
-                  usedStockAmount: null,
+                  totalStockAmount: 0,
+                  usedStockAmount: 0,
                   unit: values?.unit,
                   unitPrice: parseFloat(values?.unitPrice),
                   remark: values?.remark,
@@ -205,15 +212,15 @@ export default function CreateRawMaterials({
                 <TableHead>
                   <TableRow className="header-row">
                     <TableCell className="header-title">
-                      Material Name
+                        Material Name
                     </TableCell>
                     <TableCell className="header-title" width="3%"></TableCell>
                     <TableCell className="header-title" align="center">
-                      UnitPrice
+                        UnitPrice
                     </TableCell>
                     <TableCell className="header-title" width="3%"></TableCell>
                     <TableCell className="header-title" align="center">
-                      Unit
+                        Unit
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -266,8 +273,12 @@ export default function CreateRawMaterials({
                           id="demo-simple-select"                          
                           {...getFieldProps("unit")}
                         >
-                          <MenuItem value="kg">kg</MenuItem>                         
-                          <MenuItem value="l">l</MenuItem>
+                          {
+                            unitRawMaterial.map( (item) => (
+                                  <MenuItem value={item}>{item}</MenuItem> 
+                            ))
+                          }                                                  
+                        
                         </Select>
                       </FormControl>
                     </TableCell>

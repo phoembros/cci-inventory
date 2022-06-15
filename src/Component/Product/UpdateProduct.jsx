@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './createproduct.scss';
-import { Autocomplete, FormControl, Icon, IconButton, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { Autocomplete, FormControl, Icon, IconButton, InputAdornment, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import ListRawMaterialUpdate from './ListRawMaterialUpdate';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
@@ -37,7 +37,7 @@ export default function UpdateProduct({
                 setRefetch();
             } else {
                 setCheckMessage("error")
-                setMessage(updateProduct?.message)
+                setMessage("Invaid Raw Material!")
                 setAlert(true);
             }
         },
@@ -82,7 +82,7 @@ export default function UpdateProduct({
     // End Get 
     
     // Setup ingrideian
-    const [currentItem, setCurrentItem] = React.useState({ rawName:'' , rawMaterialId: '', amount: 0 , key: 0 })
+    const [currentItem, setCurrentItem] = React.useState({ rawName:'' , rawMaterialId: '', amount: 0 , unitRawMaterial: "" , key: 0 })
     const [item, setItem] = React.useState([])
 
     React.useMemo( async () => {
@@ -94,6 +94,7 @@ export default function UpdateProduct({
                     rawMaterialId: element?.rawMaterialId?._id,
                     amount: element?.amount,
                     key: element?.key,
+                    unitRawMaterial: element?.unitRawMaterial,
                 };
                 rows.push(allrow);
             });
@@ -114,13 +115,13 @@ export default function UpdateProduct({
             ];
             setItem([... items])
             setCurrentItem({
-                rawName:'' , rawMaterialId:'' , amount: 0 , key: 0
+                rawName:'' , rawMaterialId:'' , amount: 0 , unitRawMaterial: "" , key: 0
             })
         }
     }
 
     const handleAddMaterail = () => {
-        setCurrentItem({ rawName:'Material Name' ,  rawMaterialId: '' , amount: 0 , key: Date.now() });
+        setCurrentItem({ rawName:'Material Name' ,  rawMaterialId: '' , amount: 0 , unitRawMaterial: "" , key: Date.now() });
     }
 
     React.useEffect(() => {
@@ -168,6 +169,15 @@ export default function UpdateProduct({
         setItem([...items]) 
     } 
 
+    const setUpdateUnitRawMaterial = (unitRawMaterial,key) => {
+        const items = item;
+        items.map(i=>{      
+          if(i.key===key){           
+            i.unitRawMaterial= unitRawMaterial;
+          }
+        })
+        setItem([...items]) 
+    }
     // End Setup
 
     // Get Category From EditData
@@ -238,8 +248,13 @@ export default function UpdateProduct({
                     </IconButton>    
                 </Stack>   
 
+                <Stack direction="row" spacing={5} sx={{mt:-1}}>
+                    <Typography variant="body2">
+                        Please input each field below.
+                    </Typography>              
+                </Stack>
                 
-                <Stack direction="row" spacing={5} width="100%" >
+                <Stack direction="row" spacing={5} width="100%" sx={{mt:2}}>
                     <Box sx={{width:"45%"}}>               
                         <Autocomplete
                             disablePortal
@@ -320,9 +335,9 @@ export default function UpdateProduct({
                             <TableHead >
                                 <TableRow className="header-row">
                                     <TableCell className="header-title">Raw Materail</TableCell>  
-                                    <TableCell className="header-title" width="3%"></TableCell>                          
+                                                             
                                     <TableCell className="header-title" align='center'>QTY</TableCell>  
-                                    <TableCell className="header-title" width="3%"></TableCell>  
+                                     
                                     <TableCell className="header-title" align='right'>
                                         <IconButton onClick={handleAddMaterail}> 
                                             <AddCircleOutlineRoundedIcon sx={{color:"green"}}/>
@@ -347,12 +362,37 @@ export default function UpdateProduct({
                                 setUpdateText={setUpdateText}
                                 setUpdateQty={setUpdateQty}
                                 setUpdateRawName={setUpdateRawName}
+                                setUpdateUnitRawMaterial={setUpdateUnitRawMaterial}
                             />
 
                         </Table>
                     </TableContainer>
 
                 </Box> 
+
+                <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                    <Typography className="header-title">Unit Price</Typography>
+                    <Box sx={{width:"300px"}}>
+                        <TextField               
+                            size="small"
+                            type="number"
+                            fullWidth
+                            placeholder="unitPrice"
+                            {...getFieldProps("unitPrice")}
+                            error={Boolean(touched.unitPrice && errors.unitPrice)}
+                            helperText={touched.unitPrice && errors.unitPrice}
+                            InputProps={{                                  
+                                startAdornment: (
+                                    <InputAdornment position="start">                                             
+                                        $                                           
+                                    </InputAdornment>
+                                ),
+                                inputProps: { min: 0 },
+                            }}                            
+                        />
+                    </Box>              
+                </Stack>
+
 
                 <Stack direction="column" spacing={1} sx={{mt:2}}>
                     <Typography className='header-title'>

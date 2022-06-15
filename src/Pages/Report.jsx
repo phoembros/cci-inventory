@@ -32,8 +32,8 @@ export default function Report() {
             </Stack>
 
             <Box className="container">                                
-                <Stack direction="row" spacing={1} width="25%">
-                    <Stack direction="column" justifyContent="center" sx={{width:"50%"}}>
+                <Stack direction="row" spacing={1}>                    
+                    <Stack direction="column" justifyContent="center" sx={{width:"200px"}}>
                         <Typography className="title-filter" variant="body1">Storage Room :</Typography>
                     </Stack>                    
                     <FormControl size="small" fullWidth >                       
@@ -52,7 +52,7 @@ export default function Report() {
                 <Box sx={{flexGrow:1}}/>
 
                 <Stack direction="row" spacing={1} width="20%">
-                    <Stack direction="column" justifyContent="center" sx={{width:"20%"}}>
+                    <Stack direction="column" justifyContent="center" sx={{width:"80px"}}>
                         <Typography className="title-filter" variant="body1">Type :</Typography>
                     </Stack>                    
                     <FormControl size="small" fullWidth >                       

@@ -40,12 +40,13 @@ export default function ModalCreateStorageRoom({
 
   const [createStorageRoom] = useMutation(CREATE_STORAGE_ROOM,{
     onCompleted: ({createStorageRoom}) => {
-      console.log(createStorageRoom?.message, "message");
+      // console.log(createStorageRoom?.message, "message");
       if(createStorageRoom?.success){
         setCheckMessage('success')
         setMessage(createStorageRoom?.message)
         setAlert(true)
         handleClose()
+        setRefetch();
       }
     },
     onError: (error) => {

@@ -43,8 +43,8 @@ export const GET_STORAGE_ROOM_PAGINATION = gql`
 `
 
 export const GET_PURCHASE_RAW_MATERAIL_PAGINATION = gql`
-query GetPurchaseRawMaterialPagination($storageId: ID!, $page: Int, $limit: Int, $keyword: String, $pagination: Boolean) {
-  getPurchaseRawMaterialPagination(storageId: $storageId, page: $page, limit: $limit, keyword: $keyword, pagination: $pagination) {
+query GetPurchaseRawMaterialPagination($storageId: ID!, $page: Int, $limit: Int, $keyword: String , $pagination: Boolean , $priority: String, $status: String) {
+  getPurchaseRawMaterialPagination(storageId: $storageId, page: $page, limit: $limit, keyword: $keyword, pagination: $pagination , priority: $priority, status: $status) {
     purchaseRawMaterial {
       _id
       purchaseId
@@ -183,6 +183,20 @@ export const DELETE_STORAGE_ROOM = gql`
     deleteStorageRoom(_id: $id) {
       success
       message
+    }
+  }
+`
+
+export const GET_STORAGE_ROOM_PRODUCT = gql`
+  query GetStorageRoomProducts {
+    getStorageRoomProducts {
+      _id
+      name
+      address
+      type
+      remark
+      updatedAt
+      createdAt
     }
   }
 `

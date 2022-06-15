@@ -16,7 +16,11 @@ export default function PaymentModal({
 
     // 
     const [paidAmount,setPaidAmount] = React.useState(0);
+    const [checkStatus,setCheckStatus] = React.useState(DataSale?.status);
+
+    const [pay,setPay] = React.useState(false)
     console.log(DataSale)
+
 
     // Update 
     const [updateSale] = useMutation(UPDATE_SALE , {
@@ -37,12 +41,29 @@ export default function PaymentModal({
         }
     });
 
+    React.useEffect( () => {
+        if( (DataSale?.totalAmount-DataSale?.paidAmount-paidAmount) > 0 ) {
+            setPay(true);
+            setCheckStatus("owe");
+        } 
+        if( (DataSale?.totalAmount-DataSale?.paidAmount-paidAmount) === 0 ) {
+            setPay(true);
+            setCheckStatus("paid");
+        }
+        if( (DataSale?.totalAmount-DataSale?.paidAmount-paidAmount) < 0 ) {
+            setPay(false);            
+        }
+
+    },[paidAmount])
+
+
     const handleUpdatePayment = () => {
         updateSale({
             variables: {
                 id: DataSale?._id,
                 saleEdit: {
-                    paidAmount: parseFloat(paidAmount),
+                    paidAmount: DataSale?.paidAmount+parseFloat(paidAmount),   
+                    status: checkStatus,                 
                 }
             }
         })
@@ -138,16 +159,31 @@ export default function PaymentModal({
             </Box>
         </Stack>
 
-        <Button
-            sx={{ mt: 2 }}
-            className="btn-create"
-            size="large"
-            type="submit"
-            variant="contained"
-            onClick={handleUpdatePayment}
-        >
-            payment
-        </Button>
+        {
+            pay === true ?
+                <Button
+                    sx={{ mt: 2 }}
+                    className="btn-create"
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    onClick={handleUpdatePayment}
+                >
+                    payment
+                </Button>
+            :
+                <Button
+                    disabled
+                    sx={{ mt: 2 }}
+                    className="btn-create"
+                    size="large"
+                    type="submit"
+                    variant="contained"               
+                >
+                    payment
+                </Button>
+        }
+        
        
     </Box>   
   );

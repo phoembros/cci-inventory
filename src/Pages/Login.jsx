@@ -54,13 +54,16 @@ export default function Login() {
       signInWithEmailAndPassword(auth, values.email, values.password)
         .then((userCredential) => {
           // Signed in
-          // const user = userCredential.user;
+          const user = userCredential.user;
+          console.log("userCredential" , user);
           // ...
           // console.log("login success");
-          navigate("/");
           setAlert(true);
           setCheckMessage("success");
           setMessage("Login successfull!");
+          setTimeout( () => {
+            navigate("/");
+          },1200)
         })
         .catch((error) => {
           // const errorCode = error.code;

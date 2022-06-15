@@ -67,6 +67,9 @@ function ListCreateSales(props) {
                                     props.setUpdateQty(e.target.value, item.key)
                                     props.setUpdateAmount(e.target.value*item?.unitPrice, item.key);
                                 }}
+                                InputProps={{
+                                    inputProps: { min: 0 },
+                                }}
                             />
                         </TableCell>   
 
@@ -81,6 +84,9 @@ function ListCreateSales(props) {
                                 onChange={(e) => {
                                     props.setUpdateRate(e.target.value, item.key);
                                     props.setUpdateAmount(e.target.value*item?.qty, item.key);
+                                }}
+                                InputProps={{
+                                    inputProps: { min: 0 },
                                 }}
                             />
                         </TableCell>   

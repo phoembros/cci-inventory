@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import FlipMove from 'react-flip-move';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import { Autocomplete, Box, IconButton, Paper, Stack, TableBody, TableCell, TableRow, TextField } from '@mui/material';
+import { Autocomplete, Box, IconButton, InputAdornment, Paper, Stack, TableBody, TableCell, TableRow, TextField } from '@mui/material';
 import './listrawmaterial.scss';
 import { withStyles } from '@material-ui/core/styles';
 import {GET_RAW_MATERAIL_PAGINATION} from "../../Schema/rawmaterial";
@@ -27,6 +27,7 @@ export default function ListRawMaterial(props) {
                 const allrow = {
                   label: element?.materialName,
                   _id: element?._id,
+                  unit: element?.unit,
                 };
                 rows.push(allrow);
             });
@@ -53,13 +54,14 @@ export default function ListRawMaterial(props) {
                                 onChange={(e, value) => {
                                     props.setUpdateText( value?._id , item.key )
                                     props.setUpdateRawName( value?.label , item.key)
+                                    props.setUpdateUnitRawMaterial(value?.unit , item.key)
                                 }}
                                 renderInput={(params) => <TextField {...params} size="small" className='text-field' />}
                             />
 
                         </TableCell>
-                        <TableCell className="header-title" width="3%"></TableCell>
-                        <TableCell className="body-title" width="15%" align='center'>
+                         
+                        <TableCell className="body-title" width="27%" align='center'>
                             <TextField  
                                 className='text-field'
                                 fullWidth
@@ -68,10 +70,18 @@ export default function ListRawMaterial(props) {
                                 size='small' 
                                 value={item?.amount} 
                                 onChange={(e) => props.setUpdateQty(e.target.value, item.key)}
+                                InputProps={{                                  
+                                    endAdornment: (
+                                        <InputAdornment position="end">                                             
+                                            {item?.unitRawMaterial}                                           
+                                        </InputAdornment>
+                                    ),
+                                    inputProps: { min: 0 },
+                                }}
                             />
                         </TableCell>   
-                        <TableCell className="header-title" width="3%"></TableCell> 
-                        <TableCell className="body-title" align='right'>
+                        
+                        <TableCell className="body-title" align='right' width="10%">
                             <IconButton onClick={() => { props.deleteItem(item.key) }}>
                                 <DeleteRoundedIcon  sx={{color:"red"}}/>
                             </IconButton>    

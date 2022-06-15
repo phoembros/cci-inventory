@@ -1,12 +1,12 @@
 @import '../../themes.scss';
 
-.create-raw-material{
+.purchase-check {
 
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 540px;    
+    width: 650px;    
     background-color: #fff;
     box-shadow: 30px;
     border-radius: 10px;
@@ -17,28 +17,40 @@
         color: $primary-color;
         font-weight: bold;
     }
-    
+
+    .body-title {
+        font-weight: bold;
+        color: $primary-color;
+    }
+
     .container {
 
-        .table-top {
-            width: 100%;      
+        
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0px 8px;
+
             .header-row {            
                 .header-title {
-                    padding: 10px 0px 10px 0px;
+                    padding: 5px;
                     border: none;
-                    font-size: 16px;
+                    font-size: $font-Size-Subtitle;
                     font-weight: bold;
-                    color: $primary-color;
                 }
             }
             
             .body {
                 box-shadow: none;
-                .body-row {    
+
+                .body-row {       
+                    background-color: $background-table-modal;
+        
                     .body-title {
-                        padding: 0px;
+                        padding: 10px;
                         border: none;
                         font-size: $font-Size-Subtitle;
+                        color: #000;
 
                         .status {
                             font-weight: bold;      
@@ -46,14 +58,12 @@
                         }
                     }
                 }
-            }           
+            }
+
         }
 
-        
-
-        
+               
 
     }
-
 
 }

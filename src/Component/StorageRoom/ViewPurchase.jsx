@@ -45,6 +45,7 @@ export default function ViewProduct({
         },
     });
 
+    
     const handleUpdateStatus = (e) => {
         updatePurchaseRawMaterial({
             variables: {
@@ -120,8 +121,7 @@ return (
                       </TableCell>
                       
                     </TableRow>
-                  </TableHead>
-
+                  </TableHead> 
                     {PurchaseData?.productsItems.map((row , index) => (
                         <TableBody key={index} component={Paper} className="body" >                        
                             <TableRow  className="body-row">                                
@@ -146,7 +146,7 @@ return (
             <Typography variant='body'> {PurchaseData?.remark}</Typography>
         </Stack>
 
-        <Stack direction="row" spacing={1} sx={{mt:1}}>  
+        {/* <Stack direction="row" spacing={1} sx={{mt:1}}>  
             <Box sx={{flexGrow:1}}></Box>
             <Typography variant='body1' className="header-title">
                 Total:
@@ -154,7 +154,7 @@ return (
             <Typography variant='body1'>
                 21.25$
             </Typography>   
-        </Stack>
+        </Stack> */}
 
         {
             PurchaseData?.status === "approved" ? 

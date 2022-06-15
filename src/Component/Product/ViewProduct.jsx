@@ -54,6 +54,14 @@ export default function ViewProduct({ handleClose , dataRowPruduct }) {
                     {dataRowPruduct?.unit}
                 </Typography>     
             </Stack>  
+            <Stack direction="column" spacing={1}>
+                <Typography className='header-title'>
+                    Unit Price :
+                </Typography>
+                <Typography variant='h6'>
+                    $ {dataRowPruduct?.unitPrice}
+                </Typography>     
+            </Stack> 
         </Stack>
 
 

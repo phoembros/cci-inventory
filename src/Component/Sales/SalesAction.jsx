@@ -52,7 +52,7 @@ export default function SalesAction({
       </IconButton>
 
       { 
-        DataSale?.paidAmount !== DataSale?.totalAmount ?
+        DataSale?.status !== "paid" ?
 
           <Menu
             id="basic-button"
@@ -76,19 +76,26 @@ export default function SalesAction({
                   <Typography>Payment</Typography>
                 </Stack>
               </MenuItem>
-          
-              <MenuItem onClick={() => { handleOpenDel(); handleCloseEl()}}>
-                <Stack direction="row" spacing={2}>
-                  <DeleteIcon sx={{ color: "red" }} />
-                  <Typography>Delete</Typography>
-                </Stack>
-              </MenuItem>  
+
+              {
+                DataSale?.status === "unpaid" ? 
+                  <MenuItem onClick={() => { handleOpenDel(); handleCloseEl()}}>
+                    <Stack direction="row" spacing={2}>
+                      <DeleteIcon sx={{ color: "red" }} />
+                      <Typography>Delete</Typography>
+                    </Stack>
+                  </MenuItem>  
+                : 
+                  null
+              }
+
+              
 
           </Menu>
 
-      :
+        :
           null
-      }   
+      }  
 
 
       {/* Edit */}

@@ -14,17 +14,7 @@ import ViewPurchase from './ViewPurchase';
 import {GET_PRODUCT_STORAGE_ROOM_BY} from "../../Schema/starageroom";
 import { useQuery } from "@apollo/client";
 import {useLocation} from "react-router-dom";
-
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat,  carbs, protein};
-  }
-  
-const rows = [
-    createData('PO#0012', 'cosmetic', 1.23, 12 ,"Approval"),
-    createData('PO#0012', 'cosmetic', 1.23, 2 ,"Pending"),
-    createData('PO#0012', 'cosmetic', 1.23, 34 ,"Rejected"),
-    createData('PO#0012', 'cosmetic', 1.23, 21 ,"Rejected"),
-];
+import ViewRoomDetail from "./ViewRoomDetail";
   
 
 export default function RoomDetail() {
@@ -32,9 +22,12 @@ export default function RoomDetail() {
     //get Storage Room ID by Url 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
-    const [roomId, setRoomId] = React.useState(null);
+    const [roomId, setRoomId] = React.useState(params.get("storageId"));
+    const [roomName, setRoomName] = React.useState(params.get("name"));
+
     React.useEffect( () => {
-        setRoomId(params.get("storageId"));        
+        setRoomId(params.get("storageId"));       
+        setRoomName(params.get("name")); 
     }, [location.search]);
     // ENd get ID
 
@@ -46,6 +39,7 @@ export default function RoomDetail() {
     const handleOpenViewPurchase = () => setOpenViewPurchase(true);
     const handleCloseViewPurchase = () => setOpenViewPurchase(false);
 
+    const [dataView,setDateView] = React.useState([])
     
     const {data} = useQuery(GET_PRODUCT_STORAGE_ROOM_BY, {
         variables: {
@@ -54,6 +48,8 @@ export default function RoomDetail() {
     });
 
     console.log(data?.getProductByStorageRoomId, 'storage')
+
+
 
 
     return(
@@ -65,7 +61,7 @@ export default function RoomDetail() {
                         <Link to="/storage-room" style={{textDecoration: "none"}}>
                             <Typography className="color">Storage Room</Typography>
                         </Link>
-                        <Typography className="color">/ Products</Typography>
+                        <Typography className="color">/ {roomName}</Typography>
                     </Stack>                  
                 </Stack>
                 <Box sx={{flexGrow: 1}} />
@@ -110,7 +106,8 @@ export default function RoomDetail() {
                         <TableHead >
                             <TableRow className="header-row">
                                 <TableCell className="header-title" colSpan={2}>Name</TableCell>
-                                <TableCell className="header-title">Qty In Stock</TableCell>                               
+                                <TableCell className="header-title">Qty In Stock</TableCell>   
+                                <TableCell className="header-title">Unit Price</TableCell>                             
                                 <TableCell className="header-title">Total</TableCell>    
                                 <TableCell className="header-title"></TableCell>                              
                             </TableRow>
@@ -118,10 +115,11 @@ export default function RoomDetail() {
                         {data?.getProductByStorageRoomId.map((row , index) => (
                             <TableBody component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
                                 <TableRow  className="body-row">
-                                    <TableCell onClick={handleOpenViewPurchase} className="body-title" component="th" scope="row" width="3%" > {index+1}- </TableCell>
-                                    <TableCell onClick={handleOpenViewPurchase} className="body-title" component="th" scope="row" width="25%"> {row.productName} </TableCell>
-                                    <TableCell onClick={handleOpenViewPurchase} className="body-title" >{row.qtyInThisStorage} {row?.unit}</TableCell>
-                                    <TableCell onClick={handleOpenViewPurchase} className="body-title" >{row.totalStockAmount}</TableCell>                                                                   
+                                    <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" component="th" scope="row" width="3%" > {index+1}- </TableCell>
+                                    <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" component="th" scope="row" width="25%"> {row.productName} </TableCell>
+                                    <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >{row.qtyInThisStorage} {row?.unit}</TableCell>
+                                    <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >{row.unitPrice}$</TableCell>
+                                    <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >{row.unitPrice*row?.qtyInThisStorage}$</TableCell>                                                                   
                                     <TableCell className="body-title" align="right">
                                         <RoomDetialAction />                        
                                     </TableCell>                            
@@ -133,7 +131,7 @@ export default function RoomDetail() {
             </Box> 
 
             <Modal open={openViewPurchase}>
-                <ViewPurchase handleClose={handleCloseViewPurchase} />
+                <ViewRoomDetail handleClose={handleCloseViewPurchase} DataView={dataView} />
             </Modal>
             
         </div>

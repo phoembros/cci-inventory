@@ -71,14 +71,15 @@ export const GET_CUSTOMER_PAGINATION =  gql`
 `
 
 export const GET_SALE_WITH_PAGINATION = gql`
-query GetSaleWithPagination($page: Int, $keyword: String, $limit: Int, $pagination: Boolean) {
-  getSaleWithPagination(page: $page, keyword: $keyword, limit: $limit, pagination: $pagination) {
+query GetSaleWithPagination( $status: String, $page: Int, $keyword: String, $limit: Int, $pagination: Boolean ) {
+  getSaleWithPagination(status: $status, page: $page, keyword: $keyword, limit: $limit, pagination: $pagination ) {
     sales {
       _id
       invoiceNo
       tin
       date
       createdAt
+      status
       billTo {
         label
         customerId {
