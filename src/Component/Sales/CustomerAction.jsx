@@ -50,14 +50,14 @@ export default function CustomerAction({
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleOpen}>
+        <MenuItem onClick={() => {handleOpen(); handleCloseEl() }}>
           <Stack direction="row" spacing={2}>
             <EditIcon sx={{ color: "blue" }} />
             <Typography> Edit </Typography>
           </Stack>
         </MenuItem>
 
-        <MenuItem onClick={handleOpenDel}>
+        <MenuItem onClick={() => {handleOpenDel(); handleCloseEl() }}>
           <Stack direction="row" spacing={2}>
             <DeleteIcon sx={{ color: "red" }} />
             <Typography> Delete</Typography>

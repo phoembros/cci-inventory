@@ -73,7 +73,7 @@ export default function StorangeRoomAction({
             }}>
                 <Stack direction="row" spacing={1}>
                     <DeleteIcon sx={{color:"red"}}/>
-                    <Typography>Void</Typography>
+                    <Typography>Delete</Typography>
                 </Stack>    
             </MenuItem>
 

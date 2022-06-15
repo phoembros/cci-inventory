@@ -59,7 +59,7 @@ export default function ModalCheckPurchase({
         <Box className="purchase-check">
             <Stack direction="row" spacing={5}>                 
                 <Typography className='header-title' variant="h6" >
-                    Comfirm Purchase Completed.
+                    Comfirm Purchase.
                 </Typography>             
                 <Box sx={{flexGrow:1}}></Box>
                 <IconButton onClick={() => handleClose()}>
@@ -133,8 +133,8 @@ export default function ModalCheckPurchase({
             
             <Stack direction="row" spacing={5} sx={{mt:3}}>
                 <Box sx={{flexGrow:1}}></Box>
-                <Button variant="contained" color="error">Cancel</Button> 
-                <Button variant="contained" onClick={handleUpdateStatus}>Ok</Button> 
+                <Button sx={{boxShadow: "none"}} variant="contained" color="error">Cancel</Button> 
+                <Button sx={{boxShadow: "none"}} variant="contained" onClick={handleUpdateStatus}>Ok</Button> 
             </Stack> 
 
         </Box>

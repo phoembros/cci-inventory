@@ -412,7 +412,7 @@ export default function CreateProduct({
               />
             </Stack>
             <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-              <Button type="submit" variant="contained">
+              <Button sx={{boxShadow: "none"}} type="submit" variant="contained">
                 {btnTitle}
               </Button>
             </Stack>

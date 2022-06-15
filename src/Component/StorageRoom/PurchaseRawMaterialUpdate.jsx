@@ -352,7 +352,7 @@ export default function PurchaseRawMaterialUpdate({
               />
             </Stack>
             <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-              <Button variant="contained" type='submit'>{btnTitle}</Button>
+              <Button sx={{boxShadow: "none"}} variant="contained" type='submit'>{btnTitle}</Button>
             </Stack>
           </Box>
         </Form>

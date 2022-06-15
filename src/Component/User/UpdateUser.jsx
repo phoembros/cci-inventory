@@ -242,6 +242,7 @@ function UpdateUser(
                   className="btn-create"
                   size="large"
                   type="submit"
+                  sx={{boxShadow: "none"}} 
                   variant="contained"
                 >
                   Update

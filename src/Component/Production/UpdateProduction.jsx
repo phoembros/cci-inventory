@@ -514,7 +514,7 @@ export default function UpdateProduction({
                     </Stack>                          
                 </Stack> */}
                 <Stack direction="row" spacing={2} sx={{mt:2}}>
-                    <Button type='submit' variant='contained' fullWidth>{btnTitle}</Button>                                            
+                    <Button sx={{boxShadow: "none"}}  type='submit' variant='contained' fullWidth>{btnTitle}</Button>                                            
                 </Stack>
                 
             </Box>   

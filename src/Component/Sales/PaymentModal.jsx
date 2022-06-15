@@ -162,7 +162,7 @@ export default function PaymentModal({
         {
             pay === true ?
                 <Button
-                    sx={{ mt: 2 }}
+                    sx={{ mt: 2 ,boxShadow: "none"}}
                     className="btn-create"
                     size="large"
                     type="submit"

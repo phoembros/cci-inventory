@@ -198,8 +198,8 @@ export default function ModalCreateStorageRoom({
           </Stack>
 
           <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-            <Button variant="contained" type="submit">
-              {btnTitle}
+            <Button sx={{boxShadow: "none"}} variant="contained" type="submit" >
+                {btnTitle}
             </Button>
           </Stack>
         </Form>

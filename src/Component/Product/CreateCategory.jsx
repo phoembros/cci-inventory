@@ -161,7 +161,7 @@ export default function CreateCategory({
                     />            
                 </Stack>
                 <Stack direction="column" spacing={1} sx={{mt:2}}>           
-                    <Button type="submit" variant="contained">{btnTitle}</Button>
+                    <Button  sx={{boxShadow: "none"}} type="submit" variant="contained">{btnTitle}</Button>
                 </Stack>               
                             
             </Box>     

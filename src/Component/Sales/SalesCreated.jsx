@@ -450,12 +450,12 @@ export default function SalesCreated({
           </Stack>
                    
 
-          <Button
-            sx={{ mt: 2 }}
+          <Button           
             className="btn-create"
             size="large"
             type="submit"
             variant="contained"
+            sx={{ mt: 2 ,boxShadow: "none"}}
           >
             Create
           </Button>

@@ -149,7 +149,7 @@ export default function EditCustomer({
             </Grid>
 
             <Stack direction="row" spacing={2}>
-              <Button variant="contained" fullWidth type="submit">
+              <Button sx={{boxShadow: "none"}} variant="contained" fullWidth type="submit">
                 Update
               </Button>
             </Stack>

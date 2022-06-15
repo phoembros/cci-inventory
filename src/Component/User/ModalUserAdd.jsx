@@ -337,6 +337,7 @@ function ModalUserAdd({handleClose, setAlert, setMessage, setCheckMessage , setL
                     size="large"
                     type="submit"
                     variant="contained"
+                    sx={{boxShadow: "none"}} 
                 >
                     Create
                 </Button>

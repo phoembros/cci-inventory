@@ -336,6 +336,7 @@ export default function ViewProduction({
                 ViewData?.status === "pending" ?
                     <Stack direction="row" spacing={2} >
                         <Button 
+                            sx={{boxShadow: "none"}} 
                             variant='contained' 
                             color='error'
                             onClick={()=>{handleUpdateStatus({status: "reject" , progress: "not started"})}}
@@ -343,6 +344,7 @@ export default function ViewProduction({
                             reject
                         </Button>
                         <Button 
+                            sx={{boxShadow: "none"}} 
                             variant='contained'
                             onClick={()=>{handleUpdateStatus({status: "approve" , progress: "in progress" })}}                
                         >

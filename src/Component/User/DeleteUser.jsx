@@ -90,7 +90,7 @@ function DeleteUser({
             
             <Stack direction="row" spacing={5}>       
                 { valueVoid === "USER" ?
-                    <Button className="btn-void" variant="outlined" fullWidth onClick={handleDelete}> delete now </Button> 
+                    <Button className="btn-void" sx={{":hover": { backgroundColor: "red", border: "none"}}} variant="outlined" fullWidth onClick={handleDelete}> delete now </Button> 
                 :
                     <Button variant="outlined" fullWidth> delete </Button>
                 }         
