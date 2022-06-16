@@ -40,7 +40,7 @@ export default function Supplies() {
     const [keyword, setKeyword] = React.useState('')
 
     //usequery
-    const {data, refetch} = useQuery(GET_SUPPLIERS_BY_PAGINATION, {
+    const {data, refetch } = useQuery(GET_SUPPLIERS_BY_PAGINATION, {
       variables: {
         page: page,
         limit:limit,
@@ -121,15 +121,15 @@ export default function Supplies() {
                     <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >{item?.address}</TableCell>
                     
                     <TableCell className="body-title" align="right">
-                      <SuppliesAction
-                        setRefetch={refetch}
-                        newData={item}
-                        alert={alert}
-                        message={message}
-                        setAlert={setAlert}
-                        setMessage={setMessage}
-                        setCheckMessage={setCheckMessage}
-                      />
+                        <SuppliesAction
+                            setRefetch={refetch}
+                            newData={item}
+                            alert={alert}
+                            message={message}
+                            setAlert={setAlert}
+                            setMessage={setMessage}
+                            setCheckMessage={setCheckMessage}
+                        />
                     </TableCell>
                   </TableRow>
                 </TableBody>

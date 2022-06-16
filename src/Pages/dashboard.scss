@@ -55,7 +55,7 @@
     }
     .color {
         color: $primary-color;
-        font-size: 22px;
+        font-size: 18px;
         font-weight: bold;
 
     }
@@ -74,10 +74,18 @@
 
     }
     //inline space
-    .make-icon{
-        display: flex;
-        justify-content: space-between;
-        align-items: center; 
+    .mode-text {
+       
+        .text {
+            font-weight: bold;
+            color: orange;
+            font-style: italic;
+        }
+        .text-black {
+            font-weight: bold;           
+            font-size: 18px;
+        }
+
     }
     
     .card{
@@ -114,11 +122,8 @@
         }
       
     }
-    .center{
-        line-height: 1;
-        justify-content: space-evenly;
-        align-items: center;
-        orientation: center;
+
+    .center{   
 
         .text-inline{
             // flex-direction:row ;
@@ -142,21 +147,26 @@
         }
 
         .btn-maker{
-            color: #e89014;
-            background-color:rgb(255, 255, 141);
-                .circle{
+            text-transform: none;            
+            background-color:#fce6b5;
+            border-radius: 10px;
+
+            .circle{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
                 width: 30px;
                 height:30px;
-                border-radius: 20%;
-                margin-right: 5px;
+                border-radius: 20%;                
                 font-weight: bold;
                 font-size: large;
                 color: #e89014;
+                background-color: #fff;
             }
             .text-padding{
                 font-size: 22;
                 font-weight: bold;
-                color: #e89014;
+                color: orange;
             }
         }
         

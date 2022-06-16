@@ -7,7 +7,7 @@ import MuiAppBar from '@mui/material/AppBar';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
-import logo from "../../Assets/logo.svg";
+import logo from "../../Assets/CCI.svg";
 import { Box } from "@mui/system";
 import { useLocation } from "react-router-dom";
 import './menunavbar.scss';
@@ -23,7 +23,7 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import DeviceHubIcon from '@mui/icons-material/DeviceHub';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-const drawerWidth = 280;
+const drawerWidth = 260;
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -86,7 +86,7 @@ export default function MenuNavbar({open , handleDrawerClose}) {
         <Drawer  variant="permanent" open={open} className={theme.palette.mode === 'dark' ? "drawer-menu-dark" : "drawer-menu" } >
             <DrawerHeader sx={{mt:3 , mb:3}} >
                 <Button className='drawerheader' onClick={handleDrawerClose}>
-                   <img src={logo} alt="logo" width="100%"/>
+                   <img src={logo} alt="logo" width="70%"/>
                 </Button>        
             </DrawerHeader>
 

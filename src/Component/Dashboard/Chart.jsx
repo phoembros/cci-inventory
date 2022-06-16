@@ -23,7 +23,7 @@ export default function Chart (){
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: '60%',
+          columnWidth: '65%',
           endingShape: 'rounded'
         },
       },
@@ -58,29 +58,11 @@ export default function Chart (){
  
   return(
     <Stack className='chart'>
-        <Stack direction='row' spacing={2} >
-          <Grid container spacing={2}> 
-              <Grid item container xs={6} className="title"> Product Monthly Chat</Grid>
-            {/* 
-                <Grid item container xs={6} className="sub-title" display='flex' spacing={3}>
-                    
-                    <Grid  className="line-spacing">
-                      on hand
-                    </Grid> 
-
-                    <Grid className="line-spacing">
-                      Committed
-                    </Grid>
-
-                    <Grid className="line-spacing">
-                      Available
-                    </Grid>
-
-                </Grid> */}
-          </Grid>
+        <Stack direction='row' spacing={2}>          
+            <Typography className="title" > Product Monthly Chat</Typography>          
         </Stack>
-        <Stack id="chart" >
-          <ReactApexChart options={state.options} series={state.series} type="bar" height={250} className='chart-absotute'/>
+        <Stack id="chart">
+            <ReactApexChart options={state.options} series={state.series} type="bar" height={350} className='chart-absotute'/>
         </Stack>
     </Stack>
   )

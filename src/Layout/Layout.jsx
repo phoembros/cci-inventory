@@ -7,7 +7,7 @@ import { Outlet } from 'react-router-dom';
 import MenuNavbar from '../Component/Menu/MenuNavbar';
 import TopNavbar from '../Component/Menu/TopNavbar';
 
-const drawerWidth = 280;
+const drawerWidth = 260;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({

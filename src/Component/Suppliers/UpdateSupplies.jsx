@@ -16,17 +16,19 @@ export default function UpdateSupplies({
     setCheckMessage
   }) {
   
-    console.log(newData, 'list')
+    // console.log(newData, 'list')
     const [updateSupplier] = useMutation(UPDATE_SUPPLIES,{
         onCompleted:({updateSupplier})=>{
-          setAlert(true)
-          setCheckMessage('success')
-          setMessage(updateSupplier?.message)
-          handleClose()
+            setAlert(true)
+            setCheckMessage('success')
+            setMessage(updateSupplier?.message)
+            handleClose();
+            setRefetch();
         }, 
         onError(error){
-          setCheckMessage('error')
-          setMessage(error?.message)
+            setCheckMessage('error')
+            setMessage(error?.message)
+            setAlert(true)
         }
     })
 

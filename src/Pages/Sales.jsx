@@ -46,7 +46,7 @@ export default function Sales() {
   const [limit, setLimit] = React.useState(8);
   const [keyword, setKeyword] = React.useState("");
   const [loading,setLoading] = React.useState(true)
-  const [status,setStatus] = React.useState("")
+  const [status,setStatus] = React.useState("");
 
   const { data, refetch } = useQuery(GET_SALE_WITH_PAGINATION, {
       variables: {

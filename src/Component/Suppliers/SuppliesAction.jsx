@@ -11,9 +11,7 @@ import DeleteSupplies from "./DeleteSupplies";
 
 export default function SuppliesAction({
     setRefetch,
-    newData,
-    alert,
-    message,
+    newData,    
     setAlert,
     setMessage,
     setCheckMessage,

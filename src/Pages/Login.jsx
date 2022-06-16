@@ -22,7 +22,7 @@ import {
 //src
 import app from "../../src/firebase";
 import "./login.scss";
-import logiImage from "../Assets/logoLogin.svg";
+import logiImage from "../Assets/ccilogin.svg";
 import AlertMessage from "../Component/AlertMessage/AlertMessage";
 
 export default function Login() {
@@ -98,7 +98,7 @@ export default function Login() {
             <Box className="container">
               <Box className="box-logo">
                 <Avatar
-                  sx={{ width: 100, height: 100 }}
+                  sx={{ width: 130, height: 130 }}
                   variant="square"
                   alt="logo"
                   src={logiImage}
