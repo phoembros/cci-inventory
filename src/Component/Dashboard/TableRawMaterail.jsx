@@ -17,6 +17,7 @@ const rows = [
   createData('25/05/2022', '26/05/2022','Materail', '$1,200'),
   createData('25/05/2022', '26/05/2022','Materail', '$1,200'),
   createData('25/05/2022', '26/05/2022','Materail', '$1,200'),
+  createData('25/05/2022', '26/05/2022','Materail', '$1,200'),
 ];
 
 export default function TableRawMaterail() {
@@ -36,13 +37,10 @@ export default function TableRawMaterail() {
         <TableBody className="head-row">
           {rows.map((row, index) => (
             <TableRow  key={row.name}>
-              <TableCell className="head-title"  component="th" scope="row">
-                {index+1}-
-                {row.name}
-              </TableCell>
-              <TableCell align="right" className="head-title">{row.calories}</TableCell>
-              <TableCell align="right" className="head-title">{row.fat}</TableCell>
-              <TableCell align="right" className="head-title">{row.carbs}</TableCell>
+                <TableCell className="head-title"  component="th" scope="row">{row.name}</TableCell>
+                <TableCell align="right" className="head-title">{row.calories}</TableCell>
+                <TableCell align="right" className="head-title">{row.fat}</TableCell>
+                <TableCell align="right" className="head-title">{row.carbs}</TableCell>
             </TableRow>
           ))}
         </TableBody>

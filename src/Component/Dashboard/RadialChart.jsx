@@ -8,7 +8,7 @@ export default function RadialChart() {
         series: [76, 67, 61, 90],
         options: {
           chart: {
-            height: 250,
+            height: 300,
             type: 'radialBar',
           },
           plotOptions: {
@@ -20,7 +20,7 @@ export default function RadialChart() {
               position: 'left',
               hollow: {
                 margin: 5,
-                size: '20%',
+                size: '30%',
                 background: 'transparent',
                 image: undefined,
               },
@@ -41,8 +41,8 @@ export default function RadialChart() {
             floating: true,
             fontSize: '15px',
             position: 'left',
-            offsetX: 0,
-            offsetY: 20,
+            offsetX: -20,
+            offsetY: 0,
             background: 'transparent',
             labels: {
               useSeriesColors: true,

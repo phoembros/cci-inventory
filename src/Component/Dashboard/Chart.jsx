@@ -62,7 +62,7 @@ export default function Chart (){
             <Typography className="title" > Product Monthly Chat</Typography>          
         </Stack>
         <Stack id="chart">
-            <ReactApexChart options={state.options} series={state.series} type="bar" height={350} className='chart-absotute'/>
+            <ReactApexChart options={state.options} series={state.series} type="bar" height={320} className='chart-absotute'/>
         </Stack>
     </Stack>
   )

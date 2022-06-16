@@ -89,31 +89,22 @@
     }
     
     .card{
-        align-items: center;
-        justify-content: center;
-        direction: row;
-
-        .icon{
-            width: 50px;
-            height:50px;
-            display:flex;
-            align-items: center;
-            justify-content: center;
-            background-color:#C0E1FF;
-            border-radius: 10px;
-        }
-        .icon-mark{
-            width: 50px;
-            height:50px;
-            display:flex;
-            align-items: center;
-            justify-content: center;
-            background-color:#5A5A5A;
-            border-radius: 10px;
+        
+        .circle{
+            display: flex;   
+            justify-content: left;        
+                             
+            .icon {
+                background-color: #C0E1FF;
+                border-radius: 20%;  
+                padding: 2px;
+                font-size: 40px;
+            }
         }
 
         .text{
             color: $gray-color;
+            font-size: 12px;
         }
         .num-make{
             font-size: 40px;

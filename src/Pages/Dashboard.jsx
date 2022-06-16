@@ -129,89 +129,98 @@ export default function Dashboard() {
       </Stack>
       {/* end Top */}
       <Box sx={{mt:4}}></Box>
+
       {/* container */}
       <Grid container spacing={5}>
+
         <Grid item xs={6}>
           <Box sx={{padding: 2,  borderRadius: 3, width: "100%", backgroundColor: "#fff", display: "flex" , justifyContent: "center" , flexDirection: 'column' }} >
               <Chart />
           </Box>
         </Grid>
+
         <Grid item xs={6}>
-          <Box sx={{ borderRadius: 3,  width: "100%", height: 200, backgroundColor: "#fff", }} >
+          
+          <Box sx={{ borderRadius: 3,  width: "100%", height: 262, backgroundColor: "#fff", }} >
             <PurchaseProduct />
-          </Box>
+          </Box>   
+
+
           <Grid container spacing={2} sx={{ mt: "1px" }}>
-            <Grid item xs={4}>
-              <Box sx={{ padding: 2, borderRadius: 3, width: "100%", height: 130, backgroundColor: "#fff", }} >
-                <Grid container className="color">
-                  Storage Room
-                </Grid>
-                <Stack className="card" direction="row" spacing={2}>
-                  <Grid container direction="column">
-                    <Paper className="icon">
-                      <ShareLocationTwoToneIcon />
-                    </Paper>
-                    <Grid className="text"> Product </Grid>
-                  </Grid>
-                  <Grid className="num-make" container direction="column">
-                    50
-                  </Grid>
-                </Stack>
-              </Box>
+              <Grid item xs={4}>
+                  <Box sx={{ padding: 2, borderRadius: 3, width: "100%", backgroundColor: "#fff", }} >
+                      <Typography className="color">Storage Room</Typography>                    
+                      <Stack direction="row" spacing={2} className="card" sx={{width: "100%"}}>
+                          <Stack direction="column" justifyContent="center">                     
+                            <Box className="circle">
+                                <ShareLocationTwoToneIcon className="icon"/>
+                            </Box>
+                            <Typography className="text" variant="body2">Currenly</Typography>
+                          </Stack>
+                          <Box sx={{flexGrow:1}}></Box>
+                          <Stack direction="row" justifyContent="right">
+                              <Stack direction="column" justifyContent="center">
+                                <Typography className="num-make">09</Typography>
+                              </Stack>
+                          </Stack>
+                      </Stack>
+                  </Box>
             </Grid>
-
             <Grid item xs={4}>
-              <Box sx={{  padding: 2, borderRadius: 3, width: "100%", height: 130, backgroundColor: "#fff", }} >
-                <Grid container className="color">
-                  Storage Room
-                </Grid>
-                <Stack className="card" direction="row" spacing={2}>
-                  <Grid container direction="column">
-                    <Paper className="icon">
-                      <ShareLocationTwoToneIcon />
-                    </Paper>
-                    <Grid className="text"> Product </Grid>
-                  </Grid>
-                  <Grid className="num-make" container direction="column">
-                    50
-                  </Grid>
-                </Stack>
-              </Box>
+                  <Box sx={{ padding: 2, borderRadius: 3, width: "100%", backgroundColor: "#fff", }} >
+                      <Typography className="color">Storage Room</Typography>                    
+                      <Stack direction="row" spacing={2} className="card" sx={{width: "100%"}}>
+                          <Stack direction="column" justifyContent="center">                     
+                            <Box className="circle">
+                                <ShareLocationTwoToneIcon className="icon"/>
+                            </Box>
+                            <Typography className="text" variant="body2">Currenly</Typography>
+                          </Stack>
+                          <Box sx={{flexGrow:1}}></Box>
+                          <Stack direction="row" justifyContent="right">
+                              <Stack direction="column" justifyContent="center">
+                                <Typography className="num-make">06</Typography>
+                              </Stack>
+                          </Stack>
+                      </Stack>
+                  </Box>
             </Grid>
-
             <Grid item xs={4}>
-              <Box sx={{  padding: 2, borderRadius: 3, width: "100%", height: 130, backgroundColor: "#fff", }} >
-                <Grid container className="color">
-                  Storage Room
-                </Grid>
-                <Stack className="card" direction="row" spacing={2}>
-                  <Grid container direction="column">
-                    <Paper className="icon">
-                      <ShareLocationTwoToneIcon />
-                    </Paper>
-                    <Grid className="text"> Product </Grid>
-                  </Grid>
-                  <Grid className="num-make" container direction="column">
-                    50
-                  </Grid>
-                </Stack>
-              </Box>
-            </Grid>
-
-
+                  <Box sx={{ padding: 2, borderRadius: 3, width: "100%", backgroundColor: "#fff", }} >
+                      <Typography className="color">Storage Room</Typography>                    
+                      <Stack direction="row" spacing={2} className="card" sx={{width: "100%"}}>
+                          <Stack direction="column" justifyContent="center">                     
+                            <Box className="circle">
+                                <ShareLocationTwoToneIcon className="icon"/>
+                            </Box>
+                            <Typography className="text" variant="body2">Currenly</Typography>
+                          </Stack>
+                          <Box sx={{flexGrow:1}}></Box>
+                          <Stack direction="row" justifyContent="right">
+                              <Stack direction="column" justifyContent="center">
+                                <Typography className="num-make">05</Typography>
+                              </Stack>
+                          </Stack>
+                      </Stack>
+                  </Box>
+            </Grid>    
           </Grid>
+
         </Grid>
       </Grid>
+
 
       {/*Purchase Order*/}
       <Grid container spacing={3} sx={{ mt: "1px" }}>
         <Grid item xs={4}>
 
           <Stack sx={{width: "100%",}} direction="row" spacing={5}>
-              <Typography className="color" > Purchase Order Pendding</Typography>
+              <Stack direction="column" justifyContent="center">
+                  <Typography className="color" > Purchase Order Pendding</Typography>
+              </Stack>
               <Box sx={{flexGrow:1}}></Box>            
               <IconButton>
-                <MoreVertIcon color="primary" />
+                  <MoreVertIcon color="primary" />
               </IconButton>
           </Stack>
                     
@@ -259,7 +268,7 @@ export default function Dashboard() {
           </Box>
 
                     
-          <Stack direction="column"  sx={{ padding: 2, borderRadius: 3, width: "70%", height: 170, backgroundColor: "#EDEFFA", mt:4 }}>
+          <Stack direction="column"  sx={{ padding: 2, borderRadius: 3, width: "80%", height: 175, backgroundColor: "#EDEFFA", mt:4 }}>
               <Stack direction="row" spacing={2}>                       
                   <Paper sx={{ borderRadius: 2 , display: "flex" , justifyContent: "center" , flexDirection:"column" , padding:1 , backgroundColor: "#5A5A5A"}}>
                       <NightlightOutlinedIcon sx={{color:"#fff"}}/>
@@ -275,8 +284,7 @@ export default function Dashboard() {
               <Stack direction="row" spacing={1}> 
                   <Box className="mode-text">
                       <Typography className="text">Mode</Typography>
-                      <Typography className="text-black">Create Night Mode</Typography>
-                      <Typography className="text-black">For this app</Typography>
+                      <Typography className="text-black">Create Night Mode</Typography>                    
                   </Box>
                   <Box sx={{flexGrow:1}}></Box>
                   <Stack direction="column" justifyContent="center" >
@@ -286,99 +294,70 @@ export default function Dashboard() {
                         />
                       </FormGroup>
                   </Stack>
-              </Stack>
-                  
+              </Stack>                  
           </Stack>      
-          
-
-
-
-
-
+        
           
         </Grid>
 
-        {/* Raw Materail*/}
+        {/*Purchase  Raw Materail*/}
         <Grid item xs={4}>
-          <Box
-            sx={{
-              paddingX: 2,
-              borderRadius: 3,
-              width: "100%",
-              height: 320,
-              // backgroundColor: "#fff",
-            }}
-          >
-            <Stack direction="row" spacing={2}>
-              <Grid
-                item
-                xs={12}
-                className="title"
-                direction="column"
-                spacing={2}
-              >
-                <Grid className="right"> Cash Purchase Raw Material </Grid>
-                <Grid className="buttom"> In 3 Month </Grid>
-              </Grid>
-            </Stack>
-            <TableRawMaterail />
-          </Box>
+            <Box sx={{ padding: 2, borderRadius: 2 , width: "100%" , backgroundColor: "#fff", display: "flex" , justifyContent: "center" , flexDirection: 'column' }} >
+                <Typography className="color">Cash Purchase Raw Material</Typography>
+                <Typography variant="body2" sx={{color: "orange"}}>In 3 Month</Typography>           
+                <TableRawMaterail />
+            </Box>
         </Grid>
-
+        {/* End Purchase Raw */}
+        
         <Grid item xs={4}>
-          <Box
-            sx={{
-              paddingX: 2,
-              borderRadius: 3,
-              width: "100%",
-              height: 320,
-              // backgroundColor: "#fff",
-            }}
-          >
-            <Stack direction="row" spacing={2} display="flex">
-              <Grid container className="title">
-                <Grid container className="right">
-                  Top Raw Material
-                </Grid>
+          <Box sx={{ padding: 2, borderRadius: 3, width: "100%", height: "100%", backgroundColor: "#fff" }}>            
+            <Stack direction="column" spacing={2} justifyContent="center">
+              <Typography className="color">Top Raw Material</Typography>
+
+              <Grid container className="title">               
                 <Grid container>
-                  <Grid item xs={4} md={4}>
+                   {/*<Grid item xs={4} md={4} display="flex" justifyContent="center" flexDirection="column">
                       <Grid container className="start-merge">
-                        <CircleIcon className="success" />
-                        Material Name
+                            <CircleIcon className="success" />
+                            Material Name
                       </Grid>
 
                       <Grid container className="start-merge">
                         <Typography>
-                          <CircleIcon className="warning" />
-                          Material Name
+                            <CircleIcon className="warning" />
+                            Material Name
                         </Typography>
                       </Grid>
 
                       <Grid container className="start-merge">
                         <Typography>
-                          <CircleIcon className="error" />
-                          Material Name
+                            <CircleIcon className="error" />
+                            Material Name
                         </Typography>
                       </Grid>
 
                       <Grid container className="start-merge">
-                        <Typography>
-                          <CircleIcon className="primary" />
-                          Material Name
-                        </Typography>
+                          <Typography>
+                            <CircleIcon className="primary" />                                
+                            Material Name
+                          </Typography>
                       </Grid>
-                  </Grid>
-                  <Grid item xs={8} md={8}>
+                  </Grid> */}
+                  <Grid item xs={12} md={12}>
                     <RadialChart />
-                  </Grid>
-
-                  <Grid item xs={12} direction="column" className="footer">
-                    <Grid className="color">View ALL Material</Grid>
-                    <Grid className="modal"> Agent and meduim </Grid>
-                  </Grid>
+                  </Grid>                  
                 </Grid>
               </Grid>
+
+              <Box sx={{flexGrow:1}}></Box>
+              <Stack direction="column" className="footer">
+                  <Typography className="color">View ALL Material</Typography>
+                  <Typography className="modal" variant="body2"> Created by William Valentine Wright in 1860, </Typography>
+              </Stack>
+
             </Stack>
+            
           </Box>
         </Grid>
       </Grid>
