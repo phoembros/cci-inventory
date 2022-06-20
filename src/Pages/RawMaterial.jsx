@@ -168,7 +168,7 @@ export default function RawMaterial() {
                             <TableCell className="header-title"> </TableCell>
                         </TableRow>
                     </TableHead>
-                  {data?.getRawMaterialPagination?.rawMaterial.map((row, index) => (
+                  {data?.getRawMaterialPagination?.rawMaterial?.map((row, index) => (
                   <TableBody
                       component={Paper}
                       className={index % 2 === 0 ? "body" : "body-odd"}

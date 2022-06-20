@@ -106,7 +106,7 @@ export default function Supplies() {
                   ></TableCell>
                 </TableRow>
               </TableHead>
-              {data?.getSuppliersPagination?.suppliers.map((item, index) => (
+              {data?.getSuppliersPagination?.suppliers?.map((item, index) => (
                 <TableBody
                       component={Paper}
                       className={index % 2 === 0 ? "body" : "body-odd"}

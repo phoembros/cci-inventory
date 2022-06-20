@@ -51,7 +51,11 @@ export default function CreateCategoryMaterial({
                 setAlert(true);
                 handleClose();
                 setRefetch()
-            } 
+            } else {
+                setCheckMessage("error")
+                setMessage(updateRawMaterialCategory?.message)
+                setAlert(true);
+            }
         },
         onError: (error) => {            
             setCheckMessage("error")
@@ -76,7 +80,7 @@ export default function CreateCategoryMaterial({
     
         validationSchema: CreateCategory,
         onSubmit: async (values, { setSubmitting, resetForm }) => {        
-            console.log(values)
+            // console.log(values)
 
             if(checkStatus === "create") {
                 createRawMaterialCategory({
