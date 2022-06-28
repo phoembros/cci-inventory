@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './createproduct.scss';
-import { Autocomplete, FormControl, Icon, IconButton, InputAdornment, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { Autocomplete, FormControl, FormHelperText, Icon, IconButton, InputAdornment, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import ListRawMaterialUpdate from './ListRawMaterialUpdate';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
@@ -37,7 +37,7 @@ export default function UpdateProduct({
                 setRefetch();
             } else {
                 setCheckMessage("error")
-                setMessage("Invaid Raw Material!")
+                setMessage("Material invalid value!")
                 setAlert(true);
             }
         },
@@ -81,8 +81,10 @@ export default function UpdateProduct({
       }, [data?.getProductCategoryPagination?.ProductCategory]);
     // End Get 
     
+    
+
     // Setup ingrideian
-    const [currentItem, setCurrentItem] = React.useState({ rawName:'' , rawMaterialId: '', amount: 0 , unitRawMaterial: "" , key: 0 })
+    const [currentItem, setCurrentItem] = React.useState({ rawName:'' , rawMaterialId: '', amount: 1 , unitRawMaterial: "" , key: 0 })
     const [item, setItem] = React.useState([])
 
     React.useMemo( async () => {
@@ -115,13 +117,13 @@ export default function UpdateProduct({
             ];
             setItem([... items])
             setCurrentItem({
-                rawName:'' , rawMaterialId:'' , amount: 0 , unitRawMaterial: "" , key: 0
+                rawName:'' , rawMaterialId:'' , amount: 1, unitRawMaterial: "" , key: 0
             })
         }
     }
 
     const handleAddMaterail = () => {
-        setCurrentItem({ rawName:'Material Name' ,  rawMaterialId: '' , amount: 0 , unitRawMaterial: "" , key: Date.now() });
+        setCurrentItem({ rawName:'Material Name' ,  rawMaterialId: '' , amount: 1 , unitRawMaterial: "" , key: Date.now() });
     }
 
     React.useEffect(() => {
@@ -189,16 +191,18 @@ export default function UpdateProduct({
     // Formik
     const CreateProductes = Yup.object().shape({
         productName: Yup.string().required("Product's Name is required!"),
+        productId: Yup.string().required("Product's ID is required!"),
         remark: Yup.string(),  
-        unitPrice: Yup.number(),     
-        unit: Yup.string(),   
+        unitPrice: Yup.number().min(0.01 , "Unit Price can't under 0"),     
+        unit: Yup.string().required("Unit is required!"),   
         durationProduce: Yup.number(),
-        category: Yup.string(),     
+        category: Yup.string().required("Category is required!"),      
     });
     
     const formik = useFormik({
         initialValues: {
             productName: editData?.productName,
+            productId: editData?.productId,
             remark: editData?.remark,
             unitPrice: editData?.unitPrice,
             unit: editData?.unit,
@@ -211,9 +215,10 @@ export default function UpdateProduct({
              
             const newValue = {
                 productName: values?.productName,
+                productId: values?.productId,
                 category: values?.category,                
                 unit: values?.unit,
-                unitPrice: values?.unitPrice,
+                unitPrice: parseFloat(values?.unitPrice),
                 ingredients: item,
                 remark: values?.remark,  
                 durationProduce: parseFloat(values?.durationProduce),              
@@ -255,21 +260,37 @@ export default function UpdateProduct({
                 </Stack>
                 
                 <Stack direction="row" spacing={5} width="100%" sx={{mt:2}}>
-                    <Box sx={{width:"45%"}}>               
+                    <Box sx={{width:"40%"}}>               
                         <Autocomplete
                             disablePortal
                             id="combo-box-demo"
-                            options={categoryProduct}
-                            sx={{ width: 300 }}
+                            options={categoryProduct}                           
                             value={categorySelect}
                             getOptionSelected={(option, value) => option._id === value._id } 
                             onChange={(e, value) => {
                                 setFieldValue( "category" , value?._id ); 
                                 setCategorySelect(value)
                             }}
-                            renderInput={(params) => <TextField {...params} size="small" label="Category" />}
+                            renderInput={(params) => 
+                                <TextField 
+                                    {...params} size="small" label="Category"
+                                    error={Boolean(touched.category && errors.category)}                        
+                                    helperText={touched.category && errors.category}
+                                />
+                            }
                         />
-                    </Box>            
+                    </Box>     
+                    <Box sx={{flexGrow: 1}}></Box>
+                    <Box sx={{ width: "30%" }}>
+                        <TextField 
+                            label="Product ID"
+                            type="text" 
+                            size='small' 
+                            {...getFieldProps("productId")}
+                            error={Boolean(touched.productId && errors.productId)}                          
+                            helperText={touched.productId && errors.productId}
+                        />
+                    </Box>       
                 </Stack> 
                 
 
@@ -299,13 +320,11 @@ export default function UpdateProduct({
                                     <TableCell className="body-title"></TableCell>  
                                     <TableCell className="body-title" width="20%">
                                         <FormControl fullWidth size='small'>                                            
-                                            <Select
-                                                defaultValue={"Unit"}                                              
+                                            <Select                                                                                     
                                                 {...getFieldProps("unit")}
                                                 error={Boolean(touched.unit && errors.unit)}
                                                 helperText={touched.unit && errors.unit}
-                                            >
-                                                <MenuItem value="Unit">Unit</MenuItem>
+                                            >                                               
                                                 {
                                                     unit?.map( (item,index) => (
                                                         <MenuItem key={index} value={`${item}`}>{item}</MenuItem>
@@ -314,6 +333,13 @@ export default function UpdateProduct({
                                                
                                             </Select>
                                         </FormControl>
+
+                                        {!!errors.unit && (
+                                            <FormHelperText error id="outlined-adornment-email">
+                                                {errors.unit}
+                                            </FormHelperText>
+                                        )}
+
                                     </TableCell>
                                     <TableCell className="body-title"></TableCell>                      
                                     <TableCell className="body-title" width="15%" align='center'>
@@ -323,6 +349,14 @@ export default function UpdateProduct({
                                             {...getFieldProps("durationProduce")}
                                             error={Boolean(touched.durationProduce && errors.durationProduce)}
                                             helperText={touched.durationProduce && errors.durationProduce}
+                                            InputProps={{                                  
+                                                endAdornment: (
+                                                    <InputAdornment position="end">                                             
+                                                        s                                         
+                                                    </InputAdornment>
+                                                ), 
+                                                inputProps: { min: 1 },                                               
+                                            }}
                                         />
                                     </TableCell>                                                      
                                 </TableRow>
@@ -379,16 +413,16 @@ export default function UpdateProduct({
                             fullWidth
                             placeholder="unitPrice"
                             {...getFieldProps("unitPrice")}
-                            error={Boolean(touched.unitPrice && errors.unitPrice)}
-                            helperText={touched.unitPrice && errors.unitPrice}
+                            error={Boolean(touched.unitPrice && errors.unitPrice || touched.unitPrice && isNaN(values.unitPrice) )}
+                            helperText={touched.unitPrice && errors.unitPrice || isNaN(values.unitPrice) &&  errors.unitPrice }
                             InputProps={{                                  
                                 startAdornment: (
                                     <InputAdornment position="start">                                             
                                         $                                           
                                     </InputAdornment>
-                                ),
-                                inputProps: { min: 0 },
-                            }}                            
+                                ),                         
+                                inputProps: { min: 0 },                       
+                            }}
                         />
                     </Box>              
                 </Stack>

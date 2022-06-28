@@ -15,6 +15,7 @@ import { GET_PRODUCT_CATEGORY } from "../../Schema/product";
 import { useQuery } from "@apollo/client";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import CircularProgress from "@mui/material/CircularProgress";
 
 
 export default function ProductCategories() {
@@ -22,6 +23,8 @@ export default function ProductCategories() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const [loading,setLoading] = React.useState(true);
 
     // Alert Message
     const [alert,setAlert] = React.useState(false);
@@ -40,6 +43,9 @@ export default function ProductCategories() {
             limit: limit,
             keyword: keyword,
             pagination: true,
+        },
+        onCompleted: () => {
+            setLoading(false);
         }
     });
 
@@ -109,6 +115,14 @@ export default function ProductCategories() {
                 </Stack>
             </Stack>
 
+        {
+            loading ?
+
+            <Box  sx={{ display: "flex", flexDirection: "column", alignItems: "center" , mt:10}} >
+                <CircularProgress />
+            </Box>
+            :
+            <>
             <Box className="container">
                 <TableContainer >
                     <Table className="table" aria-label="simple table">
@@ -164,6 +178,8 @@ export default function ProductCategories() {
                     <ArrowForwardIosIcon sx={{':hover':{color:'#0969A0'}}}/>
                 </IconButton>
             </Stack>
+            </>
+        }
 
             <AlertMessage alert={alert} setAlert={setAlert} message={message} checkMessage={checkMessage}/>
 

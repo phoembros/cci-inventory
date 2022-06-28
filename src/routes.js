@@ -30,6 +30,7 @@ import { AuthContext } from './context/AuthContext'
 import { useContext } from "react";
 import { GET_USER_LOGIN } from "./Schema/user";
 import { useQuery } from "@apollo/client";
+import PrintInvoice from "./Component/Sales/PrintInvoice";
 
 export default function Router({prefersDarkMode,setPrefersDarkMode}) {
 
@@ -37,7 +38,7 @@ export default function Router({prefersDarkMode,setPrefersDarkMode}) {
     const { state } = useContext(AuthContext);
     const { user } = state;
 
-    console.log(state,'state')
+    // console.log(state,'state')
 
     // const [systemSettingPath, setSystemSettingPath] = React.useState('')
     // const [reportPath, setreportPath] = React.useState('')
@@ -77,8 +78,10 @@ export default function Router({prefersDarkMode,setPrefersDarkMode}) {
                 { path: "product", element: <Product /> },
                 { path: "product/categories", element: <ProductCategories /> },
                 
-                { path: "sales", element: <Sales /> },
-                { path: "sales/customer", element: <Customer /> },
+                { path: "sales", element: <Sales /> },                
+                { path: "sales/print", element: <PrintInvoice /> },
+
+                { path: "customer", element: <Customer /> },
 
                 { path: "production", element: <Production /> },
                 { path: "supplies", element: <Supplies /> },

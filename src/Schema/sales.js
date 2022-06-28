@@ -71,47 +71,53 @@ export const GET_CUSTOMER_PAGINATION =  gql`
 `
 
 export const GET_SALE_WITH_PAGINATION = gql`
-query GetSaleWithPagination( $status: String, $page: Int, $keyword: String, $limit: Int, $pagination: Boolean ) {
-  getSaleWithPagination(status: $status, page: $page, keyword: $keyword, limit: $limit, pagination: $pagination ) {
+query GetSaleWithPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean, $status: String) {
+  getSaleWithPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination, status: $status) {
     sales {
       _id
       invoiceNo
       tin
       date
-      createdAt
-      status
       billTo {
         label
         customerId {
           _id
           name
           phoneNumber
+          email
+          address
         }
       }
       vat
+      vatAmount
       totalAmount
-      paidAmount
       items {
         itemName
         productId {
+          _id
+          productName
+          productId
           category {
             _id
             categoryName
+            remark
           }
-          _id
-          productName
           unit
           unitPrice
           durationProduce
           totalStockAmount
-          usedStockAmount
+          totalSoldAmount
         }
         qty
         unitPrice
         amount
         key
       }
+      paidAmount
+      status
       remark
+      createdAt
+      updatedAt
     }
     paginator {
       slNo
@@ -145,4 +151,56 @@ export const UPDATE_SALE = gql`
       message
     }
   }
+`
+
+export const GET_SALE_BYID = gql`
+query GetSaleById($id: ID!) {
+  getSaleById(_id: $id) {
+    _id
+    invoiceNo
+    tin
+    date
+    billTo {
+      label
+      customerId {
+        _id
+        name
+        phoneNumber
+        email
+        address
+      }
+    }
+    vat
+    vatAmount
+    totalAmount
+    items {
+      itemName
+      productId {
+        _id
+        productName
+        productId
+        category {
+          _id
+          categoryName
+          remark
+        }
+        unit
+        unitPrice
+        durationProduce
+        totalStockAmount
+        totalSoldAmount
+        remark
+      }
+      qty
+      unitPrice
+      amount
+      key
+    }
+    paidAmount
+    status
+    remark
+    createdAt
+    updatedAt
+  }
+}
 `

@@ -35,6 +35,10 @@ function ListCreateSales(props) {
     },[data?.getProductPagination?.products])
    // End Get Storage room
 
+   // Handle Message Error TextField
+   const [errorMessage, setErrorMessage] = React.useState(["Can't input 0" , "Invalid Value" , "Material is required!"]);
+   const [touched, setTouched] = React.useState(false);
+   const handleTouch = () =>  setTouched(true);
 
 
     const items = props.items;
@@ -68,8 +72,11 @@ function ListCreateSales(props) {
                                     props.setUpdateAmount(e.target.value*item?.unitPrice, item.key);
                                 }}
                                 InputProps={{
-                                    inputProps: { min: 0 },
+                                    inputProps: { min: 1 },
                                 }}
+                                onFocus={handleTouch}
+                                error={ touched && item?.qty < 1 || touched && isNaN(item?.qty) }
+                                helperText={ item?.qty < 1 && errorMessage[0] || isNaN(item?.qty) && errorMessage[1] }
                             />
                         </TableCell>   
 
@@ -86,8 +93,11 @@ function ListCreateSales(props) {
                                     props.setUpdateAmount(e.target.value*item?.qty, item.key);
                                 }}
                                 InputProps={{
-                                    inputProps: { min: 0 },
+                                    inputProps: { min: 1 },
                                 }}
+                                onFocus={handleTouch}
+                                error={ touched && item?.unitPrice < 0.01 || touched && isNaN(item?.unitPrice) }
+                                helperText={ item?.unitPrice < 0.01 && errorMessage[0] || isNaN(item?.unitPrice) && errorMessage[1] }
                             />
                         </TableCell>   
                         
@@ -99,8 +109,8 @@ function ListCreateSales(props) {
                                 type="text" 
                                 id={item?.key} 
                                 size='small' 
-                                value={item?.amount}
-                            />
+                                value={item?.amount.toFixed(2)}
+                            />                            
                         </TableCell>   
                         <TableCell className="header-title" width='3%'></TableCell> 
                         <TableCell className="body-title" align='center'>

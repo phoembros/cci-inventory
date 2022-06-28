@@ -6,7 +6,7 @@ import {Table,  TableBody,TableCell, TableContainer, TableHead , TableRow} from 
 import SearchIcon from '@mui/icons-material/Search';
 import TuneIcon from '@mui/icons-material/Tune';
 import { withStyles } from '@material-ui/core/styles';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AlertMessage from "../Component/AlertMessage/AlertMessage";
 import { GET_SALE_WITH_PAGINATION } from "../Schema/sales";
 import { useQuery } from "@apollo/client";
@@ -25,11 +25,32 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
   
 export default function Sales() {
 
+  //get Storage Room ID by Url 
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const [creates, setCreates] = React.useState(params.get("create"));
+ 
+  React.useEffect( () => {
+    setCreates(params.get("create"));
+  }, [location.search]);
+  // End get Id Storage Room
+
+
   const navigate = useNavigate ();
   const [RowData, setRowData] = React.useState([])
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+      setOpen(false);
+      window.history.replaceState(null, "", "/sales")
+  }
+
+
+  React.useState( () => {
+    if(creates) {
+      handleOpen();
+    }
+  },[creates])
 
   const [openView, setOpenView] = React.useState(false);
   const handleOpenView = () => setOpenView(true);
@@ -65,11 +86,11 @@ export default function Sales() {
   });
 
   React.useEffect(()=>{
-    refetch()
-    setPageShow(page)
+      refetch()
+      setPageShow(page)
   }, [page, limit , keyword , status ])
 
-  console.log(data?.getSaleWithPagination?.sales , "data")
+  // console.log(data?.getSaleWithPagination?.sales , "data")
   
 
     return (
@@ -105,9 +126,9 @@ export default function Sales() {
                   />
               </Box>
               
-              <Button onClick={()=> navigate("/sales/customer")} className="btn-add-style" startIcon={<AddIcon />}>
+              {/* <Button onClick={()=> navigate("/sales/customer")} className="btn-add-style" startIcon={<AddIcon />}>
                 <Typography className="style-add"> Customer Setup </Typography>
-              </Button>
+              </Button> */}
                       
               {/* Create Sale */}
               <Button startIcon={<AddIcon />} onClick={handleOpen} className="btn-add-style">
@@ -139,12 +160,12 @@ export default function Sales() {
                   <Table className="table-head">
                     <TableHead className="header-title">
                           <TableRow className="header-row">
+                            <TableCell className="header-title">Created</TableCell>
                             <TableCell className="header-title">Invoice No</TableCell>
                             <TableCell className="header-title">Customer</TableCell>
                             <TableCell className="header-title">Total Amount</TableCell>   
                             <TableCell className="header-title">Paid Amount</TableCell>                    
-                            <TableCell className="header-title">VAT</TableCell>
-                            <TableCell className="header-title">Created</TableCell>
+                            <TableCell className="header-title">VAT</TableCell>                            
                             <TableCell className="header-title">Status</TableCell>
                             <TableCell className="header-title"></TableCell>
                           </TableRow>
@@ -153,12 +174,12 @@ export default function Sales() {
                   {data?.getSaleWithPagination?.sales?.map((row, index) => (
                       <TableBody key={index} component={Paper} className={index%2 === 0 ? "body" : "body-odd" }>
                         <TableRow className="body-row" >
+                          <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="10%">{moment(row?.date).format("DD/MM/YYYY")}</TableCell>
                           <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="15%">CCI{moment(row?.createdAt).format("YYYY")}-{row?.invoiceNo.padStart(4, '0')}</TableCell>
                           <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="20%">{row?.billTo?.label}</TableCell>
-                          <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="20%">{row?.totalAmount}$</TableCell>      
+                          <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="20%">{row?.totalAmount?.toFixed(2)}$</TableCell>      
                           <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="20%">{row?.paidAmount}$</TableCell>                
-                          <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="10%">{row?.vat}%</TableCell>
-                          <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="15%">{moment(row?.date).format("DD/MM/YYYY")}</TableCell>                    
+                          <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="10%">{row?.vat}%</TableCell>                    
                           <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" >
                               <Typography  className={`status-${row?.status}`} >{row?.status} </Typography> 
                           </TableCell>

@@ -1,14 +1,53 @@
-@import '../../themes.scss';
+@import "../../themes.scss";
 
-.materail{
-    .head-row{
-        th{
-            font-weight: bold;
-        }
-        .head-title {
-            border-bottom: 1px solid blue;
-        }
-      
+.invoice-table {
+    background-color: #fff;
+    border-radius: 10px;
+    height: 100%;
 
+    // .invoice-table-text {
+    //     color: $primary-color;
+    // }
+
+    .title-table {
+        color: $primary-color;
+        font-weight: bold;
+        font-size: 18px;
     }
+
+    .btn-view {
+        background-color: $background-table-modal;
+        color: $primary-color;
+    }
+
+        .stack-map {
+            padding: 10px;
+            border-radius: 10px;
+            height: 58;
+
+            .stack-map-icons {
+                color: $primary-color;
+                margin-right: 10px;
+            }
+
+            .btn-unpaid {                
+                text-transform: none;
+                border-radius: 10px;
+
+                .text-unpaid-point {
+                    width: 6px;
+                    height: 6px;
+                    background-color: red;
+                    border-radius: 50%;
+                    margin-right: 6px;
+                    margin-top: 10px;
+                }
+
+                .text-unpaid {
+                    font-size: 22;
+                    font-weight: bold;
+                    color: red;
+                }
+            }
+        }
 }

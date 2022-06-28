@@ -16,6 +16,12 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { GET_USER_LOGIN } from '../../Schema/user';
 import { useLocation } from 'react-router-dom';
   
+// icon priority
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+
 
 export default function PurchaseRawMaterial({
   handleClose, 
@@ -30,14 +36,18 @@ export default function PurchaseRawMaterial({
   // Create
   const [createPurchaseRawMaterial] = useMutation(CREATE_PURCHASE_RAW_MATERIAL,{
     onCompleted: ({createPurchaseRawMaterial}) => {
-      console.log(createPurchaseRawMaterial?.message, "message");
-      if(createPurchaseRawMaterial?.success){
-        setCheckMessage('success')
-        setMessage(createPurchaseRawMaterial?.message);
-        setAlert(true);
-        handleClose();
-        setRefetch();
-      }
+        console.log(createPurchaseRawMaterial?.message, "message");
+        if(createPurchaseRawMaterial?.success){
+          setCheckMessage('success')
+          setMessage(createPurchaseRawMaterial?.message);
+          setAlert(true);
+          handleClose();
+          setRefetch();
+        } else {
+          setCheckMessage('error')
+          setMessage("Material & Supplier invalid value!");
+          setAlert(true);
+        }
     },
     onError: (error) => {     
       setAlert(true)
@@ -45,6 +55,8 @@ export default function PurchaseRawMaterial({
       setMessage(error?.message)
     },
   });
+
+  const [btnCheckSubmit,setBtnCheckSubmit] = React.useState(true);
        
   //get Storage Room ID by Url 
   const location = useLocation();
@@ -53,15 +65,15 @@ export default function PurchaseRawMaterial({
   React.useEffect( () => {
       setRoomId(params.get("storageId"));        
   }, [location.search]);
-  // End get Id Storage Room
+   
 
   // Get User ID  
   const { data: userLoginData } = useQuery(GET_USER_LOGIN);  
   const userId =  userLoginData?.getuserLogin?._id;
-  // End Get User ID
+  
 
-  // List RawMaterial have to purchase
-    const [currentItem, setCurrentItem] = React.useState({ rawName: '', rawMaterialId: '', newQty: 0 , unitPrice : 0 , suppliersName: '' , suppliersId: '', key: ''})
+  // List RawMaterial have to purchase===========================================================================
+    const [currentItem, setCurrentItem] = React.useState({ rawName: '', rawMaterialId: '', newQty: 1 , unitPrice : 0.01 , suppliersName: '' , suppliersId: '', key: ''})
     const [item, setItem] = React.useState([])
 
     const addItem = () => {     
@@ -73,13 +85,13 @@ export default function PurchaseRawMaterial({
             ];
             setItem([... items])
             setCurrentItem({
-              rawName: '', rawMaterialId: '' , newQty: 0 , unitPrice : 0 ,suppliersName: '' , suppliersId: '' , key: ''
+              rawName: '', rawMaterialId: '' , newQty: 1 , unitPrice : 0.01 ,suppliersName: '' , suppliersId: '' , key: ''
             })
         }
     }
 
     const handleAddMaterail = () => {
-        setCurrentItem({ rawName: "Material Name" , rawMaterialId: "", newQty: 0 , unitPrice : 0 , suppliersName: '' , suppliersId: '' , key: Date.now() });
+        setCurrentItem({ rawName: "Material Name" , rawMaterialId: "", newQty: 1 , unitPrice : 0.01 , suppliersName: '' , suppliersId: '' , key: Date.now() });
     }
 
     React.useEffect(() => {
@@ -116,6 +128,14 @@ export default function PurchaseRawMaterial({
           }
         })
         setItem([...items]) 
+
+        // Check Submit
+        if(rawName === undefined) {
+            setBtnCheckSubmit(true);
+        } else {
+            setBtnCheckSubmit(false);
+        }
+
     }
     // ENd Raw
 
@@ -128,6 +148,13 @@ export default function PurchaseRawMaterial({
           }
         })
         setItem([...items]) 
+
+        //Check Submit
+        if(suppliersName === undefined ) {
+          setBtnCheckSubmit(true);
+        } else {
+          setBtnCheckSubmit(false);
+        }
     }
 
     const setUpdateSuppliesId = (suppliersId,key) => {
@@ -138,6 +165,14 @@ export default function PurchaseRawMaterial({
           }
         })
         setItem([...items]) 
+       
+        //Check Submit
+        if(suppliersId === "" ) {
+          setBtnCheckSubmit(true);
+        } else {
+          setBtnCheckSubmit(false);
+        }
+
     }
     // End Supplies
 
@@ -150,6 +185,14 @@ export default function PurchaseRawMaterial({
           }
         })
         setItem([...items]) 
+                
+        //Check Submit
+        if(newQty === 0 || isNaN(newQty) ) {
+          setBtnCheckSubmit(true);
+        } else {
+          setBtnCheckSubmit(false);
+        }
+
     }
 
     const setUpdateUnitPrice = (unitPrice,key) => {
@@ -160,14 +203,20 @@ export default function PurchaseRawMaterial({
           }
         })
         setItem([...items]) 
+
+        //Check Submit
+        if(unitPrice < 0.01 || isNaN(unitPrice) ) {
+          setBtnCheckSubmit(true);
+        } else {
+          setBtnCheckSubmit(false);
+        }
     }
 
-   
-    // End List Purchase 
+    // End List Purchase =========================================================================================
 
     const SalesAdd = Yup.object().shape({        
         purchaseDate: Yup.date(),
-        priority: Yup.string(),
+        priority: Yup.string().required("priority is required!"),
         remark: Yup.string(),
     });
     
@@ -189,6 +238,7 @@ export default function PurchaseRawMaterial({
               productsItems: item,
               remark: values?.remark,
           }
+
           console.log(newValue)
           createPurchaseRawMaterial({
               variables: {
@@ -211,7 +261,7 @@ export default function PurchaseRawMaterial({
 
             <Stack direction="row" spacing={5}>
               <Typography className="header-title" variant="h6">
-                Create Purchase Raw Material
+                Purchase Raw Material
               </Typography>
               <Box sx={{ flexGrow: 1 }}></Box>
               <IconButton onClick={() => handleClose()}>
@@ -235,12 +285,27 @@ export default function PurchaseRawMaterial({
                   <FormControl fullWidth size="small" >
                     <Select                   
                       {...getFieldProps("priority")}
-                      error={Boolean(touched.priority && errors.priority)}
+                      error={ Boolean(touched.priority && errors.priority)}
                       helperText={touched.priority && errors.priority}
                     >                    
-                      <MenuItem value="urgent">urgent</MenuItem>
-                      <MenuItem value="medium">medium</MenuItem>
-                      <MenuItem value="low">low</MenuItem>
+                      <MenuItem value="urgent">
+                          <Stack direction="row" spacing={1}>
+                              <NotificationsActiveIcon sx={{color:"red", width:"17px"}} />
+                              <Typography>Urgent</Typography>
+                          </Stack>
+                      </MenuItem>
+                      <MenuItem value="medium">
+                          <Stack direction="row" spacing={1}>
+                              <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />
+                              <Typography>Medium</Typography>
+                          </Stack>
+                      </MenuItem>
+                      <MenuItem value="low">
+                          <Stack direction="row" spacing={1}>
+                              <ArrowDownwardIcon sx={{color:"blue", width:"17px"}} />
+                              <Typography>Low</Typography>
+                          </Stack>
+                      </MenuItem>
                     </Select>
                   </FormControl>
               </Box>
@@ -323,9 +388,20 @@ export default function PurchaseRawMaterial({
                 helperText={touched.remark && errors.remark}
               />
             </Stack>
-            <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-              <Button sx={{boxShadow: "none"}} variant="contained" type='submit'>{btnTitle}</Button>
-            </Stack>
+
+            {
+                btnCheckSubmit ?
+
+                    <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                      <Button sx={{boxShadow: "none"}} variant="contained" >{btnTitle}</Button>
+                    </Stack>
+                :
+                    <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                      <Button sx={{boxShadow: "none"}} variant="contained" type='submit'>{btnTitle}</Button>
+                    </Stack>                    
+            }
+            
+            
           </Box>
         </Form>
       </FormikProvider>

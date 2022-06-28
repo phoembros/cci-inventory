@@ -70,52 +70,64 @@ export const GET_PRODUCT_UNIT =  gql`
 `
 
 export const GET_PRODUCT_WITH_PAGINATION = gql`
-  query GetProductPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean) {
-      getProductPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination) {
-        products {
+query GetProductPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean) {
+  getProductPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination) {
+    products {
+      _id
+      productName
+      productId
+      category {
+        _id
+        categoryName
+        remark
+        updatedAt
+        createdAt
+      }
+      unit
+      unitPrice
+      durationProduce
+      totalStockAmount
+      totalSoldAmount
+      ingredients {
+        rawName
+        rawMaterialId {
           _id
-          productName
+          materialName
           category {
             _id
             categoryName
             remark
-            updatedAt
-            createdAt
           }
-          unit
-          unitPrice
-          durationProduce
           totalStockAmount
           usedStockAmount
-          ingredients {
-            rawMaterialId {
-              _id
-              materialName
-              unit
-              unitPrice
-            }
-            amount
-            unitRawMaterial
-            key
-          }
+          unit
+          unitPrice
           remark
           updatedAt
           createdAt
         }
-        paginator {
-          slNo
-          prev
-          next
-          perPage
-          totalPosts
-          totalPages
-          currentPage
-          hasPrevPage
-          hasNextPage
-          totalDocs
-        }
+        amount
+        key
+        unitRawMaterial
       }
+      remark
+      updatedAt
+      createdAt
     }
+    paginator {
+      slNo
+      prev
+      next
+      perPage
+      totalPosts
+      totalPages
+      currentPage
+      hasPrevPage
+      hasNextPage
+      totalDocs
+    }
+  }
+}
 `
 
 export const UPDATE_PRODUCT = gql`
@@ -141,6 +153,7 @@ export const GET_PRODUCT_BYID = gql`
     getProductById(ProductId: $productId) {
       _id
       productName
+      productId
       category {
         _id
         categoryName
@@ -152,7 +165,7 @@ export const GET_PRODUCT_BYID = gql`
       unitPrice
       durationProduce
       totalStockAmount
-      usedStockAmount
+      totalSoldAmount
       ingredients {
         rawName
         rawMaterialId {

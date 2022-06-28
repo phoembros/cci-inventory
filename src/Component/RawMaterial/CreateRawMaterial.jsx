@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './createrawmaterial.scss';
-import { FormControl, Icon, IconButton, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Autocomplete} from '@mui/material';
+import { FormControl, Icon, IconButton, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Autocomplete, FormHelperText} from '@mui/material';
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import * as Yup from "yup";
@@ -30,11 +30,10 @@ export default function CreateRawMaterials({
         setUnitRawMaterial(getRawMaterialsUnits)
     }
   });
+
   // 
   const [categoryMaterail, setCategoryMaterail] = React.useState([]);
-  const [selected, setSelected] = React.useState({});
-  
-  
+   
   const [valueTest,setValueTest] = React.useState({
     label: DataRow?.category?.categoryName,
     _id: DataRow?.category?._id, 
@@ -83,8 +82,6 @@ export default function CreateRawMaterials({
 
   const [updateRawMaterial] = useMutation(UPDATE_RAW_MATERAIL,{
       onCompleted:({updateRawMaterial}) =>{
-
-        console.log(updateRawMaterial , " testt")
         if (updateRawMaterial?.success) {
           setCheckMessage("success");
           setMessage(updateRawMaterial?.message);
@@ -98,7 +95,7 @@ export default function CreateRawMaterials({
         }
       },
       onError: (error) => {
-        console.log(error.message, "err");
+        // console.log(error.message, "err");
         setCheckMessage("error");
         setMessage(error.message);
       },
@@ -107,10 +104,11 @@ export default function CreateRawMaterials({
 
   // Formik
   const CreateCategory = Yup.object().shape({
-    materialName: Yup.string().required("categoryName is required!"),
+    materialName: Yup.string().required("Material Name is required!"),
     remark: Yup.string(),
-    unitPrice: Yup.number(),
-    unit: Yup.string(),    
+    unitPrice: Yup.number().min(0.01 , "Cant under zero!").required("is required"),
+    unit: Yup.string().required("is required!"),   
+    categoryId: Yup.string().required("Category is required!"),
   });
 
   const formik = useFormik({
@@ -119,7 +117,7 @@ export default function CreateRawMaterials({
       remark:  DataRow?.remark,
       unitPrice: DataRow?.unitPrice,
       unit: DataRow?.unit,  
-
+      categoryId: DataRow?.category?._id,
     },
 
     validationSchema: CreateCategory,
@@ -130,7 +128,7 @@ export default function CreateRawMaterials({
           variables: {
             newRawMaterial: {
               materialName: values?.materialName,
-              category: selected?._id,
+              category: values?.categoryId,
               totalStockAmount: 0,
               usedStockAmount: 0,
               unit: values?.unit,
@@ -147,7 +145,7 @@ export default function CreateRawMaterials({
                 id: DataRow?._id,
                 rawMaterialEdit: {
                   materialName: values?.materialName,
-                  category: selected?._id,
+                  category: values?.categoryId,
                   totalStockAmount: 0,
                   usedStockAmount: 0,
                   unit: values?.unit,
@@ -182,24 +180,37 @@ export default function CreateRawMaterials({
             <Box sx={{ width: "45%" }}>
               {
                 checkStatus === "create" ?
-                  <Autocomplete
-                      id="combo-box-demo"
+                  <Autocomplete                      
                       disablePortal
                       sx={{ width: 300 }}
                       options={categoryMaterail}                                                
-                      onChange={(event, value) => setSelected(value)}
-                      renderInput={(params) => <TextField {...params}  placeholder='category' size="small" /> }
+                      onChange={(event, value) =>  setFieldValue("categoryId" , value?._id) }
+                      renderInput={(params) => 
+                          <TextField 
+                              {...params} placeholder='category' size="small" 
+                              error={Boolean(touched.categoryId && errors.categoryId)}
+                              helperText={touched.categoryId && errors.categoryId}
+                          /> 
+                      }
                   /> 
                 :
-                  <Autocomplete
-                      id="combo-box-demo"
+                  <Autocomplete                      
                       disablePortal
                       sx={{ width: 300 }}
                       options={categoryMaterail}                
                       value={valueTest}
                       getOptionSelected={(option, value) => option._id === value._id }               
-                      onChange={(event, value) => {setValueTest(value);setSelected(value)}}
-                      renderInput={(params) => <TextField {...params}  placeholder='category' size="small" /> }
+                      onChange={(event, value) => {
+                          setValueTest(value);
+                          setFieldValue("categoryId" , value?._id)
+                      }}
+                      renderInput={(params) => 
+                          <TextField 
+                              {...params}  placeholder='category' size="small" 
+                              error={Boolean(touched.categoryId && errors.categoryId)}
+                              helperText={touched.categoryId && errors.categoryId}
+                          /> 
+                      }
                   /> 
               }
               
@@ -253,11 +264,14 @@ export default function CreateRawMaterials({
                     >
                       <TextField
                         size="small"
-                        fullWidth
-                        placeholder='unitPrice'
+                        type="number"
+                        fullWidth                        
                         {...getFieldProps("unitPrice")}
                         error={Boolean(touched.unitPrice && errors.unitPrice)}
-                        helperText={touched.unitPrice && errors.unitPrice}
+                        helperText={touched.unitPrice && errors.unitPrice}                      
+                        InputProps={{                                 
+                          inputProps: { min: 1 },
+                        }}
                       />
                     </TableCell>
 
@@ -268,10 +282,10 @@ export default function CreateRawMaterials({
                       align="center"
                     >
                       <FormControl fullWidth size="small">
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"                          
-                          {...getFieldProps("unit")}
+                        <Select  
+                          {...getFieldProps("unit")}    
+                          error={Boolean(touched.unit && errors.unit)}
+                          helperText={touched.unit && errors.unit}
                         >
                           {
                             unitRawMaterial.map( (item) => (
@@ -281,6 +295,13 @@ export default function CreateRawMaterials({
                         
                         </Select>
                       </FormControl>
+
+                      {!!errors.unit && (
+                          <FormHelperText error id="outlined-adornment-email">
+                              {errors.unit}
+                          </FormHelperText>
+                      )} 
+
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -295,6 +316,7 @@ export default function CreateRawMaterials({
               rows={3}
               size="small"
               fullWidth
+              type="text"
               placeholder="remark"
               {...getFieldProps("remark")}
               error={Boolean(touched.remark && errors.remark)}

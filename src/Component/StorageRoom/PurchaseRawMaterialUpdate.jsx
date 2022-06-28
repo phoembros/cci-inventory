@@ -29,7 +29,7 @@ export default function PurchaseRawMaterialUpdate({
   // Update
   const [updatePurchaseRawMaterial] = useMutation(UPDATE_PURCHASE_RAW_MATERIAL,{
     onCompleted: ({updatePurchaseRawMaterial}) => {
-      console.log(updatePurchaseRawMaterial?.message, "message");
+      // console.log(updatePurchaseRawMaterial?.message, "message");
       if(updatePurchaseRawMaterial?.success){
         setCheckMessage('success')
         setMessage(updatePurchaseRawMaterial?.message);
@@ -37,9 +37,9 @@ export default function PurchaseRawMaterialUpdate({
         handleClose();
         setRefetch();
       } else {
-        setCheckMessage('error')
+        setCheckMessage('error')        
+        setMessage("Material & Supplier invalid value!");
         setAlert(true)
-        setMessage("Invalit Input!");
       }
     },
     onError: (error) => {     
@@ -49,6 +49,9 @@ export default function PurchaseRawMaterialUpdate({
     },
   });
        
+
+  const [btnCheckSubmit,setBtnCheckSubmit] = React.useState(false);
+
   //get Storage Room ID by Url 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -140,6 +143,13 @@ export default function PurchaseRawMaterialUpdate({
           }
         })
         setItem([...items]) 
+
+        //Check Submit
+        if(rawName === undefined) {
+            setBtnCheckSubmit(true);
+        } else {
+            setBtnCheckSubmit(false);
+        }
     }
     // ENd Raw
 
@@ -153,6 +163,13 @@ export default function PurchaseRawMaterialUpdate({
           }
         })
         setItem([...items]) 
+
+        //Check Submit
+        if(suppliersName === undefined) {
+          setBtnCheckSubmit(true);
+        } else {
+          setBtnCheckSubmit(false);
+        }
     }
 
     const setUpdateSuppliesId = (suppliersId,key) => {
@@ -163,6 +180,14 @@ export default function PurchaseRawMaterialUpdate({
           }
         })
         setItem([...items]) 
+
+        //Check Submit
+        if(suppliersId ===  undefined) {
+          setBtnCheckSubmit(true);
+        } else {
+          setBtnCheckSubmit(false);
+        }
+
     }
     // End Supplies
 
@@ -175,6 +200,13 @@ export default function PurchaseRawMaterialUpdate({
           }
         })
         setItem([...items]) 
+
+        //Check Submit
+        if(newQty === 0 || isNaN(newQty) ) {
+          setBtnCheckSubmit(true);
+        } else {
+          setBtnCheckSubmit(false);
+        }
     }
 
     const setUpdateUnitPrice = (unitPrice,key) => {
@@ -185,6 +217,13 @@ export default function PurchaseRawMaterialUpdate({
           }
         })
         setItem([...items]) 
+
+        //Check Submit
+        if(unitPrice < 0.01 || isNaN(unitPrice) ) {
+          setBtnCheckSubmit(true);
+        } else {
+          setBtnCheckSubmit(false);
+        }
     }   
     // End List Purchase =======================================================================================
     
@@ -351,9 +390,20 @@ export default function PurchaseRawMaterialUpdate({
                 helperText={touched.remark && errors.remark}
               />
             </Stack>
-            <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-              <Button sx={{boxShadow: "none"}} variant="contained" type='submit'>{btnTitle}</Button>
-            </Stack>
+
+            {
+                btnCheckSubmit ?
+
+                    <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                      <Button sx={{boxShadow: "none"}} variant="contained" >{btnTitle}</Button>
+                    </Stack>
+                :
+                    <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                      <Button sx={{boxShadow: "none"}} variant="contained" type='submit'>{btnTitle}</Button>
+                    </Stack>                    
+            }
+
+
           </Box>
         </Form>
       </FormikProvider>

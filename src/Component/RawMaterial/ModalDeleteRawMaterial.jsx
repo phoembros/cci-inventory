@@ -23,6 +23,10 @@ export default function ModalDeleteRawMaterial({
             setAlert(true)
             handleClose();
             setRefetch()
+          } else {
+            setCheckMessage('error')
+            setMessage(deleteRawMaterial?.message)
+            setAlert(true)
           }
         }, 
         onError:(error) =>{

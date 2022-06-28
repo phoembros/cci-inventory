@@ -28,18 +28,8 @@ import { UPDATE_PRODUCTION } from '../../Schema/production';
 // getuser Login
 import { GET_USER_LOGIN } from '../../Schema/user';
 import { GET_STORAGE_ROOM_PRODUCT } from '../../Schema/starageroom';
-
-
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-  
-const rows = [
-    createData('Frozen yoghurt',24,"Cosmetic" ,  4.0),
-    createData('Ice cream sandwich',37,"Cosmetic",   4.3),
-    createData('Eclair',24,"Cosmetic" ,  6.0),
-    createData('Cupcake',67,"Cosmetic" ,  4.3),    
-];
+import { GET_CUSTOMER_PAGINATION } from "../../Schema/sales";
+import { colorChannel } from '@mui/system';
 
 
 export default function UpdateProduction({
@@ -103,15 +93,15 @@ export default function UpdateProduction({
             setProduct(rows);
         }
     },[dataProduct?.getProductPagination?.products])    
-    // End Get Product
+    
 
     // Product Selected
     const  [productSelected,setProductSelected] = React.useState({
         label: editDataProduction?.production?.productName,
         qtyOnHand: editDataProduction?.production?.qtyOnHand,
         _id: editDataProduction?.production?.productId?._id,
-    })
-    // End Product Selected
+    })    
+
 
     // get Product Infor by ID  
     const [productById,setProductById] = React.useState({})
@@ -158,18 +148,44 @@ export default function UpdateProduction({
     // End Get Storage Room
 
     // StorageRoom Selected
-    const [storageRoomSelected,setStorageRoomSelected] = React.useState(null)
-
-    React.useEffect(()=>{
-        console.log(editDataProduction)
-        if(editDataProduction){
-            setStorageRoomSelected({
-                label: storageRoomDataSelected?.name,
-                _id: storageRoomDataSelected?._id,
-            })
-        }        
-    },[editDataProduction])
+    const [storageRoomSelected,setStorageRoomSelected] = React.useState({
+        label: storageRoomDataSelected?.name,
+        _id: storageRoomDataSelected?._id,
+    })
     // End Storage Room
+
+   
+    // Get Customer Data
+    const [customerId,setCustomerId] = React.useState(null);
+    const [customer,setCustomer] = React.useState([]);
+    const { data: dataCustomer } = useQuery(GET_CUSTOMER_PAGINATION , {
+        variables: {
+            keyword: "",
+            pagination: false,
+        },        
+    })
+
+    React.useEffect( () => {
+        if(dataCustomer?.getCustomerPagination?.customers){            
+            let rows = [];
+            dataCustomer?.getCustomerPagination?.customers?.forEach((element) => {
+                const allrow = {
+                    label: element?.name,
+                    _id: element?._id,
+                };
+                rows.push(allrow);
+            });
+            setCustomer(rows);
+        }
+    },[dataCustomer?.getCustomerPagination?.customers]) 
+
+     // Customer Data Selected
+     const [customerSelected,setCustomerSelected] = React.useState({
+            label: editDataProduction?.customerId?.name,
+            _id: editDataProduction?.customerId?._id,
+        })
+     // End Storage Room
+
        
     // Formik
     const createProduction = Yup.object().shape({        
@@ -177,7 +193,7 @@ export default function UpdateProduction({
         startDate: Yup.date(),
         dueDate: Yup.date(),
         priority: Yup.string(),
-        qty: Yup.number(),
+        qty: Yup.number().min(1 , "Can't under 1"),
         productName: Yup.string(),
         productId: Yup.string(),
         qtyOnHand: Yup.number(),
@@ -210,6 +226,8 @@ export default function UpdateProduction({
                 startDate: values?.startDate,
                 dueDate: values?.dueDate,
                 productionsBy: userId,
+                customerId: customerId,
+                workOrders: customerId !== null ? true : false,
                 // approveBy: "",
                 status: "pending",
                 progress: "not started",
@@ -261,29 +279,65 @@ export default function UpdateProduction({
                     </Typography>           
                 </Stack>
             
-                <Box sx={{width:"35%"}}>
-                    <Autocomplete
-                        disablePortal
-                        id="combo-demo"
-                        value={storageRoomSelected}
-                        options={storageRoom}         
-                        getOptionSelected={(option, value) => option._id === value._id } 
-                        getOptionLabel={(option) => (option ? option.label : "")}               
-                        onChange={(e, value) => {
-                            setFieldValue( "storageRoomId" , value?._id );
-                            setStorageRoomSelected(value);
-                        }}
-                        renderInput={(params) => 
-                            <TextField 
-                                {...params} 
-                                size="small" 
-                                label="Storage Room" 
-                                error={Boolean(touched.storageRoomId && errors.storageRoomId)}
-                                helperText={touched.storageRoomId && errors.storageRoomId}
-                            />
-                        }
-                    />                    
-                </Box>
+                <Stack direction="row" spacing={2} sx={{mb:1}}>
+                    <Box sx={{width:"35%"}}>
+                        <Autocomplete
+                            disablePortal                           
+                            value={storageRoomSelected}
+                            options={storageRoom}         
+                            getOptionSelected={(option, value) => option._id === value._id } 
+                            getOptionLabel={(option) => (option ? option.label : "")}               
+                            onChange={(e, value) => {
+                                setFieldValue( "storageRoomId" , value?._id );
+                                setStorageRoomSelected(value);
+                            }}
+                            renderInput={(params) => 
+                                <TextField 
+                                    {...params} 
+                                    size="small" 
+                                    label="Storage Room" 
+                                    error={Boolean(touched.storageRoomId && errors.storageRoomId)}
+                                    helperText={touched.storageRoomId && errors.storageRoomId}
+                                />
+                            }
+                        />                    
+                    </Box>
+
+                    <Box sx={{flexGrow:1}}/>
+
+                    {
+                       editDataProduction?.workOrders ? 
+                            <Box sx={{width:"35%"}}>
+                                <Autocomplete
+                                    disablePortal                           
+                                    value={customerSelected}
+                                    options={customer}      
+                                    getOptionSelected={ (option , value) => option._id === value._id } 
+                                    getOptionLabel={(option) => (option ? option.label : "")}                 
+                                    onChange={(e, value) => {
+                                        setCustomerId(value?._id)
+                                        setCustomerSelected(value);
+                                    }}
+                                    renderInput={(params) => 
+                                        <TextField   {...params}  size="small"  label="Customer" />
+                                    }
+                                />                    
+                            </Box>
+                       :
+                            <Box sx={{width:"35%"}}>
+                                <Autocomplete
+                                    disablePortal
+                                    id="combo-box-demo"
+                                    options={customer}                        
+                                    onChange={(e, value) => setCustomerId(value?._id)}
+                                    renderInput={(params) => 
+                                        <TextField   {...params}  size="small"  label="Customer" />
+                                    }
+                                />                     
+                            </Box>
+                    }
+                    
+                </Stack>
                                 
                 <Box className="container">
                     <TableContainer >
@@ -321,11 +375,15 @@ export default function UpdateProduction({
                                     <TableCell className="body-title"></TableCell>
                                     <TableCell className="body-title" component="th" align='center' width="15%" >
                                         <TextField 
+                                            type="number"
                                             size='small' 
                                             fullWidth
                                             {...getFieldProps("qty")}
                                             error={Boolean(touched.qty && errors.qty)}
                                             helperText={touched.qty && errors.qty}
+                                            InputProps={{                                 
+                                                inputProps: { min: 1 },
+                                            }}
                                         />
                                     </TableCell>
                                     <TableCell className="body-title"></TableCell>
@@ -368,7 +426,7 @@ export default function UpdateProduction({
                         <Table className="table-buttom" aria-label="simple table">
                             <TableHead >
                                 <TableRow className="header-row">
-                                    <TableCell className="header-title">Progress</TableCell>                            
+                                    {/* <TableCell className="header-title">Progress</TableCell>                             */}
                                     <TableCell className="header-title">Prirority</TableCell>  
                                     <TableCell className="header-title">Start Date</TableCell>  
                                     <TableCell className="header-title">Due Date</TableCell>                                                    
@@ -376,7 +434,7 @@ export default function UpdateProduction({
                             </TableHead>                    
                             <TableBody component={Paper} className="body" >                        
                                 <TableRow  className="body-row">
-                                    <TableCell className="body-title" component="th" scope="row" width="25%" >
+                                    {/* <TableCell className="body-title" component="th" scope="row" width="25%" >
                                         <FormControl fullWidth size="small" >                                    
                                             <Select                                                        
                                                 {...getFieldProps("progress")}
@@ -389,7 +447,7 @@ export default function UpdateProduction({
                                                         <Typography>Not started</Typography>
                                                     </Stack>
                                                 </MenuItem>                                                
-                                                {/* <MenuItem value="in progress">
+                                                <MenuItem value="in progress">
                                                     <Stack direction="row" spacing={1}>
                                                         <WifiProtectedSetupIcon sx={{color:"green", width:"17px"}} />
                                                         <Typography>In Progress</Typography>
@@ -400,10 +458,10 @@ export default function UpdateProduction({
                                                         <CheckCircleIcon sx={{color:"#0969A0", width:"17px"}} />
                                                         <Typography>Completed</Typography>
                                                     </Stack>
-                                                </MenuItem>                                         */}
+                                                </MenuItem>                                        
                                             </Select>
                                         </FormControl>
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell className="body-title" component="th" align='center' width="25%" >
                                         <FormControl fullWidth size="small">                                    
                                             <Select                                              
@@ -417,12 +475,12 @@ export default function UpdateProduction({
                                                         <Typography>Urgent</Typography>
                                                     </Stack>
                                                 </MenuItem>
-                                                <MenuItem value="important">
+                                                {/* <MenuItem value="important">
                                                     <Stack direction="row" spacing={1}>
                                                         <PriorityHighIcon sx={{color:"red", width:"17px"}} />
                                                         <Typography>Important</Typography>
                                                     </Stack>                                            
-                                                </MenuItem>
+                                                </MenuItem> */}
                                                 <MenuItem value="medium">
                                                     <Stack direction="row" spacing={1}>
                                                         <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />

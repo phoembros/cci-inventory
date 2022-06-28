@@ -27,6 +27,11 @@ import { useMutation } from "@apollo/client";
 import * as Yup from "yup";
 import { useFormik, Form, FormikProvider } from "formik";
 
+// check Expire
+import { auth } from "../../firebase";
+import {  getAuth ,signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+
 export default function ModalCreateStorageRoom({
   handleClose,
   btnTitle,
@@ -38,6 +43,8 @@ export default function ModalCreateStorageRoom({
   setRefetch,
 }) {
 
+  const navigate = useNavigate();
+
   const [createStorageRoom] = useMutation(CREATE_STORAGE_ROOM,{
     onCompleted: ({createStorageRoom}) => {
       // console.log(createStorageRoom?.message, "message");
@@ -47,13 +54,31 @@ export default function ModalCreateStorageRoom({
         setAlert(true)
         handleClose()
         setRefetch();
+      } else {
+        setCheckMessage('error')
+        setMessage(createStorageRoom?.message)
+        setAlert(true)
+
+        // token-expired
+        setTimeout( () => {          
+          if(createStorageRoom?.message === "token-expired") {
+              signOut(auth).then( () => {                 
+                  navigate("/login")
+              }).catch( (error) => {                
+                  console.log(error)
+              });
+          }
+        },1000)
+        // End
+        
       }
     },
     onError: (error) => {
       // console.log(error.message);
       setAlert(true)
       setCheckMessage('error')
-      setMessage(error?.message)
+      setMessage(error?.message);
+      console.log(error?.code)
     },
   });
 
@@ -140,26 +165,54 @@ export default function ModalCreateStorageRoom({
             </IconButton>
           </Stack>
 
-          <Stack direction="row" spacing={5} width="100%">
-            <Box sx={{ width: "45%" }}>
-              <FormControl fullWidth size="small">
-                <InputLabel>Room Type</InputLabel>
-                <Select
-                    label="Room Type"                   
-                    {...getFieldProps("type")}
-                    error={Boolean(touched.type && errors.type)}
-                    helperText={touched.type && errors.type}
-                  >
-                  <MenuItem value="Raw Materials">
-                    <Typography>Raw Materials</Typography>
-                  </MenuItem>
-                  <MenuItem value="Products">
-                    <Typography>Products</Typography>
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </Stack>
+        {
+          checkStatus === 'update' ?
+
+            <Stack direction="row" spacing={5} width="100%">
+              <Box sx={{ width: "45%" }}>
+                <FormControl fullWidth size="small" disabled>
+                  <InputLabel>Room Type</InputLabel>
+                  <Select                      
+                      label="Room Type"                   
+                      {...getFieldProps("type")}
+                      error={Boolean(touched.type && errors.type)}
+                      helperText={touched.type && errors.type}
+                    >
+                    <MenuItem value="Raw Materials">
+                      <Typography>Raw Materials</Typography>
+                    </MenuItem>
+                    <MenuItem value="Products">
+                      <Typography>Products</Typography>
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            </Stack>
+
+          :
+
+            <Stack direction="row" spacing={5} width="100%">
+              <Box sx={{ width: "45%" }}>
+                <FormControl fullWidth size="small">
+                  <InputLabel>Room Type</InputLabel>
+                  <Select
+                      label="Room Type"                   
+                      {...getFieldProps("type")}
+                      error={Boolean(touched.type && errors.type)}
+                      helperText={touched.type && errors.type}
+                    >
+                    <MenuItem value="Raw Materials">
+                      <Typography>Raw Materials</Typography>
+                    </MenuItem>
+                    <MenuItem value="Products">
+                      <Typography>Products</Typography>
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            </Stack>
+        }
+          
 
           <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
             <Typography className="header-title">Room Name</Typography>

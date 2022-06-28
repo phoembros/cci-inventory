@@ -5,7 +5,7 @@ import './modalcheckpurchase.scss';
 import { UPDATE_PRODUCTION } from "../../Schema/production"
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_USER_LOGIN } from '../../Schema/user';
-import { UPDATE_PURCHASE_RAW_MATERIAL } from "../../Schema/rawmaterial";
+import { COMPLETE_PURCHASE } from "../../Schema/rawmaterial";
 
 export default function ModalCheckPurchase({
     handleClose,
@@ -22,12 +22,12 @@ export default function ModalCheckPurchase({
      // End Get User ID
 
     // Update
-    const [updatePurchaseRawMaterial] = useMutation(UPDATE_PURCHASE_RAW_MATERIAL,{
-        onCompleted: ({updatePurchaseRawMaterial}) => {
-            // console.log(updatePurchaseRawMaterial?.message, "message");
-            if(updatePurchaseRawMaterial?.success){
+    const [completePurchaseRawMaterial] = useMutation(COMPLETE_PURCHASE,{
+        onCompleted: ({completePurchaseRawMaterial}) => {
+            // console.log(completePurchaseRawMaterial?.message, "message");
+            if(completePurchaseRawMaterial?.success){
                 setCheckMessage('success')
-                setMessage(updatePurchaseRawMaterial?.message);
+                setMessage(completePurchaseRawMaterial?.message);
                 setAlert(true);
                 handleClose();
                 setRefetch();
@@ -44,12 +44,12 @@ export default function ModalCheckPurchase({
     const [qualityChecks,setQualityCheck] = React.useState("completed");
 
     const handleUpdateStatus = (e) => {
-        updatePurchaseRawMaterial({
+        completePurchaseRawMaterial({
             variables: {
                 id: editData?._id,
-                purchaseRawMaterialEdit: {
+                completedInput: {
                     status: "completed",
-                    approveBy: userId,
+                    completedBy: userId,
                 }
             }
         })

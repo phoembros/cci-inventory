@@ -2,15 +2,17 @@ import { Box, Button, Modal, Stack, Typography } from "@mui/material";
 import * as React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import "./user.scss";
+
 //component
 import TableUser from "../Component/User/TableUser";
 import ModalUserAdd from "../Component/User/ModalUserAdd";
+
 // Aleret Message
 import AlertMessage from "../Component/AlertMessage/AlertMessage";
 
 export default function User() {
 
-  const [loading,setLoading] = React.useState(false);
+  const [loading,setLoading] = React.useState(true);
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -48,6 +50,8 @@ export default function User() {
             </Stack>
         </Stack>
 
+     
+
         <Box className="container">
             <TableUser  
                 loading={loading}
@@ -55,8 +59,11 @@ export default function User() {
                 setMessage={setMessage}
                 checkMessage={checkMessage} 
                 setCheckMessage={setCheckMessage}
+                setLoading={setLoading}
             />
         </Box>
+
+       
 
         <AlertMessage alert={alert} setAlert={setAlert} message={message} setMessage={setMessage} checkMessage={checkMessage} />
     </div>

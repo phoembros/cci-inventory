@@ -3,11 +3,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './createproduction.scss';
-import { FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip } from '@mui/material';
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 //icon progress
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
@@ -19,7 +20,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 // schema
 import { GET_PRODUCT_BYID } from "../../Schema/product";
-import { UPDATE_PRODUCTION } from "../../Schema/production"
+import { UPDATE_PRODUCTION , APPROVE_PRODUCTION } from "../../Schema/production"
 import { useQuery, useMutation } from "@apollo/client"
 import { GET_USER_LOGIN } from '../../Schema/user';
 import moment from "moment"
@@ -54,18 +55,18 @@ export default function ViewProduction({
     console.log(ViewData, 'row')
 
     // Update Status Production
-    const [updateProductions] = useMutation(UPDATE_PRODUCTION , {
-        onCompleted: ({updateProductions}) => {          
-            if(updateProductions?.success){
+    const [approveProductions] = useMutation(APPROVE_PRODUCTION , {
+        onCompleted: ({approveProductions}) => {          
+            if(approveProductions?.success){
                 setCheckMessage("success")
-                setMessage(updateProductions?.message)
+                setMessage(approveProductions?.message)
                 setAlert(true);
                 handleClose();
                 setRefetch();
             } else {
                 setCheckMessage("error")
                 setAlert(true);
-                setMessage(updateProductions?.message)                
+                setMessage(approveProductions?.message)                
             }
         },
         onError: (error) => {            
@@ -79,13 +80,12 @@ export default function ViewProduction({
     const [comment,setComment] = React.useState("");
     const handleUpdateStatus = (e) => {
        
-        updateProductions({
+        approveProductions({
             variables: {
                 id: ViewData?._id,
-                productionsEdit: {
+                approveInput: {
                     status: e?.status,
-                    approveOrRejectBy: userId,
-                    progress: e?.progress,
+                    approveOrRejectBy: userId,                   
                     comment: comment,
                 }
             }
@@ -94,10 +94,22 @@ export default function ViewProduction({
 
   return (    
     <Box className='production-create'>
-        <Stack direction="row" spacing={5}>           
-            <Typography className='header-title' variant="h6" >
-                Production ID: {moment(ViewData?.createdAt).format("YYMM")}-{ViewData?.productionsId.padStart(2, '0')}
-            </Typography>            
+        <Stack direction="row" spacing={2}>    
+            <Stack direction="column" justifyContent="center">
+                <Typography className='header-title' variant="h6" >
+                    Production ID: {moment(ViewData?.createdAt).format("YYMM")}-{ViewData?.productionsId.padStart(2, '0')}
+                </Typography>    
+            </Stack>     
+            {
+                ViewData?.warning ?                                               
+                    <Tooltip title={`${ViewData?.remarkWarning}`}>
+                        <IconButton>
+                            <WarningAmberIcon sx={{color:"orange"}}/>
+                        </IconButton>
+                    </Tooltip>                                                       
+                :
+                    null
+            }   
             <Box sx={{flexGrow:1}}></Box>
             <IconButton onClick={() => handleClose()}>
                 <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
@@ -111,10 +123,6 @@ export default function ViewProduction({
                 Storage Room: {ViewData?.storageRoomId?.name}
             </Typography>
 
-            {/* <Typography variant='body2'>
-                Last Update By:
-            </Typography> */}
-
             {
                 ViewData?.qualityCheck ?
                     <Typography variant='body2' sx={{color:"red"}}>
@@ -124,6 +132,14 @@ export default function ViewProduction({
                     null
             }
             
+            {
+                ViewData?.workOrders ?
+                    <Typography variant='body2'>
+                        WorkOrder For: {ViewData?.customerId?.name}
+                    </Typography>
+                :
+                    null
+            }
         </Stack> 
 
         
@@ -196,7 +212,7 @@ export default function ViewProduction({
                 <Table className="table-buttom" aria-label="simple table">
                     <TableHead >
                         <TableRow className="header-row">
-                            <TableCell className="header-title">Progress</TableCell>                            
+                            {/* <TableCell className="header-title">Progress</TableCell>                             */}
                             <TableCell className="header-title">Prirority</TableCell>  
                             <TableCell className="header-title">Start Date</TableCell>  
                             <TableCell className="header-title">Due Date</TableCell>                                                    
@@ -204,7 +220,7 @@ export default function ViewProduction({
                     </TableHead>                    
                     <TableBody component={Paper} className="body" >                        
                         <TableRow  className="body-row">
-                            <TableCell className="body-title" component="th" scope="row" width="25%" >
+                            {/* <TableCell className="body-title" component="th" scope="row" width="25%" >
                                 <FormControl fullWidth size="small" disabled>                                    
                                     <Select
                                         labelId="demo-simple-select-label"
@@ -231,7 +247,7 @@ export default function ViewProduction({
                                         </MenuItem>                                        
                                     </Select>
                                 </FormControl>
-                            </TableCell>
+                            </TableCell> */}
                             <TableCell className="body-title" component="th" align='center' width="25%" >
                                 <FormControl fullWidth size="small" disabled>                                    
                                     <Select

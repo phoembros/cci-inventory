@@ -1,4 +1,4 @@
-import {TextField , Pagination, Box, Button, IconButton, InputAdornment, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, MenuItem, FormControl, Select, Autocomplete } from "@mui/material";
+import {TextField , Pagination, Box, Button, IconButton, InputAdornment, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, MenuItem, FormControl, Select, Autocomplete, Tooltip } from "@mui/material";
 import * as React from "react";
 import './production.scss';
 import { withStyles } from '@material-ui/core/styles';
@@ -16,6 +16,9 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import moment from "moment";
+import CircularProgress from "@mui/material/CircularProgress";
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import Filter from "../Component/Production/Filter";
 
 //icon progress
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -28,11 +31,24 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { GET_PRODUCT_WITH_PAGINATION } from "../Schema/product";
+import { useLocation } from "react-router-dom";
 
 
 export default function Production() {
+    
+    const [loading,setLoading] = React.useState(true);
     //View details
-    const [ViewData, setViewData] = React.useState({})
+    const [ViewData, setViewData] = React.useState({});
+
+    //get Storage Room ID by Url 
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const [creates, setCreates] = React.useState(params.get("create"));
+    
+    React.useEffect( () => {
+        setCreates(params.get("create"));
+    }, [location.search]);
+    // End get Id Storage Room
 
     // Get Product
     const [productFilter,setProductFilter] = React.useState([])
@@ -44,8 +60,8 @@ export default function Production() {
     })
    
     React.useEffect( () => {
-        if(dataProductFilter?.getProductPagination?.products){
-            console.log(dataProductFilter?.getProductPagination?.products)
+        if(dataProductFilter?.getProductPagination?.products) {
+            // console.log(dataProductFilter?.getProductPagination?.products)
             let rows = []; 
             dataProductFilter?.getProductPagination?.products?.forEach((element) => {
                 const allrow = {
@@ -56,9 +72,7 @@ export default function Production() {
             });
             setProductFilter(rows)
         }
-    },[dataProductFilter?.getProductPagination?.products])
-    console.log(productFilter)
-
+    },[dataProductFilter?.getProductPagination?.products])    
     // End Get Product 
 
     // Alert Message
@@ -68,7 +82,16 @@ export default function Production() {
 
     const [openCreateProduction, setOpenCreateProduction] = React.useState(false);
     const handleOpenCreateProduction = () => setOpenCreateProduction(true);
-    const handleCloseCreateProduction = () => setOpenCreateProduction(false);
+    const handleCloseCreateProduction = () => {
+        setOpenCreateProduction(false);
+        window.history.replaceState(null, "", "/production")
+    }
+
+    React.useEffect( () => {
+        if(creates) {
+            handleOpenCreateProduction();
+        }
+    },[])
 
     const [openView,setOpenView] = React.useState(false);
     const handleOpenView = () => setOpenView(true);
@@ -89,12 +112,17 @@ export default function Production() {
             limit: limit,
             keyword: keyword,
             pagination: true,
+            status: "",
+            priority: "",
+            progress: "",
         },
         fetchPolicy:'cache-and-network',
-        onCompleted: ({getProductionsPagination}) => {
-            // console.log(getProductionsPagination)
+        onCompleted: ({getProductionsPagination}) => {          
+            console.log(getProductionsPagination?.productions)
             setProductionData(getProductionsPagination?.productions);
-        }
+            setLoading(false);
+        },
+
     })    
     // End Get Production
 
@@ -139,11 +167,15 @@ export default function Production() {
                                     <InputAdornment position="start">
                                         <SearchIcon />
                                     </InputAdornment>
-                                ),                               
+                                ),  
+                                endAdornment: (
+                                    <InputAdornment position="end">                                       
+                                        <Filter />
+                                    </InputAdornment>
+                                ),                              
                             }}
                         />
                     </Box>  
-
                     {/* button Create */}
                     <Button className="btn-add" onClick={handleOpenCreateProduction} startIcon={<AddIcon/>} >
                         <Typography className="btn-text">Create</Typography>
@@ -164,6 +196,15 @@ export default function Production() {
                 </Stack>
             </Stack>
 
+        {
+            loading ?
+
+            <Box  sx={{ display: "flex", flexDirection: "column", alignItems: "center" , mt:10}} >
+                <CircularProgress />
+            </Box>
+
+            :
+            <>
             <Box className="container">
                 <TableContainer >
                     <Table className="table" aria-label="simple table">
@@ -181,8 +222,32 @@ export default function Production() {
                         {productionData?.map((row , index) => (
                             <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" } >                        
                                 <TableRow  className="body-row">
-                                    <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" component="th" scope="row" width="10%" >{moment(row?.createdAt).format("YYMM")}-{row?.productionsId.padStart(2, '0')}</TableCell>
-                                    <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" component="th" scope="row" width="25%">{row?.production?.productName}</TableCell>
+                                    <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" component="th" scope="row" width="10%" >
+                                        {moment(row?.createdAt).format("YYMM")}-{row?.productionsId.padStart(2, '0')}
+                                    </TableCell>
+                                    <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" component="th" scope="row" width="25%">
+                                        <Stack direction="row" spacing={2}>
+                                            <Stack direction="column" justifyContent="center">
+                                                <Typography variant="body1">
+                                                    {row?.production?.productName}
+                                                </Typography>
+                                            </Stack>
+                                            
+                                            {
+                                                row?.warning ?                                                
+                                                    <Stack direction="column" justifyContent="center">
+                                                        <Tooltip title={`${row?.remarkWarning}`}>
+                                                            <IconButton>
+                                                                <WarningAmberIcon sx={{color:"orange"}}/>
+                                                            </IconButton>
+                                                        </Tooltip>                                                        
+                                                    </Stack>
+                                                :
+                                                    null
+                                            }
+                                            
+                                        </Stack>
+                                    </TableCell>
                                     <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" width="20%">
                                         {
                                             row?.progress === "not started" ?
@@ -297,8 +362,8 @@ export default function Production() {
                 <Stack direction='column' justifyContent='center'>
                     <Pagination 
                         page={pageShow}
-                        hideNextButton="true"
-                        hidePrevButton="true"
+                        hideNextButton={true}
+                        hidePrevButton={true}
                         variant="outlined"
                         color="primary"
                         count={data?.getProductionsPagination?.paginator?.totalPages}
@@ -310,6 +375,9 @@ export default function Production() {
                     <ArrowForwardIosIcon sx={{":hover" :{color:"#0969A0"}}}/>
                 </IconButton>
             </Stack>
+            </>
+        }
+
             <Modal open={openView}>
                 <ViewProduction 
                     handleClose={handleCloseView} 

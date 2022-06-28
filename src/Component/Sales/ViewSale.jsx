@@ -32,7 +32,7 @@ export default function ViewSale({handleCloseView, RowData}) {
         </Stack> 
         
 
-          <Box sx={{ width: "100%" }}>
+        <Box sx={{ width: "100%" }}>
             <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                 <Stack direction="column" justifyContent="center" >
                     <Typography className="type-field"> Bill To:  </Typography>
@@ -43,9 +43,18 @@ export default function ViewSale({handleCloseView, RowData}) {
                 <Stack direction="column" justifyContent="center">
                     <Typography className="type-field"> Date: </Typography>
                 </Stack>
-                  <Typography variant='body'> {formatDate}</Typography> 
-                 
-                
+                <Typography variant='body'> {formatDate}</Typography> 
+            </Stack>
+        </Box>
+
+        <Box sx={{ width: "100%" }}>
+            <Stack direction="row" spacing={2} sx={{ mt: 2 }}>                
+                  
+                <Box sx={{flexGrow:1}}></Box>
+                <Stack direction="column" justifyContent="center">
+                    <Typography className="type-field"> Tin: </Typography>
+                </Stack>
+                <Typography variant='body'> {RowData?.tin}</Typography> 
             </Stack>
         </Box>
 
@@ -75,7 +84,7 @@ export default function ViewSale({handleCloseView, RowData}) {
                     <TableCell className="body-title" component="th" scope="row">{row?.productId?.productName}</TableCell>
                     <TableCell className="body-title"  align="center" width="20%">{row?.qty}</TableCell>  
                     <TableCell className="body-title"  align="center" width="20%" >{row?.productId?.unitPrice}</TableCell>
-                    <TableCell className="body-title"  align="center" width="20%">{row?.amount}</TableCell> 
+                    <TableCell className="body-title"  align="center" width="20%">{row?.amount?.toFixed(2)}</TableCell> 
                     <TableCell className="body-title" ></TableCell>
                     <TableCell className="body-title" ></TableCell>                                                      
                 </TableRow>
@@ -111,7 +120,7 @@ export default function ViewSale({handleCloseView, RowData}) {
                             <Typography className="type-field"> Paid Amount : </Typography>
                         </Stack>
 
-                        <Typography variant='body'> {RowData?.paidAmount} $ </Typography>
+                        <Typography variant='body'> {RowData?.paidAmount?.toFixed(2)} $ </Typography>
                       
                   </Stack>
 
@@ -121,7 +130,7 @@ export default function ViewSale({handleCloseView, RowData}) {
                         <Stack direction="column" justifyContent="center">
                             <Typography className="type-field"> Total Amount : </Typography>
                         </Stack>
-                        <Typography variant='body'> {RowData?.totalAmount} $ </Typography>
+                        <Typography variant='body'> {RowData?.totalAmount?.toFixed(2)} $ </Typography>
                        
                   </Stack>
 

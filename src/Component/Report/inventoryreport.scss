@@ -1,0 +1,79 @@
+@import '../../themes.scss';
+
+.inventory-report-pages {
+
+   
+    
+    .btn {
+
+        .btn-text-field {
+            display: flex;
+            align-items: center;
+            width:300px;
+            background-color: #fff;
+            border-radius:10px;
+        }
+
+        .btn-add-style {
+            border-radius: 5px;
+            background-color: white;
+            text-transform: none;
+                       
+            .style-add {
+                color:  $primary-color;
+                font-size: $font-Size-Subtitle;
+                font-weight: bold;
+            }
+        }
+
+    }
+
+
+    .container {
+        margin-top: 20px;
+
+           
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0px 8px;
+            
+            .header{
+                box-shadow: none;    
+                background-color: $background-table-modal;
+
+                .header-row {     
+
+                    .cell-item {
+                        padding: 8px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+                        
+                        .text {
+                            color: $primary-color;
+                        }
+                    }
+                }
+            }
+
+            .body {
+                box-shadow: none;               
+                               
+                .body-row {       
+                    // background-color: #fff;        
+                    .cell-item {
+                        padding: 8px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;                        
+                        
+                    }
+                }
+            }
+
+                       
+
+        }
+    }
+
+    
+}

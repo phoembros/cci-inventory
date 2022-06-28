@@ -36,11 +36,14 @@ export default function ListRawMaterial(props) {
     },[data?.getRawMaterialPagination?.rawMaterial])
     // End Get Raw Materila
 
-    const items = props.items;
-    const listItems = items.map((item,index) => {
-      
-        // console.log(item ,"item",index)
+    // Handle Message Error TextField
+    const [errorMessage, setErrorMessage] = React.useState(["Can't input 0" , "Invalid Value" , "Material is required!"]);
+    const [touched, setTouched] = React.useState(false);
+    const handleTouch = () =>  setTouched(true);
 
+
+    const items = props.items;
+    const listItems = items.map((item,index) => {      
         return  <TableBody key={index}  component={Paper} className="body-list-material" >                        
                     <TableRow  className="body-row">                                
                         <TableCell className="body-title" component="th" scope="row" >
@@ -50,13 +53,21 @@ export default function ListRawMaterial(props) {
                                 id="combo-box-demo"
                                 value={{ label: item?.rawName , _id: item?.rawMaterialId }}
                                 options={rawMaterial}    
-                                getOptionSelected={(option, value) => option._id === value._id }      
+                                getOptionSelected={(option, value) => option._id === value._id }  
+                                getOptionLabel={ (option) => option?.label ? option?.label : " " }    
                                 onChange={(e, value) => {
                                     props.setUpdateText( value?._id , item.key )
                                     props.setUpdateRawName( value?.label , item.key)
                                     props.setUpdateUnitRawMaterial(value?.unit , item.key)
                                 }}
-                                renderInput={(params) => <TextField {...params} size="small" className='text-field' />}
+                                renderInput={(params) => 
+                                    <TextField 
+                                        {...params} size="small" className='text-field' 
+                                        onFocus={handleTouch}
+                                        error={ touched && item?.rawName === undefined }
+                                        helperText={ item?.rawName === undefined && errorMessage[2] }  
+                                    />
+                                }
                             />
 
                         </TableCell>
@@ -76,8 +87,11 @@ export default function ListRawMaterial(props) {
                                             {item?.unitRawMaterial}                                           
                                         </InputAdornment>
                                     ),
-                                    inputProps: { min: 0 },
+                                    inputProps: { min: 1 },
                                 }}
+                                onFocus={handleTouch}
+                                error={ touched && item?.amount < 0.01 || touched && isNaN(item?.amount) }
+                                helperText={ item?.amount < 0.01 && errorMessage[0] || isNaN(item?.amount) && errorMessage[1] }  
                             />
                         </TableCell>   
                         

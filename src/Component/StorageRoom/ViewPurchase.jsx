@@ -8,7 +8,7 @@ import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import ListRawMaterial from './ListRawMaterial';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import Moment from 'moment';
-import { UPDATE_PURCHASE_RAW_MATERIAL } from "../../Schema/rawmaterial"
+import { UPDATE_PURCHASE_RAW_MATERIAL , APPROVE_PURCHASE } from "../../Schema/rawmaterial"
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_USER_LOGIN } from '../../Schema/user';
 
@@ -24,15 +24,15 @@ export default function ViewProduct({
     // Get User ID  
     const { data: userLoginData } = useQuery(GET_USER_LOGIN);  
     const userId =  userLoginData?.getuserLogin?._id;
-    // End Get User ID
+     
 
     // Update
-    const [updatePurchaseRawMaterial] = useMutation(UPDATE_PURCHASE_RAW_MATERIAL,{
-        onCompleted: ({updatePurchaseRawMaterial}) => {
-            // console.log(updatePurchaseRawMaterial?.message, "message");
-            if(updatePurchaseRawMaterial?.success){
+    const [approvePurchaseRawMaterial] = useMutation(APPROVE_PURCHASE,{
+        onCompleted: ({approvePurchaseRawMaterial}) => {
+            // console.log(approvePurchaseRawMaterial?.message, "message");
+            if(approvePurchaseRawMaterial?.success){
                 setCheckMessage('success')
-                setMessage(updatePurchaseRawMaterial?.message);
+                setMessage(approvePurchaseRawMaterial?.message);
                 setAlert(true);
                 handleClose();
                 setRefetch();
@@ -47,10 +47,10 @@ export default function ViewProduct({
 
     
     const handleUpdateStatus = (e) => {
-        updatePurchaseRawMaterial({
+        approvePurchaseRawMaterial({
             variables: {
                 id: PurchaseData?._id,
-                purchaseRawMaterialEdit: {
+                approveInput: {
                     status: e.status,
                     approveBy: userId,
                 }
@@ -58,6 +58,7 @@ export default function ViewProduct({
         })
     }
 
+    console.log(PurchaseData)
 
 return (
     
@@ -206,6 +207,21 @@ return (
             :
                 null
         }              
+
+        {
+            PurchaseData?.status === "completed" ? 
+            <Stack direction="row" spacing={1} sx={{mt:2}}>  
+                    <Box sx={{flexGrow:1}}></Box>
+                    <Typography variant='body1' className="header-title">
+                        Completed By:
+                    </Typography>  
+                    <Typography variant='body1'>
+                        {PurchaseData?.completedBy?.first_name+' '+PurchaseData?.completedBy?.last_name}
+                    </Typography>  
+                </Stack>
+        :
+            null
+        }
                 
         
         

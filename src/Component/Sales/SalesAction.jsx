@@ -6,11 +6,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {Stack, Typography, IconButton, Modal} from '@mui/material'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import { useNavigate } from 'react-router-dom';
 
 //component
 import EditSale from './EditSale';
 import PaymentModal from './PaymentModal';
 import DeleteSales from './DeleteSales';
+import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined';
+
 
 export default function SalesAction({
     setAlert,
@@ -20,6 +23,7 @@ export default function SalesAction({
     DataSale,
 }) {
 
+    const navigate = useNavigate();
     // 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openEl = Boolean(anchorEl);
@@ -63,13 +67,14 @@ export default function SalesAction({
               "aria-labelledby": "basic-button",
             }}
           >
-              {/* <MenuItem onClick={() => { handleOpen(); handleCloseEl()}}>
+              
+              <MenuItem onClick={() => navigate(`/sales/print?invoice=${DataSale?._id}`)}>
                 <Stack direction="row" spacing={2}>
-                  <EditIcon sx={{ color: "blue" }} />
-                  <Typography> Edit </Typography>
+                  <LocalPrintshopOutlinedIcon sx={{ color: "blue" }} />
+                  <Typography>Print</Typography>
                 </Stack>
-              </MenuItem> */}
-
+              </MenuItem>
+              
               <MenuItem onClick={() => { handleOpenPayment(); handleCloseEl()}}>
                 <Stack direction="row" spacing={2}>
                   <CurrencyExchangeIcon sx={{ color: "green" }} />
@@ -89,12 +94,25 @@ export default function SalesAction({
                   null
               }
 
-              
-
           </Menu>
 
         :
-          null
+          <Menu
+              id="basic-button"
+              anchorEl={anchorEl}
+              open={openEl}
+              onClose={handleCloseEl}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <MenuItem onClick={() => navigate(`/sales/print?invoice=${DataSale?._id}`)}>
+                <Stack direction="row" spacing={2}>
+                  <LocalPrintshopOutlinedIcon sx={{ color: "blue" }} />
+                  <Typography>Print</Typography>
+                </Stack>
+              </MenuItem>
+          </Menu>
       }  
 
 

@@ -15,6 +15,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { GET_RAW_GETEGORY_PAGINATION } from "../../Schema/rawmaterial";
 import { useQuery } from "@apollo/client";
+import CircularProgress from "@mui/material/CircularProgress";
 
 
 
@@ -23,6 +24,8 @@ export default function RawMaterialCategory() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const [loading,setLoading] = React.useState(true);
 
     // Alert Message
     const [alert,setAlert] = React.useState(false);
@@ -35,12 +38,15 @@ export default function RawMaterialCategory() {
     const [limit,setLimit] = React.useState(8);
     const [keyword,setKeyword] = React.useState("");
 
-    const { loading, error, data , refetch } = useQuery(GET_RAW_GETEGORY_PAGINATION, {
+    const { error , data , refetch } = useQuery(GET_RAW_GETEGORY_PAGINATION, {
         variables: {
             page: page,
             limit: limit,
             keyword: keyword,
             pagination: true,
+        },
+        onCompleted: () => {
+            setLoading(false)
         }
     });
     // console.log(data?.getRawMaterialCategoryPagination, 'tt')
@@ -80,14 +86,7 @@ export default function RawMaterialCategory() {
                                     <InputAdornment position="start">
                                         <SearchIcon />
                                     </InputAdornment>
-                                ),
-                                // endAdornment: (
-                                //     <InputAdornment position="end">
-                                //         <IconButton disableRipple={true} size="small">
-                                //             <TuneIcon />
-                                //         </IconButton>
-                                //     </InputAdornment>
-                                // ),
+                                ),                               
                             }}
                         />
                     </Box> 
@@ -110,6 +109,15 @@ export default function RawMaterialCategory() {
                 </Stack>
             </Stack>
 
+        {
+            loading ?
+
+            <Box  sx={{ display: "flex", flexDirection: "column", alignItems: "center" , mt:10}} >
+                <CircularProgress />
+            </Box>
+
+            :
+            <>
             <Box className="container">
                 <TableContainer >
                     <Table className="table" aria-label="simple table">
@@ -168,6 +176,9 @@ export default function RawMaterialCategory() {
                     <ArrowForwardIosIcon sx={{":hover" : {color:"#0969A0"}}}/>
                 </IconButton>
             </Stack>
+            
+            </>
+        }
 
             <AlertMessage alert={alert} setAlert={setAlert} message={message} checkMessage={checkMessage}/>
 

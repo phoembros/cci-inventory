@@ -16,6 +16,7 @@ import {GET_CUSTOMER_PAGINATION} from "../../Schema/sales";
 import {useQuery} from "@apollo/client";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import CircularProgress from "@mui/material/CircularProgress";
 
 
 export default function Customer() {
@@ -38,6 +39,7 @@ export default function Customer() {
     const [limit, setLimit] = React.useState(10)
     const [keyword, setKeyword] = React.useState("")
     
+    const [loading,setLoading] = React.useState(true);
     //view
     const [DetailsData, setDetailsData] = React.useState([])
 
@@ -48,6 +50,9 @@ export default function Customer() {
         keyword: keyword,
         pagination: true,
       },
+      onCompleted: () => {
+        setLoading(false)
+      }
     });
 
     React.useEffect(()=>{
@@ -55,16 +60,14 @@ export default function Customer() {
         setShowPage(page);
     },[page, keyword])
 
+    
     return (
       <div className="customer-setup-page">
         <Stack direction="row" spacing={2}>
           <Box className="slash" />
           <Stack direction="column" justifyContent="center">
-            <Stack direction="row" spacing={1}>
-              <Link to="/sales" style={{ textDecoration: "none" }}>
-                <Typography className="color">Sales</Typography>
-              </Link>
-              <Typography className="color">/ Customer Setup</Typography>
+            <Stack direction="row" spacing={1}>             
+              <Typography className="color">Customer Setup</Typography>
             </Stack>
           </Stack>
           <Box sx={{ flexGrow: 1 }} />
@@ -111,6 +114,14 @@ export default function Customer() {
           </Stack>
         </Stack>
 
+      {
+        loading ?
+            <Box  sx={{ display: "flex", flexDirection: "column", alignItems: "center" , mt:10}} >
+                <CircularProgress />
+            </Box>
+
+        :        
+
         <Box className="container">
           <TableContainer>
             <Table className="table" aria-label="simple table">
@@ -125,8 +136,10 @@ export default function Customer() {
                     align="center"
                   ></TableCell>
                 </TableRow>
-              </TableHead>
-              {data?.getCustomerPagination?.customers.map((row, index) => (
+              </TableHead>                        
+
+              { data?.getCustomerPagination?.customers?.map((row, index) => (
+
                 <TableBody
                   key={index}
                   component={Paper}
@@ -179,8 +192,10 @@ export default function Customer() {
                   </TableRow>
                 </TableBody>
               ))} 
+              
             </Table>
           </TableContainer>
+
 
           <Stack direction="row" justifyContent="right" spacing={2}>
             <IconButton
@@ -222,7 +237,12 @@ export default function Customer() {
               <ArrowForwardIosIcon />
             </IconButton> 
           </Stack>
+           
+
         </Box>
+
+      }
+            
 
         <Modal open={openView}>
           <ViewCustomer handleCloseView={handleCloseView} DetailsData={DetailsData} />

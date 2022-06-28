@@ -6,6 +6,7 @@ import MuiAppBar from '@mui/material/AppBar';
 import { Outlet } from 'react-router-dom';
 import MenuNavbar from '../Component/Menu/MenuNavbar';
 import TopNavbar from '../Component/Menu/TopNavbar';
+import MenuNavbarMobile from "../Component/Menu/MenuNavbarMobile"
 
 const drawerWidth = 260;
 
@@ -60,43 +61,101 @@ export default function Layout({prefersDarkMode, setPrefersDarkMode }) {
   const handleDrawerOpen = () => setOpen(true);
   const handleDrawerClose = () => setOpen(false);
 
+  const [openMobile, setOpenMobile] = React.useState(false);
+  const handleDrawerOpenMobile = () => setOpenMobile(true);
+  const handleDrawerCloseMobile = () => setOpenMobile(false);
+
+
+  // Resize width
+  const [width, setWidth]   = React.useState(window.innerWidth);
+  const updateDimensions = () => {
+      setWidth(window.innerWidth);      
+  }
+  React.useEffect( () => {
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, []);
+
+  console.log(width)
+
+
   return (
     <Box sx={{ display: 'flex' }}>
-        <AppBar          
-            sx={{boxShadow: "none"}}
-            position="fixed" 
-            open={open}
-        >                            
-            <TopNavbar 
-                prefersDarkMode={prefersDarkMode} 
-                setPrefersDarkMode={setPrefersDarkMode} 
-                handleDrawerOpen={handleDrawerOpen} 
-                open={open}
-            />             
-        </AppBar>
+
+      {
+          width > 1024 ?
+
+        <>
+            <AppBar  sx={{boxShadow: "none"}}  position="fixed"  open={open} >                            
+                <TopNavbar 
+                    prefersDarkMode={prefersDarkMode} 
+                    setPrefersDarkMode={setPrefersDarkMode} 
+                    handleDrawerOpen={handleDrawerOpen} 
+                    open={open}
+                />             
+            </AppBar>
 
 
-        <Drawer
-            sx={{
-                width: drawerWidth,
-                flexShrink: 0,
-                '& .MuiDrawer-paper': {
+            <Drawer
+                sx={{
                     width: drawerWidth,
-                    boxSizing: 'border-box',
-                },
-            }}
-            variant="persistent"
-            anchor="left"
-            open={open}
-        >       
+                    flexShrink: 0,
+                    '& .MuiDrawer-paper': {
+                        width: drawerWidth,
+                        boxSizing: 'border-box',
+                    },
+                }}
+                variant="persistent"
+                anchor="left"
+                open={open}
+            >       
 
-        <MenuNavbar open={open} handleDrawerClose={handleDrawerClose}/>
+                  <MenuNavbar open={open} handleDrawerClose={handleDrawerClose}/>
+        
+            </Drawer>
+            <Main open={open}>
+                <DrawerHeader />
+                <Outlet />
+            </Main>
+        </>
 
-        </Drawer>
-        <Main open={open}>
-            <DrawerHeader />
-            <Outlet />
-        </Main>
+      :
+
+      <>
+          <AppBar  sx={{boxShadow: "none"}} position="fixed"  open={openMobile}>                            
+              <TopNavbar 
+                  prefersDarkMode={prefersDarkMode} 
+                  setPrefersDarkMode={setPrefersDarkMode} 
+                  handleDrawerOpen={handleDrawerOpenMobile} 
+                  open={openMobile}
+              />             
+          </AppBar>
+
+          <Drawer
+              sx={{
+                  width: drawerWidth,
+                  flexShrink: 0,
+                  '& .MuiDrawer-paper': {
+                      width: drawerWidth,
+                      boxSizing: 'border-box',
+                  },
+              }}
+              variant="persistent"
+              anchor="left"
+              open={openMobile}
+          >       
+            
+                <MenuNavbarMobile open={openMobile} handleDrawerClose={handleDrawerCloseMobile}/>
+
+          </Drawer>
+          <Main open={openMobile}>
+              <DrawerHeader />
+              <Outlet />
+          </Main>
+
+      </>
+      }
+        
     </Box>
   );
 }

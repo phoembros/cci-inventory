@@ -25,7 +25,7 @@ import ListCreateSales from '../../Component/Sales/ListCreateSales';
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 // Schema
 import { CREATE_SALE } from "../../Schema/sales";
-import { useMutation, useQuery } from "@apollo/client";
+import { empty, useMutation, useQuery } from "@apollo/client";
 
 
 export default function SalesCreated({
@@ -46,7 +46,11 @@ export default function SalesCreated({
                 setAlert(true);
                 handleClose();
                 setRefetch();
-            } 
+            } else {
+                setCheckMessage("error")
+                setMessage(createSale?.message)
+                setAlert(true);
+            }
         },
         onError: (error) => {            
             setCheckMessage("error")
@@ -82,7 +86,7 @@ export default function SalesCreated({
     // End get  Customer
 
     // List Product to Sell
-    const [currentItem, setCurrentItem] = React.useState({ itemName: '' , productId: '', qty:'' , unitPrice:'', amount: 0 , key: 0 ,})
+    const [currentItem, setCurrentItem] = React.useState({ itemName: '' , productId: '', qty: 1 , unitPrice: 0.01 , amount: 0 , key: 0 ,})
     const [item, setItem] = React.useState([])
 
     const addItem = () => {     
@@ -94,13 +98,13 @@ export default function SalesCreated({
             ];
             setItem([... items])
             setCurrentItem({
-                itemName: '' , productId: '', qty:'' , unitPrice:'', amount: 0 , key: 0
+                itemName: '' , productId: '', qty: 1 , unitPrice: 0.01 , amount: 0 , key: 0
             })
         }
     }
 
     const handleAddSales = () => {
-        setCurrentItem({ itemName: 'product' , productId: '', qty:'' , unitPrice:'', amount: 0 , key: Date.now() });
+        setCurrentItem({ itemName: 'product' , productId: '', qty: 1 , unitPrice: 0.01 , amount: 0 , key: Date.now() });
     }
 
     React.useEffect(() => {
@@ -195,7 +199,7 @@ export default function SalesCreated({
     
   
     const SalesAdd = Yup.object().shape({
-      billToName: Yup.string(),
+      billToName: Yup.string().required("is requried!"),
       billToID: Yup.string(),
       date: Yup.date(),  
       vat: Yup.number(),
@@ -225,11 +229,12 @@ export default function SalesCreated({
                 label: values?.billToName,
                 customerId: values?.billToID,
               },
-              vat: parseFloat(values?.vat),              
+              vat: isNaN(parseFloat(values?.vat)) ? 0 : parseFloat(values?.vat),     
+              vatAmount: vatAmount,         
               items: item, 
               remark: values?.remark,   
               totalAmount: finalAmount, 
-              paidAmount: parseFloat(paidAmount),   
+              paidAmount: isNaN(parseFloat(paidAmount)) ? 0 : parseFloat(paidAmount),   
               status: values?.status,
           } 
           // console.log(newValue)
@@ -253,7 +258,7 @@ export default function SalesCreated({
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Box className="sales-page" sx={{ spacing: 2 }}>
           <Grid container className="title">
-            Create Sales
+            Invoice
             <Box sx={{ flexGrow: 1 }}></Box>
             <IconButton onClick={() => handleClose()}>
               <DoDisturbOnOutlinedIcon sx={{ color: "red" }} />
@@ -276,7 +281,13 @@ export default function SalesCreated({
                     setFieldValue("billToName" , value?.label);
                     setFieldValue("billToID" , value?._id);
                 }}
-                renderInput={(params) => ( <TextField {...params} placeholder="customer" size="small" /> )}
+                renderInput={(params) => ( 
+                    <TextField 
+                        {...params} placeholder="customer" size="small" 
+                        error={Boolean(touched.billToName && errors.billToName)}
+                        helperText={touched.billToName && errors.billToName}
+                    /> 
+                )}
               />
              
               <Box sx={{flexGrow:1}}></Box>
@@ -299,6 +310,23 @@ export default function SalesCreated({
                     />
                   </LocalizationProvider>
               </Box>
+            </Stack>
+          </Box>
+
+          <Box sx={{ width: "100%" }}>
+            <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+                  <Box sx={{flexGrow:1}}></Box>
+                  <Stack direction="column" justifyContent="center">
+                    <Typography className="type-field"> Tin: </Typography>
+                  </Stack>
+                  <Box sx={{width:"150px"}}>
+                        <TextField 
+                            size='small' fullWidth className='text-field'
+                            {...getFieldProps("tin")}
+                            error={Boolean(touched.tin && errors.tin)}
+                            helperText={touched.tin && errors.tin}
+                        />
+                  </Box>
             </Stack>
           </Box>
 
@@ -368,11 +396,12 @@ export default function SalesCreated({
                                 type="number"
                                 id="input-with-sx"
                                 placeholder="0"
-                                size="small"  
-                                onChange={(e) => {
-                                    let vatAmount = totalPaidAmount* parseFloat(e.target.value)/100;
-                                    setVatAmount(vatAmount);
-                                    setFieldValue("vat" , e.target.value)
+                                size="small" 
+                                value={values?.vat} 
+                                onChange={(e) => {                                   
+                                    let vatAmount = totalPaidAmount* parseFloat(e.target.value)/100;                                   
+                                    setVatAmount(isNaN(vatAmount) ? 0 : vatAmount);
+                                    setFieldValue("vat" , e.target.value )                                    
                                 }}                                   
                                 InputProps={{                  
                                     endAdornment: (
@@ -395,29 +424,29 @@ export default function SalesCreated({
                         </Stack>
                         <Box sx={{width:"150px"}}>
                             <TextField 
-                              size="small"                              
-                              placeholder="0"
-                              type="number" 
-                              
-                              onChange={(e)=> {
-                                setPaidAmount(e.target.value);                                
-                                if(parseFloat(e.target.value) !== 0){                                  
-                                  setFieldValue("status", "owe") 
-                                  console.log(e.target.value)
-                                }
-                              }}
-                              fullWidth 
-                              InputProps={{                  
-                                endAdornment: (
-                                  <InputAdornment position="end">
-                                    <IconButton disableRipple={true} size="small">
-                                      $
-                                    </IconButton>
-                                  </InputAdornment>
-                                ),
-                                inputProps: { min: 0 }
-                              }}
-                          />
+                                size="small"                              
+                                placeholder="0"
+                                type="number" 
+                                onChange={(e)=> {
+                                  setPaidAmount(e.target.value);                                
+                                  if( isNaN(parseFloat(e.target.value)) ||  parseFloat(e.target.value) === 0){                                  
+                                      setFieldValue("status", "unpaid")                                    
+                                  } else {
+                                      setFieldValue("status", "owe")
+                                  }
+                                }}
+                                fullWidth 
+                                InputProps={{                  
+                                  endAdornment: (
+                                    <InputAdornment position="end">
+                                      <IconButton disableRipple={true} size="small">
+                                        $
+                                      </IconButton>
+                                    </InputAdornment>
+                                  ),
+                                  inputProps: { min: 0 }
+                                }}
+                            />
                         </Box>
                   </Stack>
 
@@ -430,7 +459,7 @@ export default function SalesCreated({
                         <Box sx={{width:"150px"}}>
                             <TextField 
                               size="small" 
-                              value={finalAmount} 
+                              value={finalAmount.toFixed(2)} 
                               placeholder="0" 
                               fullWidth 
                               InputProps={{                  

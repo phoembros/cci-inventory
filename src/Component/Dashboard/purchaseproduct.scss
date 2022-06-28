@@ -1,7 +1,14 @@
 @import '../../themes.scss';
 
 .purchase{
-    
+    background-color: #fff;
+    height: 100%;
+    border-radius: 10px;
+
+    .left-make{
+        background-color: $background-table-modal;
+        color: $primary-color;  
+    }
     .title{       
         font-size: 18px;
         font-weight: bold;

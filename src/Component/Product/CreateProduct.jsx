@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './createproduct.scss';
-import { Autocomplete, FormControl, Icon, IconButton, InputAdornment, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { Autocomplete, FormControl, FormHelperText, Icon, IconButton, InputAdornment, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import ListRawMaterial from './ListRawMaterial';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
@@ -25,8 +25,9 @@ export default function CreateProduct({
     setRefetch,
     checkStatus,
 }) {
-    const [getProduct, setProduct] = React.useState([])
-    const [select, setSelected] = React.useState({})
+
+
+     
     //Create Production
     const [createProduct] = useMutation(CREATE_PRODUCT , {
         onCompleted: ({createProduct}) => {          
@@ -38,7 +39,7 @@ export default function CreateProduct({
                 setRefetch();
             } else {
                 setCheckMessage("error")
-                setMessage(createProduct?.message)
+                setMessage("Material invalid value!")
                 setAlert(true);
             }
         },
@@ -50,6 +51,7 @@ export default function CreateProduct({
 
     });
 
+   
 
     // Get Product Unit 
     const [unit,setUnit] = React.useState([])
@@ -74,7 +76,10 @@ export default function CreateProduct({
         if (data?.getProductCategoryPagination?.ProductCategory) {
             let rows = [];
             data?.getProductCategoryPagination?.ProductCategory?.forEach((element) => {
-                const allrow = { label: element?.categoryName , _id: element?._id };
+                const allrow = { 
+                  label: element?.categoryName , 
+                  _id: element?._id 
+                };
                 rows.push(allrow);
             });
             setCategoryProduct(rows);
@@ -82,10 +87,10 @@ export default function CreateProduct({
     }, [data?.getProductCategoryPagination?.ProductCategory]);
     // End Get 
     
-    // console.log(data, 'kk')
 
-    // setup ingrideian
-    const [currentItem, setCurrentItem] = React.useState({ rawName: '' , rawMaterialId: '', amount: 0 , unitRawMaterial: "" , key: ""})
+    // setup ingrideian ====================================================================================================================
+
+    const [currentItem, setCurrentItem] = React.useState({ rawName: '' , rawMaterialId: '', amount: 1 , unitRawMaterial: "" , key: ""})
     const [item, setItem] = React.useState([])
 
     const addItem = () => {     
@@ -97,13 +102,13 @@ export default function CreateProduct({
             ];
             setItem([... items])
             setCurrentItem({
-                rawName: '' , rawMaterialId:'' , amount: 0 , unitRawMaterial: "" , key: "",
+                rawName: '' , rawMaterialId:'' , amount: 1 , unitRawMaterial: "" , key: "",
             })
         }
     }
 
     const handleAddMaterail = () => {
-        setCurrentItem({ rawName: 'Material Name' , rawMaterialId: '' , amount: 0 , unitRawMaterial: "" ,  key: Date.now() });
+        setCurrentItem({ rawName: 'Material Name' , rawMaterialId: '' , amount: 1 , unitRawMaterial: "" ,  key: Date.now() });
     }
 
     React.useEffect(() => {
@@ -126,7 +131,6 @@ export default function CreateProduct({
         const items = item;
         items.map(i=>{      
           if(i.key===key){
-            console.log(i.key +"  "+key)
             i.rawMaterialId= rawMaterialId;
           }
         })
@@ -136,8 +140,7 @@ export default function CreateProduct({
     const setUpdateRawName = (rawName,key) => {
         const items = item;
         items.map(i=>{      
-          if(i.key===key){
-            console.log(i.key +"  "+key)
+          if(i.key===key){           
             i.rawName= rawName;
           }
         })
@@ -147,8 +150,7 @@ export default function CreateProduct({
     const setUpdateQty = (amount,key) => {
         const items = item;
         items.map(i=>{      
-          if(i.key===key){
-            // console.log(i.key +"  "+key)
+          if(i.key===key){           
             i.amount= parseFloat(amount);
           }
         })
@@ -164,22 +166,24 @@ export default function CreateProduct({
         })
         setItem([...items]) 
     }
-    // End Setup
+    // End Setup=============================================================================================================================
 
 
     // Formik
     const CreateProductes = Yup.object().shape({
         productName: Yup.string().required("Product's Name is required!"),
+        productId: Yup.string().required("Product's ID is required!"),
         remark: Yup.string(),  
-        unitPrice: Yup.number(),     
-        unit: Yup.string(),   
+        unitPrice: Yup.number().min(0.01 , "Unit Price can't under 0"),     
+        unit: Yup.string().required("Unit is required!"),   
         durationProduce: Yup.number(),
-        category: Yup.string(),     
+        category: Yup.string().required("Category is required!"),     
     });
     
     const formik = useFormik({
         initialValues: {
             productName: "",
+            productId: "",
             remark: "",
             unitPrice: 0,
             unit: "",
@@ -190,6 +194,7 @@ export default function CreateProduct({
         onSubmit: async (values, { setSubmitting, resetForm }) => {        
             const newValue = {
                 productName: values?.productName,
+                productId: values?.productId,
                 category: values?.category,                
                 unit: values?.unit,
                 unitPrice: parseFloat(values?.unitPrice),
@@ -235,18 +240,32 @@ export default function CreateProduct({
 
 
             <Stack direction="row" spacing={5} width="100%" sx={{mt:2}}>
-              <Box sx={{ width: "45%" }}>
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={categoryProduct}
-                  sx={{ width: 300 }}
-                  onChange={(e, value) => setFieldValue("category", value?._id)}
-                  renderInput={(params) => (
-                    <TextField {...params} size="small" label="Category" />
-                  )}
-                />
-              </Box>
+                <Box sx={{ width: "40%" }}>
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={categoryProduct}                  
+                    onChange={(e, value) => setFieldValue("category", value?._id)}
+                    renderInput={(params) => (
+                      <TextField 
+                          {...params} size="small" label="Category" 
+                          error={Boolean(touched.category && errors.category)}                        
+                          helperText={touched.category && errors.category}
+                      />
+                    )}
+                  />
+                </Box>
+                <Box sx={{flexGrow: 1}}></Box>
+                <Box sx={{ width: "30%" }}>
+                  <TextField 
+                      label="Product ID"
+                      type="text" 
+                      size='small' 
+                      {...getFieldProps("productId")}
+                      error={Boolean(touched.productId && errors.productId)}                          
+                      helperText={touched.productId && errors.productId}
+                  />
+                </Box>
             </Stack>
 
             <Box className="container">
@@ -283,46 +302,52 @@ export default function CreateProduct({
                           size="small"
                           fullWidth
                           {...getFieldProps("productName")}
-                          error={Boolean(
-                            touched.productName && errors.productName
-                          )}
-                          helperText={
-                            touched.productName && errors.productName
-                          }
+                          error={Boolean(touched.productName && errors.productName)}                          
+                          helperText={touched.productName && errors.productName}
                         />
                       </TableCell>
                       <TableCell className="body-title"></TableCell>
                       <TableCell className="body-title" width="20%">
                         <FormControl fullWidth size="small">
-                          <Select
-                            defaultValue={"Unit"}
+                          <Select                           
                             {...getFieldProps("unit")}
                             error={Boolean(touched.unit && errors.unit)}
                             helperText={touched.unit && errors.unit}
-                          >
-                            <MenuItem value="Unit">Unit</MenuItem>
+                          >                            
                             {unit?.map((item, index) => (
                               <MenuItem value={`${item}`}>{item}</MenuItem>
                             ))}
                           </Select>
                         </FormControl>
+
+                        {!!errors.unit && (
+                            <FormHelperText error id="outlined-adornment-email">
+                                {errors.unit}
+                            </FormHelperText>
+                        )} 
+
                       </TableCell>
                       <TableCell className="body-title"></TableCell>
                       <TableCell
                         className="body-title"
-                        width="15%"
+                        width="18%"
                         align="center"
                       >
                         <TextField
-                          size="small"
-                          fullWidth
-                          {...getFieldProps("durationProduce")}
-                          error={Boolean(
-                            touched.durationProduce && errors.durationProduce
-                          )}
-                          helperText={
-                            touched.durationProduce && errors.durationProduce
-                          }
+                            size="small"
+                            fullWidth
+                            type="number"
+                            {...getFieldProps("durationProduce")}
+                            error={Boolean(touched.durationProduce && errors.durationProduce)}
+                            helperText={touched.durationProduce && errors.durationProduce}
+                            InputProps={{                                  
+                              endAdornment: (
+                                  <InputAdornment position="end">                                             
+                                      s                                         
+                                  </InputAdornment>
+                              ), 
+                              inputProps: { min: 1 },                                               
+                            }}
                         />
                       </TableCell>
                     </TableRow>

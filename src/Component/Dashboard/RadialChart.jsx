@@ -5,12 +5,12 @@ import {Stack, Grid} from "@mui/material";
 export default function RadialChart() {
 
    const state = {  
-        series: [76, 67, 61, 90],
+        series: [76, 67, 61, 90 , 76, 67, 61, 90 , 76, 67],
         options: {
           chart: {
             height: 300,
             type: 'radialBar',
-          },
+          },          
           plotOptions: {
             radialBar: {
               offsetX: 50,
@@ -34,8 +34,8 @@ export default function RadialChart() {
               }
             }
           },
-          colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5'],
-          labels: ['Vimeo', 'Messenger', 'Facebook', 'LinkedIn'],
+          colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5' , '#1ab7ea', '#0084ff', '#39539E', '#0077B5' , '#1ab7ea', '#0084ff'],
+          labels: ['Vimeo', 'Messenger', 'Facebook', 'LinkedIn' , 'Vimeo', 'Messenger', 'Facebook', 'LinkedIn' , 'Vimeo', 'Messenger'],
           legend: {
             show: true,
             floating: true,
@@ -75,7 +75,7 @@ export default function RadialChart() {
           options={state.options}
           series={state.series}
           type="radialBar"
-          height={250}
+          height={280}
         />
       </div>
  

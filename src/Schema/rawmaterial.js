@@ -161,3 +161,21 @@ export const DELETE_PURCHASE_RAW_MATERIAL = gql`
     }
   }
 `
+
+export const APPROVE_PURCHASE = gql`
+  mutation ApprovePurchaseRawMaterial($id: ID!, $approveInput: ApproveRawMaterialInput) {
+    approvePurchaseRawMaterial(_id: $id, approveInput: $approveInput) {
+      success
+      message
+    }
+  }
+`
+
+export const COMPLETE_PURCHASE = gql`
+  mutation CompletePurchaseRawMaterial($id: ID!, $completedInput: CompletedRawMaterialInput) {
+    completePurchaseRawMaterial(_id: $id, completedInput: $completedInput) {
+      success
+      message
+    }
+  }
+`

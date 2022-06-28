@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import TuneIcon from '@mui/icons-material/Tune';
 import CreateProduct from "../Component/Product/CreateProduct";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 import ViewProduct from "../Component/Product/ViewProduct";
 import {useQuery} from "@apollo/client";
 import { GET_PRODUCT_WITH_PAGINATION } from "../Schema/product";
@@ -18,6 +18,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 
 export default function Product() {
+
+    const navigate = useNavigate();
 
     const [dataRowPruduct,setDataRowPruduct] = React.useState([]);
     // Alert Message
@@ -86,27 +88,19 @@ export default function Product() {
                                     <InputAdornment position="start">
                                         <SearchIcon />
                                     </InputAdornment>
-                                ),
-                                // endAdornment: (
-                                //     <InputAdornment position="end">
-                                //         <IconButton disableRipple={true} size="small">
-                                //             <TuneIcon />
-                                //         </IconButton>
-                                //     </InputAdornment>
-                                // ),
+                                ),                               
                             }}
                         />
                     </Box>  
                                         
-                    <Button startIcon={<AddIcon/>} className="btn-add">     
-                        <Link to="/product/categories" className="btn-link" style={{textDecoration: "none"}}>               
-                            <Typography className="btn-text">Category</Typography>
-                        </Link>    
+                    <Button startIcon={<AddIcon/>}  className="btn-add"  onClick={() => navigate("/product/categories")}>   
+                        <Typography className="btn-text">Category</Typography>
                     </Button>
 
                     <Button onClick={handleOpenCreateProduct} startIcon={<AddIcon/>} className="btn-add">
                         <Typography className="btn-text">Add Item</Typography>
                     </Button>
+                    
                     <Modal open={openCreateProduct} >                           
                         <CreateProduct  
                             handleClose={handleCloseCreateProduct} 
@@ -135,7 +129,10 @@ export default function Product() {
                         <Table className="table" aria-label="simple table">
                             <TableHead >
                                 <TableRow className="header-row">
-                                    <TableCell className="header-title" colSpan={2}>Name</TableCell>
+                                    <TableCell className="header-title">Product ID</TableCell>
+                                    <TableCell className="header-title">Name</TableCell>
+                                    <TableCell className="header-title">Unit</TableCell>
+                                    <TableCell className="header-title">Unit Price</TableCell>
                                     <TableCell className="header-title" >Category</TableCell>
                                     <TableCell className="header-title">Duration</TableCell>
                                     <TableCell className="header-title">Remark</TableCell>                                   
@@ -146,8 +143,10 @@ export default function Product() {
                             {productData?.map((row , index) => (
                                 <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
                                     <TableRow  className="body-row">
-                                        <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="2%" > {index+1}- </TableCell>
-                                        <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="25%"> {row?.productName} </TableCell>
+                                        <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="8%" >{row?.productId}</TableCell>
+                                        <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="20%">{row?.productName}</TableCell>
+                                        <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" width="8%">{row?.unit}</TableCell>
+                                        <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" width="8%">${row?.unitPrice}</TableCell>
                                         <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" width="15%">{row?.category?.categoryName}</TableCell>
                                         <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" align="left" width="10%">{row.durationProduce}s</TableCell>
                                         <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" >{row.remark}</TableCell>                                                                       

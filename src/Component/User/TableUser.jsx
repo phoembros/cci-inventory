@@ -6,6 +6,7 @@ import {Table,TableBody, TableCell,TableContainer,TableHead,TableRow, } from '@m
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import moment from "moment";
+import CircularProgress from "@mui/material/CircularProgress";
 //useQuery 
 import {GET_USER_PAGINATION} from "../../Schema/user";
 import {useQuery} from "@apollo/client";
@@ -20,6 +21,7 @@ function TableUser({
   checkMessage,
   setCheckMessage,
   loading,
+  setLoading,
 }) {
 
   const [openView, setOpenView] = React.useState(false);
@@ -38,6 +40,9 @@ function TableUser({
           limit: limit,
           keyword: keyword,
           pagination: true
+      },
+      onCompleted: () => {
+          setLoading(false)
       }
   });
     // console.log(data?.getUsersPagination?.users, 'user')
@@ -48,7 +53,15 @@ function TableUser({
         setPageShow(page)
     }, [page,keyword])
 
-    const [UserData, setUserData] = React.useState([])
+    const [UserData, setUserData] = React.useState([]);
+
+    if(loading) {
+      return(
+          <Box  sx={{ display: "flex", flexDirection: "column", alignItems: "center" , mt:10}} >
+              <CircularProgress />
+          </Box>
+      );
+    }
 
     return (
       <Box  className="container-users">

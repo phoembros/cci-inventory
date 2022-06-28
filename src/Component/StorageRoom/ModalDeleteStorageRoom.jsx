@@ -26,10 +26,14 @@ export default function ModalDeleteStorageRoom({
                 setAlert(true)
                 setRefetch();
                 handleClose()
+              } else {
+                setCheckMessage('error')
+                setMessage(deleteStorageRoom?.message)
+                setAlert(true)
               }
             }, 
             onError:(error) =>{
-                console.log(error.message)
+                console.log(error.message , "error")
                 setCheckMessage('error')
                 // setMessage(error.message)
             }

@@ -18,7 +18,7 @@ function ListRawMaterial(props) {
         pagination: false,
       },
     });
-    console.log(data?.getRawMaterialPagination?.rawMaterial,"data")
+    // console.log(data?.getRawMaterialPagination?.rawMaterial,"data")
 
     React.useEffect( () => {
         if (data?.getRawMaterialPagination?.rawMaterial) {
@@ -36,6 +36,13 @@ function ListRawMaterial(props) {
     },[data?.getRawMaterialPagination?.rawMaterial])
     // End Get Raw Materila
 
+    
+    // Handle Message Error TextField
+    const [errorMessage, setErrorMessage] = React.useState(["Can't input 0" , "Invalid Value" , "Material is required!"]);
+    const [touched, setTouched] = React.useState(false);
+    const handleTouch = () =>  setTouched(true);
+
+
     const items = props.items;
     const listItems = items.map(item => {
         return  <TableBody key={item?.key}  component={Paper} className="body-list-material" >                        
@@ -50,11 +57,18 @@ function ListRawMaterial(props) {
                                     props.setUpdateRawName( value?.label , item.key )
                                     props.setUpdateUnitRawMaterial(value?.unit , item.key)
                                 }}
-                                renderInput={(params) => <TextField {...params} size="small" className='text-field' />}
+                                renderInput={(params) => 
+                                    <TextField 
+                                        {...params} size="small" className='text-field' 
+                                        onFocus={handleTouch}
+                                        error={ touched && item?.rawName === undefined }
+                                        helperText={ item?.rawName === undefined && errorMessage[2] }   
+                                    />
+                                }
                             />
                         </TableCell>   
                          
-                        <TableCell className="body-title" width="27%" align='center'>
+                        <TableCell className="body-title" width="30%" align='center'>
                             <TextField  
                                 className='text-field'
                                 fullWidth
@@ -69,8 +83,11 @@ function ListRawMaterial(props) {
                                             {item?.unitRawMaterial}                                           
                                         </InputAdornment>
                                     ),
-                                    inputProps: { min: 0 },
+                                    inputProps: { min: 1 },
                                 }}
+                                onFocus={handleTouch}
+                                error={ touched && item?.amount < 0.01 || touched && isNaN(item?.amount) }
+                                helperText={ item?.amount < 0.01 && errorMessage[0] || isNaN(item?.amount) && errorMessage[1] }     
                             />
                         </TableCell>  
                          

@@ -10,12 +10,14 @@ import ViewSupplies from "../Component/Suppliers/ViewSupplies";
 import AlertMessage from "../Component/AlertMessage/AlertMessage";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import CircularProgress from "@mui/material/CircularProgress";
 // query supplies
 import {GET_SUPPLIERS_BY_PAGINATION} from "../Schema/supplies";
 import {useQuery} from "@apollo/client";
 
 export default function Supplies() {
 
+    const [loading,setLoading] = React.useState(true);
     // create
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -47,9 +49,12 @@ export default function Supplies() {
         keyword: keyword,
         pagination: true,
       },
+      onCompleted: () => {
+        setLoading(false);
+      },
     });
 
-    React.useEffect(()=>{
+    React.useEffect( () => {
         refetch()
         setPageShow(page)
     }, [keyword, page])
@@ -89,6 +94,14 @@ export default function Supplies() {
           </Stack>
         </Stack>
 
+      {
+        loading ?
+
+        <Box  sx={{ display: "flex", flexDirection: "column", alignItems: "center" , mt:10}} >
+            <CircularProgress />
+        </Box>
+      :
+      <>
         <Box className="container">
           <TableContainer>
             <Table className="table" aria-label="simple table">
@@ -164,13 +177,15 @@ export default function Supplies() {
                 >
                   <ArrowForwardIosIcon sx={{":hover" :{color:'primary'}}}/>
                 </IconButton>
-            </Stack>
+        </Stack>
+        </>
+      }
+
+
         <Modal open={openView}>
-          <ViewSupplies
-            handleCloseView={handleCloseView}
-            rowSupplies={rowSupplies}
-          />
+            <ViewSupplies handleCloseView={handleCloseView}  rowSupplies={rowSupplies} />
         </Modal>
+
         <AlertMessage
           alert={alert}
           message={message}

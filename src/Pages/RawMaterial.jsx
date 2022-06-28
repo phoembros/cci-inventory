@@ -71,7 +71,7 @@ export default function RawMaterial() {
     }
   });
 
-  console.log(data, "test");
+  // console.log(data, "test");
 
   React.useEffect(() => {
     refetch();

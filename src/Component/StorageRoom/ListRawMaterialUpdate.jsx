@@ -56,6 +56,19 @@ function ListRawMaterialUpdate(props) {
     }, [suppliesData]);
     //End Get Supplies
 
+    // Handle Message Error TextField
+    const [errorMessage, setErrorMessage] = React.useState([
+        "Can't input 0", 
+        "Can't under 0.01", 
+        "Invalid value", 
+        "Material is required!",
+        "Supplier is required!",
+    ]);
+    const [touched, setTouched] = React.useState(false);
+    const handleTouch = () => {
+        setTouched(true);
+    };
+
 
     const items = props.items;
     const listItems = items?.map((item) => {        
@@ -65,14 +78,21 @@ function ListRawMaterialUpdate(props) {
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
-                                value={{ label:item?.rawName, _id: item?.rawMaterialId }}                                
+                                value={{ label:item?.rawName , _id: item?.rawMaterialId }}                                
                                 options={rawMaterial}     
                                 getOptionSelected={(option, value) => option?._id === value?._id }
+                                getOptionLabel={ (option) => option.label ? option.label : " " }
                                 onChange={(e, value) => {
                                     props.setUpdateRawId( value?._id , item.key ) 
                                     props.setUpdateRawName( value?.label , item.key )
                                 }}
-                                renderInput={(params) => <TextField {...params} size="small" className='text-field' />}
+                                renderInput={(params) => 
+                                    <TextField 
+                                        {...params} size="small" className='text-field' 
+                                        onFocus={handleTouch}
+                                        error={ touched && item.rawName === undefined }
+                                        helperText={ item.rawName === undefined && errorMessage[3]}
+                                    />}
                             />
                         </TableCell>
                         
@@ -85,6 +105,13 @@ function ListRawMaterialUpdate(props) {
                                 size='small' 
                                 value={item.newQty} 
                                 onChange={(e) => props.setUpdateQty(parseFloat(e.target.value), item.key)}
+                                InputProps={{                                 
+                                    inputProps: { min: 1 },
+                                }}
+                                onFocus={handleTouch}
+                                error={touched && Boolean(item.newQty === 0) || touched && isNaN(item.newQty) }
+                                helperText={ Boolean(item.newQty === 0) && errorMessage[0] || isNaN(item.newQty) && errorMessage[2] }
+
                             />
                         </TableCell>   
                        
@@ -97,6 +124,13 @@ function ListRawMaterialUpdate(props) {
                                 size='small' 
                                 value={item.unitPrice} 
                                 onChange={(e) => props.setUpdateUnitPrice(parseFloat(e.target.value), item.key)}
+                                InputProps={{                                 
+                                    inputProps: { min: 0.01 },
+                                }}                               
+                                onFocus={handleTouch}
+                                error={touched && Boolean(item.unitPrice < 0.01) || touched && isNaN(item.unitPrice) }
+                                helperText={Boolean(item.unitPrice < 0.01) && errorMessage[1] || isNaN(item.unitPrice) && errorMessage[2]}
+
                             />
                         </TableCell>   
                          
@@ -106,12 +140,19 @@ function ListRawMaterialUpdate(props) {
                                 id="combo-box-demo"
                                 value={{ label:item?.suppliersName , _id: item?.suppliersId }}
                                 options={suppliers}   
-                                getOptionSelected={(option, value) => option._id === value._id }                             
+                                getOptionSelected={(option, value) => option._id === value._id }  
+                                getOptionLabel={ (option) => option?.label ? option?.label : " " }                           
                                 onChange={(e, value) => {
                                     props.setUpdateSuppliesId( value?._id , item.key ) 
                                     props.setUpdateSuppliersName( value?.label , item.key )
                                 }}
-                                renderInput={(params) => <TextField {...params} size="small" className='text-field' />}
+                                renderInput={(params) => 
+                                    <TextField 
+                                        {...params} size="small" className='text-field' 
+                                        onFocus={handleTouch}
+                                        error={ touched && item.suppliersName === undefined }
+                                        helperText={ item.suppliersName === undefined && errorMessage[4]}
+                                    />}
                             />
                         </TableCell>
                         <TableCell className="body-title" align='right'  width="5%">

@@ -28,6 +28,7 @@ import { CREATE_PRODUCTION } from '../../Schema/production';
 // getuser Login
 import { GET_USER_LOGIN } from '../../Schema/user';
 import { GET_STORAGE_ROOM_PRODUCT } from '../../Schema/starageroom';
+import { GET_CUSTOMER_PAGINATION } from "../../Schema/sales";
 
 
 export default function CreateProduction({
@@ -41,7 +42,8 @@ export default function CreateProduction({
 }) {
 
     const [createProductions] = useMutation(CREATE_PRODUCTION , {
-        onCompleted: ({createProductions}) => {          
+        onCompleted: ({createProductions}) => { 
+            console.log(createProductions)         
             if(createProductions?.success){
                 setCheckMessage("success")
                 setMessage(createProductions?.message)
@@ -61,13 +63,11 @@ export default function CreateProduction({
         }
 
     });
-
-    
-
+  
     // Get User ID  
     const { data: userLoginData } = useQuery(GET_USER_LOGIN);  
     const userId =  userLoginData?.getuserLogin?._id;
-    // End Get User ID
+
 
     // Get Product
     const [product,setProduct] = React.useState([]);
@@ -92,19 +92,20 @@ export default function CreateProduction({
             setProduct(rows);
         }
     },[dataProduct?.getProductPagination?.products])    
-    // End Get Product
+    
 
     // get Product Infor by ID  
     const [productById,setProductById] = React.useState({})
     const [getProductById, { data: dataProductById }] = useLazyQuery(GET_PRODUCT_BYID);
 
     React.useEffect( () => {
-        console.log(dataProductById?.getProductById)
+        // console.log(dataProductById?.getProductById)
         if(dataProductById?.getProductById){
             setProductById(dataProductById?.getProductById)
         }
     },[dataProductById?.getProductById])   
-    // ENd Get Info
+   
+
 
     // Get Storage Room
     const [storageRoom,setStorageRoom] = React.useState([])
@@ -112,7 +113,7 @@ export default function CreateProduction({
 
     React.useEffect( () => {
         if(data?.getStorageRoomProducts){
-            console.log(data?.getStorageRoomProducts, "Storage Room")
+            // console.log(data?.getStorageRoomProducts, "Storage Room")
             let rows = [];
             data?.getStorageRoomProducts?.forEach((element) => {
                 const allrow = {
@@ -124,8 +125,32 @@ export default function CreateProduction({
             setStorageRoom(rows);
         }
     },[data?.getStorageRoomProducts])    
-    // End Get Storage Room
+    
 
+
+    // Get Customer Data
+    const [customerId,setCustomerId] = React.useState(null);
+    const [customer,setCustomer] = React.useState([]);
+    const { data: dataCustomer } = useQuery(GET_CUSTOMER_PAGINATION , {
+        variables: {
+            keyword: "",
+            pagination: false,
+        },        
+    })
+
+    React.useEffect( () => {
+        if(dataCustomer?.getCustomerPagination?.customers){            
+            let rows = [];
+            dataCustomer?.getCustomerPagination?.customers?.forEach((element) => {
+                const allrow = {
+                    label: element?.name,
+                    _id: element?._id,
+                };
+                rows.push(allrow);
+            });
+            setCustomer(rows);
+        }
+    },[dataCustomer?.getCustomerPagination?.customers]) 
    
     // Formik
     const createProduction = Yup.object().shape({        
@@ -133,7 +158,7 @@ export default function CreateProduction({
         startDate: Yup.date(),
         dueDate: Yup.date(),
         priority: Yup.string(),
-        qty: Yup.number(),
+        qty: Yup.number().min(1 , "Can't under 1"),
         productName: Yup.string(),
         productId: Yup.string(),
         qtyOnHand: Yup.number(),
@@ -144,11 +169,11 @@ export default function CreateProduction({
     
     const formik = useFormik({
         initialValues: {            
-            storageRoomId: "",
+            storageRoomId: "",            
             startDate: new Date(),
             dueDate: new Date(),
             priority: "urgent",
-            qty: 0,
+            qty: 1,
             productId: "",
             productName: "",
             qtyOnHand: 0,
@@ -165,7 +190,9 @@ export default function CreateProduction({
                 startDate: values?.startDate,
                 dueDate: values?.dueDate,
                 productionsBy: userId,
-                // approveBy: "",
+                customerId: customerId,
+                workOrders: customerId !== null ? true : false,
+                // approveBy: "",                
                 status: "pending",
                 // progress: values?.progress,
                 remark: values?.remark,
@@ -214,24 +241,36 @@ export default function CreateProduction({
                        Please input each field:
                     </Typography>           
                 </Stack>
-            
-                <Box sx={{width:"35%"}}>
-                    <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={storageRoom}                        
-                        onChange={(e, value) => setFieldValue( "storageRoomId" , value?._id )}
-                        renderInput={(params) => 
-                            <TextField 
-                                {...params} 
-                                size="small" 
-                                label="Storage Room" 
-                                error={Boolean(touched.storageRoomId && errors.storageRoomId)}
-                                helperText={touched.storageRoomId && errors.storageRoomId}
-                            />
-                        }
-                    />                    
-                </Box>
+
+                <Stack direction="row" spacing={2} sx={{mb:1}}>
+                    <Box sx={{width:"35%"}}>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={storageRoom}                        
+                            onChange={(e, value) => setFieldValue("storageRoomId", value?._id)}
+                            renderInput={(params) => 
+                                <TextField  
+                                    {...params} size="small" label="Storage Room" 
+                                    error={Boolean(touched.storageRoomId && errors.storageRoomId)}
+                                    helperText={touched.storageRoomId && errors.storageRoomId}
+                                />
+                            }
+                        />                    
+                    </Box>
+                    <Box sx={{flexGrow:1}}/>
+                    <Box sx={{width:"35%"}}>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={customer}                        
+                            onChange={(e, value) => setCustomerId(value?._id)}
+                            renderInput={(params) => 
+                                <TextField   {...params}  size="small"  label="Customer" />
+                            }
+                        />                    
+                    </Box>
+                </Stack>
                                 
                 <Box className="container">
                     <TableContainer >
@@ -267,7 +306,11 @@ export default function CreateProduction({
                                     <TableCell className="body-title" component="th" align='center' width="15%" >
                                         <TextField 
                                             size='small' 
+                                            type="number"
                                             fullWidth
+                                            InputProps={{                                 
+                                                inputProps: { min: 1 },
+                                            }}
                                             {...getFieldProps("qty")}
                                             error={Boolean(touched.qty && errors.qty)}
                                             helperText={touched.qty && errors.qty}
@@ -313,7 +356,7 @@ export default function CreateProduction({
                         <Table className="table-buttom" aria-label="simple table">
                             <TableHead >
                                 <TableRow className="header-row">
-                                    <TableCell className="header-title">Progress</TableCell>                            
+                                    {/* <TableCell className="header-title">Progress</TableCell>                             */}
                                     <TableCell className="header-title">Prirority</TableCell>  
                                     <TableCell className="header-title">Start Date</TableCell>  
                                     <TableCell className="header-title">Due Date</TableCell>                                                    
@@ -321,7 +364,8 @@ export default function CreateProduction({
                             </TableHead>                    
                             <TableBody component={Paper} className="body" >                        
                                 <TableRow  className="body-row">
-                                    <TableCell className="body-title" component="th" scope="row" width="25%" >
+
+                                    {/* <TableCell className="body-title" component="th" scope="row" width="25%" >
                                         <FormControl fullWidth size="small">                                    
                                             <Select                                                        
                                                 {...getFieldProps("progress")}
@@ -334,7 +378,7 @@ export default function CreateProduction({
                                                         <Typography>Not started</Typography>
                                                     </Stack>
                                                 </MenuItem>
-                                                {/* <MenuItem value="in progress">
+                                                <MenuItem value="in progress">
                                                     <Stack direction="row" spacing={1}>
                                                         <WifiProtectedSetupIcon sx={{color:"green", width:"17px"}} />
                                                         <Typography>In Progress</Typography>
@@ -345,10 +389,11 @@ export default function CreateProduction({
                                                         <CheckCircleIcon sx={{color:"#0969A0", width:"17px"}} />
                                                         <Typography>Completed</Typography>
                                                     </Stack>
-                                                </MenuItem>                                         */}
+                                                </MenuItem>                                        
                                             </Select>
                                         </FormControl>
-                                    </TableCell>
+                                    </TableCell> */}
+
                                     <TableCell className="body-title" component="th" align='center' width="25%" >
                                         <FormControl fullWidth size="small">                                    
                                             <Select                                              
@@ -362,12 +407,12 @@ export default function CreateProduction({
                                                         <Typography>Urgent</Typography>
                                                     </Stack>
                                                 </MenuItem>
-                                                <MenuItem value="important">
+                                                {/* <MenuItem value="important">
                                                     <Stack direction="row" spacing={1}>
                                                         <PriorityHighIcon sx={{color:"red", width:"17px"}} />
                                                         <Typography>Important</Typography>
                                                     </Stack>                                            
-                                                </MenuItem>
+                                                </MenuItem> */}
                                                 <MenuItem value="medium">
                                                     <Stack direction="row" spacing={1}>
                                                         <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />

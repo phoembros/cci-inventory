@@ -13,6 +13,8 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import ModalQualityCheck from './ModalQualityCheck';
 import ModalVoidProduction from './ModalVoidProduction';
+import ModalProgressProduction from './ModalProgressProduction';
+import WifiProtectedSetupIcon from '@mui/icons-material/WifiProtectedSetup';
 
 
 export default function ProductionAction({
@@ -36,6 +38,10 @@ export default function ProductionAction({
   const handleOpenQualityCheck = () => setOpenQualityCheck(true);
   const handleCloseQualityCheck = () => setOpenQualityCheck(false);
 
+  const [openProgress ,setOpenProgress] = React.useState(false);
+  const handleOpenProgress = () => setOpenProgress(true);
+  const handleCloseProgress = () => setOpenProgress(false);
+
   const [openVoid ,setOpenVoid] = React.useState(false);
   const handleOpenVoid = () => setOpenVoid(true);
   const handleCloseVoid = () => setOpenVoid(false);
@@ -56,26 +62,33 @@ export default function ProductionAction({
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
-                MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                }}
+                MenuListProps={{ 'aria-labelledby': 'basic-button', }}
             >
-                <MenuItem onClick={()=> {
-                    handleClose();
-                    handleOpenEdit();
-                }}>
+
+                <MenuItem onClick={()=> {  handleClose();   handleOpenEdit();  }}>
                     <Stack direction="row" spacing={1}>
                         <EditIcon sx={{color:"blue"}}/>
                         <Typography>Edit</Typography>
                     </Stack> 
                 </MenuItem> 
+
+
+                {
+                    editDataProduction?.status === 'approve' && editDataProduction?.progress === "not started" ?
+                        <MenuItem onClick={()=> { handleClose();  handleOpenProgress(); }}>
+                            <Stack direction="row" spacing={1}>
+                                <WifiProtectedSetupIcon sx={{color:"green"}}/>
+                                <Typography>Progress</Typography>
+                            </Stack> 
+                        </MenuItem> 
+                    :
+                        null
+                }
+
         
                 {
-                    editDataProduction?.status === 'approve' ?
-                        <MenuItem onClick={()=> {
-                            handleClose();
-                            handleOpenQualityCheck();
-                        }}>
+                    editDataProduction?.status === 'approve' && editDataProduction?.progress === "in progress" ?
+                        <MenuItem onClick={()=> { handleClose(); handleOpenQualityCheck(); }}>
                             <Stack direction="row" spacing={1}>
                                 <CheckCircleOutlineOutlinedIcon sx={{color:"orange"}}/>
                                 <Typography>Quality</Typography>
@@ -84,16 +97,16 @@ export default function ProductionAction({
                     :
                         null
                 }
+
                     
-                <MenuItem  onClick={()=> {
-                    handleClose();
-                    handleOpenVoid();
-                }}>
+                <MenuItem  onClick={()=> {  handleClose(); handleOpenVoid(); }}>
                     <Stack direction="row" spacing={1}>
                         <DeleteIcon sx={{color:"red"}}/>
                         <Typography>Delete</Typography>
                     </Stack>    
                 </MenuItem>
+
+
             </Menu>
 
             : null
@@ -113,6 +126,7 @@ export default function ProductionAction({
                 setRefetch={setRefetch}
             />            
         </Modal>
+
         {/*  */}
         <Modal open={openQualityCheck} >
             <ModalQualityCheck  
@@ -124,6 +138,19 @@ export default function ProductionAction({
                 setRefetch={setRefetch}
             />
         </Modal>
+
+        {/*  */}
+        <Modal open={openProgress} >
+            <ModalProgressProduction  
+                handleClose={handleCloseProgress} 
+                editDataProduction={editDataProduction}
+                setAlert={setAlert}
+                setMessage={setMessage}
+                setCheckMessage={setCheckMessage}
+                setRefetch={setRefetch}
+            />
+        </Modal>
+
         {/*  */}
         <Modal open={openVoid} >
             <ModalVoidProduction  

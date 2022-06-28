@@ -19,9 +19,7 @@ export default function PaymentModal({
     const [checkStatus,setCheckStatus] = React.useState(DataSale?.status);
 
     const [pay,setPay] = React.useState(false)
-    console.log(DataSale)
-
-
+    
     // Update 
     const [updateSale] = useMutation(UPDATE_SALE , {
         onCompleted: ({updateSale}) => {
@@ -40,6 +38,9 @@ export default function PaymentModal({
             
         }
     });
+
+    // console.log(DataSale)
+    // console.log(DataSale?.totalAmount-DataSale?.paidAmount-paidAmount)
 
     React.useEffect( () => {
         if( (DataSale?.totalAmount-DataSale?.paidAmount-paidAmount) > 0 ) {
@@ -94,6 +95,7 @@ export default function PaymentModal({
             </Stack>
             <Box sx={{width:"200px"}}>
                 <TextField 
+                    disabled
                     size="small"                              
                     placeholder="0" 
                     value={DataSale?.totalAmount}
@@ -117,6 +119,7 @@ export default function PaymentModal({
             </Stack>
             <Box sx={{width:"200px"}}>
                 <TextField 
+                    disabled
                     size="small"                              
                     placeholder="0" 
                     value={DataSale?.paidAmount}
@@ -142,6 +145,7 @@ export default function PaymentModal({
             </Stack>          
             <Box sx={{width:"200px"}}>
                 <TextField 
+                    type="number"
                     size="small"                              
                     placeholder="0" 
                     onChange={(e)=> setPaidAmount(e.target.value) }
@@ -154,6 +158,7 @@ export default function PaymentModal({
                             </IconButton>
                         </InputAdornment>
                     ),
+                    inputProps: { min : 0 }
                 }}
                 />
             </Box>

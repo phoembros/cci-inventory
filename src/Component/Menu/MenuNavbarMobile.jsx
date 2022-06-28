@@ -77,7 +77,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     }));
 
 
-export default function MenuNavbar({open , handleDrawerClose}) {
+export default function MenuNavbarMobile({open , handleDrawerClose}) {
 
     let location = useLocation();
     const theme = useTheme();
@@ -89,12 +89,10 @@ export default function MenuNavbar({open , handleDrawerClose}) {
         
         <Drawer  variant="permanent" open={open} className={theme.palette.mode === 'dark' ? "drawer-menu-dark" : "drawer-menu" } >
             <DrawerHeader sx={{mt:3 , mb:3}} >
-                <Button className='drawerheader' 
-                    onClick={() => {
-                        // handleDrawerClose()
-                        navigate("/dashboard")
-                    }}
-                >
+                <Button className='drawerheader' onClick={() => {
+                    navigate("/dashboard")
+                    handleDrawerClose()
+                }}>
                    <img src={logo} alt="logo" width="70%"/>
                 </Button>        
             </DrawerHeader>
@@ -102,7 +100,7 @@ export default function MenuNavbar({open , handleDrawerClose}) {
             <List className='list' >
                 {/* Item */}                   
                 <ListItem className={theme.palette.mode === 'dark' && location.pathname === "/dashboard" ? 'list-item-active' : 'list-item' } disablePadding sx={{ display: 'block' }}>
-                    <Link to="/" style={{ textDecoration: 'none' }}>
+                    <Link to="/" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5 }} >
                             <ListItemIcon  className={location.pathname === "/dashboard" ? "list-item-icon-active" : "list-item-icon"} > 
                                 <DashboardCustomizeOutlinedIcon />                    
@@ -122,7 +120,7 @@ export default function MenuNavbar({open , handleDrawerClose}) {
                         theme.palette.mode === 'dark' && location.pathname === "/storage-room/purchase" 
                     ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}
                 >
-                    <Link to="/storage-room" style={{ textDecoration: 'none' }}>
+                    <Link to="/storage-room" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button'sx={{ px: 2.5, }} >
                             <ListItemIcon className={location.pathname === "/storage-room" || location.pathname === "/storage-room/purchase" ? "list-item-icon-active" : "list-item-icon"} >
                                 <FormatListBulletedOutlinedIcon />
@@ -142,7 +140,7 @@ export default function MenuNavbar({open , handleDrawerClose}) {
                     theme.palette.mode === 'dark' && location.pathname === "/raw-material/categories" 
                     ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}
                 >
-                    <Link to="/raw-material" style={{ textDecoration: 'none' }}>
+                    <Link to="/raw-material" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
                             <ListItemIcon className={location.pathname === "/raw-material" || location.pathname === "/raw-material/categories" ? "list-item-icon-active" : "list-item-icon"} >
                                 <DeviceHubIcon />
@@ -161,7 +159,7 @@ export default function MenuNavbar({open , handleDrawerClose}) {
                     theme.palette.mode === 'dark' && location.pathname === "/product/categories"  
                     ? 'list-item-active' : 'list-item' }  disablePadding sx={{ display: 'block' }} 
                 >
-                    <Link to="/product" style={{ textDecoration: 'none' }}>
+                    <Link to="/product" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
                             <ListItemIcon className={location.pathname === "/product" || location.pathname === "/product/categories" ? "list-item-icon-active" : "list-item-icon"} >
                                 <WorkOutlineIcon />
@@ -178,7 +176,7 @@ export default function MenuNavbar({open , handleDrawerClose}) {
 
                 {/* Item */}                   
                 <ListItem className={theme.palette.mode === 'dark' && location.pathname === "/production" ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}>
-                    <Link to="/production" style={{ textDecoration: 'none' }}>
+                    <Link to="/production" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
                             <ListItemIcon className={location.pathname === "/production" ? "list-item-icon-active" : "list-item-icon"} >
                                 <AutoFixHighIcon />
@@ -197,7 +195,7 @@ export default function MenuNavbar({open , handleDrawerClose}) {
                     theme.palette.mode === 'dark' && location.pathname === "/sales/print"
                     ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}
                 >
-                    <Link to="/sales" style={{ textDecoration: 'none' }}>
+                    <Link to="/sales" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
                             <ListItemIcon className={location.pathname === "/sales" || location.pathname === "/sales/print" ? "list-item-icon-active" : "list-item-icon"} >
                                 <ShoppingCartOutlinedIcon />
@@ -215,7 +213,7 @@ export default function MenuNavbar({open , handleDrawerClose}) {
                     theme.palette.mode === 'dark' && location.pathname === "/customer"
                     ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}
                 >
-                    <Link to="/customer" style={{ textDecoration: 'none' }}>
+                    <Link to="/customer" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
                             <ListItemIcon className={location.pathname === "/customer" ? "list-item-icon-active" : "list-item-icon"} >
                                 <PersonOutlineIcon />
@@ -231,7 +229,7 @@ export default function MenuNavbar({open , handleDrawerClose}) {
 
                 {/* Item */}                   
                 <ListItem className={theme.palette.mode === 'dark' && location.pathname === "/supplies" ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}>
-                    <Link to="/supplies" style={{ textDecoration: 'none' }}>
+                    <Link to="/supplies" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
                             <ListItemIcon className={location.pathname === "/supplies" ? "list-item-icon-active" : "list-item-icon"} >
                                 <AddShoppingCartSharpIcon />
@@ -246,7 +244,7 @@ export default function MenuNavbar({open , handleDrawerClose}) {
                      
                 {/* Item */}                   
                 <ListItem className={theme.palette.mode === 'dark' && location.pathname === "/user" ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}>
-                    <Link to="/user" style={{ textDecoration: 'none' }}>
+                    <Link to="/user" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
                             <ListItemIcon className={location.pathname === "/user" ? "list-item-icon-active" : "list-item-icon"} >
                                 <GroupAddIcon />
@@ -261,7 +259,7 @@ export default function MenuNavbar({open , handleDrawerClose}) {
 
                 {/* Item */}                   
                 <ListItem className={theme.palette.mode === 'dark' && location.pathname === "/report" ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}>
-                    <Link to="/report" style={{ textDecoration: 'none' }}>
+                    <Link to="/report" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
                             <ListItemIcon className={location.pathname === "/report" ? "list-item-icon-active" : "list-item-icon"} >
                                 <ContentCopyOutlinedIcon />
@@ -282,7 +280,7 @@ export default function MenuNavbar({open , handleDrawerClose}) {
             <List className='list' >
                 {/* Item */}                   
                 <ListItem className={theme.palette.mode === 'dark' && location.pathname === "/system-setting" ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}>
-                    <Link to="/system-setting" style={{ textDecoration: 'none' }}>
+                    <Link to="/system-setting" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
                             <ListItemIcon className={location.pathname === "/system-setting" ? "list-item-icon-active" : "list-item-icon"}  >
                                 <SettingsIcon />

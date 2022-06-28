@@ -63,6 +63,11 @@ query GetPurchaseRawMaterialPagination($storageId: ID!, $page: Int, $limit: Int,
         last_name
         gender
       }
+      completedBy {
+        _id
+        first_name
+        last_name
+      }
       status
       priority
       storageRoom {
