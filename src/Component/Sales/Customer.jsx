@@ -131,6 +131,7 @@ export default function Customer() {
                   <TableCell className="header-title">Phone Number</TableCell>
                   <TableCell className="header-title">Email</TableCell>
                   <TableCell className="header-title">Address</TableCell>
+                  <TableCell className="header-title">Owe</TableCell>
                   <TableCell
                     className="header-title"
                     align="center"
@@ -159,7 +160,7 @@ export default function Customer() {
                       className="body-title"
                       component="th"
                       scope="row"
-                      width="25%"
+                      width="15%"
                     >
                      {row.phoneNumber}
                     </TableCell>
@@ -168,16 +169,23 @@ export default function Customer() {
                       className="body-title"
                       component="th"
                       scope="row"
-                      width="25%"
+                      width="15%"
                     >
                       {row.email}
                     </TableCell>
                     <TableCell
                       onClick={()=>{handleOpenView(); setDetailsData(row)}}
                       className="body-title"
-                      width="45%"
+                      width="30%"
                     >
                       {row.address}
+                    </TableCell>
+                    <TableCell
+                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
+                      className="body-title"
+                      width="45%"
+                    >
+                      ${350+index}.00
                     </TableCell>
                     <TableCell className="body-title" align="right">
                       <CustomerAction 

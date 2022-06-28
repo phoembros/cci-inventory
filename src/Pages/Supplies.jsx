@@ -113,6 +113,7 @@ export default function Supplies() {
                   <TableCell className="header-title">Email</TableCell>
                   <TableCell className="header-title">Phone Number</TableCell>
                   <TableCell className="header-title">Address</TableCell>
+                  <TableCell className="header-title">Owe</TableCell>
                   <TableCell
                     className="header-title"
                     align="center"
@@ -132,7 +133,7 @@ export default function Supplies() {
                     <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >{item?.email}</TableCell>
                     <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" > {item?.phoneNumber}</TableCell>
                     <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >{item?.address}</TableCell>
-                    
+                    <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >${125+index}.00</TableCell>
                     <TableCell className="body-title" align="right">
                         <SuppliesAction
                             setRefetch={refetch}
