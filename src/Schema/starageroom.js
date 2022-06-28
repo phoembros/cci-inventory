@@ -103,6 +103,9 @@ query GetPurchaseRawMaterialPagination($storageId: ID!, $page: Int, $limit: Int,
         key
       }
       remark
+      totalPayment
+      paymentStatus
+      paidAmount
     }
     paginator {
       slNo

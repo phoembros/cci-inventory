@@ -44,7 +44,7 @@ function TableRawMaterail() {
   return (
     <Stack className="invoice-table" spacing={1} padding="2%">
       <Stack direction="row" spacing={2}>
-        <Typography className="title-table"> Invoice </Typography>
+        <Typography className="title-table"> Purchase Raw Materail </Typography>
         <Box sx={{ flexGrow: 1 }}></Box>
         <Stack direction="row" justifyContent="center">
             <Typography className="title-table" variant="body2"> Unpaid: {dataSale?.length} </Typography>

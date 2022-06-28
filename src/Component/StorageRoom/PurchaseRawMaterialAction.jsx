@@ -12,6 +12,9 @@ import ViewPurchase from "./ViewPurchase";
 import PurchaseRawMaterialUpdate from './PurchaseRawMaterialUpdate';
 import ModalCheckPurchase from "./ModalCheckPurchase"
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import PaymentModal from './PaymentModal';
 
 export default function RawMaterialAction({
     editData,
@@ -37,6 +40,10 @@ export default function RawMaterialAction({
     const [openCheck,setOpenCheck] = React.useState(false);
     const handleOpenCheck = () => setOpenCheck(true);
     const handleCloseCheck = () => setOpenCheck(false);
+
+    const [openPayment,setOpenPayment] = React.useState(false);
+    const handleOpenPayment = () => setOpenPayment(true);
+    const handleClosePayment = () => setOpenPayment(false);
 
     
   return (
@@ -67,8 +74,10 @@ export default function RawMaterialAction({
                         </Stack> 
                     </MenuItem> 
 
+
                     {
                         editData?.status === "approved" ?
+                            <>
                             <MenuItem onClick={()=> {
                                 handleClose();
                                 handleOpenCheck();
@@ -78,6 +87,18 @@ export default function RawMaterialAction({
                                     <Typography>Complete</Typography>
                                 </Stack> 
                             </MenuItem>
+
+                            <MenuItem onClick={()=> {
+                                handleClose();
+                                handleOpenPayment();
+                            }}>
+                                <Stack direction="row" spacing={1}>
+                                    <CurrencyExchangeIcon sx={{color:"#F15412"}}/>
+                                    <Typography>Payment</Typography>
+                                </Stack> 
+                            </MenuItem>
+                            
+                            </>
                         :
                             null
                     }                   
@@ -94,9 +115,32 @@ export default function RawMaterialAction({
 
                 </Menu>
             :
-                null
+                <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                    }}
+                >
+
+                    <MenuItem onClick={()=> {
+                        handleClose();
+                        handleOpenPayment();
+                    }}>
+                        <Stack direction="row" spacing={1}>
+                            <CurrencyExchangeIcon sx={{color:"#F15412"}}/>
+                            <Typography>Payment</Typography>
+                        </Stack> 
+                    </MenuItem> 
+
+                    
+
+                </Menu>
         }
          
+
         
 
         <Modal open={openEdit}>
@@ -110,6 +154,7 @@ export default function RawMaterialAction({
                 setRefetch={setRefetch}             
             />
         </Modal>
+        {/*  */}
 
         <Modal open={openCheck}>
             <ModalCheckPurchase 
@@ -132,6 +177,19 @@ export default function RawMaterialAction({
                 setMessage={setMessage}
                 setCheckMessage={setCheckMessage}
                 setRefetch={setRefetch}  
+            />
+        </Modal>
+
+        {/*  */}
+        <Modal open={openPayment}>
+            <PaymentModal 
+                handleClose={handleClosePayment} 
+                btnTitle={"Update"} 
+                editData={editData}   
+                setAlert={setAlert}
+                setMessage={setMessage}
+                setCheckMessage={setCheckMessage}
+                setRefetch={setRefetch}             
             />
         </Modal>
         

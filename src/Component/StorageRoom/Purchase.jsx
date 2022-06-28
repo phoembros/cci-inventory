@@ -160,7 +160,8 @@ export default function ProductCategories() {
                                 <TableCell className="header-title">Purchase By</TableCell>  
                                 <TableCell className="header-title">purchase Date</TableCell>                               
                                 <TableCell className="header-title">Priority</TableCell>    
-                                <TableCell className="header-title">Status</TableCell>                               
+                                <TableCell className="header-title">Status</TableCell>     
+                                <TableCell className="header-title">Payment Status</TableCell>                           
                                 <TableCell className="header-title" align="center"></TableCell>                        
                             </TableRow>
                         </TableHead>
@@ -168,9 +169,9 @@ export default function ProductCategories() {
                             <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
                                 <TableRow  className="body-row">
                                     <TableCell onClick={()=>{handleOpenViewPurchase(); setPurchaseData(row)}} className="body-title" component="th" scope="row" width="15%" > {moment(row?.createdAt).format('YYMM')}-{row?.purchaseId.padStart(2, '0')} </TableCell>                                                                  
-                                    <TableCell onClick={()=>{handleOpenViewPurchase(); setPurchaseData(row)}} className="body-title" >{row?.purchaseBy?.first_name+' '+row?.purchaseBy?.last_name}</TableCell>
+                                    <TableCell onClick={()=>{handleOpenViewPurchase(); setPurchaseData(row)}} className="body-title" sx={{width:"20%"}}>{row?.purchaseBy?.first_name+' '+row?.purchaseBy?.last_name}</TableCell>
                                     <TableCell onClick={()=>{handleOpenViewPurchase(); setPurchaseData(row)}} className="body-title" >{moment(row?.purchaseDate).format("DD/MM/YYYY")}</TableCell>
-                                    <TableCell onClick={()=>{handleOpenViewPurchase(); setPurchaseData(row)}} className="body-title" >
+                                    <TableCell onClick={()=>{handleOpenViewPurchase(); setPurchaseData(row)}} className="body-title" sx={{width:"15%"}}>
                                         
                                         { row?.priority === "urgent" ? 
                                             <Stack direction="row" spacing={1}>
@@ -192,9 +193,12 @@ export default function ProductCategories() {
                                         : null }
 
                                     </TableCell>    
+                                    <TableCell onClick={()=>{handleOpenViewPurchase(); setPurchaseData(row)}} className="body-title"  sx={{width:"15%"}}>
+                                        <Typography className={`status-${row?.status}`}>{row?.status}</Typography>
+                                    </TableCell>   
                                     <TableCell onClick={()=>{handleOpenViewPurchase(); setPurchaseData(row)}} className="body-title" >
-                                        <Typography className={`status-${row.status}`}>{row?.status}</Typography>
-                                    </TableCell>                                                                   
+                                        <Typography className={`status-${row?.paymentStatus}`}>{row?.paymentStatus}</Typography>
+                                    </TableCell>                                                                  
                                     <TableCell className="body-title" align="right">
                                         <PurchaseRawMaterialAction 
                                             editData={row}

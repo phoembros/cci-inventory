@@ -1,0 +1,75 @@
+@import '../../themes.scss';
+
+.view-payment-modal {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;    
+    background-color: #fff;
+    box-shadow: 30px;
+    border-radius: 10px;
+    padding: 20px;
+    
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+    
+    .sub-title{
+        font-weight: bold;
+        color: $primary-color; 
+        font-size:16px; 
+    }
+    .btn-view{
+        display:flex;
+        justify-content: center;
+    }
+
+    .type-field {
+        color: $font-color;
+        font-size: $font-Size-Subtitle;
+        font-weight: bold;
+    }
+
+    .btn-create {
+        width: 100%;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0px 8px;
+
+        .header-row {            
+            .header-title {
+                padding: 5px;
+                border: none;
+                font-size: $font-Size-Subtitle;
+                font-weight: bold;
+            }
+        }
+        
+
+        .body {
+            box-shadow: none;
+
+            .body-row {       
+                background-color: $background-table-modal;
+    
+                .body-title {
+                    padding: 10px;
+                    border: none;
+                    font-size: $font-Size-Subtitle;
+
+                    .status {
+                        font-weight: bold;      
+                        color: $primary-color;                      
+                    }
+                }
+            }
+        }
+
+    }
+}

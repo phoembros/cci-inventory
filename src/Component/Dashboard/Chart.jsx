@@ -12,10 +12,10 @@ export default function Chart (){
     // }, 
     {
       name: 'Revenue',
-      data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+      data: [76, 85, 101, 98, 87, 105 ]
     }, {
       name: 'Expense',
-      data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+      data: [35, 41, 36, 26, 45, 48 ]
     }],
 
     options: {
@@ -39,7 +39,7 @@ export default function Chart (){
         colors: ['transparent']
       },
       xaxis: {
-        categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+        categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul' ],
       },
       // yaxis: {
       //   title: {
