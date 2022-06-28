@@ -88,7 +88,7 @@ export default function RawMaterialAction({
                                 </Stack> 
                             </MenuItem>
 
-                            <MenuItem onClick={()=> {
+                            {/* <MenuItem onClick={()=> {
                                 handleClose();
                                 handleOpenPayment();
                             }}>
@@ -96,7 +96,7 @@ export default function RawMaterialAction({
                                     <CurrencyExchangeIcon sx={{color:"#F15412"}}/>
                                     <Typography>Payment</Typography>
                                 </Stack> 
-                            </MenuItem>
+                            </MenuItem> */}
                             
                             </>
                         :
