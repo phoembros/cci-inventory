@@ -88,6 +88,16 @@ function TableRawMaterail() {
               </Typography>
             </Stack>
 
+            
+            <Box sx={{ flexGrow: 1 }}></Box>
+            {/* <Stack direction="column" justifyContent="center">
+              <Button onClick={() => navigate(`/sales/print?invoice=${row?._id}`)} sx={{textTransform: "none"}}>
+                <Stack direction="row" justifyContent="center" spacing={1} >
+                    <LocalPrintshopOutlinedIcon sx={{ color: "blue" }} />
+                    <Typography className="invoice-table-text">Print</Typography>
+                </Stack>                  
+              </Button>              
+            </Stack> */}
             <Stack direction="column" justifyContent="center">
               <Button className="btn-unpaid">
                 <Stack direction="row" justifyContent="center" spacing={1}>
@@ -100,21 +110,14 @@ function TableRawMaterail() {
                 </Stack>
               </Button>
             </Stack>
-            <Box sx={{ flexGrow: 1 }}></Box>
-            <Stack direction="column" justifyContent="center">
-              <Button onClick={() => navigate(`/sales/print?invoice=${row?._id}`)} sx={{textTransform: "none"}}>
-                <Stack direction="row" justifyContent="center" spacing={1} >
-                    <LocalPrintshopOutlinedIcon sx={{ color: "blue" }} />
-                    <Typography className="invoice-table-text">Print</Typography>
-                </Stack>                  
-              </Button>              
-            </Stack>
           </Stack>
       ))}
 
         <Box sx={{ flexGrow: 1 }}></Box>
         <Stack direction="row" justifyContent="center" sx={{mt:2}}>
-            <Button className="btn-view" onClick={() => navigate("/sales")}>
+            <Button className="btn-view" 
+              // onClick={() => navigate("/sales")}
+            >
               View All
             </Button>
         </Stack>
