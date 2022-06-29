@@ -76,7 +76,7 @@ export default function Layout({prefersDarkMode, setPrefersDarkMode }) {
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
-  console.log(width)
+  // console.log(width)
 
 
   return (

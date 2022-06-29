@@ -43,8 +43,8 @@ export const GET_STORAGE_ROOM_PAGINATION = gql`
 `
 
 export const GET_PURCHASE_RAW_MATERAIL_PAGINATION = gql`
-query GetPurchaseRawMaterialPagination($storageId: ID!, $page: Int, $limit: Int, $keyword: String , $pagination: Boolean , $priority: String, $status: String) {
-  getPurchaseRawMaterialPagination(storageId: $storageId, page: $page, limit: $limit, keyword: $keyword, pagination: $pagination , priority: $priority, status: $status) {
+query GetPurchaseRawMaterialPagination($storageId: ID!, $page: Int, $limit: Int, $keyword: String , $pagination: Boolean , $priority: String, $status: String , $paymentStatus: [String] ) {
+  getPurchaseRawMaterialPagination(storageId: $storageId, page: $page, limit: $limit, keyword: $keyword, pagination: $pagination , priority: $priority, status: $status , paymentStatus: $paymentStatus ) {
     purchaseRawMaterial {
       _id
       purchaseId

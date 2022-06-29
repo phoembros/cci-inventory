@@ -60,7 +60,7 @@ export default function Dashboard() {
           sx={{ boxShadow: "none" }}
           onClick={() => navigate("/sales?create=true")}
         >
-          Invoice
+            Invoice
         </Button>
 
         <Button
@@ -69,7 +69,7 @@ export default function Dashboard() {
           sx={{ boxShadow: "none" }}
           onClick={() => navigate("/production?create=true")}
         >
-          Productions
+            Productions
         </Button>
       </Stack>
       {/* end Top */}
@@ -85,8 +85,8 @@ export default function Dashboard() {
                     <CircleIcon className="success" />
                   </Stack>
                   <Stack direction="column" justifyContent="center">
-                    <Typography className="text-inline">Purchase</Typography>
-                    <Typography className="sub-color">Material pending</Typography>
+                    <Typography className="text-inline">Raw Material</Typography>
+                    <Typography className="sub-color">Total Raw Material</Typography>
                   </Stack>
                   <Box sx={{ flexGrow: 1 }}></Box>
                   <Button className="btn-maker">
@@ -108,8 +108,8 @@ export default function Dashboard() {
                   <CircleIcon className="success" />
                 </Stack>
                 <Stack direction="column" justifyContent="center">
-                  <Typography className="text-inline">Production</Typography>
-                  <Typography className="sub-color">Pendding</Typography>
+                  <Typography className="text-inline">Product</Typography>
+                  <Typography className="sub-color">Total Product</Typography>
                 </Stack>
                 <Box sx={{ flexGrow: 1 }}></Box>
                 <Button className="btn-maker">
@@ -131,7 +131,7 @@ export default function Dashboard() {
                     <CircleIcon className="success" />
                   </Stack>
                   <Stack direction="column" justifyContent="center">
-                    <Typography className="text-inline">Invoice</Typography>
+                    <Typography className="text-inline">Sale Invoice</Typography>
                     <Typography className="sub-color">Upaid & Owe</Typography>
                   </Stack>
                   <Box sx={{ flexGrow: 1 }}></Box>

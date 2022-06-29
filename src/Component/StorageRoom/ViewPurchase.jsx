@@ -140,6 +140,13 @@ return (
             </TableContainer>
         </Box> 
 
+
+        <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+            <Box sx={{flexGrow:1}}></Box>
+            <Typography className="header-title">Total Amount:</Typography>              
+            <Typography>${PurchaseData?.totalPayment.toFixed(2)}</Typography>                
+        </Stack>
+
         <Stack direction='row' spacing={2} sx={{ mt: 2 }}> 
             <Stack direction="column">
                 <Typography className="header-title"> Remark: </Typography>

@@ -145,6 +145,7 @@ export default function PaymentModal({
             </Stack>          
             <Box sx={{width:"200px"}}>
                 <TextField 
+                    autoFocus
                     type="number"
                     size="small"                              
                     placeholder="0" 

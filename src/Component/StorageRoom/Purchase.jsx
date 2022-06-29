@@ -76,6 +76,7 @@ export default function ProductCategories() {
             pagination: true,
             priority: priority,
             status: status,
+            paymentStatus: [],        
         },
         onCompleted: ({getPurchaseRawMaterialPagination}) => {
             // console.log(getPurchaseRawMaterialPagination?.purchaseRawMaterial,"data");    
@@ -159,9 +160,9 @@ export default function ProductCategories() {
                                 <TableCell className="header-title">PO Number</TableCell>                                  
                                 <TableCell className="header-title">Purchase By</TableCell>  
                                 <TableCell className="header-title">purchase Date</TableCell>                               
-                                <TableCell className="header-title">Priority</TableCell>    
-                                <TableCell className="header-title">Status</TableCell>     
-                                <TableCell className="header-title">Payment Status</TableCell>                           
+                                <TableCell className="header-title">Priority</TableCell>   
+                                <TableCell className="header-title">Payment Status</TableCell> 
+                                <TableCell className="header-title">Status</TableCell>                           
                                 <TableCell className="header-title" align="center"></TableCell>                        
                             </TableRow>
                         </TableHead>
@@ -193,12 +194,13 @@ export default function ProductCategories() {
                                         : null }
 
                                     </TableCell>    
-                                    <TableCell onClick={()=>{handleOpenViewPurchase(); setPurchaseData(row)}} className="body-title"  sx={{width:"15%"}}>
-                                        <Typography className={`status-${row?.status}`}>{row?.status}</Typography>
-                                    </TableCell>   
+                                       
                                     <TableCell onClick={()=>{handleOpenViewPurchase(); setPurchaseData(row)}} className="body-title" >
                                         <Typography className={`status-${row?.paymentStatus}`}>{row?.paymentStatus}</Typography>
-                                    </TableCell>                                                                  
+                                    </TableCell>    
+                                    <TableCell onClick={()=>{handleOpenViewPurchase(); setPurchaseData(row)}} className="body-title"  sx={{width:"15%"}}>
+                                        <Typography className={`status-${row?.status}`}>{row?.status}</Typography>
+                                    </TableCell>                                                              
                                     <TableCell className="body-title" align="right">
                                         <PurchaseRawMaterialAction 
                                             editData={row}

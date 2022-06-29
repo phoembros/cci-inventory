@@ -5,7 +5,7 @@ import * as React from "react";
 import './printinvoice.scss';
 import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined';
 import ReactToPrint from "react-to-print";
-import logo from "../../Assets/logo.svg";
+import logo from "../../Assets/CCI.svg";
 import { GET_SALE_BYID } from "../../Schema/sales";
 import { useQuery } from "@apollo/client";
 import { useLocation } from "react-router-dom";
@@ -49,7 +49,7 @@ const ComponentToPrint = () => {
                         <Typography variant="body2">www.ccscambodia.com</Typography>
                     </Grid>
                     <Grid item xs={6} display="flex" justifyContent="center">
-                        <img src={logo} alt="logo" width="70%"/>
+                        <img src={logo} alt="logo" width="35%"/>
                     </Grid>
 
                     <Grid item xs={6} sx={{mt:3}}>

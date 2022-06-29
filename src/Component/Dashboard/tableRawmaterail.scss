@@ -48,6 +48,22 @@
                     font-weight: bold;
                     color: red;
                 }
+
+                .text-owe-point {
+                    width: 6px;
+                    height: 6px;
+                    background-color: orange;
+                    border-radius: 50%;
+                    margin-right: 6px;
+                    margin-top: 10px;
+                }
+
+                .text-owe {
+                    font-size: 22;
+                    font-weight: bold;
+                    color: orange;
+                }
+
             }
         }
 }

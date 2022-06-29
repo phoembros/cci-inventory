@@ -7,38 +7,70 @@ import { GET_SALE_WITH_PAGINATION } from "../../Schema/sales";
 import { useQuery } from "@apollo/client";
 import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined';
 import moment from "moment"
+import { GET_PURCHASE_RAW_MATERAIL_PAGINATION } from "../../Schema/starageroom";
 
 function TableRawMaterail() {
   const navigate = useNavigate();
   
-  // Get Data Sell  
-  const [dataSale,setDataSale] = React.useState([]);
-  const [status,setStatus] = React.useState("");
-  
-  const { data , error , refetch } = useQuery(GET_SALE_WITH_PAGINATION , {
-    variables: {
-        page: 1,
-        limit: 5,
-        keyword: "",
-        pagination: true,
-        status: status,
-    },    
-  })
+  const [dataPurchaseRawMaterial,setDataPurchaseRawMaterial] = React.useState([]);
+
+  const [paymentStatus,setPaymentStatus] = React.useState([])
+
+  const { data: dataPurchaseRaw , refetch : refetchPurchase } = useQuery(GET_PURCHASE_RAW_MATERAIL_PAGINATION, {
+      variables: {
+          storageId: "",       
+          keyword: "",
+          pagination: false,
+          priority: "",
+          status: "",     
+          paymentStatus: paymentStatus,        
+      },
+      onCompleted: ({getPurchaseRawMaterialPagination}) => {
+          console.log(getPurchaseRawMaterialPagination?.purchaseRawMaterial,"data");    
+          setDataPurchaseRawMaterial(getPurchaseRawMaterialPagination?.purchaseRawMaterial)        
+      },
+      onError: (error) => {
+          console.log(error.message)            
+      }
+  });
 
   React.useEffect( () => {
-      refetch();
-  },[status])
+    refetchPurchase();
+  },[paymentStatus])
 
   React.useEffect( () => {
-      setStatus("unpaid");      
+    setPaymentStatus(["unpaid" , "owe"]);      
   },[])
 
-  React.useEffect( () => {
-      if(data?.getSaleWithPagination?.sales)  {
-          console.log(data?.getSaleWithPagination?.sales)
-          setDataSale(data?.getSaleWithPagination?.sales)
-      }
-  },[data?.getSaleWithPagination?.sales])
+
+  // // Get Data Sell  
+  // const [dataSale,setDataSale] = React.useState([]);
+  // const [status,setStatus] = React.useState("");
+  
+  // const { data , error , refetch } = useQuery(GET_SALE_WITH_PAGINATION , {
+  //   variables: {
+  //       page: 1,
+  //       limit: 5,
+  //       keyword: "",
+  //       pagination: true,
+  //       status: status,
+  //   },    
+  // })
+
+  // React.useEffect( () => {
+  //     refetch();
+  // },[status])
+
+  // React.useEffect( () => {
+  //     setStatus("unpaid");      
+  // },[])
+
+  // React.useEffect( () => {
+  //     if(data?.getSaleWithPagination?.sales)  {
+  //         console.log(data?.getSaleWithPagination?.sales)
+  //         setDataSale(data?.getSaleWithPagination?.sales)
+  //     }
+  // },[data?.getSaleWithPagination?.sales])
   
 
   return (
@@ -47,13 +79,13 @@ function TableRawMaterail() {
         <Typography className="title-table"> Purchase Raw Materail </Typography>
         <Box sx={{ flexGrow: 1 }}></Box>
         <Stack direction="row" justifyContent="center">
-            <Typography className="title-table" variant="body2"> Unpaid: {dataSale?.length} </Typography>
+            <Typography className="title-table" variant="body2"> Unpaid&Owe: {dataPurchaseRawMaterial?.length} </Typography>
         </Stack>
       </Stack>
       <Divider />
       <Box display="flex" flexDirection="column" justifyContent="center" height="100%">
 
-      {dataSale?.map((row, index) => (
+      {dataPurchaseRawMaterial?.map((row, index) => (
           <Stack direction="row" spacing={1} className="stack-map" sx={{bgcolor: index%2 === 0 ? "white" : "#d0e3ed"}}>
             <Stack
               key={index}
@@ -64,7 +96,7 @@ function TableRawMaterail() {
               <Stack direction="row">
                 <DescriptionOutlinedIcon className="stack-map-icons" />
                 <Typography className="invoice-table-text">
-                  CCI{moment(row?.createdAt).format("YYYY")}-{row?.invoiceNo.padStart(4, '0')}
+                    {moment(row?.createdAt).format('YYMM')}-{row?.purchaseId.padStart(2, '0')}
                 </Typography>
               </Stack>
             </Stack>
@@ -74,22 +106,23 @@ function TableRawMaterail() {
               sx={{ width: "200px" }}
             >
               <Typography className="invoice-table-text">
-                {row?.billTo?.customerId?.name}
+                  By: {row?.purchaseBy?.first_name+ " "+row?.purchaseBy?.last_name}
               </Typography>
             </Stack>
 
             <Stack
               direction="column"
               justifyContent="center"
-              sx={{ width: "90px" }}
+              sx={{ width: "200px" }}
             >
               <Typography className="invoice-table-text">
-                ${row?.totalAmount?.toFixed(2)}
+                Total Payment: ${row?.totalPayment?.toFixed(2)}
               </Typography>
             </Stack>
 
             
             <Box sx={{ flexGrow: 1 }}></Box>
+            
             {/* <Stack direction="column" justifyContent="center">
               <Button onClick={() => navigate(`/sales/print?invoice=${row?._id}`)} sx={{textTransform: "none"}}>
                 <Stack direction="row" justifyContent="center" spacing={1} >
@@ -98,13 +131,14 @@ function TableRawMaterail() {
                 </Stack>                  
               </Button>              
             </Stack> */}
+
             <Stack direction="column" justifyContent="center">
               <Button className="btn-unpaid">
                 <Stack direction="row" justifyContent="center" spacing={1}>
                   <Stack direction="column" justifyContent="center">
                     <Stack direction="row">
-                      <Box className="text-unpaid-point"></Box>
-                      <Typography className="text-unpaid">Unpaid</Typography>
+                      <Box className={`text-${row?.paymentStatus}-point`}></Box>
+                      <Typography className={`text-${row?.paymentStatus}`}>{row?.paymentStatus}</Typography>
                     </Stack>
                   </Stack>
                 </Stack>
