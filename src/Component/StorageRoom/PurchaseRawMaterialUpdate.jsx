@@ -376,6 +376,11 @@ export default function PurchaseRawMaterialUpdate({
               </TableContainer>
             </Box>
 
+            <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+                <Box sx={{flexGrow:1}}></Box>
+                <Typography className="header-title">Total Amount:</Typography>              
+                <Typography>$52.02</Typography>                
+            </Stack>                 
 
             <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
               <Typography className="header-title">Remark</Typography>
