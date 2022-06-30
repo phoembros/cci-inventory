@@ -33,6 +33,8 @@ export default function PurchaseRawMaterial({
 
 }) {
 
+  const [totalAmount,setTotalAmount] = React.useState(0);
+  
   // Create
   const [createPurchaseRawMaterial] = useMutation(CREATE_PURCHASE_RAW_MATERIAL,{
     onCompleted: ({createPurchaseRawMaterial}) => {
@@ -108,6 +110,16 @@ export default function PurchaseRawMaterial({
     const deleteItem = (key) => {
         const filteredItems = item?.filter(t => t.key !== key);
         setItem(filteredItems)
+    }
+
+    const setUpdateTotalAmount = () => {
+        const items = item;
+        let totalAmounts = 0;
+        items.map(i=>{    
+          totalAmounts+= i?.newQty*i?.unitPrice;
+        })
+
+        setTotalAmount(totalAmounts) 
     }
 
     // Update Raw material Data
@@ -191,6 +203,7 @@ export default function PurchaseRawMaterial({
           setBtnCheckSubmit(true);
         } else {
           setBtnCheckSubmit(false);
+          setUpdateTotalAmount();
         }
 
     }
@@ -209,6 +222,7 @@ export default function PurchaseRawMaterial({
           setBtnCheckSubmit(true);
         } else {
           setBtnCheckSubmit(false);
+          setUpdateTotalAmount();
         }
     }
 
@@ -237,6 +251,7 @@ export default function PurchaseRawMaterial({
               storageRoom: roomId,
               productsItems: item,
               remark: values?.remark,
+              totalPayment: parseFloat(totalAmount?.toFixed(2)),
           }
 
           console.log(newValue)
@@ -377,7 +392,7 @@ export default function PurchaseRawMaterial({
             <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                 <Box sx={{flexGrow:1}}></Box>
                 <Typography className="header-title">Total Amount:</Typography>              
-                <Typography>$52.02</Typography>                
+                <Typography>${totalAmount?.toFixed(2)}</Typography>                
             </Stack>
 
             <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
