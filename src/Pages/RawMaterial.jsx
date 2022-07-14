@@ -65,15 +65,16 @@ export default function RawMaterial() {
   
   //Query
   const { data, refetch } = useQuery(GET_RAW_MATERAIL_PAGINATION, {
-    variables: {
-      page: page,
-      limit: limit,
-      keyword: keyword,
-      pagination: true,
-    },
-    onCompleted: () => {
-      setLoading(false)
-    }
+      variables: {
+        page: page,
+        limit: limit,
+        keyword: keyword,
+        pagination: true,
+      },
+      onCompleted: () => {
+          setLoading(false)
+      },
+      pollInterval: 10000,
   });
 
   // console.log(data, "test");

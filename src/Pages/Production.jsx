@@ -61,7 +61,8 @@ export default function Production() {
         variables: {           
             keyword: "",
             pagination: true,
-        },       
+        },  
+        pollInterval: 10000,     
     })
    
     React.useEffect( () => {

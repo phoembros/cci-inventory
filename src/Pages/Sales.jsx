@@ -86,7 +86,8 @@ export default function Sales() {
       },
       onError: (error) => {
         console.log(error.message)
-      }
+      },
+      pollInterval: 10000,
   });
 
   React.useEffect(()=>{

@@ -49,15 +49,16 @@ export default function Supplies() {
 
     //usequery
     const {data, refetch } = useQuery(GET_SUPPLIERS_BY_PAGINATION, {
-      variables: {
-        page: page,
-        limit:limit,
-        keyword: keyword,
-        pagination: true,
-      },
-      onCompleted: () => {
-        setLoading(false);
-      },
+        variables: {
+            page: page,
+            limit:limit,
+            keyword: keyword,
+            pagination: true,
+        },
+        onCompleted: () => {
+            setLoading(false);
+        },
+        pollInterval: 10000,
     });
 
     React.useEffect( () => {

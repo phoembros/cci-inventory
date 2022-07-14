@@ -55,7 +55,8 @@ export default function User() {
         },
         onCompleted: () => {
             setLoading(false)
-        }
+        },
+        pollInterval: 10000,
     });
     // console.log(data?.getUsersPagination?.users, 'user')
    

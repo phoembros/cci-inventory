@@ -59,7 +59,8 @@ export default function Product() {
         },
         onCompleted: () => {
             setLoading(false);
-        }
+        },
+        pollInterval: 10000,
     })
     // console.log(data?.getProductPagination?.products, 'p')
 

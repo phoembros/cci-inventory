@@ -46,7 +46,9 @@ import PermissionContent from "../Component/Permission/PermissionContent";
 export default function Dashboard() {
 
 
-  const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+  const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
+    pollInterval: 10000,
+  })
   // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
   //Query Raw Material
@@ -54,11 +56,14 @@ export default function Dashboard() {
       variables: {     
           keyword: "",
           pagination: false,          
-      },    
+      },
+      pollInterval: 10000,    
   });
   // console.log(data?.getRawMaterialPagination?.rawMaterial?.length)
 
-  const { data: dataSale } = useQuery(GET_SAL_UNPAITOWE);
+  const { data: dataSale } = useQuery(GET_SAL_UNPAITOWE,{
+    pollInterval: 10000,
+  });
   // console.log(dataSale?.getInvoiceOweAndUnpaid)
 
 
@@ -68,6 +73,7 @@ export default function Dashboard() {
           keyword: "",
           pagination: false,          
       },    
+      pollInterval: 10000,
   });
   // console.log(dataProduct?.getProductPagination?.products?.length)
 
