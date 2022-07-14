@@ -11,6 +11,7 @@ import {
   OutlinedInput,
   InputAdornment,
   FormHelperText,
+  Autocomplete,
 } from "@mui/material";
 import "./modaluserAdd.scss";
 import { styled } from "@mui/material/styles";
@@ -38,6 +39,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { GET_ROLE_PERMISSION } from "../../Schema/role";
 
 const Input = styled("input")({
   display: "none",
@@ -68,6 +70,36 @@ function UpdateUser(
   }) {
 
   
+    const [roleDataAuto,setRoleDataAuto] = React.useState([])
+    const [rolePermissionSeleted,setRolePermissionSeleted] = React.useState({});
+
+    const { data: RoleData} = useQuery(GET_ROLE_PERMISSION)
+        
+    React.useEffect( () => {
+        // console.log(RoleData?.getRoleAndPermission);
+        if(RoleData?.getRoleAndPermission) {
+            let row = [];
+            RoleData?.getRoleAndPermission?.forEach((element) => {
+                const allRow = {
+                    _id : element?._id,
+                    label: element?.role,
+                }
+                row.push(allRow);
+            });
+            setRoleDataAuto(row)
+        }
+    },[RoleData?.getRoleAndPermission])
+
+    React.useEffect( () => {
+      if(DataUser){
+        setRolePermissionSeleted({
+          label: DataUser?.role_and_permission?.role,
+          _id: DataUser?.role_and_permission?._id
+        })
+      }
+      
+    },[DataUser])
+
   //show password function
   const [showPassword, setShowPassword] = React.useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
@@ -106,7 +138,8 @@ function UpdateUser(
       last_name: Yup.string().required('Required!'),      
       gender: Yup.string().required('Required!'),
       phone_number: Yup.string().required("phone number is required!"),
-      birthOfDate: Yup.date(),      
+      birthOfDate: Yup.date(),   
+      role_and_permission: Yup.string(),   
   });
 
   const formik = useFormik({
@@ -118,7 +151,7 @@ function UpdateUser(
         birthOfDate: DataUser?.birthOfDate,
         role_and_permission: DataUser?.role_and_permission?._id,
         image_name: "",
-        image_src: "",
+        image_src: "",        
     },
 
     validationSchema: Update_user,
@@ -272,7 +305,7 @@ function UpdateUser(
                           
                           </Grid>
 
-                          <Grid item xs={12} md={12}>                
+                          <Grid item xs={6} md={6}>                
                             <Typography className='header-title' variant="body1" >
                               Phone Number:
                             </Typography>
@@ -285,7 +318,28 @@ function UpdateUser(
                                 helperText={touched.phone_number && errors.phone_number}
                             />
                           </Grid>
-                        
+                          <Grid item xs={6} md={6}>                
+                            <Typography className='header-title' variant="body1" >
+                              Role :
+                            </Typography>
+                            <Autocomplete                      
+                                disablePortal                              
+                                options={roleDataAuto}  
+                                value={rolePermissionSeleted} 
+                                getOptionLabel={ (option) => option?.label ? option?.label : "" }  
+                                getOptionSeleted={ (option, value) => option._id == value._id}                                           
+                                onChange={(event, value) => {
+                                  setFieldValue("role_and_permission", value?._id )
+                                  setRolePermissionSeleted({
+                                      label: value?.label,
+                                      _id: values?._id,
+                                  })
+                                }}
+                                renderInput={(params) => 
+                                    <TextField {...params} placeholder='choose name' size="small" fullWidth /> 
+                                }
+                            /> 
+                          </Grid>
 
                           <Grid item xs={12} md={12} mt={2}>
                             <Button

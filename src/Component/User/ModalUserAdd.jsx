@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Stack, Grid, Box, Paper, Button, IconButton, Typography, TextField, OutlinedInput, FormHelperText, InputAdornment, } from "@mui/material";
+import { Stack, Grid, Box, Paper, Button, IconButton, Typography, TextField, OutlinedInput, FormHelperText, InputAdornment, Autocomplete, } from "@mui/material";
 import "./modaluserAdd.scss";
 import { styled } from "@mui/material/styles";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { useFormik, Form, FormikProvider } from "formik";
 import { useState, useEffect } from "react";
 import * as Yup from "yup";
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_USER } from "../../Schema/user";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -36,6 +36,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { GET_ROLE_PERMISSION } from "../../Schema/role";
 
 
 const Input = styled("input")({
@@ -88,7 +89,30 @@ const uploadFiles = async ( file, newValue ) => {
 
 function ModalUserAdd({handleClose, open , setAlert, setMessage, setCheckMessage , setLoading ,  setRefech}) {
   //
+
+  const [roleDataAuto,setRoleDataAuto] = React.useState([])
+  const [rolePermissionSeleted,setRolePermissionSeleted] = React.useState({});
+
+  const { data: RoleData} = useQuery(GET_ROLE_PERMISSION)
+        
+    React.useEffect( () => {
+        // console.log(RoleData?.getRoleAndPermission);
+        if(RoleData?.getRoleAndPermission) {
+            let row = [];
+            RoleData?.getRoleAndPermission?.forEach((element) => {
+                const allRow = {
+                    _id : element?._id,
+                    label: element?.role,
+                }
+                row.push(allRow);
+            });
+            setRoleDataAuto(row)
+        }
+    },[RoleData?.getRoleAndPermission])
+
+
   const [dob,setDob] = React.useState(new Date());
+
   //show password function
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
@@ -129,7 +153,9 @@ function ModalUserAdd({handleClose, open , setAlert, setMessage, setCheckMessage
       email: Yup.string().email('Invalid email format').required('Required'),    
       password:Yup.string().min( 6,"Password must be more than 6 characters!"),
       confirm_password: Yup.string().oneOf([Yup.ref("password")], "Password must be the same!"), 
+      role_and_permission: Yup.string(),
   });
+
 
   const formik = useFormik({
     initialValues: {
@@ -143,7 +169,7 @@ function ModalUserAdd({handleClose, open , setAlert, setMessage, setCheckMessage
         birthOfDate: new Date(),
         image_name: "",
         image_src: "",
-        role_and_permission: "6290a3e5f5b317b1b7fbc296",
+        role_and_permission: "",
     },
 
     validationSchema: UserAdd,
@@ -288,7 +314,7 @@ function ModalUserAdd({handleClose, open , setAlert, setMessage, setCheckMessage
                             </LocalizationProvider>  */}
                           </Grid>
 
-                          <Grid item xs={12} md={12}>                
+                          <Grid item xs={6} md={6}>                
                             <Typography className='header-title' variant="body1" >
                               Phone Number:
                             </Typography>
@@ -300,6 +326,29 @@ function ModalUserAdd({handleClose, open , setAlert, setMessage, setCheckMessage
                                 error={Boolean(touched.phone_number && errors.phone_number)}
                                 helperText={touched.phone_number && errors.phone_number}
                             />
+                          </Grid>
+
+                          <Grid item xs={6} md={6}>                
+                            <Typography className='header-title' variant="body1" >
+                              Role :
+                            </Typography>
+                            <Autocomplete                      
+                                disablePortal                              
+                                options={roleDataAuto}  
+                                value={rolePermissionSeleted} 
+                                getOptionLabel={ (option) => option?.label ? option?.label : "" }  
+                                getOptionSeleted={ (option, value) => option._id == value._id}                                           
+                                onChange={(event, value) => {
+                                  setFieldValue("role_and_permission", value?._id )
+                                  setRolePermissionSeleted({
+                                      label: value?.label,
+                                      _id: values?._id,
+                                  })
+                                }}
+                                renderInput={(params) => 
+                                    <TextField {...params} placeholder='choose name' size="small" fullWidth /> 
+                                }
+                            /> 
                           </Grid>
 
                           <Grid item xs={12} md={12}>

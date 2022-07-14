@@ -8,9 +8,13 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { auth } from "../../firebase";
 import {  getAuth ,signOut } from "firebase/auth";
-
+import { GET_USER_LOGIN } from "../../Schema/user"
+import { useQuery } from "@apollo/client";
 
 export default function Profile () {
+
+    const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+    console.log(dataUserLogin?.getuserLogin)
 
     const navigate = useNavigate();
     const theme = useTheme();
@@ -36,11 +40,11 @@ export default function Profile () {
     return(
         <>
             <IconButton >
-                <AccountCircleOutlinedIcon sx={{color: theme.palette.mode === 'dark' ? "#fff": "#0969A0" }} />
+                <AccountCircleOutlinedIcon sx={{color: theme.palette.mode === 'dark' ? "#fff": "#007654" }} />
             </IconButton>
 
-            <Button onClick={handleClick} sx={{color: theme.palette.mode === 'dark' ? "#fff": "#0969A0" }}>
-                <Typography>Administator</Typography>                                
+            <Button onClick={handleClick} sx={{color: theme.palette.mode === 'dark' ? "#fff": "#007654" }}>
+                <Typography>{dataUserLogin?.getuserLogin?.first_name+" "+dataUserLogin?.getuserLogin?.last_name}</Typography>                                
             </Button>
 
             <Menu
@@ -78,26 +82,19 @@ export default function Profile () {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem>
+                <MenuItem onClick={() => navigate("/user")}>
                     <Avatar /> Profile
                 </MenuItem>
-                {/* <MenuItem>
-                    <Avatar /> My account
-                </MenuItem> */}
-                
+                                
                 <Divider />
-                
-                {/* <MenuItem>
-                    <ListItemIcon> <PersonAdd fontSize="small" /> </ListItemIcon>
-                    Add another account
-                </MenuItem> */}
-                <MenuItem>
+             
+                <MenuItem onClick={() => navigate("/system-setting")}>
                     <ListItemIcon> <Settings fontSize="small" /> </ListItemIcon>
                     Settings
                 </MenuItem>
                 <MenuItem onClick={() => handleSignOut()}>
-                    <ListItemIcon> <Logout fontSize="small" /> </ListItemIcon>
-                    Logout
+                    <ListItemIcon> <Logout fontSize="small" sx={{color: "red"}} /> </ListItemIcon>
+                    <Typography variant="body1">Logout</Typography>
                 </MenuItem>
             </Menu>
 

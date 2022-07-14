@@ -24,7 +24,6 @@ export default function User() {
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
     // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
-
     const [loading,setLoading] = React.useState(true);
 
     const [open, setOpen] = React.useState(false);

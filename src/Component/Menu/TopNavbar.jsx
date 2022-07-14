@@ -29,7 +29,7 @@ export default function TopNavbar ({ prefersDarkMode , setPrefersDarkMode , hand
                         edge="start"
                         sx={{ mr: 2, ...(open && { display: 'none' }) }}
                     >
-                        <MenuIcon sx={{color: theme.palette.mode === 'dark' ? "#fff" : "#0969A0" }}/>
+                        <MenuIcon sx={{color: theme.palette.mode === 'dark' ? "#fff" : "#007654" }}/>
                     </IconButton>
 
                     <Box sx={{flexGrow: 1}} />
@@ -37,7 +37,7 @@ export default function TopNavbar ({ prefersDarkMode , setPrefersDarkMode , hand
                     <Stack direction="row" spacing={1} justifyContent="right">   
 
                         <IconButton onClick={() => setPrefersDarkMode(!prefersDarkMode)} color="inherit">
-                            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon sx={{ color: "#0969A0" }}/>}
+                            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon sx={{ color: "#007654" }}/>}
                         </IconButton>                           
 
                         {/* <IconButton>
