@@ -11,7 +11,7 @@ import { useMutation } from "@apollo/client";
 
 export default function StorageRoomRole({ dataRole , setRefetch }) {
 
-    // console.log(dataRole)
+    console.log(dataRole)
 
     // Update Function
     const [updateRole, error] = useMutation(UPDATE_ROLE, {
@@ -34,6 +34,7 @@ export default function StorageRoomRole({ dataRole , setRefetch }) {
     const [getStorageRoomProducts,setGetStorageRoomProducts] = React.useState(dataRole?.permissions?.getStorageRoomProducts)
 
     const [getProductByStorageRoomId,setGetProductByStorageRoomId] = React.useState(dataRole?.permissions?.getProductByStorageRoomId)
+   
     const [getPurchaseRawMaterialPagination,setGetPurchaseRawMaterialPagination] = React.useState(dataRole?.permissions?.getPurchaseRawMaterialPagination)
     const [createPurchaseRawMaterial,setCreatePurchaseRawMaterial]  = React.useState(dataRole?.permissions?.createPurchaseRawMaterial)
     const [updatePurchaseRawMaterial,setUpdatePurchaseRawMaterial] = React.useState(dataRole?.permissions?.updatePurchaseRawMaterial)
@@ -41,6 +42,8 @@ export default function StorageRoomRole({ dataRole , setRefetch }) {
     const [approvePurchaseRawMaterial,setApprovePurchaseRawMaterial] = React.useState(dataRole?.permissions?.approvePurchaseRawMaterial)
     const [completePurchaseRawMaterial,setCompletePurchaseRawMaterial] = React.useState(dataRole?.permissions?.completePurchaseRawMaterial)
 
+
+    console.log(getProductByStorageRoomId)
     // funciton update
     const handleUpdateRole = () => {
         updateRole({
@@ -63,6 +66,7 @@ export default function StorageRoomRole({ dataRole , setRefetch }) {
                         getBarChart: dataRole?.permissions?.getBarChart,
 
                         // User
+                        getUsersPagination: dataRole?.permissions?.getUsersPagination,
                         createUser: dataRole?.permissions?.createUser,
                         deleteUser: dataRole?.permissions?.deleteUser,
                         disableUser: dataRole?.permissions?.disableUser,

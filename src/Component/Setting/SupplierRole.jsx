@@ -47,6 +47,7 @@ export default function SupplierRole({dataRole, setRefetch}) {
                         getBarChart: dataRole?.permissions?.getBarChart,
 
                         // User
+                        getUsersPagination: dataRole?.permissions?.getUsersPagination,
                         createUser: dataRole?.permissions?.createUser,
                         deleteUser: dataRole?.permissions?.deleteUser,
                         disableUser: dataRole?.permissions?.disableUser,

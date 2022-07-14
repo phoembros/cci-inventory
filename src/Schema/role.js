@@ -29,6 +29,7 @@ query GetRoleAndPermission {
       deleteCustomer
       getProductPagination
       getProductById
+      getUsersPagination
       getProductByStorageRoomId
       createProduct
       updateProduct
@@ -124,6 +125,7 @@ query GetRoleAndPermissionById($id: ID!) {
       getProductPagination
       getProductById
       getProductByStorageRoomId
+      getUsersPagination
       createProduct
       updateProduct
       deleteProduct

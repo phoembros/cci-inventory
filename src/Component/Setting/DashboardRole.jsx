@@ -43,6 +43,7 @@ export default function DashboardRole({dataRole, setRefetch}) {
                         getBarChart: getBarChart,
 
                         // User
+                        getUsersPagination: dataRole?.permissions?.getUsersPagination,
                         createUser: dataRole?.permissions?.createUser,
                         deleteUser: dataRole?.permissions?.deleteUser,
                         disableUser: dataRole?.permissions?.disableUser,

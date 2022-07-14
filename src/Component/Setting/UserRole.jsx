@@ -26,6 +26,7 @@ export default function UserRole({dataRole, setRefetch}) {
     
     // funciton update
     const handleUpdateRole = () => {
+
         updateRole({
             variables: {
                 id: dataRole?._id,

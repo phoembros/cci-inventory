@@ -51,6 +51,7 @@ export default function ProductRole({dataRole , setRefetch}) {
                         getBarChart: dataRole?.permissions?.getBarChart,
 
                         // User
+                        getUsersPagination: dataRole?.permissions?.getUsersPagination,
                         createUser: dataRole?.permissions?.createUser,
                         deleteUser: dataRole?.permissions?.deleteUser,
                         disableUser: dataRole?.permissions?.disableUser,
@@ -67,7 +68,7 @@ export default function ProductRole({dataRole , setRefetch}) {
                         getProductPagination: getProductPagination,
                         getProductById: getProductById,
 
-                        getProductByStorageRoomId: dataRole?.permission?.getProductByStorageRoomId,
+                        getProductByStorageRoomId: dataRole?.permissions?.getProductByStorageRoomId,
 
                         createProduct: createProduct,
                         updateProduct: updateProduct,
