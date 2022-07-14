@@ -5,7 +5,7 @@ import * as React from "react";
 import './printinvoice.scss';
 import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined';
 import ReactToPrint from "react-to-print";
-import logo from "../../Assets/CCI.svg";
+import logo from "../../Assets/CCI_invoice.png";
 import { GET_SALE_BYID } from "../../Schema/sales";
 import { useQuery } from "@apollo/client";
 import { useLocation } from "react-router-dom";
@@ -34,244 +34,212 @@ const ComponentToPrint = () => {
         },
     })
 
+    const color= 'linear-gradient(to right bottom, #430089, #82ffa1)';
     console.log(dataSale)
     const item = [1,2,3]
     return (
-        <Box  width="100%" height="1100px" display="flex" flexDirection="column" justifyContent="center" sx={{backgroundColor:'#fff', padding: 3}}>
-            <Box width="100%" >
-                <Grid container>
-                    <Grid item xs={6}>
-                        <Typography variant="body1" sx={{fontWeight: "bold"}}>CCM Cambodia Co., LTD.</Typography>
-                        <Typography variant="body2">#310, Street 66</Typography>
-                        <Typography variant="body2">Siemreap, Siem Reap 17252 KH</Typography>
-                        <Typography variant="body2">+855 92599399</Typography>
-                        <Typography variant="body2">info@ahscambodia.com</Typography>
-                        <Typography variant="body2">www.ccscambodia.com</Typography>
-                    </Grid>
-                    <Grid item xs={6} display="flex" justifyContent="center">
-                        <img src={logo} alt="logo" width="35%"/>
-                    </Grid>
-
-                    <Grid item xs={6} sx={{mt:3}}>
-                        <Typography variant="h5" sx={{fontWeight: "bold" , color: "#0969A0" }}>INVOICE</Typography>
-                        <Box sx={{mt:2}}>
-                            <Typography variant="body2" sx={{fontWeight: "bold"}}>BILL TO</Typography>
-                            <Typography variant="body2">{dataSale?.billTo?.customerId?.name}</Typography>     
-                        </Box>
-                    </Grid>
-                    <Grid item xs={6} display="flex" justifyContent="center">
-                        <Stack direction="column" justifyContent="center">
-                            <Stack direction="row" justifyContent="center" spacing={1}>
-                                <Typography variant="body2" sx={{fontWeight: "bold" }}>INVOICE NO.</Typography>
-                                <Typography variant="body2">CCI{moment(dataSale?.createdAt).format("YYYY")}-{dataSale?.invoiceNo?.padStart(4, '0')}</Typography>
-                            </Stack>
-                            <Stack direction="row" justifyContent="center" spacing={1}>
-                                <Typography variant="body2" sx={{fontWeight: "bold" }}>TIN</Typography>
-                                <Typography variant="body2">{dataSale?.tin}</Typography>
-                            </Stack>
-                            <Stack direction="row" justifyContent="center" spacing={1}>
-                                <Typography variant="body2" sx={{fontWeight: "bold" }}>DATE</Typography>
-                                <Typography variant="body2">{moment(dataSale?.date).format("DD/MM/YYYY")}</Typography>
-                            </Stack>
-                        </Stack>                                               
-                    </Grid>
-
-
-                    <Grid item xs={12} sx={{mt:5}}>
-                        <Divider sx={{border: "1px solid #0969A0"}}/>
-                    </Grid>
-        
-                    <Grid item xs={12} sx={{mt:6}}>
-                        <Box width="100%">
-                            <TableContainer className="table">
-                                <Table sx={{ width:"100%" }}>
-                                    <TableBody className='header'>
-                                        <TableRow 
-                                            className="header-row" 
-                                            sx={{backgroundColor: "#d0e3ed"}}
-                                        >
-                                            <TableCell  
-                                                className="cell-item" width="13%"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
-                                            >
-
-                                            </TableCell>
-                                            <TableCell 
-                                                className="cell-item" width="40%"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
-                                            >
-                                                <Typography variant="body2" className="text">DESCRIPTION</Typography>
-                                            </TableCell>         
-
-                                            <TableCell 
-                                                align="center" width="13%"
-                                                className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
-                                            > 
-                                                <Typography variant="body2" className="text">QTY</Typography>
-                                            </TableCell>  
-
-                                            <TableCell 
-                                                align="center" width="20%"
-                                                className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  ,   padding: "8px"}}
-                                            >
-                                                <Typography variant="body2" className="text">RATE</Typography>
-                                            </TableCell>   
-                                            <TableCell 
-                                                align="center"
-                                                className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
-                                            >
-                                                <Typography variant="body2" className="text">AMOUNT</Typography>
-                                            </TableCell>                                                        
-                                        </TableRow>                                                                  
-                                    </TableBody>                      
-                                </Table>
-                            </TableContainer>
+        <Box  width="100%" sx={{backgroundColor:'#fff', padding: 3}}>
+            <Box width="100%" display="flex" justifyContent="center">
+                <Box width="1000px" height="1100px" display="flex" flexDirection="column">
+                    <table width="100%" style={{ padding: "8px"}}>
+                        <tr>
+                            <th colSpan={4} style={{textAlign: "left" }}>                               
+                                <img src={logo} alt="logo" width="50%"/>
+                            </th>
+                            <th colSpan={1} style={{ textAlign: "right"  , width: "100px" }}>
+                                <Stack direction="row" justifyContent="right" spacing={2}>
+                                    <Box sx={{ width: "2px", height: "170px" , backgroundColor: "#63ce9b"}}/>
+                                    <Stack direction="column" justifyContent="center">
+                                        <Box sx={{ textAlign: "left" }}>                                       
+                                            <Typography variant="body1" sx={{fontWeight: "bold"}}>CCM Cambodia Co., LTD.</Typography>
+                                            <Typography variant="body2">#310, Street 66</Typography>
+                                            <Typography variant="body2">Siemreap, Siem Reap 17252 KH</Typography>
+                                            <Typography variant="body2">+855 92599399</Typography>
+                                            <Typography variant="body2">info@ahscambodia.com</Typography>
+                                            <Typography variant="body2">www.ccscambodia.com</Typography>
+                                        </Box>                                        
+                                    </Stack>
+                                </Stack>    
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colSpan={5}>
+                                <Typography variant="h3" sx={{fontWeight: "bold" , color: "#007654" }}>INVOICE</Typography>
+                            </td>                       
+                        </tr>
+                        <tr style={{background: "linear-gradient(120deg, rgba(0,118,84,1) 68%, rgba(99,206,155,1) 68%)" }}>
+                            <td colSpan={5}><Box height="30px"></Box></td>                            
+                        </tr>
+                        <tr>
+                            <td colSpan={5}><Box height="30px"></Box></td>                            
+                        </tr>
+                        <tr>
+                            <td colSpan={4}>
+                                <Typography variant="body1" sx={{ fontWeight: "bold" }}>BILL TO</Typography>
+                                <Typography variant="body2">{dataSale?.billTo?.customerId?.name}</Typography> 
+                                <Typography variant="body2">{dataSale?.billTo?.customerId?.address}</Typography>
+                            </td>
+                            <td  style={{ textAlign: "right" }}>
+                                <Stack direction="row" justifyContent="right" spacing={2}>
+                                    <Box sx={{ width: "2px", height: "90px" , backgroundColor: "#63ce9b"}}/>
+                                    <Stack direction="column" justifyContent="center">
+                                        <Box sx={{ textAlign: "left" , width: "208px"}}>                                       
+                                            <Stack direction="row" justifyContent="center" spacing={1}>
+                                                <Typography variant="body2" sx={{fontWeight: "bold" }}>INVOICE NO.</Typography>
+                                                <Box sx={{flexGrow:1}}></Box>
+                                                <Typography variant="body2">CCI{moment(dataSale?.createdAt).format("YYYY")}-{dataSale?.invoiceNo?.padStart(4, '0')}</Typography>
+                                            </Stack>
+                                            <Stack direction="row" justifyContent="center" spacing={1}>
+                                                <Typography variant="body2" sx={{fontWeight: "bold" }}>TIN</Typography>
+                                                <Box sx={{flexGrow:1}}></Box>
+                                                <Typography variant="body2">{dataSale?.tin}</Typography>
+                                            </Stack>
+                                            <Stack direction="row" justifyContent="center" spacing={1}>
+                                                <Typography variant="body2" sx={{fontWeight: "bold" }}>DATE</Typography>
+                                                <Box sx={{flexGrow:1}}></Box>
+                                                <Typography variant="body2">{moment(dataSale?.date).format("DD/MM/YYYY")}</Typography>
+                                            </Stack>                                          
+                                        </Box>                                        
+                                    </Stack>
+                                </Stack>    
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={5}><Box height="30px"></Box></td>                            
+                        </tr>
+                        <tr style={{backgroundColor: "gray"}}>
+                            <th style={{width: "130px"}}>
+                                <Stack direction="column" justifyContent="center" height="40px">
+                                    <Typography sx={{color:"#fff" , fontWeight: "bold"}} variant="body2" className="text-header"></Typography>
+                                </Stack>
+                            </th>
+                            <th style={{width: "425px"}}>
+                                <Typography sx={{color:"#fff" , fontWeight: "bold"}} variant="body2" className="text-header">DESCRIPTION</Typography>
+                            </th>
+                            <th style={{width: "100px"}}>
+                                <Typography sx={{color:"#fff" , fontWeight: "bold"}} variant="body2" className="text-header">QTY</Typography>
+                            </th>
+                            <th style={{width: "100px"}}>
+                                <Typography sx={{color:"#fff" , fontWeight: "bold"}} variant="body2" className="text-header">RATE</Typography>
+                            </th>
+                            <th style={{width: "98px"}}>
+                                <Typography sx={{color:"#fff" , fontWeight: "bold"}} variant="body2" className="text-header">AMOUNT</Typography>
+                            </th>                          
+                        </tr>
 
                         {
                             dataSale?.items?.map( (item,index) => (
-                                <TableContainer key={index} className="table">
-                                    <Table sx={{ width:"100%" }}>
-                                        <TableBody className='body'>
-                                            <TableRow className="body-row">
-                                                <TableCell  
-                                                    className="cell-item" width="13%"
-                                                    sx={{border:"none" , padding: "8px"}}
-                                                >
-                                                    <Typography variant="body2" className="text"  sx={{fontWeight: "bold"}} >
-                                                       {item?.productId?.productId}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell 
-                                                    className="cell-item" width="40%"
-                                                    sx={{border:"none" , padding: "8px"}}
-                                                >
-                                                    <Typography variant="body2" className="text">
-                                                        {item?.productId?.productName}
-                                                    </Typography>
-                                                </TableCell>    
-
-                                                <TableCell 
-                                                    align="center" width="13%"
-                                                    className="cell-item"
-                                                    sx={{border:"none" , padding: "8px"}}
-                                                > 
-                                                    <Typography variant="body2" className="text">
-                                                        {item?.qty}
-                                                    </Typography>
-                                                </TableCell>  
-
-                                                <TableCell 
-                                                    align="center"
-                                                    className="cell-item"  width="20%"
-                                                    sx={{border:"none" , padding: "8px"}}
-                                                >
-                                                    <Typography variant="body2" className="text">
-                                                        {item?.unitPrice}
-                                                    </Typography>
-                                                </TableCell>   
-                                                <TableCell 
-                                                    align="center"
-                                                    className="cell-item"
-                                                    sx={{border:"none" , padding: "8px"}}
-                                                >
-                                                    <Typography variant="body2" className="text">
-                                                        {item?.amount?.toFixed(2)}
-                                                    </Typography>
-                                                </TableCell>                                                        
-                                            </TableRow>                                                                  
-                                        </TableBody>                      
-                                    </Table>
-                                </TableContainer>
+                        <tr>
+                            <th>
+                                <Stack direction="column" justifyContent="center" height="30px">
+                                    <Typography variant="body2" className="text">
+                                        {item?.productId?.productId}
+                                    </Typography>
+                                </Stack>
+                            </th>
+                            <th>
+                                <Typography variant="body2" className="text">
+                                    {item?.productId?.productName}
+                                </Typography>
+                            </th>
+                            <th>
+                                <Typography variant="body2" className="text">
+                                    {item?.qty}
+                                </Typography>
+                            </th>
+                            <th>
+                                <Typography variant="body2" className="text">
+                                    {item?.unitPrice}
+                                </Typography>
+                            </th>
+                            <th>
+                                <Typography variant="body2" className="text">
+                                    {item?.amount?.toFixed(2)}
+                                </Typography>
+                            </th>                          
+                        </tr>
                             ))
                         }   
-                            <TableContainer className="table">
-                                <Table sx={{ width:"100%" }}>
-                                    <TableBody className='body'>
-                                        <TableRow className="body-row">
-                                            <TableCell  className="cell-item" width="13%" sx={{border:"none" , padding: "8px"}}></TableCell>
-                                            <TableCell  className="cell-item" width="40%" sx={{border:"none" , padding: "8px"}}></TableCell>                          
-                                            <TableCell  align="center"  width="13%" className="cell-item" sx={{border:"none" , padding: "8px"}}></TableCell>   
-                                            <TableCell  align="center"  width="20%" className="cell-item" sx={{border:"none" , padding: "8px"}}>
-                                                <Typography variant="body2" sx={{fontWeight: "bold" }} >
-                                                     VAT {dataSale?.vat}%
-                                                </Typography>
-                                            </TableCell>   
-                                            <TableCell  align="center" className="cell-item" sx={{border:"none" , padding: "8px"}}>
-                                                <Typography variant="body2" className="text">
-                                                    {dataSale?.vatAmount?.toFixed(2)}
-                                                </Typography>
-                                            </TableCell>                                                        
-                                        </TableRow>                                                                  
-                                    </TableBody>                      
-                                </Table>
-                            </TableContainer>       
-                            <TableContainer className="table">
-                                <Table sx={{ width:"100%" }}>
-                                    <TableBody className='body'>
-                                        <TableRow className="body-row">
-                                            <TableCell  className="cell-item" width="13%" sx={{border:"none" , padding: "8px"}}></TableCell>
-                                            <TableCell  className="cell-item" width="40%" sx={{border:"none" , padding: "8px"}}></TableCell>                          
-                                            <TableCell  align="center"  width="13%" className="cell-item" sx={{border:"none" , padding: "8px"}}></TableCell>   
-                                            <TableCell  align="center"  width="20%" className="cell-item" sx={{border:"none" , padding: "8px"}}>
-                                                <Typography variant="body2" sx={{fontWeight: "bold" }} >
-                                                     AMOUNT
-                                                </Typography>
-                                            </TableCell>   
-                                            <TableCell  align="center" className="cell-item" sx={{border:"none" , padding: "8px"}}>
-                                                <Typography variant="body2" className="text">
-                                                    {dataSale?.totalAmount?.toFixed(2)}
-                                                </Typography>
-                                            </TableCell>                                                        
-                                        </TableRow>                                                                  
-                                    </TableBody>                      
-                                </Table>
-                            </TableContainer>
-
-                        </Box>              
-                    </Grid>
-
+                        
+                    </table>  
                     
+                    <Grid container sx={{mb:5 , padding: "10px" }}>
+                        <Grid item xs={12} sx={{mt:1}}>          
+                            <Box sx={{display: "flex" , justifyContent: "right"}}>
+                                <Box sx={{width: "300px" , height: "40px" , backgroundColor: "#007654" , display: "flex" , flexDirection: "column", justifyContent: "center"}}>
+                                    <Stack spacing={2} direction="row" justifyContent="center" sx={{padding: "30px" , fontWeight: "bold", color: "#fff"}}>
+                                        <Typography>VAT {dataSale?.vat}% :</Typography>                                             
+                                        <Typography>${dataSale?.vatAmount?.toFixed(2)}</Typography>
+                                    </Stack>                                   
+                                </Box>                           
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} sx={{mt:1}}>          
+                            <Box sx={{display: "flex" , justifyContent: "right"}}>
+                                <Box sx={{width: "300px" , height: "40px" , backgroundColor: "#007654" , display: "flex" , flexDirection: "column", justifyContent: "center"}}>
+                                    <Stack spacing={2} direction="row" justifyContent="center" sx={{padding: "30px" , fontWeight: "bold", color: "#fff"}}>
+                                        <Typography>AMOUNT :</Typography>                                             
+                                        <Typography>${dataSale?.totalAmount?.toFixed(2)}</Typography>
+                                    </Stack>
+                                </Box>                           
+                            </Box>
+                        </Grid>
+                    </Grid>
 
-                    <Grid item xs={12} sx={{mt:5}}>
-                        <Divider sx={{border: "1px dashed gray"}}/>
+                    <Box sx={{flexGrow:1}}/>
+
+                    <Grid container sx={{mb:10}}>
+                        <Grid item xs={12} sx={{mt:1}}>                      
+                            <Typography variant="body2">1- Kindly pay by cheque to: Chemical Center Solution Cambodia</Typography>
+                            <Typography variant="body2">2- Bank Name : ABA</Typography>
+                            <Typography variant="body2">3- Account Number: 000090861</Typography>
+                            <Typography variant="body2">4- Please process the payment when received (due date)</Typography>
+                        </Grid>
+                        {/* <Grid item xs={6} sx={{mt:1}}>                     
+                            <Stack direction="row" sx={{padding:5}}>
+                                <Box sx={{flexGrow:1}}></Box>
+                                <Stack direction="column" justifyContent="center">
+                                    <Typography variant="h6">BALANCE DUE</Typography>
+                                </Stack>
+                                <Box sx={{flexGrow:1}}></Box>                            
+                                <Typography variant="h4" sx={{fontWeight: "bold"}}>
+                                    ${dataSale?.totalAmount?.toFixed(2)}
+                                </Typography>                           
+                            </Stack>                        
+                        </Grid> */}
                     </Grid>
-                    <Grid item xs={6} sx={{mt:1}}>                      
-                        <Typography variant="body2">1- Kindly pay by cheque to: Chemical Center Solution Cambodia</Typography>
-                        <Typography variant="body2">2- Bank Name : ABA</Typography>
-                        <Typography variant="body2">3- Account Number: 000090861</Typography>
-                        <Typography variant="body2">4- Please process the payment when received (due date)</Typography>
-                    </Grid>
-                    <Grid item xs={6} sx={{mt:1}}>                     
-                        <Stack direction="row" justifyContent="center" sx={{padding:5}}>
-                            <Stack direction="column" justifyContent="center">
-                                <Typography variant="h6">BALANCE DUE</Typography>
+
+                    <Grid container sx={{mb:15}}>
+                        <Grid item xs={4} display="flex" justifyContent="center">    
+                            <Stack direction="column" justifyContent="center">                   
+                                <Typography variant="body2">___________________________</Typography>  
+                                <Stack direction="row" justifyContent="center">
+                                    <Typography variant="body2" sx={{fontWeight: "bold" }}>Date</Typography>
+                                </Stack>                        
+                            </Stack>                                
+                        </Grid>
+                        <Grid item xs={4} display="flex" justifyContent="center">                     
+                            <Stack direction="column" justifyContent="center">                   
+                                <Typography variant="body2">___________________________</Typography>  
+                                <Stack direction="row" justifyContent="center">
+                                    <Typography variant="body2" sx={{fontWeight: "bold" }}>Received By</Typography>
+                                </Stack>                        
+                            </Stack>                     
+                        </Grid>
+                        <Grid item xs={4} display="flex" justifyContent="center">                     
+                            <Stack direction="column" justifyContent="center">                   
+                                <Typography variant="body2">___________________________</Typography>  
+                                <Stack direction="row" justifyContent="center">
+                                    <Typography variant="body2" sx={{fontWeight: "bold" }}>Issued By</Typography>
+                                </Stack>                        
                             </Stack>
-                            <Box sx={{flexGrow:1}}></Box>                            
-                            <Typography variant="h4" sx={{fontWeight: "bold"}}>
-                                ${dataSale?.totalAmount?.toFixed(2)}
-                            </Typography>                           
-                        </Stack>                        
+                        </Grid>
                     </Grid>
-                    
-                    
-                </Grid>
+
+                </Box>           
             </Box>
             
-            <Box sx={{flexGrow:1}}/>
-
-            <Grid container sx={{mb:10}}>
-                <Grid item xs={6} display="flex" justifyContent="center">                      
-                    <Typography variant="body2">Received By:</Typography>
-                    <Typography variant="body2">___________________________</Typography>                        
-                </Grid>
-                <Grid item xs={6} display="flex" justifyContent="center">                      
-                    <Typography variant="body2">Issued By:</Typography>
-                    <Typography variant="body2">___________________________</Typography>  
-                </Grid>
-            </Grid>
+            
 
         </Box>
     )
@@ -285,12 +253,17 @@ export default function PrintInvoice() {
         <div className="invoice-pages">
             <Stack direction="row" spacing={2}>
                 <Box className="slash" />            
-                <Stack direction="column" justifyContent="center">
+                <Stack direction="column" justifyContent="center" className="page-title">
                     <Stack direction="row" spacing={1}>
                         <Link to="/sales" style={{ textDecoration: "none" }}>
                             <Typography className="color">Sales</Typography>
                         </Link>
                         <Typography className="color">/ Sale Invoice</Typography>
+                    </Stack>                
+                </Stack>
+                <Stack direction="column" justifyContent="center" className="page-title-mobile">
+                    <Stack direction="row" spacing={1}>                      
+                        <Typography className="color">Sale Invoice</Typography>
                     </Stack>                
                 </Stack>
                 <Box sx={{ flexGrow: 1 }} />

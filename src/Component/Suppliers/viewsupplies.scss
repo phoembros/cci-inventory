@@ -1,5 +1,49 @@
 @import '../../themes.scss';
 
+.dialog-view-supplies {
+
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        // width: 450px !important;
+    }
+
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+
+    .email-suppier {
+        @include mobile-small {
+            display: none;
+        }
+
+        @include mobile {
+            display: none;
+        }
+
+        @include mobile-large {
+            display: none;
+        }
+    }
+
+    .email-suppier-mobile {
+        display: none;
+
+        @include mobile-small {
+            display: flex;
+        }
+
+        @include mobile {
+            display: flex;
+        }
+
+        @include mobile-large {
+            display: flex;
+        }
+
+    }
+}
+
 .view-supplies {
 
     position: absolute;

@@ -1,12 +1,31 @@
 @import '../../themes.scss';
 
+.dialog-qaulity-check {
+
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        width: 500px !important;
+    }
+    
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+
+    .body-title {
+        font-weight: bold;
+        color: $primary-color;
+    }
+}
+
+
 .qaulity-check {
 
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;    
+    width: 560px;    
     background-color: #fff;
     box-shadow: 30px;
     border-radius: 10px;

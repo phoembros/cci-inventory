@@ -5,8 +5,17 @@ import './modaldeleterawmaterial.scss';
 import {DELETE_RAW_MATERAIL} from '../../Schema/rawmaterial';
 import { useMutation } from "@apollo/client";
 
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+
 export default function ModalDeleteRawMaterial({
   handleClose,
+  open,
   setAlert,
   setMessage,
   setCheckMessage,
@@ -46,68 +55,78 @@ export default function ModalDeleteRawMaterial({
 
 
   return (
-    <Box className="delete-raw-material">
-      <Stack direction="row" spacing={5}>
-        <Typography className="header-title" variant="h6">
-          Delete Raw Material
-        </Typography>
-        <Box sx={{ flexGrow: 1 }}></Box>
-        <IconButton onClick={() => handleClose()}>
-          <DoDisturbOnOutlinedIcon sx={{ color: "red" }} />
-        </IconButton>
-      </Stack>
 
-      <Stack direction="row" spacing={5} width="100%">
-        <Typography variant="subtitle1">
-          Do you want to delete this material?
-        </Typography>
-      </Stack>
+      <Dialog open={open} className="dialog-delete-raw-material">
+            <DialogTitle id="alert-dialog-title">
+                <Stack direction="row" spacing={5}>
+                    <Typography className="header-title" variant="h6">
+                      Delete Raw Material
+                    </Typography>
+                    <Box sx={{ flexGrow: 1 }}></Box>
+                    <IconButton onClick={() => handleClose()}>
+                      <DoDisturbOnOutlinedIcon sx={{ color: "red" }} />
+                    </IconButton>
+                </Stack>
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description"> 
 
-      <Stack
-        direction="row"
-        justifyContent="center"
-        spacing={1}
-        width="100%"
-        sx={{ mt: 4 }}
-      >
-        <Typography variant="subtitle1">Please type</Typography>
-        <Typography className="body-void" variant="subtitle1">
-          {DataRow?.materialName}
-        </Typography>
-        <Typography variant="subtitle1">to void</Typography>
-      </Stack>
+                    <Stack direction="row" spacing={5} width="100%">
+                      <Typography variant="subtitle1">
+                        Do you want to delete this material?
+                      </Typography>
+                    </Stack>
 
-      <Stack
-        direction="row"
-        justifyContent="center"
-        spacing={1}
-        width="100%"
-        sx={{ mb: 4 }}
-      >
-        <TextField
-          size="small"
-          fullWidth
-          onChange={(e) => setValueVoid(e.target.value)}
-        />
-      </Stack>
+                    <Stack
+                      direction="row"
+                      justifyContent="center"
+                      spacing={1}
+                      width="100%"
+                      sx={{ mt: 4 }}
+                    >
+                      <Typography variant="subtitle1">Please type</Typography>
+                      <Typography className="body-void" variant="subtitle1">
+                        {DataRow?.materialName}
+                      </Typography>
+                      <Typography variant="subtitle1">to void</Typography>
+                    </Stack>
 
-      <Stack direction="row" spacing={5}>
-        {valueVoid === DataRow?.materialName ? (
-          <Button
-            onClick={handleDelete}
-            sx={{ ":hover": { backgroundColor: "red", border: "none" } }}
-            className="btn-void"
-            variant="outlined"
-            fullWidth
-          >
-            void now
-          </Button>
-        ) : (
-          <Button variant="outlined" fullWidth>
-            void
-          </Button>
-        )}
-      </Stack>
-    </Box>
+                    <Stack
+                      direction="row"
+                      justifyContent="center"
+                      spacing={1}
+                      width="100%"
+                      sx={{ mb: 4 }}
+                    >
+                      <TextField
+                        size="small"
+                        fullWidth
+                        onChange={(e) => setValueVoid(e.target.value)}
+                      />
+                    </Stack>
+
+                    <Stack direction="row" spacing={5}>
+                      {valueVoid === DataRow?.materialName ? (
+                        <Button
+                          onClick={handleDelete}
+                          sx={{ ":hover": { backgroundColor: "red", border: "none" } }}
+                          className="btn-void"
+                          variant="outlined"
+                          fullWidth
+                        >
+                          {/* void now */}
+                          Delete Now
+                        </Button>
+                      ) : (
+                        <Button variant="outlined" fullWidth>
+                          {/* void */}
+                          Delete
+                        </Button>
+                      )}
+                    </Stack>
+              
+              </DialogContentText>
+      </DialogContent>       
+  </Dialog>   
   );
 }

@@ -17,6 +17,7 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import PaymentModal from './PaymentModal';
 
 export default function RawMaterialAction({
+    dataUserLogin,
     editData,
     setAlert,
     setMessage,
@@ -54,98 +55,151 @@ export default function RawMaterialAction({
         </IconButton>
 
         {
-            editData?.status !== "completed" && editData?.status !== "voided"  ? 
-                <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                    }}
-                >
-                    <MenuItem onClick={()=> {
-                        handleClose();
-                        handleOpenEdit();
-                    }}>
-                        <Stack direction="row" spacing={1}>
-                            <EditIcon sx={{color:"blue"}}/>
-                            <Typography>Edit</Typography>
-                        </Stack> 
-                    </MenuItem> 
+            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updatePurchaseRawMaterial ||
+            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deletePurchaseRawMaterial ||
+            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.completePurchaseRawMaterial ?         
 
+            <>
+                {
+                    editData?.status !== "completed" && editData?.status !== "voided"  ? 
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                        >
 
-                    {
-                        editData?.status === "approved" ?
-                            <>
-                            <MenuItem onClick={()=> {
-                                handleClose();
-                                handleOpenCheck();
-                            }}>
-                                <Stack direction="row" spacing={1}>
-                                    <CheckCircleOutlineIcon sx={{color:"green"}}/>
-                                    <Typography>Complete</Typography>
-                                </Stack> 
-                            </MenuItem>
-
-                            <MenuItem onClick={()=> {
-                                handleClose();
-                                handleOpenPayment();
-                            }}>
-                                <Stack direction="row" spacing={1}>
-                                    <CurrencyExchangeIcon sx={{color:"#F15412"}}/>
-                                    <Typography>Payment</Typography>
-                                </Stack> 
-                            </MenuItem>
+                            {
+                                dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updatePurchaseRawMaterial ?
+                                    <MenuItem onClick={()=> {
+                                        handleClose();
+                                        handleOpenEdit();
+                                    }}>
+                                        <Stack direction="row" spacing={1}>
+                                            <EditIcon sx={{color:"blue"}}/>
+                                            <Typography>Edit</Typography>
+                                        </Stack> 
+                                    </MenuItem> 
+                                : null
+                            }
                             
-                            </>
-                        :
-                            null
-                    }                   
-                
-                    <MenuItem  onClick={()=> {
-                        handleClose();
-                        handleOpenDelete();
-                    }}>
-                        <Stack direction="row" spacing={1}>
-                            <DeleteIcon sx={{color:"red"}}/>
-                            <Typography>Void</Typography>
-                        </Stack>    
-                    </MenuItem>
 
-                </Menu>
+                            {
+                                dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.completePurchaseRawMaterial ||
+                                dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updatePurchaseRawMaterial ?
+                                    <>
+                                        {
+                                            editData?.status === "approved" ?
+                                                <>
+
+                                                {
+                                                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.completePurchaseRawMaterial ?
+                                                    <>
+                                                        <MenuItem onClick={()=> {
+                                                            handleClose();
+                                                            handleOpenCheck();
+                                                        }}>
+                                                            <Stack direction="row" spacing={1}>
+                                                                <CheckCircleOutlineIcon sx={{color:"green"}}/>
+                                                                <Typography>Complete</Typography>
+                                                            </Stack> 
+                                                        </MenuItem>
+                                                    </>
+                                                    :
+                                                        null
+                                                }
+                                                    
+                                                {
+                                                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updatePurchaseRawMaterial ?
+                                                        <MenuItem onClick={()=> {
+                                                            handleClose();
+                                                            handleOpenPayment();
+                                                        }}>
+                                                            <Stack direction="row" spacing={1}>
+                                                                <CurrencyExchangeIcon sx={{color:"#F15412"}}/>
+                                                                <Typography>Payment</Typography>
+                                                            </Stack> 
+                                                        </MenuItem>
+                                                    :
+                                                        null
+                                                }
+
+                                                </>
+                                            :
+                                                null
+                                        } 
+                                    </>
+                                :
+                                    null
+                            }
+
+                                              
+                        
+
+                            {
+                                dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deletePurchaseRawMaterial ?
+                                    <MenuItem  onClick={()=> {
+                                        handleClose();
+                                        handleOpenDelete();
+                                    }}>
+                                        <Stack direction="row" spacing={1}>
+                                            <DeleteIcon sx={{color:"red"}}/>
+                                            <Typography>Void</Typography>
+                                        </Stack>    
+                                    </MenuItem>
+                                : null
+                            }
+
+                        </Menu>
+                    :
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                        >
+
+                        {
+                            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updatePurchaseRawMaterial ?
+                                <MenuItem onClick={()=> {
+                                    handleClose();
+                                    handleOpenPayment();
+                                }}>
+                                    <Stack direction="row" spacing={1}>
+                                        <CurrencyExchangeIcon sx={{color:"#F15412"}}/>
+                                        <Typography>Payment</Typography>
+                                    </Stack> 
+                                </MenuItem> 
+                            :
+                                null
+                        }
+
+                            
+
+                        </Menu>
+                }
+
+            </>
+
             :
-                <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                    }}
-                >
-
-                    <MenuItem onClick={()=> {
-                        handleClose();
-                        handleOpenPayment();
-                    }}>
-                        <Stack direction="row" spacing={1}>
-                            <CurrencyExchangeIcon sx={{color:"#F15412"}}/>
-                            <Typography>Payment</Typography>
-                        </Stack> 
-                    </MenuItem> 
-
-                    
-
-                </Menu>
+                null
         }
+
+        
          
 
         
 
-        <Modal open={openEdit}>
+        {/* <Modal open={openEdit}> */}
             <PurchaseRawMaterialUpdate 
                 handleClose={handleCloseEdit} 
+                open={openEdit}
                 btnTitle={"Update"} 
                 editData={editData}   
                 setAlert={setAlert}
@@ -153,12 +207,13 @@ export default function RawMaterialAction({
                 setCheckMessage={setCheckMessage}
                 setRefetch={setRefetch}             
             />
-        </Modal>
+        {/* </Modal> */}
         {/*  */}
 
-        <Modal open={openCheck}>
+        {/* <Modal open={openCheck}> */}
             <ModalCheckPurchase 
                 handleClose={handleCloseCheck} 
+                open={openCheck}
                 btnTitle={"Update"} 
                 editData={editData}   
                 setAlert={setAlert}
@@ -166,24 +221,26 @@ export default function RawMaterialAction({
                 setCheckMessage={setCheckMessage}
                 setRefetch={setRefetch}             
             />
-        </Modal>
+        {/* </Modal> */}
         
         {/*  */}
-        <Modal open={openDelete}>
+        {/* <Modal open={openDelete}> */}
             <ModalDeletePurchaseRawMaterial 
                 handleClose={handleCloseDelete}
+                open={openDelete}
                 editData={editData}   
                 setAlert={setAlert}
                 setMessage={setMessage}
                 setCheckMessage={setCheckMessage}
                 setRefetch={setRefetch}  
             />
-        </Modal>
+        {/* </Modal> */}
 
         {/*  */}
-        <Modal open={openPayment}>
+        {/* <Modal open={openPayment}> */}
             <PaymentModal 
                 handleClose={handleClosePayment} 
+                open={openPayment}
                 btnTitle={"Update"} 
                 editData={editData}   
                 setAlert={setAlert}
@@ -191,7 +248,7 @@ export default function RawMaterialAction({
                 setCheckMessage={setCheckMessage}
                 setRefetch={setRefetch}             
             />
-        </Modal>
+        {/* </Modal> */}
         
 
 

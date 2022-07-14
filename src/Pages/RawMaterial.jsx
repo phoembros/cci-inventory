@@ -31,9 +31,14 @@ import { useQuery, useMutation } from "@apollo/client";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { GET_USER_LOGIN } from "../Schema/user";
+import PermissionContent from "../Component/Permission/PermissionContent";
 
 export default function RawMaterial() {
+
+  const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+  // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+
   const navigate = useNavigate();
 
   const [openAddRawMaterial, setOpenAddRawMaterial] = React.useState(false);
@@ -84,9 +89,10 @@ export default function RawMaterial() {
       <Stack direction="row" spacing={2}>
         <Box className="slash" />
         <Stack direction="column" justifyContent="center">
-          <Typography className="color">Raw Materials</Typography>
+          <Typography className="color">Materials</Typography>
         </Stack>
         <Box sx={{ flexGrow: 1 }} />
+
         <Stack direction="row" spacing={2} className="btn-search">
           <Box className="btn-text-field">
             <TextField
@@ -102,36 +108,50 @@ export default function RawMaterial() {
                   <InputAdornment position="start">
                     <SearchIcon />
                   </InputAdornment>
-                ),
-                // endAdornment: (
-                //   <InputAdornment position="end">
-                //     <IconButton disableRipple={true} size="small">
-                //       <TuneIcon />
-                //     </IconButton>
-                //   </InputAdornment>
-                // ),
+                ),               
               }}
             />
           </Box>
         </Stack>
+
         <Stack direction="row" spacing={2} className="btn">
-          <Button
-            onClick={() => navigate("/raw-material/categories")}
-            className="btn-add"
-            startIcon={<AddIcon />}
-          >
-            <Typography className="style-add"> Category Setup </Typography>
-          </Button>
+
+          {
+            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createRawMaterialCategory ? 
+              <>
+                <Button
+                  onClick={() => navigate("/raw-material/categories")}
+                  className="btn-add"
+                  startIcon={<AddIcon />}
+                >
+                  <Typography className="style-add">Category</Typography>
+                </Button>
+              </>
+            :
+              null
+          }
+          
           {/* Create Raw Material */}
-          <Button
-            onClick={handleOpenRawMaterial}
-            className="btn-add"
-            startIcon={<AddIcon />}
-          >
-            <Typography className="style-add">Add Item</Typography>
-          </Button>
-          <Modal open={openAddRawMaterial} onClose={handleCloseRawMaterial}>
+
+          {
+            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createRawMaterial ? 
+              <>
+                <Button
+                  onClick={handleOpenRawMaterial}
+                  className="btn-add"
+                  startIcon={<AddIcon />}
+                >
+                  <Typography className="style-add">Add</Typography>
+                </Button>
+              </>
+            :
+              null
+          }
+          
+
+          {/* <Modal open={openAddRawMaterial} onClose={handleCloseRawMaterial}> */}
             <CreateRawMaterial
+                open={openAddRawMaterial}
                 handleClose={handleCloseRawMaterial}
                 setAlert={setAlert}
                 setMessage={setMessage}
@@ -140,146 +160,155 @@ export default function RawMaterial() {
                 btnTitle={"Create"}
                 setRefetch={refetch}
             />
-          </Modal>
+          {/* </Modal> */}
           {/* Create Raw Material */}
         </Stack>
       </Stack>
+    
+    
+      {
+          loading ?
+            <Box  sx={{ display: "flex", flexDirection: "column", alignItems: "center" , mt:10}} >
+                <CircularProgress />
+            </Box>
+          :
+            <>
+              {
+                dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getRawMaterialPagination ?
+                  <>
+                    <Box className="container">
+                        <TableContainer>
+                            <Table className="table" aria-label="simple table">
+                                <TableHead>
+                                    <TableRow className="header-row">
+                                        <TableCell className="header-title" colSpan={2}>Name</TableCell>
+                                        <TableCell className="header-title">Category</TableCell>                            
+                                        <TableCell className="header-title">Unit Price</TableCell>
+                                        <TableCell className="header-title">Unit</TableCell>
+                                        <TableCell className="header-title">Remark</TableCell>
+                                        <TableCell className="header-title"> </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                              {data?.getRawMaterialPagination?.rawMaterial?.map((row, index) => (
+                              <TableBody
+                                  component={Paper}
+                                  className={index % 2 === 0 ? "body" : "body-odd"}
+                                >
+                              <TableRow className="body-row">
+                                <TableCell onClick={()=>{handleOpenView(); setDataRow(row)}}
+                                  className="body-title"
+                                  component="th"
+                                  scope="row"
+                                  width="3%"
+                                  
+                                >
 
+                                  {index + 1}-{" "}
+                                </TableCell>
+                                <TableCell
+                                  onClick={()=>{handleOpenView(); setDataRow(row)}}
+                                  className="body-title"
+                                  component="th"
+                                  scope="row"
+                                  width="20%"
+                                >
+                                  {row?.materialName}
+                                </TableCell>
+                                <TableCell
+                                  onClick={()=>{handleOpenView(); setDataRow(row)}}
+                                  className="body-title"
+                                  width="15%"
+                                >
+                                  {row?.category?.categoryName}
+                                </TableCell>
+                                {/* <TableCell
+                                
+                                    className="body-title"
+                                    width="20%"
+                                  >
+                                    Supplies A
+                                  </TableCell> */}
 
-    {
-      loading ?
-        <Box  sx={{ display: "flex", flexDirection: "column", alignItems: "center" , mt:10}} >
-            <CircularProgress />
-        </Box>
-      :
-        <>
-        <Box className="container">
-            <TableContainer>
-                <Table className="table" aria-label="simple table">
-                    <TableHead>
-                        <TableRow className="header-row">
-                            <TableCell className="header-title" colSpan={2}>
-                              Name
-                            </TableCell>
-                            <TableCell className="header-title">Category</TableCell>                            
-                            <TableCell className="header-title">Unit Price</TableCell>
-                            <TableCell className="header-title">Unit</TableCell>
-                            <TableCell className="header-title">Remark</TableCell>
-                            <TableCell className="header-title"> </TableCell>
-                        </TableRow>
-                    </TableHead>
-                  {data?.getRawMaterialPagination?.rawMaterial?.map((row, index) => (
-                  <TableBody
-                      component={Paper}
-                      className={index % 2 === 0 ? "body" : "body-odd"}
-                    >
-                  <TableRow className="body-row">
-                    <TableCell onClick={()=>{handleOpenView(); setDataRow(row)}}
-                      className="body-title"
-                      component="th"
-                      scope="row"
-                      width="3%"
-                      
-                    >
+                                <TableCell
+                                    onClick={()=>{handleOpenView(); setDataRow(row)}}
+                                    className="body-title"
+                                    align="left"
+                                    width="20%"
+                                >
+                                  ${row?.unitPrice}
+                                </TableCell>
+                                <TableCell
+                                  onClick={()=>{handleOpenView(); setDataRow(row)}}
+                                  className="body-title"
+                                  align="left"
+                                  width="10%"
+                                >
+                                  {row?.unit}
+                                </TableCell>
+                                <TableCell
+                                  onClick={()=>{handleOpenView(); setDataRow(row)}}
+                                  className="body-title"
+                                  align="left"
+                                  width="30%"
+                                >
+                                  {row?.remark}
+                                </TableCell>
+                                <TableCell className="body-title" align="right">
+                                  <RawMaterialAction
+                                    dataUserLogin={dataUserLogin}
+                                    DataRow={row}
+                                    setAlert={setAlert}
+                                    setMessage={setMessage}
+                                    setCheckMessage={setCheckMessage}
+                                    setRefetch={refetch}
+                                  />
+                                </TableCell>
+                              </TableRow>
+                            </TableBody>
+                          ))}
+                        </Table>
+                      </TableContainer>
+                    </Box>
 
-                      {index + 1}-{" "}
-                    </TableCell>
-                    <TableCell
-                      onClick={()=>{handleOpenView(); setDataRow(row)}}
-                      className="body-title"
-                      component="th"
-                      scope="row"
-                      width="20%"
-                    >
-                      {row?.materialName}
-                    </TableCell>
-                    <TableCell
-                      onClick={()=>{handleOpenView(); setDataRow(row)}}
-                      className="body-title"
-                      width="15%"
-                    >
-                      {row?.category?.categoryName}
-                    </TableCell>
-                    {/* <TableCell
-                    
-                        className="body-title"
-                        width="20%"
-                      >
-                        Supplies A
-                      </TableCell> */}
+                    <Stack direction="row" justifyContent="right" spacing={2}>
+                        <IconButton
+                          disabled={data?.getRawMaterialPagination?.paginator?.prev === null? true: false}
+                          onClick={() =>setPage(data?.getRawMaterialPagination?.paginator?.prev)}
+                        >
+                          <ArrowBackIosNewIcon sx={{":hover" : {color:"#0969A0"}}}/>
+                        </IconButton>
 
-                    <TableCell
-                        onClick={()=>{handleOpenView(); setDataRow(row)}}
-                        className="body-title"
-                        align="left"
-                        width="20%"
-                    >
-                      {row?.unitPrice}
-                    </TableCell>
-                    <TableCell
-                      onClick={()=>{handleOpenView(); setDataRow(row)}}
-                      className="body-title"
-                      align="left"
-                      width="10%"
-                    >
-                      {row?.unit}
-                    </TableCell>
-                    <TableCell
-                      onClick={()=>{handleOpenView(); setDataRow(row)}}
-                      className="body-title"
-                      align="left"
-                      width="30%"
-                    >
-                      {row?.remark}
-                    </TableCell>
-                    <TableCell className="body-title" align="right">
-                      <RawMaterialAction
-                        DataRow={row}
-                        setAlert={setAlert}
-                        setMessage={setMessage}
-                        setCheckMessage={setCheckMessage}
-                        setRefetch={refetch}
-                      />
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              ))}
-            </Table>
-          </TableContainer>
-        </Box>
+                          <Stack direction='column' justifyContent="center">
+                              <Pagination
+                                page={pageShow}
+                                hideNextButton="true"
+                                hidePrevButton="true"
+                                count={data?.getRawMaterialPagination?.paginator?.totalPages}
+                                variant="outlined" 
+                                color="primary" 
+                                onChange={(event) => setPage(parseInt(event?.target?.textContent))}
+                              />
+                          </Stack>
+                          <IconButton
+                            disabled={data?.getRawMaterialPagination?.paginator?.next === null? true : false}
+                            onClick={() =>setPage(data?.getRawMaterialPagination?.paginator?.next)}
+                          >
+                            <ArrowForwardIosIcon sx={{":hover" : {color:"#0969A0"}}}/>
+                          </IconButton>
+                    </Stack>
+                  </>
+              :
+                <PermissionContent />
+            }
 
-        <Stack direction="row" justifyContent="right" spacing={2}>
-            <IconButton
-              disabled={data?.getRawMaterialPagination?.paginator?.prev === null? true: false}
-              onClick={() =>setPage(data?.getRawMaterialPagination?.paginator?.prev)}
-            >
-              <ArrowBackIosNewIcon sx={{":hover" : {color:"#0969A0"}}}/>
-            </IconButton>
+          </>        
+    }
 
-              <Stack direction='column' justifyContent="center">
-                  <Pagination
-                    page={pageShow}
-                    hideNextButton="true"
-                    hidePrevButton="true"
-                    count={data?.getRawMaterialPagination?.paginator?.totalPages}
-                    variant="outlined" 
-                    color="primary" 
-                    onChange={(event) => setPage(parseInt(event?.target?.textContent))}
-                  />
-              </Stack>
-            <IconButton
-              disabled={data?.getRawMaterialPagination?.paginator?.next === null? true : false}
-              onClick={() =>setPage(data?.getRawMaterialPagination?.paginator?.next)}
-            >
-              <ArrowForwardIosIcon sx={{":hover" : {color:"#0969A0"}}}/>
-            </IconButton>
-        </Stack>
-        </>
-      }
+    
 
-      <Modal open={openView}>
-        <ViewRawMaterial handleClose={handleCloseView} DataRow={DataRow} />
-      </Modal>
+      {/* <Modal open={openView}> */}
+        <ViewRawMaterial open={openView} handleClose={handleCloseView} DataRow={DataRow} />
+      {/* </Modal> */}
 
       <AlertMessage
         alert={alert}

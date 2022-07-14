@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './purchaserawmaterial.scss';
-import { FormControl, Icon, IconButton, InputLabel, MenuItem, Autocomplete, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { FormControl, Icon, IconButton, InputLabel, MenuItem, Autocomplete, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, InputAdornment } from '@mui/material';
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import ListRawMaterial from './ListRawMaterial';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
@@ -16,15 +16,27 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { GET_USER_LOGIN } from '../../Schema/user';
 import { useLocation } from 'react-router-dom';
   
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 // icon priority
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { GET_SUPPLIERS_BY_PAGINATION } from '../../Schema/supplies';
 
 
 export default function PurchaseRawMaterial({
   handleClose, 
+  open,
   btnTitle,
   setCheckMessage,
   setMessage,
@@ -47,7 +59,8 @@ export default function PurchaseRawMaterial({
           setRefetch();
         } else {
           setCheckMessage('error')
-          setMessage("Material & Supplier invalid value!");
+          // setMessage("Material & Supplier invalid value!");
+          setMessage(createPurchaseRawMaterial?.message);
           setAlert(true);
         }
     },
@@ -69,12 +82,40 @@ export default function PurchaseRawMaterial({
   }, [location.search]);
    
 
+  //End Get Supplies
+  const [supplierAutoComplete,setSupplierAutoComplete] = React.useState({
+      label: "",
+      _id: "",
+  })
+
+  const [suppliers, setSuppliers] = React.useState([]);
+  const {data: suppliesData} = useQuery(GET_SUPPLIERS_BY_PAGINATION,{
+      variables: {
+          keyword: "",
+          pagination: false,
+      },
+  })
+
+  React.useEffect(() => {
+      if (suppliesData) {
+          let rows = [];
+          suppliesData?.getSuppliersPagination?.suppliers?.forEach((element) => {
+              const allrow = { label: element?.name, _id: element?._id };
+              rows.push(allrow);
+          });
+          setSuppliers(rows);
+      }
+  }, [suppliesData]);
+  //End Get Supplies
+
+
   // Get User ID  
   const { data: userLoginData } = useQuery(GET_USER_LOGIN);  
   const userId =  userLoginData?.getuserLogin?._id;
   
 
   // List RawMaterial have to purchase===========================================================================
+
     const [currentItem, setCurrentItem] = React.useState({ rawName: '', rawMaterialId: '', newQty: 1 , unitPrice : 0.01 , suppliersName: '' , suppliersId: '', key: ''})
     const [item, setItem] = React.useState([])
 
@@ -128,8 +169,11 @@ export default function PurchaseRawMaterial({
         items.map(i=>{      
           if(i.key===key){           
             i.rawMaterialId= rawMaterialId;
+            i.suppliersName= supplierAutoComplete?.label;
+            i.suppliersId= supplierAutoComplete?._id;
           }
         })
+
         setItem([...items]) 
     }
     const setUpdateRawName = (rawName,key) => {
@@ -137,6 +181,8 @@ export default function PurchaseRawMaterial({
         items.map(i=>{      
           if(i.key===key){           
             i.rawName= rawName;
+            i.suppliersName= supplierAutoComplete?.label;
+            i.suppliersId= supplierAutoComplete?._id;
           }
         })
         setItem([...items]) 
@@ -194,6 +240,8 @@ export default function PurchaseRawMaterial({
         items.map(i=>{      
           if(i.key===key){          
             i.newQty= newQty;
+            i.suppliersName= supplierAutoComplete?.label;
+            i.suppliersId= supplierAutoComplete?._id;
           }
         })
         setItem([...items]) 
@@ -213,6 +261,8 @@ export default function PurchaseRawMaterial({
         items.map(i=>{      
           if(i.key===key){          
             i.unitPrice= unitPrice;
+            i.suppliersName= supplierAutoComplete?.label;
+            i.suppliersId= supplierAutoComplete?._id;
           }
         })
         setItem([...items]) 
@@ -226,25 +276,40 @@ export default function PurchaseRawMaterial({
         }
     }
 
+    React.useEffect( () => {
+      if(supplierAutoComplete?.label !== "") {
+        const items = item;
+        items.map( i => {                
+          i.suppliersName= supplierAutoComplete?.label;
+          i.suppliersId= supplierAutoComplete?._id;          
+        })
+        setItem([...items]) 
+      }
+      
+    },[supplierAutoComplete])
+
     // End List Purchase =========================================================================================
 
     const SalesAdd = Yup.object().shape({        
         purchaseDate: Yup.date(),
         priority: Yup.string().required("priority is required!"),
         remark: Yup.string(),
+        supplierID: Yup.string().required("Suppier is required!"),
     });
     
     const formik = useFormik({
       initialValues: {         
           purchaseDate: new Date(),
+          supplierID: "",
           priority: "",
-          remark: ""
+          remark: "",
       },
 
       validationSchema: SalesAdd,
       onSubmit: async (values, { setSubmitting, resetForm }) => {          
           const newValue = {
-              purchaseDate: values?.purchaseDate,             
+              purchaseDate: values?.purchaseDate,    
+              supplierID: values?.supplierID,         
               purchaseBy: userId,
               approveBy: null,
               priority: values?.priority,
@@ -270,160 +335,231 @@ export default function PurchaseRawMaterial({
 
 
     return (
-      <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Box className="raw-material-purchase-creates">
-
-            <Stack direction="row" spacing={5}>
-              <Typography className="header-title" variant="h6">
-                Purchase Raw Material
-              </Typography>
-              <Box sx={{ flexGrow: 1 }}></Box>
-              <IconButton onClick={() => handleClose()}>
-                <DoDisturbOnOutlinedIcon sx={{ color: "red" }} />
-              </IconButton>
-            </Stack>
-
-            <Stack direction="row" spacing={1} sx={{mt:-1}}>
-              <Typography variant="body2">
-                Please Select Raw Material that you need to purchase
-              </Typography>
-            </Stack>
-
-            <Stack direction="row" spacing={1} sx={{mt:2}}>
-              <Stack direction="column" justifyContent="center">
-                  <Typography className="header-title">
-                    Priority:
-                  </Typography>
-              </Stack>
-              <Box sx={{width:"150px"}}>
-                  <FormControl fullWidth size="small" >
-                    <Select                   
-                      {...getFieldProps("priority")}
-                      error={ Boolean(touched.priority && errors.priority)}
-                      helperText={touched.priority && errors.priority}
-                    >                    
-                      <MenuItem value="urgent">
-                          <Stack direction="row" spacing={1}>
-                              <NotificationsActiveIcon sx={{color:"red", width:"17px"}} />
-                              <Typography>Urgent</Typography>
-                          </Stack>
-                      </MenuItem>
-                      <MenuItem value="medium">
-                          <Stack direction="row" spacing={1}>
-                              <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />
-                              <Typography>Medium</Typography>
-                          </Stack>
-                      </MenuItem>
-                      <MenuItem value="low">
-                          <Stack direction="row" spacing={1}>
-                              <ArrowDownwardIcon sx={{color:"blue", width:"17px"}} />
-                              <Typography>Low</Typography>
-                          </Stack>
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-              </Box>
-              <Box sx={{ flexGrow: 1 }}></Box>
-              <Stack direction="column" justifyContent="center">
-                  <Typography className="header-title">
-                    Date:
-                  </Typography>
-              </Stack>
-              <Box sx={{width:"150px"}}>
-                  <LocalizationProvider className="date-controll" dateAdapter={AdapterDateFns} >
-                        <DatePicker  
-                            onChange={(e)=> setFieldValue("purchaseDate", e)}
-                            renderInput={(params) => (
-                                <TextField className="select-date" size='small' {...params} type="date" fullWidth />
-                            )}                       
-                            value={values.purchaseDate}
-                        />
-                  </LocalizationProvider>
-              </Box>              
-            </Stack>
-
-           
-            <Box className="container">
-              <TableContainer>
-                <Table className="table" aria-label="simple table">
-                  <TableHead>
-                    <TableRow className="header-row">
-                      <TableCell className="header-title">
-                        Raw Materail
-                      </TableCell>
-                       
-                      <TableCell className="header-title" align="center">
-                        QTY
-                      </TableCell>
+        <Dialog open={open} className="dialog-create-purchase">
+            <DialogTitle id="alert-dialog-title">
+                  <Stack direction="row" spacing={5}>
+                      <Typography className="header-title" variant="h6">
+                        Purchase Raw Material
+                      </Typography>
+                      <Box sx={{ flexGrow: 1 }}></Box>
+                      <IconButton onClick={() => handleClose()}>
+                        <DoDisturbOnOutlinedIcon sx={{ color: "red" }} />
+                      </IconButton>
+                  </Stack>
+                  <Stack direction="row" spacing={1}>
+                      <Typography variant="body2">
+                        Please Select Raw Material that you need to purchase
+                      </Typography>
+                  </Stack>
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-descriptionpor">     
+                                              
+                  <FormikProvider value={formik}>
+                    <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                       
-                      <TableCell className="header-title" align="center">
-                        UnitPrice
-                      </TableCell>
-                     
-                      <TableCell className="header-title" align="center">
-                        Supplies
-                      </TableCell>
-                      <TableCell className="header-title" align="right" width="5%">
-                        <IconButton onClick={handleAddMaterail}>
-                          <AddCircleOutlineRoundedIcon
-                            sx={{ color: "green" }}
-                          />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
+                      <Stack direction="row" spacing={1} sx={{mt:2}}>
+                        <Stack direction="column" justifyContent="center" width="65px"> 
+                            <Typography className="sub-header-title">
+                              Priority:
+                            </Typography>
+                        </Stack>
+                        <Box sx={{width:"170px"}}>
+                            <FormControl fullWidth size="small" >
+                              <Select                   
+                                {...getFieldProps("priority")}
+                                error={ Boolean(touched.priority && errors.priority)}
+                                helperText={touched.priority && errors.priority}
+                              >                    
+                                <MenuItem value="urgent">
+                                    <Stack direction="row" spacing={1}>
+                                        <NotificationsActiveIcon sx={{color:"red", width:"17px"}} />
+                                        <Typography>Urgent</Typography>
+                                    </Stack>
+                                </MenuItem>
+                                <MenuItem value="medium">
+                                    <Stack direction="row" spacing={1}>
+                                        <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />
+                                        <Typography>Medium</Typography>
+                                    </Stack>
+                                </MenuItem>
+                                <MenuItem value="low">
+                                    <Stack direction="row" spacing={1}>
+                                        <ArrowDownwardIcon sx={{color:"blue", width:"17px"}} />
+                                        <Typography>Low</Typography>
+                                    </Stack>
+                                </MenuItem>
+                              </Select>
+                            </FormControl>
+                        </Box>
+                        <Box sx={{ flexGrow: 1 }}></Box>
+                        <Stack direction="column" justifyContent="center" className='date-select'>
+                            <Typography className="sub-header-title">
+                              Date:
+                            </Typography>
+                        </Stack>
+                        <Box sx={{width:"150px"}} className='date-select'>
+                            <LocalizationProvider className="date-controll" dateAdapter={AdapterDateFns} >
+                                  <DatePicker  
+                                      onChange={(e)=> setFieldValue("purchaseDate", e)}
+                                      renderInput={(params) => (
+                                          <TextField className="select-date" size='small' {...params} type="date" fullWidth />
+                                      )}                       
+                                      value={values.purchaseDate}
+                                  />
+                            </LocalizationProvider>
+                        </Box>              
+                      </Stack>
 
-                  <ListRawMaterial
-                    items={item}
-                    deleteItem={deleteItem}
-                    setUpdateRawName={setUpdateRawName}
-                    setUpdateRawId={setUpdateRawId}
-                    setUpdateSuppliersName={setUpdateSuppliersName}
-                    setUpdateSuppliesId={setUpdateSuppliesId}
-                    setUpdateQty={setUpdateQty}
-                    setUpdateUnitPrice={setUpdateUnitPrice}
-                  />
+                    {/* responsive mobile */}
+                      <Stack direction="row" spacing={1} sx={{mt:2}} className='date-select-mobile'>                        
+                          <Stack direction="column" justifyContent="center" width="65px">
+                              <Typography className="sub-header-title">
+                                Date:
+                              </Typography>
+                          </Stack>
+                          <Box sx={{width:"170px"}}>
+                              <LocalizationProvider dateAdapter={AdapterMoment}>
+                                  <MobileDatePicker                                      
+                                      inputFormat="DD/MM/yyyy"
+                                      value={values?.purchaseDate}                                      
+                                      onChange={(e)=> setFieldValue("purchaseDate", e)}
+                                      renderInput={(params) => (
+                                          <TextField {...params}  
+                                              size="small"
+                                              fullWidth
+                                              InputProps={{                                                 
+                                                  endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <DateRangeIcon />
+                                                    </InputAdornment>
+                                                  ),
+                                              }}
+                                          />
+                                      )}
+                                  />
+                              </LocalizationProvider>
+                          </Box>              
+                      </Stack>
+                      {/* responsive mobile */}
 
-                </Table>
-              </TableContainer>
-            </Box>
+                      <Stack direction="row" spacing={1} sx={{mt:2}}>                        
+                          <Stack direction="column" justifyContent="center" width="65px">
+                              <Typography className="sub-header-title">
+                                Supplier:
+                              </Typography>
+                          </Stack>
+                          <Box sx={{width:"170px"}}>
+                              <Autocomplete
+                                    disablePortal
+                                    id="combo-box-demo"
+                                    options={suppliers}  
+                                    getOptionLabel={ (option) => option.label ? option.label : ""} 
+                                    onChange={(e,value) => {
+                                      setFieldValue("supplierID" , value?._id)
+                                      setSupplierAutoComplete({
+                                          label: value?.label,
+                                          _id: value?._id,
+                                      })
+                                    }}                            
+                                    renderInput={(params) => 
+                                        <TextField 
+                                            {...params} size="small" className='text-field'                                             
+                                            error={Boolean(touched.supplierID && errors.supplierID)}
+                                            helperText={touched.supplierID && errors.supplierID}                                             
+                                        />
+                                    }
+                                />
+                          </Box>              
+                      </Stack>
 
-            <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-                <Box sx={{flexGrow:1}}></Box>
-                <Typography className="header-title">Total Amount:</Typography>              
-                <Typography>${totalAmount?.toFixed(2)}</Typography>                
-            </Stack>
+                    
+                      <Box className="container">
+                        <TableContainer>
+                          <Table className="table" aria-label="simple table">
+                            <TableHead>
+                              <TableRow className="header-row">
+                                <TableCell className="header-title">
+                                  Raw Materail's Name
+                                </TableCell>
+                                
+                                <TableCell className="header-title" align="center">
+                                  Quantity
+                                </TableCell>
+                                
+                                <TableCell className="header-title" align="center">
+                                  Unit Price
+                                </TableCell>
+                              
+                                {/* <TableCell className="header-title" align="center">
+                                  Supplier Raw Material
+                                </TableCell> */}
 
-            <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-              <Typography className="header-title">Remark</Typography>
-              <TextField
-                multiline
-                rows={3}
-                size="small"
-                fullWidth
-                placeholder="remark"
-                {...getFieldProps("remark")}
-                error={Boolean(touched.remark && errors.remark)}
-                helperText={touched.remark && errors.remark}
-              />
-            </Stack>
+                                <TableCell className="header-title" align="right" width="10px">
+                                  <IconButton onClick={handleAddMaterail}>
+                                    <AddCircleOutlineRoundedIcon
+                                      sx={{ color: "green" }}
+                                    />
+                                  </IconButton>
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
 
-            {
-                btnCheckSubmit ?
+                            <ListRawMaterial
+                              items={item}
+                              deleteItem={deleteItem}
+                              setUpdateRawName={setUpdateRawName}
+                              setUpdateRawId={setUpdateRawId}
+                              setUpdateSuppliersName={setUpdateSuppliersName}
+                              setUpdateSuppliesId={setUpdateSuppliesId}
+                              setUpdateQty={setUpdateQty}
+                              setUpdateUnitPrice={setUpdateUnitPrice}
+                            />
 
-                    <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-                      <Button sx={{boxShadow: "none"}} variant="contained" >{btnTitle}</Button>
-                    </Stack>
-                :
-                    <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-                      <Button sx={{boxShadow: "none"}} variant="contained" type='submit'>{btnTitle}</Button>
-                    </Stack>                    
-            }
-            
-            
-          </Box>
-        </Form>
-      </FormikProvider>
+                          </Table>
+                        </TableContainer>
+                      </Box>
+
+                      <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+                          <Box sx={{flexGrow:1}}></Box>
+                          <Typography className="sub-header-title">Total Amount:</Typography>              
+                          <Typography>${totalAmount?.toFixed(2)}</Typography>                
+                      </Stack>
+
+                      <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                        <Typography className="sub-header-title">Remark</Typography>
+                        <TextField
+                          multiline
+                          rows={3}
+                          size="small"
+                          fullWidth
+                          placeholder="remark"
+                          {...getFieldProps("remark")}
+                          error={Boolean(touched.remark && errors.remark)}
+                          helperText={touched.remark && errors.remark}
+                        />
+                      </Stack>
+
+                      {
+                          btnCheckSubmit ?
+
+                              <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                                <Button sx={{boxShadow: "none"}} className="btn-submit" >{btnTitle}</Button>
+                              </Stack>
+                          :
+                              <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                                <Button sx={{boxShadow: "none"}} className="btn-submit" type='submit'>{btnTitle}</Button>
+                              </Stack>                    
+                      }
+                      
+                    </Form>
+                  </FormikProvider>    
+                
+                                  
+                </DialogContentText>
+            </DialogContent>       
+        </Dialog>
+
+      
     );
 }

@@ -1,24 +1,42 @@
 @import '../../themes.scss';
 
-.create-storage-room {
+.dialog-create-storageRoom {
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        // width: 400px !important;
+    }
+}
 
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 520px;    
-    background-color: #fff;
-    box-shadow: 30px;
-    border-radius: 10px;
-    padding: 20px;
+.create-storage-room {
+    width: 100%;   
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -50%);
+     
+    // background-color: #fff;
+    // box-shadow: 30px;
+    // border-radius: 10px;
+    // padding: 20px;
 
     
     .header-title {
         color: $primary-color;
         font-weight: bold;
     }
+
+    .sub-header-title {
+        color: $secondary-color;
+        font-weight: bold;
+    }
     
+    .btn-submit{
+        background-color: $primary-color !important;
+        color: #fff;
+    }
+
     .container {
+
 
         .table-top {
             width: 100%;      

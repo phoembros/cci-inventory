@@ -1,5 +1,31 @@
 @import '../../themes.scss';
 
+.dialog-create-customer {
+
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        width: 400px !important;
+    }
+    
+    .title{
+        color: $primary-color;
+        font-size: $font-Size-title;
+        font-weight: bold;
+    }
+    .field{
+        color: #007654;
+        font-size: $font-Size-Subtitle;
+        font-weight: bold;
+    }
+
+}
+
+.btn-update, 
+.btn-create{
+    background-color: #007654 !important;
+    color: #fff;
+}
+
 .customer {
 
     position: absolute;
@@ -19,7 +45,7 @@
         font-weight: bold;
     }
     .field{
-        color: $font-color;
+        color: #007654;
         font-size: $font-Size-Subtitle;
         font-weight: bold;
     }

@@ -34,7 +34,35 @@
 
     }
 
-    
+
+    .page-title {
+        
+        @include mobile-small {
+            display: none;
+        }
+        @include mobile {
+            display: none;
+        }
+        @include mobile-large {
+            display: none;
+        }
+    }
+
+
+    .page-title-mobile {
+        display: none;
+
+        @include mobile-small {
+            display: flex;
+        }
+        @include mobile {
+            display: flex;
+        }
+        @include mobile-large {
+            display: flex;
+        }
+    }
+
     .slash {
         width: 4px;
         height: 45px;
@@ -54,6 +82,17 @@
             width:300px;
             background-color: #fff;
             border-radius:10px;
+
+            @include mobile-small {
+                display: none;
+            }
+            @include mobile {
+                display: none;
+            }
+            @include mobile-large {
+                display: none;
+            }
+
         }
         
         .btn-add {

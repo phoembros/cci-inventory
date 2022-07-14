@@ -105,7 +105,10 @@ export default function Report() {
 
             {
                 typeReport === "sale_report" ?
-                    <SaleReport />
+                    <SaleReport 
+                        FromData={fromDate}
+                        ToData={toDate}
+                    />
                 :
                     null  
             }
@@ -122,7 +125,10 @@ export default function Report() {
 
             {
                 typeReport === "production_report" ?
-                    <ProductionReport />
+                    <ProductionReport 
+                        FromData={fromDate}
+                        ToData={toDate}
+                    />
                 :
                     null  
             }

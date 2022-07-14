@@ -7,16 +7,23 @@ import { Autocomplete, FormControl, FormHelperText, Icon, IconButton, InputAdorn
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import ListRawMaterialUpdate from './ListRawMaterialUpdate';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
-import { GET_PRODUCT_CATEGORY } from "../../Schema/product";
+import { GET_PRODUCTION_UNIT, GET_PRODUCT_CATEGORY } from "../../Schema/product";
 import { useQuery } from "@apollo/client";
 import * as Yup from "yup";
 import { useFormik, Form, FormikProvider } from "formik";
 import { GET_PRODUCT_UNIT , UPDATE_PRODUCT } from "../../Schema/product";
 import { useMutation } from '@apollo/client';
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 
 export default function UpdateProduct({
     handleClose,
+    open,
     btnTitle,
     editData,
     setAlert,
@@ -58,6 +65,16 @@ export default function UpdateProduct({
         setUnit(productUnit?.getProductsUnits);
     },[productUnit])
     // End
+
+     // Get Product Unit 
+     const [stockUnit,setStockUnit] = React.useState([])
+     const { data: productStockUnit } = useQuery(GET_PRODUCTION_UNIT);
+ 
+     React.useEffect( () => {        
+       setStockUnit(productStockUnit?.getCompletedProductsUnits);
+     },[stockUnit])
+     // End
+
     
     // Get product Categroy
     const [categoryProduct,setCategoryProduct] = React.useState([]);
@@ -194,7 +211,8 @@ export default function UpdateProduct({
         productId: Yup.string().required("Product's ID is required!"),
         remark: Yup.string(),  
         unitPrice: Yup.number().min(0.01 , "Unit Price can't under 0"),     
-        unit: Yup.string().required("Unit is required!"),   
+        unit: Yup.string().required("Unit is required!"),  
+        completedUnit : Yup.string().required("Unit is required!"),
         durationProduce: Yup.number(),
         category: Yup.string().required("Category is required!"),      
     });
@@ -206,6 +224,7 @@ export default function UpdateProduct({
             remark: editData?.remark,
             unitPrice: editData?.unitPrice,
             unit: editData?.unit,
+            completedUnit: editData?.completedUnit,
             category: editData?.category?._id,
             durationProduce: editData?.durationProduce,
         },
@@ -218,6 +237,7 @@ export default function UpdateProduct({
                 productId: values?.productId,
                 category: values?.category,                
                 unit: values?.unit,
+                completedUnit: values?.completedUnit,
                 unitPrice: parseFloat(values?.unitPrice),
                 ingredients: item,
                 remark: values?.remark,  
@@ -240,215 +260,262 @@ export default function UpdateProduct({
     // End Formik
    
     return (
-    <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <Box className='product-create'>
-                <Stack direction="row" spacing={5}>        
-                    <Typography className='header-title' variant="h6" >
-                        Update Product
-                    </Typography>
-                    <Box sx={{flexGrow:1}}></Box>
-                    <IconButton onClick={() => handleClose()}>
-                        <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
-                    </IconButton>    
-                </Stack>   
 
-                <Stack direction="row" spacing={5} sx={{mt:-1}}>
-                    <Typography variant="body2">
-                        Please input each field below.
-                    </Typography>              
-                </Stack>
-                
-                <Stack direction="row" spacing={5} width="100%" sx={{mt:2}}>
-                    <Box sx={{width:"40%"}}>               
-                        <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            options={categoryProduct}                           
-                            value={categorySelect}
-                            getOptionSelected={(option, value) => option._id === value._id } 
-                            onChange={(e, value) => {
-                                setFieldValue( "category" , value?._id ); 
-                                setCategorySelect(value)
-                            }}
-                            renderInput={(params) => 
-                                <TextField 
-                                    {...params} size="small" label="Category"
-                                    error={Boolean(touched.category && errors.category)}                        
-                                    helperText={touched.category && errors.category}
-                                />
-                            }
-                        />
-                    </Box>     
-                    <Box sx={{flexGrow: 1}}></Box>
-                    <Box sx={{ width: "30%" }}>
-                        <TextField 
-                            label="Product ID"
-                            type="text" 
-                            size='small' 
-                            {...getFieldProps("productId")}
-                            error={Boolean(touched.productId && errors.productId)}                          
-                            helperText={touched.productId && errors.productId}
-                        />
-                    </Box>       
-                </Stack> 
-                
 
-                <Box className="container">
-                    <TableContainer >
-                        <Table className="table-top" aria-label="simple table">
-                            <TableHead >
-                                <TableRow className="header-row">
-                                    <TableCell className="header-title">Product Name</TableCell>  
-                                    <TableCell className="header-title" width="3%"></TableCell>  
-                                    <TableCell className="header-title">Unit</TableCell>  
-                                    <TableCell className="header-title" width="3%"></TableCell>                           
-                                    <TableCell className="header-title" align='center' >Duration</TableCell>                                                       
-                                </TableRow>
-                            </TableHead>                    
-                            <TableBody component={Paper} className="body" >                        
-                                <TableRow  className="body-row">
-                                    <TableCell className="body-title" component="th" scope="row" width="50%" >
-                                        <TextField 
-                                            size='small' 
-                                            fullWidth
-                                            {...getFieldProps("productName")}
-                                            error={Boolean(touched.productName && errors.productName)}
-                                            helperText={touched.productName && errors.productName}
+        <Dialog open={open} className="dialog-product-create">
+            <DialogTitle id="alert-dialog-title">
+                    <Stack direction="row" spacing={5}>        
+                        <Typography className='header-title' variant="h6" >
+                            Update Product
+                        </Typography>
+                        <Box sx={{flexGrow:1}}></Box>
+                        <IconButton onClick={() => handleClose()}>
+                            <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
+                        </IconButton>    
+                    </Stack>   
+
+                    <Stack direction="row" spacing={5} sx={{mt:-1}}>
+                        <Typography variant="body2">
+                            Please input each field below.
+                        </Typography>              
+                    </Stack>
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description"> 
+
+                    <FormikProvider value={formik}>
+                        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                            
+                                <Stack direction="row" spacing={5} width="100%" sx={{mt:2}}>
+                                    <Box className='auto-selete-category'>               
+                                        <Autocomplete
+                                            disablePortal
+                                            id="combo-box-demo"
+                                            options={categoryProduct}                           
+                                            value={categorySelect}
+                                            getOptionSelected={(option, value) => option._id === value._id } 
+                                            onChange={(e, value) => {
+                                                setFieldValue( "category" , value?._id ); 
+                                                setCategorySelect(value)
+                                            }}
+                                            renderInput={(params) => 
+                                                <TextField 
+                                                    {...params} size="small" label="Category"
+                                                    error={Boolean(touched.category && errors.category)}                        
+                                                    helperText={touched.category && errors.category}
+                                                />
+                                            }
                                         />
-                                    </TableCell>
-                                    <TableCell className="body-title"></TableCell>  
-                                    <TableCell className="body-title" width="20%">
-                                        <FormControl fullWidth size='small'>                                            
-                                            <Select                                                                                     
-                                                {...getFieldProps("unit")}
-                                                error={Boolean(touched.unit && errors.unit)}
-                                                helperText={touched.unit && errors.unit}
-                                            >                                               
-                                                {
-                                                    unit?.map( (item,index) => (
-                                                        <MenuItem key={index} value={`${item}`}>{item}</MenuItem>
-                                                    ))
-                                                }                               
-                                               
-                                            </Select>
-                                        </FormControl>
-
-                                        {!!errors.unit && (
-                                            <FormHelperText error id="outlined-adornment-email">
-                                                {errors.unit}
-                                            </FormHelperText>
-                                        )}
-
-                                    </TableCell>
-                                    <TableCell className="body-title"></TableCell>                      
-                                    <TableCell className="body-title" width="15%" align='center'>
+                                    </Box>     
+                                    <Box sx={{flexGrow: 1}}></Box>
+                                    <Box className='product-id'>
                                         <TextField 
+                                            label="Product ID"
+                                            type="text" 
                                             size='small' 
+                                            {...getFieldProps("productId")}
+                                            error={Boolean(touched.productId && errors.productId)}                          
+                                            helperText={touched.productId && errors.productId}
+                                        />
+                                    </Box>     
+                                </Stack> 
+
+                                <Stack direction="row" spacing={5} sx={{mt:2 , mb:1}} className='product-id-mobile'>
+                                    <Box sx={{ width: "100%" }} >
+                                        <TextField 
+                                            label="Product ID"
+                                            type="text" 
+                                            size='small' 
+                                            {...getFieldProps("productId")}
+                                            error={Boolean(touched.productId && errors.productId)}                          
+                                            helperText={touched.productId && errors.productId}
+                                        />
+                                    </Box>
+                                </Stack>
+                                
+
+                                <Box className="container">
+                                    <TableContainer >
+                                        <Table className="table-top" aria-label="simple table">
+                                            <TableHead >
+                                                <TableRow className="header-row">
+                                                    <TableCell className="header-title">Product Name</TableCell>  
+                                                    <TableCell className="header-title" width="3%"></TableCell>  
+                                                    <TableCell className="header-title">Unit</TableCell>  
+                                                    <TableCell className="header-title" width="3%"></TableCell>  
+                                                    <TableCell className="header-title">Stock U/M</TableCell>  
+                                                    <TableCell className="header-title" width="3%"></TableCell>                       
+                                                    <TableCell className="header-title" align='center' >Duration</TableCell>                                                       
+                                                </TableRow>
+                                            </TableHead>                    
+                                            <TableBody component={Paper} className="body" >                        
+                                                <TableRow  className="body-row">
+                                                    <TableCell className="body-title" component="th" scope="row" width="50%" >
+                                                        <TextField 
+                                                            size='small' 
+                                                            fullWidth
+                                                            {...getFieldProps("productName")}
+                                                            error={Boolean(touched.productName && errors.productName)}
+                                                            helperText={touched.productName && errors.productName}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell className="body-title"></TableCell>  
+                                                    <TableCell className="body-title" width="20%">
+                                                        <FormControl fullWidth size='small'>                                            
+                                                            <Select                                                                                     
+                                                                {...getFieldProps("unit")}
+                                                                error={Boolean(touched.unit && errors.unit)}
+                                                                helperText={touched.unit && errors.unit}
+                                                            >                                               
+                                                                {
+                                                                    unit?.map( (item,index) => (
+                                                                        <MenuItem key={index} value={`${item}`}>{item}</MenuItem>
+                                                                    ))
+                                                                }                               
+                                                            
+                                                            </Select>
+                                                        </FormControl>
+
+                                                        {!!errors.unit && (
+                                                            <FormHelperText error id="outlined-adornment-email">
+                                                                {errors.unit}
+                                                            </FormHelperText>
+                                                        )}
+
+                                                    </TableCell>
+                                                    <TableCell className="body-title"></TableCell>    
+                                                    <TableCell className="body-title" width="20%">
+                                                        <FormControl fullWidth size="small">
+                                                        <Select                           
+                                                            {...getFieldProps("completedUnit")}
+                                                            error={Boolean(touched.completedUnit && errors.completedUnit)}
+                                                            helperText={touched.completedUnit && errors.completedUnit}
+                                                        >                            
+                                                            {stockUnit?.map((item, index) => (
+                                                            <MenuItem value={`${item}`}>{item}</MenuItem>
+                                                            ))}
+                                                        </Select>
+                                                        </FormControl>
+
+                                                        {!!errors.completedUnit && (
+                                                            <FormHelperText error id="outlined-adornment-email">
+                                                                {errors.completedUnit}
+                                                            </FormHelperText>
+                                                        )} 
+
+                                                    </TableCell>      
+                                                    <TableCell className="body-title"></TableCell>                
+                                                    <TableCell className="body-title" width="15%" align='center'>
+                                                        <TextField 
+                                                            size='small' 
+                                                            fullWidth
+                                                            {...getFieldProps("durationProduce")}
+                                                            error={Boolean(touched.durationProduce && errors.durationProduce)}
+                                                            helperText={touched.durationProduce && errors.durationProduce}
+                                                            InputProps={{                                  
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">                                             
+                                                                        s                                         
+                                                                    </InputAdornment>
+                                                                ), 
+                                                                inputProps: { min: 1 },                                               
+                                                            }}
+                                                        />
+                                                    </TableCell>                                                      
+                                                </TableRow>
+                                            </TableBody>                       
+                                        </Table>
+                                    </TableContainer>
+
+                                    <TableContainer >
+                                        <Table className="table" aria-label="simple table">
+                                            <TableHead >
+                                                <TableRow className="header-row">
+                                                    <TableCell className="header-title">Raw Materail</TableCell>  
+                                                                            
+                                                    <TableCell className="header-title" align='center'>QTY</TableCell>  
+                                                    
+                                                    <TableCell className="header-title" align='right'>
+                                                        <IconButton onClick={handleAddMaterail}> 
+                                                            <AddCircleOutlineRoundedIcon sx={{color:"green"}}/>
+                                                        </IconButton>
+                                                    </TableCell>                                                       
+                                                </TableRow>
+                                            </TableHead>
+
+                                            {/* {rows.map((row , index) => (
+                                                <TableBody key={index} component={Paper} className="body" >                        
+                                                    <TableRow  className="body-row">                                
+                                                        <TableCell className="body-title" component="th" scope="row" > {row.name} </TableCell>
+                                                        <TableCell className="body-title" >{row.calories}Kg</TableCell>    
+                                                        <TableCell className="body-title" ></TableCell>                                                   
+                                                    </TableRow>
+                                                </TableBody>                        
+                                            ))} */}
+
+                                            <ListRawMaterialUpdate 
+                                                items={item}
+                                                deleteItem={deleteItem}
+                                                setUpdateText={setUpdateText}
+                                                setUpdateQty={setUpdateQty}
+                                                setUpdateRawName={setUpdateRawName}
+                                                setUpdateUnitRawMaterial={setUpdateUnitRawMaterial}
+                                            />
+
+                                        </Table>
+                                    </TableContainer>
+
+                                </Box> 
+
+                                <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                                    <Typography className="header-title">Unit Price</Typography>
+                                    <Box sx={{width:"300px"}}>
+                                        <TextField               
+                                            size="small"
+                                            type="number"
                                             fullWidth
-                                            {...getFieldProps("durationProduce")}
-                                            error={Boolean(touched.durationProduce && errors.durationProduce)}
-                                            helperText={touched.durationProduce && errors.durationProduce}
+                                            placeholder="unitPrice"
+                                            {...getFieldProps("unitPrice")}
+                                            error={Boolean(touched.unitPrice && errors.unitPrice || touched.unitPrice && isNaN(values.unitPrice) )}
+                                            helperText={touched.unitPrice && errors.unitPrice || isNaN(values.unitPrice) &&  errors.unitPrice }
                                             InputProps={{                                  
-                                                endAdornment: (
-                                                    <InputAdornment position="end">                                             
-                                                        s                                         
+                                                startAdornment: (
+                                                    <InputAdornment position="start">                                             
+                                                        $                                           
                                                     </InputAdornment>
-                                                ), 
-                                                inputProps: { min: 1 },                                               
+                                                ),                         
+                                                inputProps: { min: 0 },                       
                                             }}
                                         />
-                                    </TableCell>                                                      
-                                </TableRow>
-                            </TableBody>                       
-                        </Table>
-                    </TableContainer>
-
-                    <TableContainer >
-                        <Table className="table" aria-label="simple table">
-                            <TableHead >
-                                <TableRow className="header-row">
-                                    <TableCell className="header-title">Raw Materail</TableCell>  
-                                                             
-                                    <TableCell className="header-title" align='center'>QTY</TableCell>  
-                                     
-                                    <TableCell className="header-title" align='right'>
-                                        <IconButton onClick={handleAddMaterail}> 
-                                            <AddCircleOutlineRoundedIcon sx={{color:"green"}}/>
-                                        </IconButton>
-                                    </TableCell>                                                       
-                                </TableRow>
-                            </TableHead>
-
-                            {/* {rows.map((row , index) => (
-                                <TableBody key={index} component={Paper} className="body" >                        
-                                    <TableRow  className="body-row">                                
-                                        <TableCell className="body-title" component="th" scope="row" > {row.name} </TableCell>
-                                        <TableCell className="body-title" >{row.calories}Kg</TableCell>    
-                                        <TableCell className="body-title" ></TableCell>                                                   
-                                    </TableRow>
-                                </TableBody>                        
-                            ))} */}
-
-                            <ListRawMaterialUpdate 
-                                items={item}
-                                deleteItem={deleteItem}
-                                setUpdateText={setUpdateText}
-                                setUpdateQty={setUpdateQty}
-                                setUpdateRawName={setUpdateRawName}
-                                setUpdateUnitRawMaterial={setUpdateUnitRawMaterial}
-                            />
-
-                        </Table>
-                    </TableContainer>
-
-                </Box> 
-
-                <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-                    <Typography className="header-title">Unit Price</Typography>
-                    <Box sx={{width:"300px"}}>
-                        <TextField               
-                            size="small"
-                            type="number"
-                            fullWidth
-                            placeholder="unitPrice"
-                            {...getFieldProps("unitPrice")}
-                            error={Boolean(touched.unitPrice && errors.unitPrice || touched.unitPrice && isNaN(values.unitPrice) )}
-                            helperText={touched.unitPrice && errors.unitPrice || isNaN(values.unitPrice) &&  errors.unitPrice }
-                            InputProps={{                                  
-                                startAdornment: (
-                                    <InputAdornment position="start">                                             
-                                        $                                           
-                                    </InputAdornment>
-                                ),                         
-                                inputProps: { min: 0 },                       
-                            }}
-                        />
-                    </Box>              
-                </Stack>
+                                    </Box>              
+                                </Stack>
 
 
-                <Stack direction="column" spacing={1} sx={{mt:2}}>
-                    <Typography className='header-title'>
-                        Remark
-                    </Typography>
-                    <TextField 
-                        multiline
-                        rows={3}
-                        size='small' 
-                        fullWidth
-                        placeholder='Remark'
-                        {...getFieldProps("remark")}
-                        error={Boolean(touched.remark && errors.remark)}
-                        helperText={touched.remark && errors.remark}
-                    />            
-                </Stack>
-                <Stack direction="column" spacing={1} sx={{mt:2}}>           
-                    <Button sx={{boxShadow: "none"}} type='submit' variant="contained">{btnTitle}</Button>
-                </Stack>
-                                
-            </Box>  
-        </Form>
-    </FormikProvider>      
+                                <Stack direction="column" spacing={1} sx={{mt:2}}>
+                                    <Typography className='header-title'>
+                                        Remark
+                                    </Typography>
+                                    <TextField 
+                                        multiline
+                                        rows={3}
+                                        size='small' 
+                                        fullWidth
+                                        placeholder='Remark'
+                                        {...getFieldProps("remark")}
+                                        error={Boolean(touched.remark && errors.remark)}
+                                        helperText={touched.remark && errors.remark}
+                                    />            
+                                </Stack>
+                                <Stack direction="column" spacing={1} sx={{mt:2}}>           
+                                    <Button className="btn-update" sx={{boxShadow: "none"}} type='submit' variant="contained">{btnTitle}</Button>
+                                </Stack>
+                                                
+                             
+                        </Form>
+                    </FormikProvider>    
+
+            </DialogContentText>
+        </DialogContent>       
+    </Dialog>   
   );
 }

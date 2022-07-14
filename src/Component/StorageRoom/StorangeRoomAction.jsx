@@ -14,6 +14,7 @@ import ModalDeleteStorageRoom from "./ModalDeleteStorageRoom";
 import ModalCreateStorageRoom from "./ModalCreateStorageRoom";
 
 export default function StorangeRoomAction({
+    dataUserLogin,
     row,
     alert,
     message,
@@ -44,64 +45,90 @@ export default function StorangeRoomAction({
   return (
     <div>
         
+
         <IconButton onClick={handleClick}>
             <MoreVertIcon sx={{color:"#3C64F6"}}/>   
         </IconButton>
-        <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-                'aria-labelledby': 'basic-button',
-            }}
-        >
-            <MenuItem onClick={()=> {
-                handleClose();
-                handleOpenViewPurchase();
-            }}>
-                <Stack direction="row" spacing={1}>
-                    <EditIcon sx={{color:"blue"}}/>
-                    <Typography>Edit</Typography>
-                </Stack> 
-            </MenuItem> 
-      
-           
-            <MenuItem  onClick={()=> {
-                handleClose();
-                handleOpenDelete();
-            }}>
-                <Stack direction="row" spacing={1}>
-                    <DeleteIcon sx={{color:"red"}}/>
-                    <Typography>Delete</Typography>
-                </Stack>    
-            </MenuItem>
 
-        </Menu>
+        {
+            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateStorageRoom || 
+            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteStorageRoom ?
+
+            <>
+                <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                    }}
+                >
+
+                    {
+                        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateStorageRoom ? 
+
+                            <MenuItem onClick={()=> {
+                                handleClose();
+                                handleOpenViewPurchase();
+                            }}>
+                                <Stack direction="row" spacing={1}>
+                                    <EditIcon sx={{color:"blue"}}/>
+                                    <Typography>Edit</Typography>
+                                </Stack> 
+                            </MenuItem> 
+                        :
+                            null
+                    }
+                    
+                    {
+                        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteStorageRoom ? 
+                        
+                            <MenuItem  onClick={()=> {
+                                handleClose();
+                                handleOpenDelete();
+                            }}>
+                                <Stack direction="row" spacing={1}>
+                                    <DeleteIcon sx={{color:"red"}}/>
+                                    <Typography>Delete</Typography>
+                                </Stack>    
+                            </MenuItem>
+                        :
+                            null
+                    }
+            
+                </Menu>
+            </>
+        :
+
+            null
+        }
         
-
-        <Modal open={openViewPurchase}>
-            <ModalCreateStorageRoom 
-                row={row}
-                setRefetch={setRefetch}
-                setAlert={setAlert}
-                setMessage={setMessage}
-                setCheckMessage={setCheckMessage}
-                handleClose={handleCloseViewPurchase}
-                checkStatus={"update"}
-                btnTitle={"Update"}
-            />
-        </Modal>
+        
+        {/* Update Storage Room */}
+        <ModalCreateStorageRoom 
+            row={row}
+            open={openViewPurchase}
+            setRefetch={setRefetch}
+            setAlert={setAlert}
+            setMessage={setMessage}
+            setCheckMessage={setCheckMessage}
+            handleClose={handleCloseViewPurchase}
+            checkStatus={"update"}
+            btnTitle={"Update"}
+        />
+        
         {/*  */}
-        <Modal open={openDelete}>
-            <ModalDeleteStorageRoom
-                setRefetch={setRefetch}
-                row={row} 
-                setAlert={setAlert}
-                setMessage={setMessage}
-                setCheckMessage={setCheckMessage}
-                handleClose={handleCloseDelete} />
-        </Modal>
+        <ModalDeleteStorageRoom
+            setRefetch={setRefetch}
+            row={row} 
+            setAlert={setAlert}
+            setMessage={setMessage}
+            setCheckMessage={setCheckMessage}
+            handleClose={handleCloseDelete} 
+            open={openDelete}
+        />
+       
         
         
 

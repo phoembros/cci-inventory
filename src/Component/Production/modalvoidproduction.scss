@@ -1,5 +1,38 @@
 @import '../../themes.scss';
 
+.dialog-production-void {
+
+
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        width: 500px !important;
+    }
+
+    
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+
+    .body-title {
+        color: $primary-color;
+    }
+
+    .body-void {
+        color: $primary-color;
+        text-transform: uppercase;   
+        font-weight: bold;     
+    }
+
+    .btn-void {
+        background-color: red;
+        color: white;
+        border: none;
+    }
+
+}
+
+
 .production-void {
 
     position: absolute;

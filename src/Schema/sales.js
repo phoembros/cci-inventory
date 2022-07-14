@@ -12,6 +12,7 @@ export const GET_CUSTOMER = gql`
     query Query {
         getCustomers {
         _id
+        cusId
         name
         phoneNumber
         email
@@ -61,6 +62,7 @@ export const GET_CUSTOMER_PAGINATION =  gql`
         }
         customers {
             _id
+            cusId
             name
             phoneNumber
             email
@@ -70,12 +72,19 @@ export const GET_CUSTOMER_PAGINATION =  gql`
     }
 `
 
+export const GET_OWE_CUSTOMER = gql`
+  query Query($id: ID!) {
+    getOweCustomer(_id: $id)
+  }
+`
+
 export const GET_SALE_WITH_PAGINATION = gql`
 query GetSaleWithPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean, $status: String) {
   getSaleWithPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination, status: $status) {
     sales {
       _id
       invoiceNo
+      voided
       tin
       date
       billTo {
@@ -144,6 +153,15 @@ export const DELETE_SALE = gql`
   }
 `
 
+export const VOID_INVOICE = gql`
+  mutation VoidInvoice($id: ID!) {
+    voidInvoice(_id: $id) {
+      success
+      message
+    }
+  }
+`
+
 export const UPDATE_SALE = gql`
   mutation UpdateSale($id: ID!, $saleEdit: SaleInput) {
     updateSale(_id: $id, SaleEdit: $saleEdit) {
@@ -158,6 +176,7 @@ query GetSaleById($id: ID!) {
   getSaleById(_id: $id) {
     _id
     invoiceNo
+    voided
     tin
     date
     billTo {

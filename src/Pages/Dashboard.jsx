@@ -26,13 +26,51 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 //Component
 import Chart from "../Component/Dashboard/Chart";
 import PurchaseProduct from "../Component/Dashboard/PurchaseProduct";
 import TableRawMaterail from "../Component/Dashboard/TableRawMaterail";
 import RadialChart from "../Component/Dashboard/RadialChart";
 
+import { GET_USER_LOGIN } from "../Schema/user";
+// 
+import { useQuery } from "@apollo/client";
+import { GET_RAW_MATERAIL_PAGINATION } from "../Schema/rawmaterial";
+import { GET_PRODUCT_WITH_PAGINATION } from "../Schema/product";
+import { GET_SAL_UNPAITOWE } from "../Schema/dasboard";
+import PermissionContent from "../Component/Permission/PermissionContent";
+
+
 export default function Dashboard() {
+
+
+  const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+  // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+
+  //Query Raw Material
+  const { data, refetch } = useQuery(GET_RAW_MATERAIL_PAGINATION, {
+      variables: {     
+          keyword: "",
+          pagination: false,          
+      },    
+  });
+  // console.log(data?.getRawMaterialPagination?.rawMaterial?.length)
+
+  const { data: dataSale } = useQuery(GET_SAL_UNPAITOWE);
+  // console.log(dataSale?.getInvoiceOweAndUnpaid)
+
+
+  //Query Product
+  const { data : dataProduct } = useQuery(GET_PRODUCT_WITH_PAGINATION, {
+      variables: {     
+          keyword: "",
+          pagination: false,          
+      },    
+  });
+  // console.log(dataProduct?.getProductPagination?.products?.length)
+
   //switch
   const [checked, setChecked] = React.useState(true);
 
@@ -54,25 +92,38 @@ export default function Dashboard() {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ boxShadow: "none" }}
-          onClick={() => navigate("/sales?create=true")}
-        >
-            Invoice
-        </Button>
+          {
+            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createRole ?
+              <Button
+                variant="contained"
+                sx={{ boxShadow: "none" }}
+                onClick={() => navigate("/sales?create=true")}
+                className="btn-invoice"
+              >
+                  Invoice
+              </Button>
+            :
+              null
+          }
+          
+          {
+            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createProductions ?
+              <Button
+                variant="contained"
+                sx={{ boxShadow: "none" }}
+                onClick={() => navigate("/production?create=true")}
+                className="btn-production"
+              >
+                  Productions
+              </Button>
+            :
+              null
+          }
 
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ boxShadow: "none" }}
-          onClick={() => navigate("/production?create=true")}
-        >
-            Productions
-        </Button>
+          
       </Stack>
       {/* end Top */}
+      
       <Box sx={{ mt: 4 }}></Box>
 
       {/* container */}
@@ -85,16 +136,16 @@ export default function Dashboard() {
                     <CircleIcon className="success" />
                   </Stack>
                   <Stack direction="column" justifyContent="center">
-                    <Typography className="text-inline">Raw Material</Typography>
-                    <Typography className="sub-color">Total Raw Material</Typography>
+                      <Typography className="text-inline">Raw Material</Typography>
+                      <Typography className="sub-color">Total Raw Material</Typography>
                   </Stack>
                   <Box sx={{ flexGrow: 1 }}></Box>
                   <Button className="btn-maker">
-                    <Stack direction="row" justifyContent="center" spacing={1}>
-                      <Box className="circle">
-                        <Typography className="text-padding">10</Typography>
-                      </Box>                      
-                    </Stack>
+                      <Stack direction="row" justifyContent="center" spacing={1}>
+                        <Box className="circle">
+                          <Typography className="text-padding">{data?.getRawMaterialPagination?.rawMaterial?.length}</Typography>
+                        </Box>                      
+                      </Stack>
                   </Button>
                 </Stack>
             </Box>
@@ -115,7 +166,7 @@ export default function Dashboard() {
                 <Button className="btn-maker">
                   <Stack direction="row" justifyContent="center" spacing={1}>
                     <Box className="circle">
-                      <Typography className="text-padding">10</Typography>
+                      <Typography className="text-padding">{dataProduct?.getProductPagination?.products?.length}</Typography>
                     </Box>                   
                   </Stack>
                 </Button>
@@ -125,7 +176,7 @@ export default function Dashboard() {
 
 
         <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
-            <Box className="box-top" >
+            <Box className="box-top">
                 <Stack className="center" direction="row" spacing={2}>
                   <Stack direction="column" justifyContent="center">
                     <CircleIcon className="success" />
@@ -138,23 +189,23 @@ export default function Dashboard() {
                   <Button className="btn-maker">
                     <Stack direction="row" justifyContent="center" spacing={1}>
                       <Box className="circle">
-                        <Typography className="text-padding">10</Typography>
+                        <Typography className="text-padding">{dataSale?.getInvoiceOweAndUnpaid}</Typography>
                       </Box>                      
                     </Stack>
                   </Button>
                 </Stack>
-              </Box>
+            </Box>
         </Grid>
 
         
         
         <Grid item xs={12} md={12} lg={12} xl={6}>
           <Box  sx={{  padding: 2 ,  borderRadius: 3 ,  width: "100%", height: "100%", backgroundColor: "#fff",  display: "flex", justifyContent: "center", flexDirection: "column",}}>
-              <Chart />
+                <Chart dataUserLogines={dataUserLogin}/>                            
           </Box>
         </Grid>
         <Grid item xs={12} md={12} lg={12} xl={6}>           
-            <PurchaseProduct />           
+            <PurchaseProduct dataUserLogines={dataUserLogin}/>           
         </Grid>
 
       </Grid>
@@ -167,15 +218,22 @@ export default function Dashboard() {
                       <Typography className="color">Top Raw Material</Typography>
                       <Grid container className="title">
                           <Grid item xs={12} md={12}>
-                            <RadialChart />
+                            {
+                              dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getTopRawMaterial ?
+                                <RadialChart />
+                              :
+                                <PermissionContent />
+                            }
+                            
                           </Grid>
                       </Grid>
-
                       <Box sx={{ flexGrow: 1 }}></Box>
                       <Stack direction="column" className="footer">
-                          <Typography className="color">View ALL Material</Typography>
+                          <Link to="/raw-material">
+                              <Typography className="color">View ALL Material</Typography>
+                          </Link>
                           <Typography className="modal" variant="body2">
-                            Created by William Valentine Wright in 1860,{" "}
+                              Raw Materials that use as much in order to make the product.
                           </Typography>
                       </Stack>
                 </Stack>
@@ -183,7 +241,7 @@ export default function Dashboard() {
         </Grid>
         
         <Grid item xs={12} md={12} xl={6}>
-            <TableRawMaterail />
+            <TableRawMaterail dataUserLogines={dataUserLogin}/>
         </Grid>
       </Grid>
       {/* end container */}

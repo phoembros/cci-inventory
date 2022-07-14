@@ -18,6 +18,7 @@ import WifiProtectedSetupIcon from '@mui/icons-material/WifiProtectedSetup';
 
 
 export default function ProductionAction({
+    dataUserLogin,
     editDataProduction,   
     setAlert,
     setMessage,
@@ -54,68 +55,99 @@ export default function ProductionAction({
             <MoreVertIcon sx={{color:"#3C64F6"}}/>   
         </IconButton>
 
-        {
-            editDataProduction?.progress !== 'completed' ?
-
-            <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{ 'aria-labelledby': 'basic-button', }}
-            >
-
-                <MenuItem onClick={()=> {  handleClose();   handleOpenEdit();  }}>
-                    <Stack direction="row" spacing={1}>
-                        <EditIcon sx={{color:"blue"}}/>
-                        <Typography>Edit</Typography>
-                    </Stack> 
-                </MenuItem> 
-
-
+    {
+        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateProductions ||
+        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.completeProduction ||
+        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteProductions ?
+            <>
                 {
-                    editDataProduction?.status === 'approve' && editDataProduction?.progress === "not started" ?
-                        <MenuItem onClick={()=> { handleClose();  handleOpenProgress(); }}>
-                            <Stack direction="row" spacing={1}>
-                                <WifiProtectedSetupIcon sx={{color:"green"}}/>
-                                <Typography>Progress</Typography>
-                            </Stack> 
-                        </MenuItem> 
-                    :
-                        null
+                    editDataProduction?.progress !== 'completed' ?
+
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{ 'aria-labelledby': 'basic-button', }}
+                    >
+
+                        {
+                            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateProductions ?
+                                <MenuItem onClick={()=> {  handleClose();   handleOpenEdit();  }}>
+                                    <Stack direction="row" spacing={1}>
+                                        <EditIcon sx={{color:"blue"}}/>
+                                        <Typography>Edit</Typography>
+                                    </Stack> 
+                                </MenuItem>
+                            :
+                                null
+                        }
+
+                        {
+                            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateProductions ?
+                                <>                            
+                                    {
+                                        editDataProduction?.status === 'approve' && editDataProduction?.progress === "not started" ?
+                                            <MenuItem onClick={()=> { handleClose();  handleOpenProgress(); }}>
+                                                <Stack direction="row" spacing={1}>
+                                                    <WifiProtectedSetupIcon sx={{color:"green"}}/>
+                                                    <Typography>Progress</Typography>
+                                                </Stack> 
+                                            </MenuItem> 
+                                        :  null
+                                    }
+                                </>                        
+                            : null
+                        }
+
+
+                        {
+                            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.completeProduction ?
+                                <>
+                                    {
+                                        editDataProduction?.status === 'approve' && editDataProduction?.progress === "in progress" ?
+                                            <MenuItem onClick={()=> { handleClose(); handleOpenQualityCheck(); }}>
+                                                <Stack direction="row" spacing={1}>
+                                                    <CheckCircleOutlineOutlinedIcon sx={{color:"orange"}}/>
+                                                    <Typography>Quantity</Typography>
+                                                </Stack> 
+                                            </MenuItem> 
+                                        :
+                                            null
+                                    }
+                                </>
+                            :
+                                null        
+                        }
+
+                        {
+                            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteProductions ?
+                                <MenuItem  onClick={()=> {  handleClose(); handleOpenVoid(); }}>
+                                    <Stack direction="row" spacing={1}>
+                                        <DeleteIcon sx={{color:"red"}}/>
+                                        <Typography>Delete</Typography>
+                                    </Stack>    
+                                </MenuItem>
+                            :
+                                null
+                        }
+                            
+
+                    </Menu>
+
+                    : null
                 }
+            </>
+        :
+            null
+    }
 
         
-                {
-                    editDataProduction?.status === 'approve' && editDataProduction?.progress === "in progress" ?
-                        <MenuItem onClick={()=> { handleClose(); handleOpenQualityCheck(); }}>
-                            <Stack direction="row" spacing={1}>
-                                <CheckCircleOutlineOutlinedIcon sx={{color:"orange"}}/>
-                                <Typography>Quality</Typography>
-                            </Stack> 
-                        </MenuItem> 
-                    :
-                        null
-                }
-
-                    
-                <MenuItem  onClick={()=> {  handleClose(); handleOpenVoid(); }}>
-                    <Stack direction="row" spacing={1}>
-                        <DeleteIcon sx={{color:"red"}}/>
-                        <Typography>Delete</Typography>
-                    </Stack>    
-                </MenuItem>
-
-
-            </Menu>
-
-            : null
-        }
-        
-        {/*  */}
-        <Modal open={openEdit} >
+         
+        {/* <Modal open={openEdit} > */}
             <UpdateProduction  
                 handleClose={handleCloseEdit} 
+                open={openEdit}
                 btnTitle={"Update"} 
                 checkStatus={"update"} 
                 editDataProduction={editDataProduction}
@@ -125,11 +157,12 @@ export default function ProductionAction({
                 setCheckMessage={setCheckMessage}
                 setRefetch={setRefetch}
             />            
-        </Modal>
+        {/* </Modal> */}
 
-        {/*  */}
-        <Modal open={openQualityCheck} >
+         
+        {/* <Modal open={openQualityCheck} > */}
             <ModalQualityCheck  
+                open={openQualityCheck}
                 handleClose={handleCloseQualityCheck} 
                 editDataProduction={editDataProduction}
                 setAlert={setAlert}
@@ -137,11 +170,12 @@ export default function ProductionAction({
                 setCheckMessage={setCheckMessage}
                 setRefetch={setRefetch}
             />
-        </Modal>
+        {/* </Modal> */}
 
-        {/*  */}
-        <Modal open={openProgress} >
-            <ModalProgressProduction  
+        
+        {/* <Modal open={openProgress} > */}
+            <ModalProgressProduction 
+                open={openProgress}
                 handleClose={handleCloseProgress} 
                 editDataProduction={editDataProduction}
                 setAlert={setAlert}
@@ -149,12 +183,13 @@ export default function ProductionAction({
                 setCheckMessage={setCheckMessage}
                 setRefetch={setRefetch}
             />
-        </Modal>
+        {/* </Modal> */}
 
         {/*  */}
-        <Modal open={openVoid} >
+        {/* <Modal open={openVoid} > */}
             <ModalVoidProduction  
                 handleClose={handleCloseVoid} 
+                open={openVoid}
                 checkproduction= {true}  
                 editDataProduction={editDataProduction}
                 setAlert={setAlert}
@@ -162,7 +197,7 @@ export default function ProductionAction({
                 setCheckMessage={setCheckMessage}
                 setRefetch={setRefetch}
             />
-        </Modal>
+        {/* </Modal> */}
 
 
 

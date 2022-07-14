@@ -13,7 +13,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import { VisibilityOff, Visibility } from "@mui/icons-material";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
+// import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 // firebase 
@@ -25,6 +25,17 @@ import { uploadBytesResumable } from "firebase/storage";
 import imageCompression from 'browser-image-compression';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
+
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 const Input = styled("input")({
@@ -75,7 +86,7 @@ const uploadFiles = async ( file, newValue ) => {
 
 
 
-function ModalUserAdd({handleClose, setAlert, setMessage, setCheckMessage , setLoading}) {
+function ModalUserAdd({handleClose, open , setAlert, setMessage, setCheckMessage , setLoading ,  setRefech}) {
   //
   const [dob,setDob] = React.useState(new Date());
   //show password function
@@ -93,6 +104,7 @@ function ModalUserAdd({handleClose, setAlert, setMessage, setCheckMessage , setL
             setAlert(true);
             setLoading(true);
             handleClose()
+            setRefech()
           } else {
             setCheckMessage('error')
             setMessage(createUser?.message)
@@ -151,202 +163,232 @@ function ModalUserAdd({handleClose, setAlert, setMessage, setCheckMessage , setL
   
 
   return (
-    <Stack className="modal-user" direction="row" spacing={2}>
-      <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Box className="modal-box">
-
-            <Stack direction="row" spacing={2}>
-                <Stack direction="column" justifyContent="center" spacing={2}>
-                    <Typography className='header-title' variant="h6" >
-                        Create User
-                    </Typography>
-                </Stack>                
-                <Box sx={{flexGrow:1}}></Box>
-                <IconButton onClick={handleClose} >
-                    <DoDisturbOnOutlinedIcon sx={{color:'red'}} />
-                </IconButton>
-            </Stack>
-          
-            <Grid item container className="title">
-
-              <Paper className="make-paper">
-                  <label htmlFor="icon-button-file">
-                      <Input accept="image/*" id="icon-button-file" type="file" />
-                      <IconButton
-                        color="primary"
-                        aria-label="upload picture"
-                        component="span"
-                        className="icon-camara"
-                      >
-                        <PhotoCamera />
-                      </IconButton>
-                  </label>                
-              </Paper>
-
-
-            </Grid>
+    <Dialog open={open} className="dialog-create-user">
+        <DialogTitle id="alert-dialog-title">
+              <Stack direction="row" spacing={2}>
+                  <Stack direction="column" justifyContent="center" spacing={2}>
+                      <Typography className='header-title' variant="h6" >
+                          Create User
+                      </Typography>
+                  </Stack>                
+                  <Box sx={{flexGrow:1}}></Box>
+                  <IconButton onClick={handleClose} >
+                      <DoDisturbOnOutlinedIcon sx={{color:'red'}} />
+                  </IconButton>
+              </Stack>
+        </DialogTitle>
+        <DialogContent>
+            <DialogContentText id="alert-dialog-description">      
+                            
             
-            <Stack direction="row" justifyContent="center" spacing={2} sx={{mt:1 , mb:2}}>
-                <Typography className='header-title' variant="h6" >
-                    Profile
-                </Typography>
-            </Stack>                 
+                  <FormikProvider value={formik}>
+                    <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                      <Box className="modal-box">
+                      
+                        <Grid item container className="title">
+                            <Paper className="make-paper">
+                                <label htmlFor="icon-button-file">
+                                    <Input accept="image/*" id="icon-button-file" type="file" />
+                                    <IconButton
+                                      color="primary"
+                                      aria-label="upload picture"
+                                      component="span"
+                                      className="icon-camara"
+                                    >
+                                      <PhotoCamera />
+                                    </IconButton>
+                                </label>                
+                            </Paper>
+                        </Grid>
+                        
+                        <Stack direction="row" justifyContent="center" spacing={2} sx={{mt:1 , mb:2}}>
+                            <Typography className='header-title' variant="h6" >
+                                Profile
+                            </Typography>
+                        </Stack>                 
 
-            <Grid item container spacing={1}>
-              <Grid item xs={6} md={6}>                
-                <Typography className='header-title' variant="body1" >
-                  FirstName: 
-                </Typography>
-                <TextField
-                  size="small"
-                  fullWidth
-                  placeholder="firstname"
-                  {...getFieldProps("first_name")}
-                  error={Boolean(touched.first_name && errors.first_name)}
-                  helperText={touched.first_name && errors.first_name}
-                />
-              </Grid>
-              <Grid item xs={6} md={6}>                
-                <Typography className='header-title' variant="body1" >
-                  LastName:
-                </Typography>
-                <TextField
-                  size="small"
-                  fullWidth
-                  placeholder="lastname"
-                  {...getFieldProps("last_name")}
-                  error={Boolean(touched.last_name && errors.last_name)}
-                  helperText={touched.last_name && errors.last_name}
-                />
-              </Grid>
+                        <Grid item container spacing={1}>
+                          <Grid item xs={6} md={6}>                
+                            <Typography className='header-title' variant="body1" >
+                              FirstName: 
+                            </Typography>
+                            <TextField
+                              size="small"
+                              fullWidth
+                              placeholder="firstname"
+                              {...getFieldProps("first_name")}
+                              error={Boolean(touched.first_name && errors.first_name)}
+                              helperText={touched.first_name && errors.first_name}
+                            />
+                          </Grid>
+                          <Grid item xs={6} md={6}>                
+                            <Typography className='header-title' variant="body1" >
+                              LastName:
+                            </Typography>
+                            <TextField
+                              size="small"
+                              fullWidth
+                              placeholder="lastname"
+                              {...getFieldProps("last_name")}
+                              error={Boolean(touched.last_name && errors.last_name)}
+                              helperText={touched.last_name && errors.last_name}
+                            />
+                          </Grid>
 
-              <Grid item xs={4} md={4}>
-                <Typography className='header-title' variant="body1" >
-                    Gender:
-                </Typography>
-                <FormControl sx={{ minWidth: 100 }} size="small" >
-                  <Select                   
-                    {...getFieldProps("gender")}
-                    error={Boolean(touched.gender && errors.gender)}
-                    helperText={touched.gender && errors.gender}
-                  >                    
-                    <MenuItem value="male">Male</MenuItem>
-                    <MenuItem value="female">Female</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
+                          <Grid item xs={4} md={4}>
+                            <Typography className='header-title' variant="body1" >
+                                Gender:
+                            </Typography>
+                            <FormControl sx={{ minWidth: 100 }} size="small" >
+                              <Select                   
+                                {...getFieldProps("gender")}
+                                error={Boolean(touched.gender && errors.gender)}
+                                helperText={touched.gender && errors.gender}
+                              >                    
+                                <MenuItem value="male">Male</MenuItem>
+                                <MenuItem value="female">Female</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </Grid>
 
-              <Grid item xs={8} md={8}>                
-                <Typography className='header-title' variant="body1" >
-                  Birth Of Date:
-                </Typography>
-                <LocalizationProvider className="date-controll" dateAdapter={AdapterDateFns} >
-                    <DatePicker  
-                        onChange={(e)=> setFieldValue("birthOfDate", e)}
-                        renderInput={(params) => (
-                            <TextField className="select-date" size='small' {...params} type="date" fullWidth />
-                        )}                       
-                        value={values.birthOfDate}
-                    />
-                </LocalizationProvider>             
-              </Grid>
+                          <Grid item xs={8} md={8}>                
+                            <Typography className='header-title' variant="body1" >
+                              Birth Of Date:
+                            </Typography>
+                            <LocalizationProvider className="date-controll" dateAdapter={AdapterMoment}>
+                                  <MobileDatePicker    
+                                      inputFormat="DD/MM/yyyy"                                 
+                                      value={values?.birthOfDate}                                     
+                                      onChange={(e)=> setFieldValue("birthOfDate", e)}
+                                      renderInput={(params) => (
+                                          <TextField {...params}  
+                                              size="small"
+                                              className="select-date"
+                                              fullWidth
+                                              InputProps={{                                                 
+                                                  endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <DateRangeIcon />
+                                                    </InputAdornment>
+                                                  ),
+                                              }}
+                                          />
+                                      )}
+                                  />
+                            </LocalizationProvider>
 
-              <Grid item xs={12} md={12}>                
-                <Typography className='header-title' variant="body1" >
-                  Phone Number:
-                </Typography>
-                <TextField
-                    size="small"
-                    fullWidth
-                    placeholder="phone number"
-                    {...getFieldProps("phone_number")}
-                    error={Boolean(touched.phone_number && errors.phone_number)}
-                    helperText={touched.phone_number && errors.phone_number}
-                />
-              </Grid>
+                            {/* <LocalizationProvider className="date-controll" dateAdapter={AdapterDateFns} >
+                                <DatePicker  
+                                    onChange={(e)=> setFieldValue("birthOfDate", e)}
+                                    renderInput={(params) => (
+                                        <TextField className="select-date" size='small' {...params} type="date" fullWidth />
+                                    )}                       
+                                    value={values.birthOfDate}
+                                />
+                            </LocalizationProvider>  */}
+                          </Grid>
 
-              <Grid item xs={12} md={12}>
-                <Typography className='header-title' variant="body1" >
-                  Email:
-                </Typography>
-                <TextField
-                  size="small"
-                  fullWidth
-                  placeholder="email"
-                  {...getFieldProps("email")}
-                  error={Boolean(touched.email && errors.email)}
-                  helperText={touched.email && errors.email}
-                />
-              </Grid>
+                          <Grid item xs={12} md={12}>                
+                            <Typography className='header-title' variant="body1" >
+                              Phone Number:
+                            </Typography>
+                            <TextField
+                                size="small"
+                                fullWidth
+                                placeholder="phone number"
+                                {...getFieldProps("phone_number")}
+                                error={Boolean(touched.phone_number && errors.phone_number)}
+                                helperText={touched.phone_number && errors.phone_number}
+                            />
+                          </Grid>
 
-              <Grid item xs={12} md={12}>                
-                <Typography className='header-title' variant="body1" >
-                  Password:
-                </Typography>
+                          <Grid item xs={12} md={12}>
+                            <Typography className='header-title' variant="body1" >
+                              Email:
+                            </Typography>
+                            <TextField
+                              size="small"
+                              fullWidth
+                              placeholder="email"
+                              {...getFieldProps("email")}
+                              error={Boolean(touched.email && errors.email)}
+                              helperText={touched.email && errors.email}
+                            />
+                          </Grid>
 
-                <FormControl sx={{ width: "100%" }} variant="outlined" size="small">
-                    <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showPassword ? "text" : "password"}
-                        {...getFieldProps("password")}
-                        placeholder="Enter Password"
-                        error={Boolean( touched.password && errors.password )}
-                        helperText={touched.password && errors.password}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                  <IconButton
-                                      aria-label="toggle password visibility"
-                                      onClick={handleShowPassword}
-                                      edge="end"
-                                  >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                  </IconButton>
-                            </InputAdornment>
-                        }
-                    />
-                    {/*show request error*/}
-                    {!!errors.password && (
-                    <FormHelperText error id="outlined-adornment-password">
-                        {errors.password}
-                    </FormHelperText>
-                    )}
-                </FormControl>
-               
-              </Grid>
+                          <Grid item xs={12} md={12}>                
+                            <Typography className='header-title' variant="body1" >
+                              Password:
+                            </Typography>
 
-              <Grid item xs={12} md={12}>               
-                <Typography className='header-title' variant="body1" >
-                  Comfirm Password:
-                </Typography>
-                <TextField
-                    type="password"
-                    size="small"
-                    fullWidth
-                    placeholder="comfirm password"
-                    autoComplete="current-password"                 
-                    {...getFieldProps("confirm_password")}
-                    error={Boolean(touched.confirm_password && errors.confirm_password)}
-                    helperText={touched.confirm_password && errors.confirm_password}
-                />
-              </Grid>
+                            <FormControl sx={{ width: "100%" }} variant="outlined" size="small">
+                                <OutlinedInput
+                                    id="outlined-adornment-password"
+                                    type={showPassword ? "text" : "password"}
+                                    {...getFieldProps("password")}
+                                    placeholder="Enter Password"
+                                    error={Boolean( touched.password && errors.password )}
+                                    helperText={touched.password && errors.password}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                              <IconButton
+                                                  aria-label="toggle password visibility"
+                                                  onClick={handleShowPassword}
+                                                  edge="end"
+                                              >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                              </IconButton>
+                                        </InputAdornment>
+                                    }
+                                />
+                                {/*show request error*/}
+                                {!!errors.password && (
+                                <FormHelperText error id="outlined-adornment-password">
+                                    {errors.password}
+                                </FormHelperText>
+                                )}
+                            </FormControl>
+                          
+                          </Grid>
 
-              <Grid item xs={12} md={12} mt={2}>
-                <Button
-                    className="btn-create"
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                    sx={{boxShadow: "none"}} 
-                >
-                    Create
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        </Form>
-      </FormikProvider>
-    </Stack>
+                          <Grid item xs={12} md={12}>               
+                            <Typography className='header-title' variant="body1" >
+                              Comfirm Password:
+                            </Typography>
+                            <TextField
+                                type="password"
+                                size="small"
+                                fullWidth
+                                placeholder="comfirm password"
+                                autoComplete="current-password"                 
+                                {...getFieldProps("confirm_password")}
+                                error={Boolean(touched.confirm_password && errors.confirm_password)}
+                                helperText={touched.confirm_password && errors.confirm_password}
+                            />
+                          </Grid>
+
+                          <Grid item xs={12} md={12} mt={2}>
+                            <Button
+                                className="btn-create"
+                                size="large"
+                                type="submit"
+                                variant="contained"
+                                sx={{boxShadow: "none"}} 
+                            >
+                                Create
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Box>
+                    </Form>
+                  </FormikProvider>
+                  
+                  
+                
+            </DialogContentText>
+        </DialogContent>       
+    </Dialog>   
+
   );
 }
 

@@ -1,5 +1,211 @@
 @import '../../themes.scss';
 
+.dialog-production-create {
+
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        // width: 600px !important;
+    }
+    
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+
+    .create-by-title{
+
+        @include mobile-small {
+            display: none;
+        }
+
+        @include mobile {
+            display: none;
+        }
+
+        @include mobile-large {
+            display: none;
+        }
+    }
+
+    .create-by-title-mobile{
+        display: none;
+
+        @include mobile-small {
+            display: flex;
+        }
+
+        @include mobile {
+            display: flex;
+        }
+
+        @include mobile-large {
+            display: flex;
+        }
+    }
+    
+    .container {
+        
+        .table-top {
+            width: 100%;
+            display: table;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-collapse: separate;
+            border-spacing: 0px 8px;
+            
+            @include mobile-small {
+                width: 320px !important;
+            }
+        
+            @include mobile {
+                width: 370px !important;
+            }
+        
+            @include mobile-large {
+                width: 400px !important;
+            }
+            
+            
+            .header-row {            
+                .header-title {
+                    padding: 10px 0px 10px 0px;
+                    border: none;
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #007654;
+                }
+            }
+            
+            .body {
+                box-shadow: none;
+                .body-row {    
+                    .body-title {
+                        padding: 0px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status {
+                            font-weight: bold;      
+                            color: $primary-color;                      
+                        }
+                    }
+                }
+            }           
+        }
+
+        .table {
+            width: 100%;
+            display: table;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-collapse: separate;
+            border-spacing: 0px 8px;
+
+            @include mobile-small {
+                width: 320px !important;
+            }
+        
+            @include mobile {
+                width: 370px !important;
+            }
+        
+            @include mobile-large {
+                width: 400px !important;
+            }
+
+            .header-row {            
+                .header-title {
+                    padding: 10px;
+                    border: none;
+                    font-size: $font-Size-Subtitle;
+                    font-weight: bold;
+                }
+            }
+            
+            .body {
+                box-shadow: none;
+
+                .body-row {       
+                    background-color: $background-table-modal;
+        
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status {
+                            font-weight: bold;      
+                            color: $primary-color;                      
+                        }
+                    }
+                }
+            }
+
+        }
+
+        .table-buttom {
+            width: 100%;
+            display: table;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-collapse: separate;
+            border-spacing: 0px 8px;
+
+            @include mobile-small {
+                width: 320px !important;
+            }
+        
+            @include mobile {
+                width: 370px !important;
+            }
+        
+            @include mobile-large {
+                width: 400px !important;
+            }
+            
+            .header-row {            
+                .header-title {
+                    padding: 10px 5px 10px 5px;
+                    border: none;
+                    font-size: 15px;
+                    font-weight: bold;
+                    color: #007654;
+                }
+            }
+            
+            .body {
+                box-shadow: none;
+                .body-row {    
+                    .body-title {
+                        padding: 0px 5px 0px 5px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status {
+                            font-weight: bold;      
+                            color: $primary-color;                      
+                        }
+                    }
+                }
+            }           
+        }
+
+
+        
+
+    }
+
+
+}
+
+.btn-reject, 
+.btn-create{
+    background-color: #007654 !important;
+    color: #fff;
+}
+
+
+
 .production-create {
 
     position: absolute;
@@ -19,6 +225,8 @@
         color: $primary-color;
         font-weight: bold;
     }
+
+   
     
     .container {
 

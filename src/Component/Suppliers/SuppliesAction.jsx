@@ -10,6 +10,7 @@ import UpdateSupplies from "./UpdateSupplies";
 import DeleteSupplies from "./DeleteSupplies";
 
 export default function SuppliesAction({
+    dataUserLogin,
     setRefetch,
     newData,    
     setAlert,
@@ -37,49 +38,71 @@ export default function SuppliesAction({
                 <MoreVertIcon sx={{color:"#3C64F6"}}/>   
         </IconButton>
 
-        <Menu
-            id="basic-button"
-            anchorEl={anchorEl}
-            open={openEl}
-            onClose={handleCloseEl}
-            MenuListProps={{
-            "aria-labelledby": "basic-button",
-        }}
-      >
-            <MenuItem onClick={()=> { handleOpen(); handleCloseEl();} }>
-                <Stack direction="row" spacing={2}>
-                    <EditIcon sx={{ color: "blue" }} />
-                    <Typography> Edit </Typography>
-                </Stack>
-            </MenuItem> 
+    {
+        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateSupplier ||
+        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteSupplier ?
+            <>
+                <Menu
+                    id="basic-button"
+                    anchorEl={anchorEl}
+                    open={openEl}
+                    onClose={handleCloseEl}
+                    MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                    }}
+                >
 
-             <MenuItem onClick={()=> { handleOpenDel(); handleCloseEl();} }>
-                <Stack direction="row" spacing={2}>
-                    <DeleteIcon sx={{ color: "red" }} />
-                    <Typography> Delete</Typography>
-                </Stack>
-            </MenuItem> 
-        </Menu>
+                {
+                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateSupplier ?
+                        <MenuItem onClick={()=> { handleOpen(); handleCloseEl();} }>
+                            <Stack direction="row" spacing={2}>
+                                <EditIcon sx={{ color: "blue" }} />
+                                <Typography> Edit </Typography>
+                            </Stack>
+                        </MenuItem>
+                    : null
+                }
+
+                {
+                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteSupplier ?
+                        <MenuItem onClick={()=> { handleOpenDel(); handleCloseEl();} }>
+                            <Stack direction="row" spacing={2}>
+                                <DeleteIcon sx={{ color: "red" }} />
+                                <Typography> Delete</Typography>
+                            </Stack>
+                        </MenuItem> 
+                    : null
+                }
+                    
+                    
+                </Menu>
+            </>
+        :
+            null
+    }
         
-        <Modal open={open}>
+        
+        {/* <Modal open={open}> */}
             <UpdateSupplies
                   setRefetch={setRefetch}
                   handleClose={handleClose}
+                  open={open}
                   newData={newData}
                   setAlert={setAlert}
                   setMessage={setMessage}
                   setCheckMessage={setCheckMessage}
-                />
-        </Modal>
-        <Modal open={openDel}>
+            />
+        {/* </Modal> */}
+        {/* <Modal open={openDel}> */}
             <DeleteSupplies
                   setRefetch={setRefetch}
                   newData={newData}
                   setAlert={setAlert}
                   setMessage={setMessage}
+                  open={openDel}
                   setCheckMessage={setCheckMessage}
                   handleCloseDel={handleCloseDel}/>
-        </Modal>
+        {/* </Modal> */}
    
     </>
   )

@@ -15,9 +15,15 @@ import AlertMessage from "../Component/AlertMessage/AlertMessage";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import CircularProgress from "@mui/material/CircularProgress";
+import TruncateMarkup from "react-truncate-markup";
+import { GET_USER_LOGIN } from "../Schema/user"
 
+import PermissionContent from "../Component/Permission/PermissionContent";
 
 export default function Product() {
+
+    const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+//   console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
     const navigate = useNavigate();
 
@@ -75,13 +81,13 @@ export default function Product() {
                 </Stack>
                 <Box sx={{flexGrow: 1}} />
                 <Stack direction="row" className="btn-search"  justifyContent="right" spacing={1}> 
-                    <Box className="btn-text-field" >                       
+                    <Box className="btn-text-field">                       
                         <TextField 
                             onChange={(event) => setKeyword(event?.target?.value)}
                             className="text-field"
                             fullWidth
                             id="input-with-sx" 
-                            placeholder="Search Dashboard"                           
+                            placeholder="Product Name"                           
                             size="small"                           
                             InputProps={{
                                 startAdornment: (
@@ -92,25 +98,39 @@ export default function Product() {
                             }}
                         />
                     </Box>  
-                                        
-                    <Button startIcon={<AddIcon/>}  className="btn-add"  onClick={() => navigate("/product/categories")}>   
-                        <Typography className="btn-text">Category</Typography>
-                    </Button>
+                </Stack>
+                <Stack direction="row" className="btn-group"  justifyContent="right" spacing={1}>     
 
-                    <Button onClick={handleOpenCreateProduct} startIcon={<AddIcon/>} className="btn-add">
-                        <Typography className="btn-text">Add Item</Typography>
-                    </Button>
+                {
+                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createProductCategory ?
+                        <Button startIcon={<AddIcon/>}  className="btn-add"  onClick={() => navigate("/product/categories")}>   
+                            <Typography className="btn-text">Category</Typography>
+                        </Button>
+                    : null
+                }                  
                     
-                    <Modal open={openCreateProduct} >                           
-                        <CreateProduct  
-                            handleClose={handleCloseCreateProduct} 
-                            btnTitle={"Create"}
-                            setAlert={setAlert}
-                            setMessage={setMessage}
-                            setCheckMessage={setCheckMessage}
-                            setRefetch={refetch}
-                        />                      
-                    </Modal>
+
+                {
+                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createProduct ?
+                        <Button onClick={handleOpenCreateProduct} startIcon={<AddIcon/>} className="btn-add">
+                            <Typography className="btn-text">Add</Typography>
+                        </Button>
+                    :
+                        null
+                }
+                    
+                    
+                {/* <Modal open={openCreateProduct} >  */}
+                    <CreateProduct  
+                        open={openCreateProduct}
+                        handleClose={handleCloseCreateProduct} 
+                        btnTitle={"Create"}
+                        setAlert={setAlert}
+                        setMessage={setMessage}
+                        setCheckMessage={setCheckMessage}
+                        setRefetch={refetch}
+                    />                      
+                {/* </Modal> */}
 
                 </Stack>
             </Stack>
@@ -124,78 +144,93 @@ export default function Product() {
                 </Box>
             :
                 <>
-                <Box className="container">
-                    <TableContainer >
-                        <Table className="table" aria-label="simple table">
-                            <TableHead >
-                                <TableRow className="header-row">
-                                    <TableCell className="header-title">Product ID</TableCell>
-                                    <TableCell className="header-title">Name</TableCell>
-                                    <TableCell className="header-title">Unit</TableCell>
-                                    <TableCell className="header-title">Unit Price</TableCell>
-                                    <TableCell className="header-title" >Category</TableCell>
-                                    <TableCell className="header-title">Duration</TableCell>
-                                    <TableCell className="header-title">Remark</TableCell>                                   
-                                    <TableCell className="header-title" align="center"></TableCell>                        
-                                </TableRow>
-                            </TableHead>
-                            
-                            {productData?.map((row , index) => (
-                                <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
-                                    <TableRow  className="body-row">
-                                        <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="8%" >{row?.productId}</TableCell>
-                                        <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="20%">{row?.productName}</TableCell>
-                                        <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" width="8%">{row?.unit}</TableCell>
-                                        <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" width="8%">${row?.unitPrice}</TableCell>
-                                        <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" width="15%">{row?.category?.categoryName}</TableCell>
-                                        <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" align="left" width="10%">{row.durationProduce}s</TableCell>
-                                        <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" >{row.remark}</TableCell>                                                                       
-                                        <TableCell className="body-title" align="right">
-                                            <ProductAction 
-                                                editData={row}
-                                                setAlert={setAlert}
-                                                setMessage={setMessage}
-                                                setCheckMessage={setCheckMessage}
-                                                setRefetch={refetch}
-                                            />
-                                        </TableCell>                            
-                                    </TableRow>
-                                </TableBody>                        
-                                ))}
-                        </Table>
 
-                    </TableContainer>
-                </Box> 
-                <Stack direction="row" justifyContent="right" spacing={2}>
-                    <IconButton disabled={data?.getProductPagination?.paginator?.prev === null ? true : false}
-                                onClick={()=>setPage(data?.getProductPagination?.paginator?.prev)}
-                    >
-                            <ArrowBackIosNewIcon  sx={{":hover" : {color:"#0969A0"}}}/>
-                    </IconButton>
-                        <Stack direction='column' justifyContent='center'>
-                            <Pagination
-                                page={pageShow}
-                                hidePrevButton={true}
-                                hideNextButton={true}
-                                variant="outlined"
-                                color="primary"
-                                count={data?.getProductPagination?.paginator?.totalPages}
-                                onChange={(event)=>setPage(parseInt(event?.target?.textContent))}
-                                />
-                        </Stack>
-                    <IconButton disabled={data?.getProductPagination?.paginator?.next === null ? true : false}
-                                onClick={()=>setPage(data?.getProductPagination?.paginator?.next)}
-                    >
-                        <ArrowForwardIosIcon  sx={{":hover" : {color:"#0969A0"}}}/>
-                    </IconButton>
-                </Stack> 
+                {
+                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getProductPagination ? 
+                        <>
+                            <Box className="container">
+                                <TableContainer >
+                                    <Table className="table" aria-label="simple table">
+                                        <TableHead >
+                                            <TableRow className="header-row">
+                                                <TableCell className="header-title">Product ID</TableCell>
+                                                <TableCell className="header-title">Name</TableCell>
+                                                <TableCell className="header-title">Unit</TableCell>
+                                                <TableCell className="header-title">Unit Price</TableCell>
+                                                <TableCell className="header-title">Category</TableCell>
+                                                <TableCell className="header-title">Duration</TableCell>
+                                                <TableCell className="header-title">Remark</TableCell>                                   
+                                                <TableCell className="header-title" align="center"></TableCell>                        
+                                            </TableRow>
+                                        </TableHead>
+                                        
+                                        {productData?.map((row , index) => (
+                                            <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
+                                                <TableRow  className="body-row">
+                                                    <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="8%" >{row?.productId}</TableCell>
+                                                    <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="20%">{row?.productName}</TableCell>
+                                                    <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" width="8%">{row?.unit}</TableCell>
+                                                    <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" width="8%">${row?.unitPrice}</TableCell>
+                                                    <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" width="15%">{row?.category?.categoryName}</TableCell>
+                                                    <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" align="left" width="10%">{row.durationProduce}s</TableCell>
+                                                    <TableCell onClick={() => { handleOpenView(); setDataRowPruduct(row) }} className="body-title" >                                            
+                                                        <TruncateMarkup lines={2}>    
+                                                            <div>{row.remark}</div>    
+                                                        </TruncateMarkup>
+                                                    </TableCell>                                                                       
+                                                    <TableCell className="body-title" align="right">
+                                                        <ProductAction
+                                                            dataUserLogin={dataUserLogin}
+                                                            editData={row}
+                                                            setAlert={setAlert}
+                                                            setMessage={setMessage}
+                                                            setCheckMessage={setCheckMessage}
+                                                            setRefetch={refetch}
+                                                        />
+                                                    </TableCell>                            
+                                                </TableRow>
+                                            </TableBody>                        
+                                            ))}
+                                    </Table>
+
+                                </TableContainer>
+                            </Box> 
+                            <Stack direction="row" justifyContent="right" spacing={2}>
+                                <IconButton disabled={data?.getProductPagination?.paginator?.prev === null ? true : false}
+                                            onClick={()=>setPage(data?.getProductPagination?.paginator?.prev)}
+                                >
+                                        <ArrowBackIosNewIcon  sx={{":hover" : {color:"#0969A0"}}}/>
+                                </IconButton>
+                                    <Stack direction='column' justifyContent='center'>
+                                        <Pagination
+                                            page={pageShow}
+                                            hidePrevButton={true}
+                                            hideNextButton={true}
+                                            variant="outlined"
+                                            color="primary"
+                                            count={data?.getProductPagination?.paginator?.totalPages}
+                                            onChange={(event)=>setPage(parseInt(event?.target?.textContent))}
+                                            />
+                                    </Stack>
+                                <IconButton disabled={data?.getProductPagination?.paginator?.next === null ? true : false}
+                                            onClick={()=>setPage(data?.getProductPagination?.paginator?.next)}
+                                >
+                                    <ArrowForwardIosIcon  sx={{":hover" : {color:"#0969A0"}}}/>
+                                </IconButton>
+                            </Stack>
+
+                        </>
+                    :
+                        <PermissionContent /> 
+                }
+                 
                 </>
         }
               
            
-            <Modal open={openView} >
-                    <ViewProduct handleClose={handleCloseView} dataRowPruduct={dataRowPruduct}/>
-            </Modal>
+            {/* <Modal open={openView} > */}
+                    <ViewProduct open={openView} handleClose={handleCloseView} dataRowPruduct={dataRowPruduct}/>
+            {/* </Modal> */}
 
             <AlertMessage alert={alert} setAlert={setAlert} message={message} checkMessage={checkMessage}/>
 

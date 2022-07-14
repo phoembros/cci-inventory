@@ -5,7 +5,7 @@ import * as React from "react";
 import './inventoryreport.scss';
 import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined';
 import ReactToPrint from "react-to-print";
-import logo from "../../Assets/logo.svg";
+import logo from "../../Assets/CCI_invoice.png";
 import { GET_SALE_BYID } from "../../Schema/sales";
 import { GET_INVENTORY_REPORT } from "../../Schema/report";
 import { useQuery } from "@apollo/client";
@@ -27,22 +27,33 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
         },
     })
 
+    console.log(dataReport)
+
     
     return (
         <Box  width="100%" height="800px" display="flex" flexDirection="column" justifyContent="center" sx={{backgroundColor:'#fff', padding: 3}}>
             <Box width="100%" >
                 <Grid container>
-                    <Grid item xs={12} display="flex" justifyContent="center">
-                        <Stack direction="column" justifyContent="center">
-                            <Stack direction="row" justifyContent="center">
-                                <Typography variant="body1" sx={{fontWeight: "bold"}}>CCS CAMBODIA</Typography>
-                            </Stack>
-                            <Stack direction="row" justifyContent="center">
-                                <Typography variant="body1" sx={{fontWeight: "bold"}}>Inventory Stock Status Report</Typography>
-                            </Stack>
-                            <Stack direction="row" justifyContent="center">
-                                <Typography variant="body1" sx={{fontWeight: "bold"}}>From Sep 01, 2020 to Sep 30, 2020</Typography>
-                            </Stack>
+                    <Grid item xs={12}>
+                        <Stack direction="row" display="flex" justifyContent="center" spacing={1} width="400px" sx={{position: "absolute" , zIndex: "1"}}>
+                            <img src={logo} alt="logo" width="60%"/>
+                        </Stack>
+                        <Stack direction="row" spacing={2}>                            
+                            <Box sx={{display: "flex" , justifyContent: "center" , width: "100%"}}>
+                                <Stack direction="column" justifyContent="center">
+                                    <Stack direction="row" justifyContent="center">
+                                        <Typography variant="body1" sx={{fontWeight: "bold"}}>CCS CAMBODIA</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="center">
+                                        <Typography variant="body1" sx={{fontWeight: "bold"}}>Production Report Summary</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="center">
+                                        <Typography variant="body1" sx={{fontWeight: "bold"}}>
+                                            From {moment(FromData).format("MMM DD, YYYY")} to {moment(ToData).format("MMM DD, YYYY")}
+                                        </Typography>
+                                    </Stack>
+                                </Stack>
+                            </Box>
                         </Stack>
                     </Grid>                    
 
@@ -99,9 +110,9 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                 <Typography variant="body2" className="text">
                                                         Units Sold                                                         
                                                 </Typography>
-                                                <Typography variant="body2" className="text">                                                        
+                                                {/* <Typography variant="body2" className="text">                                                        
                                                         {moment(FromData).format("MM/DD/YY")}-{moment(ToData).format("MM/DD/YY")}
-                                                </Typography>
+                                                </Typography> */}
                                             </TableCell> 
                                                                                              
                                         </TableRow>                                                                  
@@ -148,14 +159,14 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                     className="cell-item"
                                                     sx={{border: "none" , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.unit}</Typography>
+                                                    <Typography variant="body2" className="text">{item?.completedUnit}</Typography>
                                                 </TableCell>      
                                                 <TableCell 
                                                     align="center" width="10%"
                                                     className="cell-item"
                                                     sx={{border: "none" , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.qtySold}-{item?.unit}</Typography>
+                                                    <Typography variant="body2" className="text">{item?.qtySold}</Typography>
                                                 </TableCell>                                                                                                      
                                             </TableRow>                                                                  
                                         </TableBody>                      

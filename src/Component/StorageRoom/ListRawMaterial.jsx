@@ -18,8 +18,9 @@ function ListRawMaterial(props) {
           pagination: false,
         }
     })
+
     React.useEffect(() => {
-        if (rawmaterialData) {
+        if (rawmaterialData) {            
             let rows = [];            
             rawmaterialData?.getRawMaterialPagination?.rawMaterial?.forEach((element) => {
                 const allrow = { 
@@ -46,7 +47,7 @@ function ListRawMaterial(props) {
     React.useEffect(() => {
         if (suppliesData) {
             let rows = [];
-            suppliesData?.getSuppliersPagination?.suppliers.forEach((element) => {
+            suppliesData?.getSuppliersPagination?.suppliers?.forEach((element) => {
                 const allrow = { label: element?.name, _id: element?._id };
                 rows.push(allrow);
             });
@@ -68,10 +69,11 @@ function ListRawMaterial(props) {
     const listItems = items.map(item => {
         return  <TableBody key={item.key}  component={Paper} className="body-list-materiales" >                        
                     <TableRow  className="body-row">                                
-                        <TableCell className="body-title" component="th" scope="row" >
+                        <TableCell className="body-title" component="th" scope="row">
                             <Autocomplete
                                 disablePortal                                
-                                options={rawMaterial}                                
+                                options={rawMaterial}   
+                                getOptionLabel={ (option) => option.label ? option.label :  ""}                             
                                 onChange={(e, value) => {
                                     props.setUpdateRawId( value?._id , item.key ) 
                                     props.setUpdateRawName( value?.label , item.key )                                   
@@ -89,7 +91,7 @@ function ListRawMaterial(props) {
                             />
                         </TableCell>
                         
-                        <TableCell className="body-title" width="15%" align='center'>
+                        <TableCell className="body-title" width="20%" align='center'>
                             <TextField  
                                 className="text-field"
                                 fullWidth
@@ -107,7 +109,7 @@ function ListRawMaterial(props) {
                             />
                         </TableCell>   
                        
-                        <TableCell className="body-title" width="15%" align='center'>
+                        <TableCell className="body-title" width="20%" align='center'>
                             <TextField  
                                 className="text-field"
                                 fullWidth
@@ -125,7 +127,7 @@ function ListRawMaterial(props) {
                             />
                         </TableCell>   
                          
-                        <TableCell className="body-title" align='center'>                             
+                        {/* <TableCell className="body-title" align='center'>                             
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
@@ -143,7 +145,7 @@ function ListRawMaterial(props) {
                                     />
                                 }
                             />
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell className="body-title" align='right'  width="5%">
                             <IconButton onClick={() => { props.deleteItem(item.key) }}>
                                 <DeleteRoundedIcon  sx={{color:"red"}}/>

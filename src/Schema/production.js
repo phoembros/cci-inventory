@@ -20,6 +20,7 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
       workOrders
       customerId {
         _id
+        cusId
         name
         phoneNumber
         email
@@ -36,6 +37,10 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
         image_name
         image_src
         birthOfDate
+        role_and_permission {
+          _id
+          role
+        }
         create_at
         update_at
         status
@@ -51,6 +56,10 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
         image_name
         image_src
         birthOfDate
+        role_and_permission {
+          _id
+          role
+        }
         create_at
         update_at
         status
@@ -66,6 +75,10 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
         image_name
         image_src
         birthOfDate
+        role_and_permission {
+          _id
+          role
+        }
         create_at
         update_at
         status
@@ -86,6 +99,7 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
             createdAt
           }
           unit
+          completedUnit
           unitPrice
           durationProduce
           totalStockAmount
@@ -95,6 +109,10 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
             rawMaterialId {
               _id
               materialName
+              category {
+                _id
+                categoryName
+              }
               totalStockAmount
               usedStockAmount
               unit
@@ -115,7 +133,8 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
         qtyOnHand
       }
       qty
-      completedQty
+      completedQtyUM
+      completedQtyVM
       completedRemark
       storageRoomId {
         _id
@@ -146,7 +165,7 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
       totalDocs
     }
   }
-}  
+}
 `
 
 export const UPDATE_PRODUCTION = gql`

@@ -16,6 +16,7 @@ import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlin
 
 
 export default function SalesAction({
+    dataUserLogin,
     setAlert,
     setMessage,
     setCheckMessage,
@@ -49,71 +50,115 @@ export default function SalesAction({
     const handleOpenPayment = () => setOpenPayment(true);
     const handleClosePayment = () => setOpenPayment(false);
 
+    console.log(DataSale)
   return (
     <div>
+
       <IconButton onClick={handleClick}>
         <MoreVertIcon sx={{ color: "#3C64F6" }} />
       </IconButton>
 
-      { 
-        DataSale?.status !== "paid" ?
 
-          <Menu
-            id="basic-button"
-            anchorEl={anchorEl}
-            open={openEl}
-            onClose={handleCloseEl}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-          >
-              
-              <MenuItem onClick={() => navigate(`/sales/print?invoice=${DataSale?._id}`)}>
-                <Stack direction="row" spacing={2}>
-                  <LocalPrintshopOutlinedIcon sx={{ color: "blue" }} />
-                  <Typography>Print</Typography>
-                </Stack>
-              </MenuItem>
-              
-              <MenuItem onClick={() => { handleOpenPayment(); handleCloseEl()}}>
-                <Stack direction="row" spacing={2}>
-                  <CurrencyExchangeIcon sx={{ color: "green" }} />
-                  <Typography>Payment</Typography>
-                </Stack>
-              </MenuItem>
+      {
+          dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getSaleById ||
+          dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateSale ||
+          dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.voidInvoice ?
+            <>
+                { 
+                  DataSale?.status !== "paid"  ?
+                    <>
+                        {
+                          DataSale?.voided !== true ?
 
-              {
-                DataSale?.status === "unpaid" ? 
-                  <MenuItem onClick={() => { handleOpenDel(); handleCloseEl()}}>
-                    <Stack direction="row" spacing={2}>
-                      <DeleteIcon sx={{ color: "red" }} />
-                      <Typography>Delete</Typography>
-                    </Stack>
-                  </MenuItem>  
-                : 
-                  null
-              }
+                            <>
+                                <Menu
+                                  id="basic-button"
+                                  anchorEl={anchorEl}
+                                  open={openEl}
+                                  onClose={handleCloseEl}
+                                  MenuListProps={{
+                                    "aria-labelledby": "basic-button",
+                                  }}
+                                >
+                                    
+                                  {
+                                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getSaleById  ?
+                                        <MenuItem onClick={() => navigate(`/sales/print?invoice=${DataSale?._id}`)}>
+                                            <Stack direction="row" spacing={2}>
+                                                <LocalPrintshopOutlinedIcon sx={{ color: "blue" }} />
+                                                <Typography>Print</Typography>
+                                            </Stack>
+                                        </MenuItem>
+                                    : null
+                                  }
 
-          </Menu>
+                                  
+                                  {
+                                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateSale  ?
+                                        <MenuItem onClick={() => { handleOpenPayment(); handleCloseEl()}}>
+                                          <Stack direction="row" spacing={2}>
+                                            <CurrencyExchangeIcon sx={{ color: "green" }} />
+                                            <Typography>Payment</Typography>
+                                          </Stack>
+                                        </MenuItem>
+                                    : null
+                                  }
 
-        :
-          <Menu
-              id="basic-button"
-              anchorEl={anchorEl}
-              open={openEl}
-              onClose={handleCloseEl}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-            >
-              <MenuItem onClick={() => navigate(`/sales/print?invoice=${DataSale?._id}`)}>
-                <Stack direction="row" spacing={2}>
-                  <LocalPrintshopOutlinedIcon sx={{ color: "blue" }} />
-                  <Typography>Print</Typography>
-                </Stack>
-              </MenuItem>
-          </Menu>
-      }  
+                                    
+                                  {
+                                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.voidInvoice  ?                              
+                                        <MenuItem onClick={() => { handleOpenDel(); handleCloseEl()}}>
+                                          <Stack direction="row" spacing={2}>
+                                            <DeleteIcon sx={{ color: "red" }} />
+                                            <Typography>Void</Typography>
+                                          </Stack>
+                                        </MenuItem>                              
+                                    : null
+                                  }
+
+                                    
+                                </Menu>
+                            </>
+                          :
+                            null
+                        }
+                    </>
+                    
+                  :
+                  
+                      <>
+                          {
+                            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getSaleById  ?
+                              
+                                <Menu
+                                    id="basic-button"
+                                    anchorEl={anchorEl}
+                                    open={openEl}
+                                    onClose={handleCloseEl}
+                                    MenuListProps={{
+                                      "aria-labelledby": "basic-button",
+                                    }}
+                                >
+                        
+                                    <MenuItem onClick={() => navigate(`/sales/print?invoice=${DataSale?._id}`)}>
+                                        <Stack direction="row" spacing={2}>
+                                            <LocalPrintshopOutlinedIcon sx={{ color: "blue" }} />
+                                            <Typography>Print</Typography>
+                                        </Stack>
+                                    </MenuItem>
+
+                                </Menu>                              
+                            : null
+                          }
+                      </>
+                  } 
+            </>
+          :
+              null
+
+      }
+
+       
 
 
       {/* Edit */}
@@ -122,9 +167,10 @@ export default function SalesAction({
       </Modal>
 
       {/* Payment */}
-      <Modal open={openPayment}>
+      {/* <Modal open={openPayment}> */}
             <PaymentModal 
               DataSale={DataSale}
+              open={openPayment}
               handleClose={handleClosePayment} 
               setAlert={setAlert}
               setMessage={setMessage}
@@ -132,11 +178,12 @@ export default function SalesAction({
               setRefetch={setRefetch}
 
             /> 
-      </Modal>
+      {/* </Modal> */}
 
       {/* Delete */}
-      <Modal open={openDel}>
+      {/* <Modal open={openDel}> */}
             <DeleteSales  
+                open={openDel}
                 handleCloseDel={handleCloseDel}
                 DataSale={DataSale}
                 setAlert={setAlert}
@@ -144,7 +191,7 @@ export default function SalesAction({
                 setCheckMessage={setCheckMessage}
                 setRefetch={setRefetch}
             /> 
-      </Modal>
+      {/* </Modal> */}
     </div>
   );
 }

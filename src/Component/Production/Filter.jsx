@@ -27,7 +27,7 @@ import WifiProtectedSetupIcon from '@mui/icons-material/WifiProtectedSetup';
 import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 
 
-export default function Filter ({ setPriority , setStatus }) {
+export default function Filter ({ setStatus , setPriority , setProgress }) {
 
     const navigate = useNavigate();
     const theme = useTheme();
@@ -46,6 +46,11 @@ export default function Filter ({ setPriority , setStatus }) {
     const [openDropDownStatus, setOpenDropDownStatus] = React.useState(false);
     const handleClickDropDownStatus = () => {
         setOpenDropDownStatus(!openDropDownStatus);
+    };
+
+    const [openDropDownProgress, setOpenDropDownProgress] = React.useState(false);
+    const handleClickDropDownProgress = () => {
+        setOpenDropDownProgress(!openDropDownProgress);
     };
 
 
@@ -94,7 +99,12 @@ export default function Filter ({ setPriority , setStatus }) {
                     Select Filter
                 </MenuItem>                 
                 <Divider />
-                <MenuItem onClick={() => {setPriority("");setStatus("")}}>
+                <MenuItem onClick={() => {
+                        setPriority("");
+                        setStatus("");
+                        setProgress("");
+                    }}
+                >
                     View All
                 </MenuItem> 
                 <List
@@ -145,14 +155,14 @@ export default function Filter ({ setPriority , setStatus }) {
                         {openDropDownStatus ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <Collapse in={openDropDownStatus} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
+                        {/* <List component="div" disablePadding>
                             <ListItemButton sx={{ pl: 2 }} onClick={() => setStatus("completed")}>
                                 <ListItemIcon>
                                     <CheckCircleIcon sx={{fontSize:"22px" , color: "green"}}/>
                                 </ListItemIcon>
                                 <ListItemText primary="Completed" />
                             </ListItemButton>
-                        </List>
+                        </List> */}
                         <List component="div" disablePadding>
                             <ListItemButton sx={{ pl: 2 }} onClick={() => setStatus("pending")}>
                                 <ListItemIcon>
@@ -179,6 +189,39 @@ export default function Filter ({ setPriority , setStatus }) {
                         </List>
                         
                     </Collapse>
+
+                    <ListItemButton onClick={handleClickDropDownProgress}>                       
+                        <ListItemText primary="Progress" />
+                        {openDropDownProgress ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                    <Collapse in={openDropDownProgress} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            <ListItemButton sx={{ pl: 2 }} onClick={() => setProgress("completed")}>
+                                <ListItemIcon>
+                                    <CheckCircleIcon sx={{fontSize:"22px" , color: "green"}}/>
+                                </ListItemIcon>
+                                <ListItemText primary="Completed" />
+                            </ListItemButton>
+                        </List>
+                        <List component="div" disablePadding>
+                            <ListItemButton sx={{ pl: 2 }} onClick={() => setProgress("in progress")}>
+                                <ListItemIcon>
+                                    <PendingIcon sx={{fontSize:"20px" , color: "orange"}}/>
+                                </ListItemIcon>
+                                <ListItemText primary="In Progress" />
+                            </ListItemButton>
+                        </List>                      
+                        <List component="div" disablePadding>
+                            <ListItemButton sx={{ pl: 2 }} onClick={() => setProgress("not started")}>
+                                <ListItemIcon>
+                                    <BlockOutlinedIcon sx={{fontSize:"20px" , color: "red"}}/>
+                                </ListItemIcon>
+                                <ListItemText primary="Not started" />
+                            </ListItemButton>
+                        </List>
+                        
+                    </Collapse>
+
 
 
                 </List>

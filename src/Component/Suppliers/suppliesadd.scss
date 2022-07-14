@@ -1,5 +1,37 @@
 @import '../../themes.scss';
 
+.dialog-create-supplies {
+
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        width: 400px !important;
+    }
+
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+    
+    .title{
+        color: $primary-color;
+        font-size: $font-Size-title;
+        font-weight: bold;
+    }
+
+    .Sub-title{
+        color: #007654;
+        font-size: $font-Size-Subtitle;
+        font-weight: bold;
+    }
+
+}
+
+.btn-create, 
+.btn-createsp{
+    background-color: #007654 !important;
+    color: #fff;
+}
+
 .supplies {
 
     position: absolute;
@@ -25,7 +57,7 @@
     }
 
     .Sub-title{
-        color: $font-color;
+        color: #007654;
         font-size: $font-Size-Subtitle;
         font-weight: bold;
     }

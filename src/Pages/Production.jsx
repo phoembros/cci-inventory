@@ -25,6 +25,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import WifiProtectedSetupIcon from '@mui/icons-material/WifiProtectedSetup';
 
+import PermissionContent from "../Component/Permission/PermissionContent";
 // icon priority
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
@@ -32,9 +33,13 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { GET_PRODUCT_WITH_PAGINATION } from "../Schema/product";
 import { useLocation } from "react-router-dom";
+import { GET_USER_LOGIN } from "../Schema/user";
 
 
 export default function Production() {
+
+    const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+  console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
     
     const [loading,setLoading] = React.useState(true);
     //View details
@@ -104,6 +109,9 @@ export default function Production() {
     const [limit, setLimit] = React.useState(8);
     const [keyword, setKeyword] = React.useState("");
     const [productId,setProductId] = React.useState("");
+    const [status,setStatus] = React.useState("");
+    const [priority,setPriority] = React.useState("");
+    const [progress,setProgress] = React.useState("");
 
     const { data , refetch } = useQuery(GET_PRODUCTION_WITH_PAGINATION , {
         variables: {
@@ -112,9 +120,9 @@ export default function Production() {
             limit: limit,
             keyword: keyword,
             pagination: true,
-            status: "",
-            priority: "",
-            progress: "",
+            status: status,
+            priority: priority,
+            progress: progress,
         },
         fetchPolicy:'cache-and-network',
         onCompleted: ({getProductionsPagination}) => {          
@@ -129,7 +137,7 @@ export default function Production() {
     React.useEffect(()=>{
         refetch()
         setPageShow(page)
-    }, [page, keyword , productId ])
+    }, [ page , keyword , productId , status , priority, progress ])
     
 
 
@@ -154,7 +162,7 @@ export default function Production() {
                 </Stack>
 
                 <Stack direction="row" className="btn-search"  justifyContent="right" spacing={1}>   
-                    <Box className="btn-text-field" >                       
+                    <Box className="btn-text-field">                       
                         <TextField 
                             onChange={(event) => setKeyword(event?.target?.value)}
                             className="text-field"
@@ -170,19 +178,30 @@ export default function Production() {
                                 ),  
                                 endAdornment: (
                                     <InputAdornment position="end">                                       
-                                        <Filter />
+                                        <Filter 
+                                            setStatus ={setStatus}
+                                            setPriority ={setPriority}
+                                            setProgress ={setProgress}
+                                        />
                                     </InputAdornment>
                                 ),                              
                             }}
                         />
                     </Box>  
                     {/* button Create */}
-                    <Button className="btn-add" onClick={handleOpenCreateProduction} startIcon={<AddIcon/>} >
-                        <Typography className="btn-text">Create</Typography>
-                    </Button>  
-                    <Modal open={openCreateProduction} >                           
+
+                    {
+                        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createProductions ?
+                            <Button className="btn-add" onClick={handleOpenCreateProduction} startIcon={<AddIcon/>} >
+                                <Typography className="btn-text">Create</Typography>
+                            </Button>  
+                        : null
+                    }      
+
+                    {/* <Modal open={openCreateProduction} >  */}
                         <CreateProduction  
                             handleClose={handleCloseCreateProduction}
+                            open={openCreateProduction}
                             btnTitle={"Create"}
                             setAlert={setAlert}
                             setMessage={setMessage}
@@ -190,7 +209,7 @@ export default function Production() {
                             setRefetch={refetch}
                             checkStatus={"create"}
                         />                         
-                    </Modal>
+                    {/* </Modal> */}
                     {/* button Create */}         
                     
                 </Stack>
@@ -205,181 +224,194 @@ export default function Production() {
 
             :
             <>
-            <Box className="container">
-                <TableContainer >
-                    <Table className="table" aria-label="simple table">
-                        <TableHead >
-                            <TableRow className="header-row">
-                                <TableCell className="header-title">ID</TableCell>
-                                <TableCell className="header-title">Product</TableCell>
-                                <TableCell className="header-title">Progress</TableCell>
-                                <TableCell className="header-title">QTY</TableCell> 
-                                <TableCell className="header-title">Priority</TableCell>                                
-                                <TableCell className="header-title">Status</TableCell>   
-                                <TableCell className="header-title" align="center"></TableCell>                        
-                            </TableRow>
-                        </TableHead>
-                        {productionData?.map((row , index) => (
-                            <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" } >                        
-                                <TableRow  className="body-row">
-                                    <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" component="th" scope="row" width="10%" >
-                                        {moment(row?.createdAt).format("YYMM")}-{row?.productionsId.padStart(2, '0')}
-                                    </TableCell>
-                                    <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" component="th" scope="row" width="25%">
-                                        <Stack direction="row" spacing={2}>
-                                            <Stack direction="column" justifyContent="center">
-                                                <Typography variant="body1">
-                                                    {row?.production?.productName}
-                                                </Typography>
-                                            </Stack>
-                                            
-                                            {
-                                                row?.warning ?                                                
-                                                    <Stack direction="column" justifyContent="center">
-                                                        <Tooltip title={`${row?.remarkWarning}`}>
-                                                            <IconButton>
-                                                                <WarningAmberIcon sx={{color:"orange"}}/>
-                                                            </IconButton>
-                                                        </Tooltip>                                                        
+                {
+                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getProductionsPagination ? 
+                    <>
+                        <Box className="container">
+                            <TableContainer >
+                                <Table className="table" aria-label="simple table">
+                                    <TableHead >
+                                        <TableRow className="header-row">
+                                            <TableCell className="header-title">ID</TableCell>
+                                            <TableCell className="header-title">Product</TableCell>                                
+                                            <TableCell className="header-title">QTY</TableCell> 
+                                            <TableCell className="header-title">Priority</TableCell>  
+                                            <TableCell className="header-title">Progress</TableCell>                              
+                                            <TableCell className="header-title">Status</TableCell>   
+                                            <TableCell className="header-title" align="center"></TableCell>                        
+                                        </TableRow>
+                                    </TableHead>
+                                    {productionData?.map((row , index) => (
+                                        <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" } >                        
+                                            <TableRow  className="body-row">
+                                                <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" component="th" scope="row" width="10%" >
+                                                    {moment(row?.createdAt).format("YYMM")}-{row?.productionsId.padStart(2, '0')}
+                                                </TableCell>
+                                                <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" component="th" scope="row" width="25%">
+                                                    <Stack direction="row" spacing={2}>
+                                                        <Stack direction="column" justifyContent="center">
+                                                            <Typography variant="body1">
+                                                                {row?.production?.productName}
+                                                            </Typography>
+                                                        </Stack>
+                                                        
+                                                        {
+                                                            row?.warning ?                                                
+                                                                <Stack direction="column" justifyContent="center">
+                                                                    <Tooltip title={`${row?.remarkWarning}`}>
+                                                                        <IconButton>
+                                                                            <WarningAmberIcon sx={{color:"orange"}}/>
+                                                                        </IconButton>
+                                                                    </Tooltip>                                                        
+                                                                </Stack>
+                                                            :
+                                                                null
+                                                        }
+                                                        
                                                     </Stack>
-                                                :
-                                                    null
-                                            }
-                                            
-                                        </Stack>
-                                    </TableCell>
-                                    <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" width="20%">
-                                        {
-                                            row?.progress === "not started" ?
-                                                <Stack direction="row" spacing={1}>
-                                                    <PanoramaFishEyeIcon sx={{color:"red", width:"17px"}} />
-                                                    <Stack direction="column" justifyContent="center">
-                                                        <Typography variant="body2">Not started</Typography>
-                                                    </Stack>
-                                                </Stack>
-                                            : null
-                                        }
+                                                </TableCell>
+                                                
+                                                <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" align="left" width="15%">
+                                                    {row?.qty}-{row?.production?.productId?.unit} 
+                                                </TableCell>
 
-                                        {
-                                            row?.progress === "in progress" ?
-                                                <Stack direction="row" spacing={1}>
-                                                    <WifiProtectedSetupIcon sx={{color:"green", width:"17px"}} />
-                                                    <Stack direction="column" justifyContent="center">
-                                                        <Typography variant="body2">In Progress</Typography>
-                                                    </Stack>
-                                                </Stack>
-                                            : null
-                                        }
+                                                <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" width="20%">
 
-                                        {
-                                            row?.progress === "completed" ?                                        
-                                                <Stack direction="row" spacing={1}>
-                                                    <CheckCircleIcon sx={{color:"#0969A0", width:"17px"}} />
-                                                    <Stack direction="column" justifyContent="center">
-                                                        <Typography variant="body2">Completed</Typography>
-                                                    </Stack>
-                                                </Stack>
-                                            : null
-                                        }
-                                    </TableCell>
+                                                    {
+                                                        row.priority === "urgent" ?                                        
+                                                            <Stack direction="row" spacing={1}>
+                                                                <NotificationsActiveIcon sx={{color:"red", width:"17px"}} />
+                                                                <Stack direction="column" justifyContent="center">
+                                                                    <Typography variant="body2">Urgent</Typography>
+                                                                </Stack>
+                                                            </Stack>
+                                                        : null
+                                                    }
 
-                                    <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" align="left" width="10%">{row?.qty}</TableCell>
+                                                    {
+                                                        row.priority === "important" ?                                          
+                                                            <Stack direction="row" spacing={1}>
+                                                                <PriorityHighIcon sx={{color:"red", width:"17px"}} />
+                                                                <Stack direction="column" justifyContent="center">
+                                                                    <Typography variant="body2">Important</Typography>
+                                                                </Stack>
+                                                            </Stack>    
+                                                        : null                                        
+                                                    }
 
-                                    <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" width="15%">
+                                                    {
+                                                        row.priority === "medium" ? 
+                                                            <Stack direction="row" spacing={1}>
+                                                                <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />
+                                                                <Stack direction="column" justifyContent="center">
+                                                                    <Typography variant="body2">Medium</Typography>
+                                                                </Stack>
+                                                            </Stack>
+                                                        : null                                        
+                                                    }
 
-                                        {
-                                            row.priority === "urgent" ?                                        
-                                                <Stack direction="row" spacing={1}>
-                                                    <NotificationsActiveIcon sx={{color:"red", width:"17px"}} />
-                                                    <Stack direction="column" justifyContent="center">
-                                                        <Typography variant="body2">Urgent</Typography>
-                                                    </Stack>
-                                                </Stack>
-                                            : null
-                                        }
+                                                    {
+                                                        row.priority === "low" ? 
+                                                            <Stack direction="row" spacing={1}>
+                                                                <ArrowDownwardIcon sx={{color:"blue", width:"17px"}} />
+                                                                <Stack direction="column" justifyContent="center">
+                                                                    <Typography variant="body2">Low</Typography>
+                                                                </Stack>
+                                                            </Stack>
+                                                        : null
+                                                    }
+                                                    
+                                                </TableCell>
+                                                
+                                                <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" width="20%">
+                                                    {
+                                                        row?.progress === "not started" ?
+                                                            <Stack direction="row" spacing={1}>
+                                                                <PanoramaFishEyeIcon sx={{color:"red", width:"17px"}} />
+                                                                <Stack direction="column" justifyContent="center">
+                                                                    <Typography variant="body2">Not started</Typography>
+                                                                </Stack>
+                                                            </Stack>
+                                                        : null
+                                                    }
 
-                                        {
-                                            row.priority === "important" ?                                          
-                                                <Stack direction="row" spacing={1}>
-                                                    <PriorityHighIcon sx={{color:"red", width:"17px"}} />
-                                                    <Stack direction="column" justifyContent="center">
-                                                        <Typography variant="body2">Important</Typography>
-                                                    </Stack>
-                                                </Stack>    
-                                            : null                                        
-                                        }
+                                                    {
+                                                        row?.progress === "in progress" ?
+                                                            <Stack direction="row" spacing={1}>
+                                                                <WifiProtectedSetupIcon sx={{color:"green", width:"17px"}} />
+                                                                <Stack direction="column" justifyContent="center">
+                                                                    <Typography variant="body2">In Progress</Typography>
+                                                                </Stack>
+                                                            </Stack>
+                                                        : null
+                                                    }
 
-                                        {
-                                            row.priority === "medium" ? 
-                                                <Stack direction="row" spacing={1}>
-                                                    <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />
-                                                    <Stack direction="column" justifyContent="center">
-                                                        <Typography variant="body2">Medium</Typography>
-                                                    </Stack>
-                                                </Stack>
-                                            : null                                        
-                                        }
-
-                                        {
-                                            row.priority === "low" ? 
-                                                <Stack direction="row" spacing={1}>
-                                                    <ArrowDownwardIcon sx={{color:"blue", width:"17px"}} />
-                                                    <Stack direction="column" justifyContent="center">
-                                                        <Typography variant="body2">Low</Typography>
-                                                    </Stack>
-                                                </Stack>
-                                            : null
-                                        }
-                                         
-                                    </TableCell>
-                                    
-                                    <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" align="left" width="10%">
-                                        <Typography className={`status-${row?.status}`}>{row?.status}</Typography>
-                                    </TableCell>                                    
-                                    <TableCell className="body-title" align="right">
-                                        <ProductionAction 
-                                            btnTitle={"Update"}                                                                                    
-                                            editDataProduction={row}
-                                            setAlert={setAlert}
-                                            setMessage={setMessage}
-                                            setCheckMessage={setCheckMessage}
-                                            setRefetch={refetch}
-                                        />
-                                    </TableCell>                            
-                                </TableRow>
-                            </TableBody>                        
-                        ))}
-                    </Table>
-                </TableContainer>
-            </Box> 
-            
-            <Stack direction='row' justifyContent="right" spacing={2}>
-                <IconButton disabled={data?.getProductionsPagination?.paginator?.prev === null ? true : false}
-                    onClick={()=>setPage(data?.getProductionsPagination?.paginator?.prev)}
-                >
-                    <ArrowBackIosNewIcon sx={{":hover" :{color:"#0969A0"}}}/>
-                </IconButton>
-                <Stack direction='column' justifyContent='center'>
-                    <Pagination 
-                        page={pageShow}
-                        hideNextButton={true}
-                        hidePrevButton={true}
-                        variant="outlined"
-                        color="primary"
-                        count={data?.getProductionsPagination?.paginator?.totalPages}
-                        onChange={(event)=>setPage(parseInt(event?.target?.textContent))}
-                    />
-                </Stack>
-                <IconButton disabled={data?.getProductionsPagination?.paginator?.next === null ? true : false}
-                            onClick={()=>setPage(data?.getProductionsPagination?.paginator?.next)}>
-                    <ArrowForwardIosIcon sx={{":hover" :{color:"#0969A0"}}}/>
-                </IconButton>
-            </Stack>
+                                                    {
+                                                        row?.progress === "completed" ?                                        
+                                                            <Stack direction="row" spacing={1}>
+                                                                <CheckCircleIcon sx={{color:"#0969A0", width:"17px"}} />
+                                                                <Stack direction="column" justifyContent="center">
+                                                                    <Typography variant="body2">Completed</Typography>
+                                                                </Stack>
+                                                            </Stack>
+                                                        : null
+                                                    }
+                                                </TableCell>
+                                                
+                                                <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" align="left" width="10%">
+                                                    <Typography className={`status-${row?.status}`}>{row?.status}</Typography>
+                                                </TableCell>                                    
+                                                <TableCell className="body-title" align="right">
+                                                    <ProductionAction 
+                                                        dataUserLogin={dataUserLogin}
+                                                        btnTitle={"Update"}                                                                                    
+                                                        editDataProduction={row}
+                                                        setAlert={setAlert}
+                                                        setMessage={setMessage}
+                                                        setCheckMessage={setCheckMessage}
+                                                        setRefetch={refetch}
+                                                    />
+                                                </TableCell>                            
+                                            </TableRow>
+                                        </TableBody>                        
+                                    ))}
+                                </Table>
+                            </TableContainer>
+                        </Box> 
+                        
+                        <Stack direction='row' justifyContent="right" spacing={2}>
+                            <IconButton disabled={data?.getProductionsPagination?.paginator?.prev === null ? true : false}
+                                onClick={()=>setPage(data?.getProductionsPagination?.paginator?.prev)}
+                            >
+                                <ArrowBackIosNewIcon sx={{":hover" :{color:"#0969A0"}}}/>
+                            </IconButton>
+                            <Stack direction='column' justifyContent='center'>
+                                <Pagination 
+                                    page={pageShow}
+                                    hideNextButton={true}
+                                    hidePrevButton={true}
+                                    variant="outlined"
+                                    color="primary"
+                                    count={data?.getProductionsPagination?.paginator?.totalPages}
+                                    onChange={(event)=>setPage(parseInt(event?.target?.textContent))}
+                                />
+                            </Stack>
+                            <IconButton disabled={data?.getProductionsPagination?.paginator?.next === null ? true : false}
+                                        onClick={()=>setPage(data?.getProductionsPagination?.paginator?.next)}>
+                                <ArrowForwardIosIcon sx={{":hover" :{color:"#0969A0"}}}/>
+                            </IconButton>
+                        </Stack>
+                    </>
+                :
+                    <PermissionContent />
+                }            
             </>
         }
 
-            <Modal open={openView}>
+            {/* <Modal open={openView}> */}
                 <ViewProduction 
+                    dataUserLogin={dataUserLogin}
+                    open={openView}
                     handleClose={handleCloseView} 
                     ViewData={ViewData}
                     setAlert={setAlert}
@@ -387,7 +419,7 @@ export default function Production() {
                     setCheckMessage={setCheckMessage}
                     setRefetch={refetch}
                 />
-            </Modal>
+            {/* </Modal> */}
 
             <AlertMessage alert={alert} setAlert={setAlert} message={message} checkMessage={checkMessage}/>
 

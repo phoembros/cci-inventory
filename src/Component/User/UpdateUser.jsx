@@ -24,9 +24,20 @@ import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import { useQuery, useMutation} from '@apollo/client';
 import { GET_USER, UPDATE_USER } from "../../Schema/user";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
+// import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
+
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const Input = styled("input")({
   display: "none",
@@ -47,6 +58,7 @@ const style = {
 function UpdateUser(
   {
     handleClose,
+    open,
     DataUser,
     setRefech,
     setAlert,
@@ -67,11 +79,18 @@ function UpdateUser(
   const [updateUser] = useMutation(UPDATE_USER,{
     onCompleted:({updateUser}) => {
       // console.log(updateUser, 'up')
-      setAlert(true)
-      setCheckMessage('success')
-      setMessage(updateUser?.message)
-      setRefech()
-      handleClose()
+      if(updateUser?.success) {
+          setAlert(true)
+          setCheckMessage('success')
+          setMessage(updateUser?.message)
+          setRefech()
+          handleClose()
+      } else {
+          setAlert(true)
+          setCheckMessage('error')
+          setMessage(updateUser?.message)          
+      }
+     
     },
     onError:(error) => {
       // console.log(error.message, 'error')
@@ -119,143 +138,177 @@ function UpdateUser(
 
   const {errors,touched, values,  isSubmitting, checkProp, handleSubmit,getFieldProps,setFieldValue,resetForm,} = formik;
   
+  React.useEffect( ()=> {
+      if(DataUser){
+        setFieldValue("gender" , DataUser?.gender);
+        setFieldValue("birthOfDate" , DataUser?.birthOfDate)
+      }
+  },[DataUser])
 
   return (
-    <Stack className="modal-user" direction="row" spacing={2}>
-      <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Box className="modal-box">
+    <Dialog open={open} className="dialog-create-user">
+            <DialogTitle id="alert-dialog-title">
+                  <Stack direction="row" spacing={2}>
+                        <Stack direction="column" justifyContent="center" spacing={2}>
+                            <Typography className='header-title' variant="h6" >
+                                Edite User
+                            </Typography>
+                        </Stack>                
+                        <Box sx={{flexGrow:1}}></Box>
+                        <IconButton onClick={handleClose} >
+                            <DoDisturbOnOutlinedIcon sx={{color:'red'}} />
+                        </IconButton>
+                    </Stack>
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">    
+    
+                  <FormikProvider value={formik}>
+                    <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                      <Box className="modal-box">
+                      
+                        <Grid item container className="title">
+                          <Paper className="make-paper">
+                            <label htmlFor="icon-button-file">
+                              <Input accept="image/*" id="icon-button-file" type="file" />
+                              <IconButton
+                                color="primary"
+                                aria-label="upload picture"
+                                component="span"
+                                className="icon-camara"
+                              >
+                                <PhotoCamera />
+                              </IconButton>
+                            </label>
+                          </Paper>
+                        </Grid>
 
-            <Stack direction="row" spacing={2}>
-                <Stack direction="column" justifyContent="center" spacing={2}>
-                    <Typography className='header-title' variant="h6" >
-                        Edite User
-                    </Typography>
-                </Stack>                
-                <Box sx={{flexGrow:1}}></Box>
-                <IconButton onClick={handleClose} >
-                    <DoDisturbOnOutlinedIcon sx={{color:'red'}} />
-                </IconButton>
-            </Stack>
+                        <Stack direction="row" justifyContent="center" spacing={2} sx={{mt:1 , mb:2}}>
+                            <Typography className='header-title' variant="h6" >
+                                Profile
+                            </Typography>
+                        </Stack>  
 
-           
-            <Grid item container className="title">
-              <Paper className="make-paper">
-                <label htmlFor="icon-button-file">
-                  <Input accept="image/*" id="icon-button-file" type="file" />
-                  <IconButton
-                    color="primary"
-                    aria-label="upload picture"
-                    component="span"
-                    className="icon-camara"
-                  >
-                    <PhotoCamera />
-                  </IconButton>
-                </label>
-              </Paper>
-            </Grid>
+                        <Grid item container spacing={1}>
+                          <Grid item xs={6} md={6}>                
+                            <Typography className='header-title' variant="body1" >
+                              FirstName: 
+                            </Typography>
+                            <TextField
+                              size="small"
+                              fullWidth
+                              placeholder="firstname"
+                              {...getFieldProps("first_name")}
+                              error={Boolean(touched.first_name && errors.first_name)}
+                              helperText={touched.first_name && errors.first_name}
+                            />
+                          </Grid>
+                          <Grid item xs={6} md={6}>                
+                            <Typography className='header-title' variant="body1" >
+                              LastName:
+                            </Typography>
+                            <TextField
+                              size="small"
+                              fullWidth
+                              placeholder="lastname"
+                              {...getFieldProps("last_name")}
+                              error={Boolean(touched.last_name && errors.last_name)}
+                              helperText={touched.last_name && errors.last_name}
+                            />
+                          </Grid>
 
-            <Stack direction="row" justifyContent="center" spacing={2} sx={{mt:1 , mb:2}}>
-                <Typography className='header-title' variant="h6" >
-                    Profile
-                </Typography>
-            </Stack>  
+                          <Grid item xs={4} md={4}>
+                            <Typography className='header-title' variant="body1" >
+                                Gender:
+                            </Typography>
+                            <FormControl sx={{ minWidth: 100 }}>
+                              <Select                 
+                                size="small"         
+                                {...getFieldProps("gender")}
+                                error={Boolean(touched.gender && errors.gender)}
+                                helperText={touched.gender && errors.gender}
+                                defaultValue={values?.gender}
+                              >                    
+                                <MenuItem value="male">Male</MenuItem>
+                                <MenuItem value="female">Female</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </Grid>
 
-            <Grid item container spacing={1}>
-              <Grid item xs={6} md={6}>                
-                <Typography className='header-title' variant="body1" >
-                  FirstName: 
-                </Typography>
-                <TextField
-                  size="small"
-                  fullWidth
-                  placeholder="firstname"
-                  {...getFieldProps("first_name")}
-                  error={Boolean(touched.first_name && errors.first_name)}
-                  helperText={touched.first_name && errors.first_name}
-                />
-              </Grid>
-              <Grid item xs={6} md={6}>                
-                <Typography className='header-title' variant="body1" >
-                  LastName:
-                </Typography>
-                <TextField
-                  size="small"
-                  fullWidth
-                  placeholder="lastname"
-                  {...getFieldProps("last_name")}
-                  error={Boolean(touched.last_name && errors.last_name)}
-                  helperText={touched.last_name && errors.last_name}
-                />
-              </Grid>
+                          <Grid item xs={8} md={8}>                
+                            <Typography className='header-title' variant="body1" >
+                              Birth Of Date:
+                            </Typography>
+                            <LocalizationProvider className="date-controll" dateAdapter={AdapterMoment}>
+                                  <MobileDatePicker    
+                                      inputFormat="DD/MM/yyyy"                                 
+                                      value={values?.birthOfDate}                                  
+                                      onChange={(e)=> setFieldValue("birthOfDate", e)}
+                                      renderInput={(params) => (
+                                          <TextField {...params}  
+                                              size="small"
+                                              className="select-date"
+                                              fullWidth
+                                              InputProps={{                                                 
+                                                  endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <DateRangeIcon />
+                                                    </InputAdornment>
+                                                  ),
+                                              }}
+                                          />
+                                      )}
+                                  />
+                            </LocalizationProvider>
+                            {/* <LocalizationProvider className="date-controll" dateAdapter={AdapterDateFns} >
+                                <DatePicker  
+                                    onChange={(e)=> setFieldValue("birthOfDate", e)}
+                                    renderInput={(params) => (
+                                        <TextField className="select-date" size='small' {...params} type="date" fullWidth />
+                                    )}                       
+                                    value={values.birthOfDate}
+                                />
+                            </LocalizationProvider>  */}
+                          
+                          </Grid>
 
-              <Grid item xs={4} md={4}>
-                <Typography className='header-title' variant="body1" >
-                    Gender:
-                </Typography>
-                <FormControl sx={{ minWidth: 100 }}>
-                  <Select                 
-                    size="small"         
-                    {...getFieldProps("gender")}
-                    error={Boolean(touched.gender && errors.gender)}
-                    helperText={touched.gender && errors.gender}
-                  >                    
-                    <MenuItem value="male">Male</MenuItem>
-                    <MenuItem value="female">Female</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
+                          <Grid item xs={12} md={12}>                
+                            <Typography className='header-title' variant="body1" >
+                              Phone Number:
+                            </Typography>
+                            <TextField
+                                size="small"
+                                fullWidth
+                                placeholder="phone number"
+                                {...getFieldProps("phone_number")}
+                                error={Boolean(touched.phone_number && errors.phone_number)}
+                                helperText={touched.phone_number && errors.phone_number}
+                            />
+                          </Grid>
+                        
 
-              <Grid item xs={8} md={8}>                
-                <Typography className='header-title' variant="body1" >
-                  Birth Of Date:
-                </Typography>
-                <LocalizationProvider className="date-controll" dateAdapter={AdapterDateFns} >
-                    <DatePicker  
-                        onChange={(e)=> setFieldValue("birthOfDate", e)}
-                        renderInput={(params) => (
-                            <TextField className="select-date" size='small' {...params} type="date" fullWidth />
-                        )}                       
-                        value={values.birthOfDate}
-                    />
-                </LocalizationProvider> 
-               
-              </Grid>
-
-              <Grid item xs={12} md={12}>                
-                <Typography className='header-title' variant="body1" >
-                  Phone Number:
-                </Typography>
-                <TextField
-                    size="small"
-                    fullWidth
-                    placeholder="phone number"
-                    {...getFieldProps("phone_number")}
-                    error={Boolean(touched.phone_number && errors.phone_number)}
-                    helperText={touched.phone_number && errors.phone_number}
-                />
-              </Grid>
-            
-
-              <Grid item xs={12} md={12} mt={2}>
-                <Button
-                  className="btn-create"
-                  size="large"
-                  type="submit"
-                  sx={{boxShadow: "none"}} 
-                  variant="contained"
-                >
-                  Update
-                </Button>
-              </Grid>
-            </Grid>
+                          <Grid item xs={12} md={12} mt={2}>
+                            <Button
+                              className="btn-create"
+                              size="large"
+                              type="submit"
+                              sx={{boxShadow: "none"}} 
+                              variant="contained"
+                            >
+                              Update
+                            </Button>
+                          </Grid>
+                        </Grid>
 
 
 
-          </Box>
-        </Form>
-      </FormikProvider>
-    </Stack>
+                      </Box>
+                    </Form>
+                  </FormikProvider>
+
+              </DialogContentText>
+        </DialogContent>       
+    </Dialog>   
   );
 }
 

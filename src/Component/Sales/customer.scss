@@ -54,6 +54,19 @@
             width:300px;
             background-color: #fff;
             border-radius:10px;
+
+            @include mobile-small {
+                display: none;
+            }
+
+            @include mobile {
+                display: none;
+            }
+
+            @include mobile-large {
+                display: none;
+            }
+
         }
         
         .btn-add {
@@ -77,90 +90,108 @@
     .container {
         margin-top: 20px;
 
-        .table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0px 8px;
-
-            .header-row {            
-                .header-title {
-                    padding: 10px;
-                    border: none;
-                    font-size: $font-Size-Subtitle;
-                    font-weight: bold;
-                }
-            }
+        .table-container {
             
-            .body {
-                box-shadow: none;
-                :hover {
-                    background-color: $background-table-modal;
-                    cursor: pointer;
-                }
+            @include mobile-small {
+                width: 310px !important;
+            }
 
-                .body-row {       
-                    // background-color: #fff;
-        
-                    .body-title {
+            @include mobile {
+                width: 370px !important;
+            }
+
+            @include mobile-large {
+                width: 476px !important;
+            }
+
+            .table {
+                width: 100%;
+                display: table;
+                overflow-x: auto;
+                white-space: nowrap;
+                border-collapse: separate;
+                border-spacing: 0px 8px;
+
+
+                .header-row {            
+                    .header-title {
                         padding: 10px;
                         border: none;
                         font-size: $font-Size-Subtitle;
-                    
-                        .status-Pending {
-                            font-weight: bold;      
-                            color: red;                      
-                        }
+                        font-weight: bold;
+                    }
+                }
+                
+                .body {
+                    box-shadow: none;
+                    :hover {
+                        background-color: $background-table-modal;
+                        cursor: pointer;
+                    }
 
-                        .status-Rejected {
-                            font-weight: bold;      
-                            color: #006FFF;                      
-                        }
-                        .status-Approval {
-                            font-weight: bold;      
-                            color: #20D819;                      
-                        }  
+                    .body-row {       
+                        // background-color: #fff;
+            
+                        .body-title {
+                            padding: 10px;
+                            border: none;
+                            font-size: $font-Size-Subtitle;
                         
+                            .status-Pending {
+                                font-weight: bold;      
+                                color: red;                      
+                            }
+
+                            .status-Rejected {
+                                font-weight: bold;      
+                                color: #006FFF;                      
+                            }
+                            .status-Approval {
+                                font-weight: bold;      
+                                color: #20D819;                      
+                            }  
+                            
+                        }
                     }
                 }
-            }
 
-            .body-odd {
-                box-shadow: none;
-                :hover {
-                    background-color: $background-table-modal;
-                    cursor: pointer;
-                }
-
-                .body-row {       
-                    background-color: $background-table-modal;
-        
-                    .body-title {
-                        padding: 10px;
-                        border: none;
-                        font-size: $font-Size-Subtitle;
-
-                        .status-Pending {
-                            font-weight: bold;      
-                            color: red;                      
-                        }
-
-                        .status-Rejected {
-                            font-weight: bold;      
-                            color: #006FFF;                      
-                        }
-                        .status-Approval {
-                            font-weight: bold;      
-                            color: #20D819;                      
-                        }                        
-
+                .body-odd {
+                    box-shadow: none;
+                    :hover {
+                        background-color: $background-table-modal;
+                        cursor: pointer;
                     }
-                }
-            }
 
+                    .body-row {       
+                        background-color: $background-table-modal;
             
+                        .body-title {
+                            padding: 10px;
+                            border: none;
+                            font-size: $font-Size-Subtitle;
 
+                            .status-Pending {
+                                font-weight: bold;      
+                                color: red;                      
+                            }
+
+                            .status-Rejected {
+                                font-weight: bold;      
+                                color: #006FFF;                      
+                            }
+                            .status-Approval {
+                                font-weight: bold;      
+                                color: #20D819;                      
+                            }                        
+
+                        }
+                    }
+                }
+
+                
+
+            }
         }
-        
 
     }
 

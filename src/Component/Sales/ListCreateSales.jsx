@@ -112,7 +112,7 @@ function ListCreateSales(props) {
                                 value={item?.amount.toFixed(2)}
                             />                            
                         </TableCell>   
-                        <TableCell className="header-title" width='3%'></TableCell> 
+                        {/* <TableCell className="header-title" width='3%'></TableCell>  */}
                         <TableCell className="body-title" align='center'>
                             <IconButton onClick={() => { props.deleteItem(item.key) }}>
                                 <DeleteRoundedIcon  sx={{color:"red"}}/>

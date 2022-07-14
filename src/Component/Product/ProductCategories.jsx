@@ -16,9 +16,14 @@ import { useQuery } from "@apollo/client";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import CircularProgress from "@mui/material/CircularProgress";
+import { GET_USER_LOGIN } from "../../Schema/user";
+import PermissionContent from "../Permission/PermissionContent";
 
 
 export default function ProductCategories() {
+
+    const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+  console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -59,7 +64,7 @@ export default function ProductCategories() {
         <div className="product-categories-page">
             <Stack direction="row" spacing={2}>
                 <Box className="slash" />
-                <Stack direction="column" justifyContent="center">
+                <Stack direction="column" justifyContent="center" className="page-title">
                     <Stack direction="row" spacing={1}>
                         <Link to="/product" style={{textDecoration: "none"}}>
                             <Typography className="color">Product</Typography>
@@ -67,6 +72,12 @@ export default function ProductCategories() {
                         <Typography className="color">/ Categories</Typography>
                     </Stack>                  
                 </Stack>
+                <Stack direction="column" justifyContent="center" className="page-title-mobile">
+                    <Stack direction="row" spacing={1}>                         
+                        <Typography className="color">Categories</Typography>
+                    </Stack>                  
+                </Stack>
+
                 <Box sx={{flexGrow: 1}} />
 
 
@@ -78,7 +89,7 @@ export default function ProductCategories() {
                             className="text-field"
                             fullWidth
                             id="input-with-sx" 
-                            placeholder="Search Dashboard"                           
+                            placeholder="Category Name"                           
                             size="small"                           
                             InputProps={{
                                 startAdornment: (
@@ -100,9 +111,10 @@ export default function ProductCategories() {
                     <Button onClick={handleOpen} startIcon={<AddIcon/>} className="btn-add">
                         <Typography className="btn-text">Add</Typography>
                     </Button>
-                    <Modal open={open}>
+                    {/* <Modal open={open}> */}
                         <CreateCategory 
                             handleClose={handleClose} 
+                            open={open}
                             btnTitle={"Create"}
                             setAlert={setAlert}
                             setMessage={setMessage}
@@ -110,7 +122,7 @@ export default function ProductCategories() {
                             setRefetch={refetch}    
                             checkStatus={"create"}                    
                         />
-                    </Modal>
+                    {/* </Modal> */}
                             
                 </Stack>
             </Stack>
@@ -121,63 +133,71 @@ export default function ProductCategories() {
             <Box  sx={{ display: "flex", flexDirection: "column", alignItems: "center" , mt:10}} >
                 <CircularProgress />
             </Box>
-            :
+        :
             <>
-            <Box className="container">
-                <TableContainer >
-                    <Table className="table" aria-label="simple table">
-                        <TableHead >
-                            <TableRow className="header-row">
-                                <TableCell className="header-title">No</TableCell>
-                                <TableCell className="header-title" >Category Name</TableCell>                                
-                                <TableCell className="header-title">Remark</TableCell>                                   
-                                <TableCell className="header-title" align="center"></TableCell>                        
-                            </TableRow>
-                        </TableHead>
-                        {data?.getProductCategoryPagination?.ProductCategory?.map((row , index) => (
-                            <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
-                                <TableRow  className="body-row">
-                                    <TableCell className="body-title" component="th" scope="row" width="5%" > {index+1}- </TableCell>
-                                    <TableCell className="body-title" component="th" scope="row" width="25%"> {row?.categoryName} </TableCell>                                                                      
-                                    <TableCell className="body-title" >{row?.remark}</TableCell>                                                                       
-                                    <TableCell className="body-title" align="right">
-                                        <CategoryAction 
-                                            setAlert={setAlert}
-                                            setMessage={setMessage}
-                                            setCheckMessage={setCheckMessage}    
-                                            setRefetch={refetch}
-                                            editData={row}
-                                        />
-                                    </TableCell>                            
-                                </TableRow>
-                            </TableBody>                        
-                        ))}
-                    </Table>
-                </TableContainer>
-            </Box> 
-            
-            <Stack direction='row' justifyContent='right' spacing={2}>
-                <IconButton disabled={data?.getProductCategoryPagination?.paginator?.prev === null ? true : false }
-                    onClick={() => setPage(data?.getProductCategoryPagination?.paginator?.prev)}>
-                    <ArrowBackIosNewIcon sx={{':hover':{color:'#0969A0'}}}/>
-                </IconButton>
+                {
+                dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getProductCategoryPagination ?
+                    <>
+                    <Box className="container">
+                        <TableContainer >
+                            <Table className="table" aria-label="simple table">
+                                <TableHead >
+                                    <TableRow className="header-row">
+                                        <TableCell className="header-title">No</TableCell>
+                                        <TableCell className="header-title" >Category Name</TableCell>                                
+                                        <TableCell className="header-title">Remark</TableCell>                                   
+                                        <TableCell className="header-title" align="center"></TableCell>                        
+                                    </TableRow>
+                                </TableHead>
+                                {data?.getProductCategoryPagination?.ProductCategory?.map((row , index) => (
+                                    <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
+                                        <TableRow  className="body-row">
+                                            <TableCell className="body-title" component="th" scope="row" width="5%" > {index+1}- </TableCell>
+                                            <TableCell className="body-title" component="th" scope="row" width="25%"> {row?.categoryName} </TableCell>                                                                      
+                                            <TableCell className="body-title" >{row?.remark}</TableCell>                                                                       
+                                            <TableCell className="body-title" align="right">
+                                                <CategoryAction 
+                                                    dataUserLogin={dataUserLogin}
+                                                    setAlert={setAlert}
+                                                    setMessage={setMessage}
+                                                    setCheckMessage={setCheckMessage}    
+                                                    setRefetch={refetch}
+                                                    editData={row}
+                                                />
+                                            </TableCell>                            
+                                        </TableRow>
+                                    </TableBody>                        
+                                ))}
+                            </Table>
+                        </TableContainer>
+                    </Box> 
+                    
+                    <Stack direction='row' justifyContent='right' spacing={2}>
+                        <IconButton disabled={data?.getProductCategoryPagination?.paginator?.prev === null ? true : false }
+                            onClick={() => setPage(data?.getProductCategoryPagination?.paginator?.prev)}>
+                            <ArrowBackIosNewIcon sx={{':hover':{color:'#0969A0'}}}/>
+                        </IconButton>
 
-                <Stack direction='column' justifyContent='center'>
-                    <Pagination 
-                            page={pageShow}
-                            hidePrevButton={true}
-                            hideNextButton={true}
-                            variant="outlined" 
-                            color="primary" 
-                            count={data?.getProductCategoryPagination?.paginator?.totalPages}
-                            onChange={(event)=>setPage(parseInt(event?.target?.textContent))} />
-                </Stack>
-                <IconButton
-                    disabled={data?.getProductCategoryPagination?.paginator?.next === null ? true : false }
-                    onClick={() => setPage(data?.getProductCategoryPagination?.paginator?.next )}>
-                    <ArrowForwardIosIcon sx={{':hover':{color:'#0969A0'}}}/>
-                </IconButton>
-            </Stack>
+                        <Stack direction='column' justifyContent='center'>
+                            <Pagination 
+                                    page={pageShow}
+                                    hidePrevButton={true}
+                                    hideNextButton={true}
+                                    variant="outlined" 
+                                    color="primary" 
+                                    count={data?.getProductCategoryPagination?.paginator?.totalPages}
+                                    onChange={(event)=>setPage(parseInt(event?.target?.textContent))} />
+                        </Stack>
+                        <IconButton
+                            disabled={data?.getProductCategoryPagination?.paginator?.next === null ? true : false }
+                            onClick={() => setPage(data?.getProductCategoryPagination?.paginator?.next )}>
+                            <ArrowForwardIosIcon sx={{':hover':{color:'#0969A0'}}}/>
+                        </IconButton>
+                    </Stack>
+                    </>
+                :
+                    <PermissionContent />
+                }            
             </>
         }
 

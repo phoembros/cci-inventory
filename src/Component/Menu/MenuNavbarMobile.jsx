@@ -117,16 +117,17 @@ export default function MenuNavbarMobile({open , handleDrawerClose}) {
                 {/* Item */}                   
                 <ListItem className={
                         theme.palette.mode === 'dark' && location.pathname === "/storage-room" ||
-                        theme.palette.mode === 'dark' && location.pathname === "/storage-room/purchase" 
+                        theme.palette.mode === 'dark' && location.pathname === "/storage-room/purchase" ||
+                        theme.palette.mode === 'dark' && location.pathname === "/storage-room/roomdetail"
                     ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}
                 >
                     <Link to="/storage-room" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button'sx={{ px: 2.5, }} >
-                            <ListItemIcon className={location.pathname === "/storage-room" || location.pathname === "/storage-room/purchase" ? "list-item-icon-active" : "list-item-icon"} >
+                            <ListItemIcon className={location.pathname === "/storage-room" || location.pathname === "/storage-room/purchase" || location.pathname === "/storage-room/roomdetail" ? "list-item-icon-active" : "list-item-icon"} >
                                 <FormatListBulletedOutlinedIcon />
                             </ListItemIcon>
                             <ListItemText 
-                                className={location.pathname === "/storage-room" || location.pathname === "/storage-room/purchase" ? "list-item-text-active" : "list-item-text"}
+                                className={location.pathname === "/storage-room" || location.pathname === "/storage-room/purchase" || location.pathname === "/storage-room/roomdetail" ? "list-item-text-active" : "list-item-text"}
                                 primary={"Storage Room"}                                
                             />
                         </ListItemButton>
@@ -236,7 +237,7 @@ export default function MenuNavbarMobile({open , handleDrawerClose}) {
                             </ListItemIcon>
                             <ListItemText 
                                 className={location.pathname === "/supplies" ? "list-item-text-active" : "list-item-text"}
-                                primary={"Supplies"} />
+                                primary={"Supplier"} />
                         </ListItemButton>
                     </Link>
                 </ListItem>
@@ -279,14 +280,19 @@ export default function MenuNavbarMobile({open , handleDrawerClose}) {
 
             <List className='list' >
                 {/* Item */}                   
-                <ListItem className={theme.palette.mode === 'dark' && location.pathname === "/system-setting" ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}>
+                <ListItem className={
+                    theme.palette.mode === 'dark' && location.pathname === "/system-setting" || 
+                    theme.palette.mode === 'dark' && location.pathname === "/system-setting/role"
+                    ? 'list-item-active' : 'list-item' }   
+                    disablePadding sx={{ display: 'block' }}
+                >
                     <Link to="/system-setting" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
-                            <ListItemIcon className={location.pathname === "/system-setting" ? "list-item-icon-active" : "list-item-icon"}  >
+                            <ListItemIcon className={location.pathname === "/system-setting" || location.pathname === "/system-setting/role" ? "list-item-icon-active" : "list-item-icon"}  >
                                 <SettingsIcon />
                             </ListItemIcon>
                             <ListItemText
-                                className={location.pathname === "/system-setting" ? "list-item-text-active" : "list-item-text"}
+                                className={location.pathname === "/system-setting" || location.pathname === "/system-setting/role" ? "list-item-text-active" : "list-item-text"}
                                 primary={"System Setting"} />
                         </ListItemButton>
                     </Link>

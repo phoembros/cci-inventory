@@ -1,5 +1,58 @@
 @import '../../themes.scss';
 
+.dialog-create-raw-material {
+
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        // width: 500px !important;
+    }
+
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+    
+    .btn-create{
+        background-color: $primary-color !important;
+        color: #fff;
+    }
+
+    .container {
+
+        .table-top {
+            width: 100%;      
+            .header-row {            
+                .header-title {
+                    padding: 10px 0px 10px 0px;
+                    border: none;
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: $primary-color;
+                }
+            }
+            
+            .body {
+                box-shadow: none;
+                .body-row {    
+                    .body-title {
+                        padding: 0px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status {
+                            font-weight: bold;      
+                            color: $primary-color;                      
+                        }
+                    }
+                }
+            }           
+        }
+
+    }
+
+}
+
+
 .create-raw-material{
 
     position: absolute;

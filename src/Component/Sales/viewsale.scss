@@ -1,5 +1,119 @@
 @import '../../themes.scss';
 
+.dialog-view-sale {
+
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        width: 500px !important;
+    }    
+
+    .date-view-sale {
+        @include mobile-small {
+            display: none;
+        }
+        @include mobile {
+            display: none;
+        }       
+    }
+
+    .date-view-sale-mobile {
+
+        display: none;
+
+        @include mobile-small {
+            display: flex;
+        }
+        @include mobile {
+            display: flex;
+        }       
+
+    }
+
+    .btn-create{
+        background-color: #007654 !important;
+        color: #fff;
+    }
+
+
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+    
+    .sub-title{
+        font-weight: bold;
+        color: $primary-color; 
+        font-size:16px; 
+    }
+    .btn-view{
+        display:flex;
+        justify-content: center;
+    }
+
+    .type-field {
+        color: #007654;
+        font-size: $font-Size-Subtitle;
+        font-weight: bold;
+    }
+    
+    .table-containeres {
+        width: 100%;
+
+        .table {
+            width: 100%;
+            display: table;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-collapse: separate;
+            border-spacing: 0px 8px; 
+
+            @include mobile-small {
+                width: 320px !important;
+            }
+        
+            @include mobile {
+                width: 370px !important;
+            }
+        
+            @include mobile-large {
+                width: 400px !important;
+            }
+
+            .header-row {            
+                .header-title {
+                    padding: 5px;
+                    border: none;
+                    font-size: $font-Size-Subtitle;
+                    font-weight: bold;
+                }
+            }
+
+          
+            
+            .body {
+                box-shadow: none;
+
+                .body-row {       
+                    background-color: $background-table-modal;
+        
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status {
+                            font-weight: bold;      
+                            color: $primary-color;                      
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+
 .view-sale{
 
     position: absolute;
@@ -28,7 +142,7 @@
     }
 
     .type-field {
-        color: $font-color;
+        color: #007654;
         font-size: $font-Size-Subtitle;
         font-weight: bold;
     }

@@ -2,11 +2,26 @@
 
 .container-users {
     // margin-top: 20px;
+    @include mobile-small {
+        width: 320px !important;
+    }
+
+    @include mobile {
+        width: 370px !important;
+    }
+
+    @include mobile-large {
+        width: 400px !important;
+    }
    
     .table-head {
         width: 100%;
+        display: table;
+        overflow-x: auto;
+        white-space: nowrap;
         border-collapse: separate;
         border-spacing: 0px 8px;  
+
     
             .table-row{
                 .header-title {

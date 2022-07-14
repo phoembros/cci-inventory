@@ -24,4 +24,174 @@
         align-items: flex-start;
         justify-content: space-evenly;
     }
+
+    .container {
+        margin-top: 20px;
+        width: 100% !important;
+
+        .table-container {
+            @include mobile-small {
+                width: 320px !important;
+            }
+
+            @include mobile {
+                width: 370px !important;
+            }
+
+            @include mobile-large {
+                width: 400px !important;
+            }
+        
+
+            .table {
+                width: 100%;
+                display: table;
+                overflow-x: auto;
+                white-space: nowrap;
+                border-collapse: separate;
+                border-spacing: 0px 8px;          
+
+                .header-row {            
+                    .header-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+                        font-weight: bold;
+                    }
+                }
+                
+                .body {
+                    box-shadow: none;                
+                    background-color: $background-table-modal;  
+                    border-radius: 15px;
+
+                    .body-row {       
+                                      
+
+                        .body-title {
+                            padding: 10px;                            
+                            border: none;
+                            font-size: $font-Size-Subtitle;
+
+                            .material-type {
+                                font-weight: bold;      
+                                color: $primary-color;                      
+                            }
+
+                            
+                        
+                            .stack-map-icons {
+                                color: $primary-color;
+                                margin-right: 10px;
+                            }
+                    
+                            .btn-unpaid {                
+                                text-transform: none;
+                                border-radius: 10px;
+                    
+                                .text-unpaid-point {
+                                    width: 6px;
+                                    height: 6px;
+                                    background-color: red;
+                                    border-radius: 50%;
+                                    margin-right: 6px;
+                                    margin-top: 10px;
+                                }
+                    
+                                .text-unpaid {
+                                    font-size: 22;
+                                    font-weight: bold;
+                                    color: red;
+                                }
+                    
+                                .text-owe-point {
+                                    width: 6px;
+                                    height: 6px;
+                                    background-color: orange;
+                                    border-radius: 50%;
+                                    margin-right: 6px;
+                                    margin-top: 10px;
+                                }
+                    
+                                .text-owe {
+                                    font-size: 22;
+                                    font-weight: bold;
+                                    color: orange;
+                                }
+                    
+                            }
+                           
+
+                        }
+                    }
+
+                    .body-odd {       
+                        background-color: white;                
+
+                        .body-title {
+                            padding: 10px;                            
+                            border: none;
+                            font-size: $font-Size-Subtitle;
+
+                            .material-type {
+                                font-weight: bold;      
+                                color: $primary-color;                      
+                            }
+
+                            
+                        
+                            .stack-map-icons {
+                                color: $primary-color;
+                                margin-right: 10px;
+                            }
+                    
+                            .btn-unpaid {                
+                                text-transform: none;
+                                border-radius: 10px;
+                    
+                                .text-unpaid-point {
+                                    width: 6px;
+                                    height: 6px;
+                                    background-color: red;
+                                    border-radius: 50%;
+                                    margin-right: 6px;
+                                    margin-top: 10px;
+                                }
+                    
+                                .text-unpaid {
+                                    font-size: 22;
+                                    font-weight: bold;
+                                    color: red;
+                                }
+                    
+                                .text-owe-point {
+                                    width: 6px;
+                                    height: 6px;
+                                    background-color: orange;
+                                    border-radius: 50%;
+                                    margin-right: 6px;
+                                    margin-top: 10px;
+                                }
+                    
+                                .text-owe {
+                                    font-size: 22;
+                                    font-weight: bold;
+                                    color: orange;
+                                }
+                    
+                            }
+                           
+
+                        }
+                    }
+
+                }
+                
+
+            }
+        }
+        
+
+    }
+
 }

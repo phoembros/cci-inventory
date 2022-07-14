@@ -12,8 +12,9 @@ import {Stack, Typography, IconButton, Modal } from '@mui/material';
 import DeleteUser from './DeleteUser';
 import UpdateUser from './UpdateUser';
 
-export default function UserAction({ DataUser, setRefech, setAlert, setMessage, checkMessage, setCheckMessage }) {    
-                          
+
+export default function UserAction({ DataUser, setRefech, setAlert, setMessage, checkMessage, setCheckMessage , dataUserLogin }) {    
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openEl = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -36,46 +37,68 @@ export default function UserAction({ DataUser, setRefech, setAlert, setMessage, 
 
   return (
     <div>
+
       <IconButton onClick={handleClick}>
         <MoreVertIcon sx={{ color: "#3C64F6" }} />
       </IconButton>
 
-      <Menu
-        id="basic-button"
-        anchorEl={anchorEl}
-        open={openEl}
-        onClose={handleCloseEl}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem onClick={()=> { handleOpen(); handleCloseEl(); }}>
-          <Stack direction="row" spacing={2}>
-            <EditIcon sx={{ color: "blue" }} />
-            <Typography> Update </Typography>
-          </Stack>
-        </MenuItem>
+    {
+        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateUser ||
+        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteUser ?
 
-        <MenuItem onClick={()=> { handleOpenDel(); handleCloseEl(); }}>
-          <Stack direction="row" spacing={2}>
-            <DeleteIcon sx={{ color: "red" }} />
-            <Typography> Delete</Typography>
-          </Stack>
-        </MenuItem>
-      </Menu>
+          <>
+              <Menu
+                  id="basic-button"
+                  anchorEl={anchorEl}
+                  open={openEl}
+                  onClose={handleCloseEl}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+              >
 
-      <Modal open={open} >
+                  {
+                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateUser ?
+                        <MenuItem onClick={()=> { handleOpen(); handleCloseEl(); }}>
+                          <Stack direction="row" spacing={2}>
+                            <EditIcon sx={{ color: "blue" }} />
+                            <Typography> Update </Typography>
+                          </Stack>
+                        </MenuItem>
+                      : null
+                  }
+                    
+
+                  {
+                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteUser ?
+                        <MenuItem onClick={()=> { handleOpenDel(); handleCloseEl(); }}>
+                          <Stack direction="row" spacing={2}>
+                            <DeleteIcon sx={{ color: "red" }} />
+                            <Typography> Delete</Typography>
+                          </Stack>
+                        </MenuItem>
+                      : null
+                  }
+
+              </Menu>
+          </>
+        :
+          null
+    }
+      
+
+      {/* <Modal open={open} > */}
             <UpdateUser 
                   handleClose={handleClose}
+                  open={open}
                   DataUser={DataUser}
                   setRefech={setRefech}
                   setAlert={setAlert}
                   setMessage={setMessage}
                   checkMessage={checkMessage} 
-                  setCheckMessage={setCheckMessage}/>
-               
-               
-      </Modal>
+                  setCheckMessage={setCheckMessage}
+              />               
+      {/* </Modal> */}
 
       <Modal open={openDel}>
             <DeleteUser  

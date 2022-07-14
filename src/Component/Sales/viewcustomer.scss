@@ -1,5 +1,29 @@
 @import '../../themes.scss';
 
+.dialog-view-customer {
+
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        width: 400px !important;
+    }
+
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+    
+    .sub-title{
+        font-weight: bold;
+        color: $primary-color; 
+        font-size:16px; 
+    }
+    .btn-view{
+        display:flex;
+        justify-content: center;
+    }
+}
+
+
 .view-customer {
 
     position: absolute;

@@ -34,8 +34,64 @@
     }
 
     .container {
-        margin-top: 20px;
+        margin-top: 20px;    
+           
+        @include mobile-small {
+            width: 320px !important;
+        }
+
+        @include mobile {
+            width: 370px !important;
+        }
+
+        @include mobile-large {
+            width: 400px !important;
+        }
     
+        .table-head {
+            width: 100%;
+            display: table;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-collapse: separate;
+            border-spacing: 0px 8px;  
+
+        
+                .table-row{
+                    .header-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+                        font-weight: bold;
+                        
+                }
+                
+            }
+
+            .body {
+                background-color: white !important;
+                box-shadow: none;
+                :hover {
+                    background-color: $background-table-modal !important;
+                    cursor: pointer;
+                }
+            
+
+                .body-row { 
+            
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;                   
+
+                    }
+                }
+            }
+            
+        
+        
+        } 
+
     }
 
     

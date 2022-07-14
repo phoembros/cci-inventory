@@ -1,12 +1,50 @@
 @import '../../themes.scss';
 
-.view-user{
+.dialog-view-user {
+
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        // width: 450px !important;
+    }
     
     .title {
         color: $primary-color;
         font-weight: bold;
         font-size: $font-Size-title;
     }
+
+    .profile-image {
+
+        @include mobile-small {
+            display: none;
+        }
+
+        @include mobile {
+            display: none;
+        }
+
+        @include mobile-large {
+            display: none;
+        }
+    }
+
+    .profile-image-mobile {
+        display: none;
+
+        @include mobile-small {
+            display: flex;
+        }
+
+        @include mobile {
+            display: flex;
+        }
+
+        @include mobile-large {
+            display: flex;
+        }
+    }
+
+
     .main-table{
         
         .head-row{

@@ -47,7 +47,7 @@ function ListRawMaterialUpdate(props) {
     React.useEffect(() => {
         if (suppliesData) {
             let rows = [];
-            suppliesData?.getSuppliersPagination?.suppliers.forEach((element) => {
+            suppliesData?.getSuppliersPagination?.suppliers?.forEach((element) => {
                 const allrow = { label: element?.name, _id: element?._id };
                 rows.push(allrow);
             });
@@ -96,7 +96,7 @@ function ListRawMaterialUpdate(props) {
                             />
                         </TableCell>
                         
-                        <TableCell className="body-title" width="15%" align='center'>
+                        <TableCell className="body-title" width="20%" align='center'>
                             <TextField  
                                 className="text-field"
                                 fullWidth
@@ -115,7 +115,7 @@ function ListRawMaterialUpdate(props) {
                             />
                         </TableCell>   
                        
-                        <TableCell className="body-title" width="15%" align='center'>
+                        <TableCell className="body-title" width="20%" align='center'>
                             <TextField  
                                 className="text-field"
                                 fullWidth
@@ -134,7 +134,7 @@ function ListRawMaterialUpdate(props) {
                             />
                         </TableCell>   
                          
-                        <TableCell className="body-title" align='center'>                             
+                        {/* <TableCell className="body-title" align='center'>                             
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
@@ -154,7 +154,7 @@ function ListRawMaterialUpdate(props) {
                                         helperText={ item.suppliersName === undefined && errorMessage[4]}
                                     />}
                             />
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell className="body-title" align='right'  width="5%">
                             <IconButton onClick={() => { props.deleteItem(item.key) }}>
                                 <DeleteRoundedIcon  sx={{color:"red"}}/>

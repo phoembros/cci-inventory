@@ -50,6 +50,15 @@ query GetPurchaseRawMaterialPagination($storageId: ID!, $page: Int, $limit: Int,
       purchaseId
       PurchaseProduct
       purchaseDate
+      supplierID {
+        _id
+        name
+        email
+        phoneNumber
+        address
+        updatedAt
+        createdAt
+      }
       createdAt
       purchaseBy {
         _id
@@ -134,6 +143,7 @@ export const GET_PRODUCT_STORAGE_ROOM_BY = gql`
         createdAt
       }
       unit
+      completedUnit
       unitPrice
       durationProduce
       qtyInThisStorage

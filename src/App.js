@@ -24,9 +24,9 @@ function App() {
 
     console.log(state,'state')
   
-    const httpLink = createHttpLink({
+    const httpLink = createHttpLink({      
         uri: process.env.React_APP_END_POINT,
-        // uri: "http://192.168.2.108:4005/graphql",
+        // uri: "http://192.168.2.135:4055/graphql",
     });
     // 
     const authLink = setContext((_, { headers }) => {
@@ -60,16 +60,16 @@ function App() {
     );
 
     return (    
-            <>
-            <ApolloProvider client={client}>
-                <ThemeProvider theme={theme}>
+        <>
+          <ApolloProvider client={client}>
+              <ThemeProvider theme={theme}>
                     <Routers>
                         <Router prefersDarkMode={prefersDarkMode} setPrefersDarkMode={setPrefersDarkMode}/>
                     </Routers>
                     <CssBaseline />
-                </ThemeProvider>  
-            </ApolloProvider> 
-            </>
+              </ThemeProvider>  
+          </ApolloProvider> 
+        </>
     );
 }
 

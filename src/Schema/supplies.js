@@ -64,3 +64,9 @@ export const GET_SUPPLIERS_BY_PAGINATION = gql`
         }
     }
 `
+
+export const GET_OWE_SUPPLIER =  gql`
+    query Query($id: ID!) {
+        getOweSupplier(_id: $id)
+    }
+`

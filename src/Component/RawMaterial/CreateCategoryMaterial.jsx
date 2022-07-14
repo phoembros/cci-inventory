@@ -10,9 +10,16 @@ import { useFormik, Form, FormikProvider } from "formik";
 import { CREATE_RAW_CATEGORY , UPDATE_RAW_CATEGORY } from "../../Schema/rawmaterial";
 import { useMutation } from "@apollo/client";
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 
 export default function CreateCategoryMaterial({
     editData,
+    open,
     handleClose,
     btnTitle ,
     setAlert,
@@ -108,9 +115,9 @@ export default function CreateCategoryMaterial({
     // End Formik
 
     return (   
-        <Box className='category-create-material' >
-            <FormikProvider value={formik}>
-                <Form autoComplete="off" noValidate onSubmit={handleSubmit}>            
+
+        <Dialog open={open} className="dialog-category-create-material">
+            <DialogTitle id="alert-dialog-title">
                     <Stack direction="row" spacing={5}>        
                         <Typography className='header-title' variant="h6" >
                             Category
@@ -123,43 +130,53 @@ export default function CreateCategoryMaterial({
 
                     <Stack direction="row" spacing={5}>
                         <Typography variant='body2'>Please input each field below</Typography>
-                    </Stack>    
+                    </Stack>   
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                   
+                    <FormikProvider value={formik}>
+                        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>            
+                            
 
-                    <Stack direction="column" spacing={1} sx={{mt:2}}>
-                        <Typography className='header-title'>
-                            Category Name
-                        </Typography>
-                        <TextField 
-                            size='small' 
-                            fullWidth
-                            placeholder='Name'
-                            {...getFieldProps("categoryName")}
-                            error={Boolean(touched.categoryName && errors.categoryName)}
-                            helperText={touched.categoryName && errors.categoryName}
-                        />            
-                    </Stack>
+                            <Stack direction="column" spacing={1} sx={{mt:2}}>
+                                <Typography className='header-title'>
+                                    Category Name
+                                </Typography>
+                                <TextField 
+                                    size='small' 
+                                    fullWidth
+                                    placeholder='Name'
+                                    {...getFieldProps("categoryName")}
+                                    error={Boolean(touched.categoryName && errors.categoryName)}
+                                    helperText={touched.categoryName && errors.categoryName}
+                                />            
+                            </Stack>
 
 
-                    <Stack direction="column" spacing={1} sx={{mt:2}}>
-                        <Typography className='header-title'>
-                            Remark
-                        </Typography>
-                        <TextField 
-                            multiline
-                            rows={3}
-                            size='small' 
-                            fullWidth
-                            placeholder='remark'
-                            {...getFieldProps("remark")}
-                            error={Boolean(touched.remark && errors.remark)}
-                            helperText={touched.remark && errors.remark}
-                        />            
-                    </Stack>
-                    <Stack direction="column" spacing={1} sx={{mt:2}}>           
-                        <Button sx={{boxShadow: "none"}} type='submit' variant="contained">{btnTitle}</Button>
-                    </Stack>
-                </Form>    
-            </FormikProvider>
-        </Box>   
+                            <Stack direction="column" spacing={1} sx={{mt:2}}>
+                                <Typography className='header-title'>
+                                    Remark
+                                </Typography>
+                                <TextField 
+                                    multiline
+                                    rows={3}
+                                    size='small' 
+                                    fullWidth
+                                    placeholder='remark'
+                                    {...getFieldProps("remark")}
+                                    error={Boolean(touched.remark && errors.remark)}
+                                    helperText={touched.remark && errors.remark}
+                                />            
+                            </Stack>
+                            <Stack direction="column" spacing={1} sx={{mt:2}}>           
+                                <Button  className="btn-update" sx={{boxShadow: "none"}} type='submit' variant="contained">{btnTitle}</Button>
+                            </Stack>
+                        </Form>    
+                    </FormikProvider>
+                    
+            </DialogContentText>
+        </DialogContent>       
+    </Dialog>  
     );
 }

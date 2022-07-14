@@ -13,8 +13,10 @@ import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutli
 import ModalDeleteProduct from './ModalDeleteProduct';
 import CreateProduct from './CreateProduct';
 import UpdateProduct from './UpdateProduct';
+import PermissionContent from '../Permission/PermissionContent';
 
 export default function ProductAction({
+    dataUserLogin,
     editData,
     setAlert,
     setMessage,
@@ -41,42 +43,63 @@ export default function ProductAction({
         <IconButton onClick={handleClick}>
             <MoreVertIcon sx={{color:"#3C64F6"}}/>   
         </IconButton>
-        <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-                'aria-labelledby': 'basic-button',
-            }}
-        >
-            
-            <MenuItem onClick={()=> {
-                handleClose();
-                handleOpenEdit();
-            }}>
-                <Stack direction="row" spacing={1}>
-                    <EditIcon sx={{color:"Orange"}}/>
-                    <Typography>Edit</Typography>
-                </Stack> 
-            </MenuItem>         
-                 
-            <MenuItem  onClick={()=> {
-                handleClose();
-                handleOpenDelete();
-            }}>
-                <Stack direction="row" spacing={1}>
-                    <DeleteIcon sx={{color:"red"}}/>
-                    <Typography>Delete</Typography>
-                </Stack>    
-            </MenuItem>
 
-        </Menu>
+    {
+        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteProduct ||
+        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateProduct  ?
+
+            <>
+                <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                    }}
+                >
+                    
+                    {
+                        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateProduct ?
+                            <MenuItem onClick={()=> {
+                                handleClose();
+                                handleOpenEdit();
+                            }}>
+                                <Stack direction="row" spacing={1}>
+                                    <EditIcon sx={{color:"Blue"}}/>
+                                    <Typography>Edit</Typography>
+                                </Stack> 
+                            </MenuItem>
+                        : null
+                    }
+
+                    {
+                        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteProduct ?
+                            <MenuItem  onClick={()=> {
+                                handleClose();
+                                handleOpenDelete();
+                            }}>
+                                <Stack direction="row" spacing={1}>
+                                    <DeleteIcon sx={{color:"red"}}/>
+                                    <Typography>Delete</Typography>
+                                </Stack>    
+                            </MenuItem>
+                        : null
+                    }             
+
+                </Menu>
+            </>
+        :
+            null
+    }
 
         
-        <Modal open={openEdit} >
+
+        
+        {/* <Modal open={openEdit} > */}
             <UpdateProduct 
                 handleClose={handleCloseEdit}
+                open={openEdit}
                 btnTitle={"Update"}
                 editData={editData}
                 setAlert={setAlert}
@@ -84,18 +107,20 @@ export default function ProductAction({
                 setCheckMessage={setCheckMessage}
                 setRefetch={setRefetch}
             />
-        </Modal>
-        { /*  */}
-        <Modal open={openDelete} >
+        {/* </Modal> */}
+    
+    
+        {/* <Modal open={openDelete} > */}
             <ModalDeleteProduct 
                 handleClose={handleCloseDelete} 
+                open={openDelete}
                 editData={editData}
                 setAlert={setAlert}
                 setMessage={setMessage}
                 setCheckMessage={setCheckMessage}
                 setRefetch={setRefetch}
             />
-        </Modal>
+        {/* </Modal> */}
 
 
 

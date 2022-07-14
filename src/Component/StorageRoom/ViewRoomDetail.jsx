@@ -12,8 +12,16 @@ import { UPDATE_PURCHASE_RAW_MATERIAL } from "../../Schema/rawmaterial"
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_USER_LOGIN } from '../../Schema/user';
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+
 export default function ViewRoomDetail({
     handleClose, 
+    open,
     DataView,
 }) {
 
@@ -25,61 +33,84 @@ export default function ViewRoomDetail({
     console.log(DataView)
     
 return (
-    
-    <Box className='view-purchase' >
-        <Stack direction="row" spacing={2}>        
-            <Typography className='header-title' variant="h6" >
-                Product
-            </Typography>          
-            <Box sx={{flexGrow:1}}></Box>
-            <IconButton onClick={() => handleClose()}>
-                <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
-            </IconButton>    
-        </Stack>   
-        
-        <Stack direction="row" spacing={4} sx={{mt:-1}}>           
-            <Typography variant="body2">
-                Product's Information and Stock 
-            </Typography>
-        </Stack>
-          
-        <Stack direction="row" spacing={2} sx={{mt:2}}>        
-            <Typography className='header-title'>
-                Product Name:
-            </Typography>          
-            <Typography>
-                {DataView?.productName}
-            </Typography>
-            <Box sx={{width:15}}></Box>
-            <Typography className='header-title' >
-                In Stock:
-            </Typography>          
-            <Typography >
-                {DataView?.qtyInThisStorage} {DataView.unit}
-            </Typography>
-        </Stack> 
-        
-
-        <Stack direction='row' spacing={2} sx={{ mt: 2 }}> 
-            <Stack direction="column">
-                <Typography className="header-title"> Remark: </Typography>
+    <Dialog open={open} className="dialog-view-purchase">
+        <DialogTitle id="alert-dialog-title">
+            <Stack direction="row" spacing={2}>        
+                <Typography className='header-title' variant="h6" >
+                    Product
+                </Typography>          
+                <Box sx={{flexGrow:1}}></Box>
+                <IconButton onClick={() => handleClose()}>
+                    <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
+                </IconButton>    
+            </Stack>   
+            
+            <Stack direction="row" spacing={4} sx={{mt:-1}}>           
+                <Typography variant="body2">
+                    Product's Information and Stock 
+                </Typography>
             </Stack>
-            <Typography variant='body'> {DataView?.remark}</Typography>
-        </Stack>
+        </DialogTitle>
+        <DialogContent>
+            <DialogContentText id="alert-dialog-description">      
+                                  
+                <Stack direction="row" spacing={2} sx={{mt:2}} className="desktop-show">        
+                    <Typography className='sub-header-title'>
+                        Product Name:
+                    </Typography>          
+                    <Typography>
+                        {DataView?.productName}
+                    </Typography>
+                    <Box sx={{width:15}}></Box>
+                    <Typography className='sub-header-title'>
+                        In Stock:
+                    </Typography>          
+                    <Typography >
+                        {DataView?.qtyInThisStorage} {DataView.completedUnit}
+                    </Typography>
+                </Stack> 
 
-        <Stack direction="row" spacing={1} sx={{mt:1}}>  
-            <Box sx={{flexGrow:1}}></Box>
-            <Typography variant='body1' className="header-title">
-                Total:
-            </Typography>  
-            <Typography variant='body1'>
-                {DataView?.unitPrice*DataView?.qtyInThisStorage}$
-            </Typography>   
-        </Stack>
+                {/* responsive mobile */}
+                <Stack direction="column" spacing={2} sx={{mt:2}} className="desktop-show-mobile"> 
+                    <Stack direction="row" spacing={2}>   
+                        <Typography className='sub-header-title'>
+                            Product Name:
+                        </Typography>          
+                        <Typography>
+                            {DataView?.productName}
+                        </Typography>
+                    </Stack>    
+                    <Stack direction="row" spacing={2}>   
+                        <Typography className='sub-header-title'>
+                            In Stock:
+                        </Typography>          
+                        <Typography >
+                            {DataView?.qtyInThisStorage} {DataView.completedUnit}
+                        </Typography>
+                    </Stack>
+                </Stack>
+                {/* responsive mobile */}
+                
+                <Stack direction='row' spacing={2} sx={{ mt: 2 }}> 
+                    <Stack direction="column">
+                        <Typography className="sub-header-title"> Remark: </Typography>
+                    </Stack>
+                    <Typography variant='body'> {DataView?.remark}</Typography>
+                </Stack>
 
-                      
-        
-        
-    </Box>        
+                <Stack direction="row" spacing={1} sx={{mt:1}}>  
+                    <Box sx={{flexGrow:1}}></Box>
+                    <Typography variant='body1' className="sub-header-title">
+                        Total:
+                    </Typography>  
+                    <Typography variant='body1'>
+                    ${DataView?.unitPrice*DataView?.qtyInThisStorage}
+                    </Typography>   
+                </Stack>        
+                              
+            </DialogContentText>
+        </DialogContent>       
+    </Dialog>    
+          
   );
 }

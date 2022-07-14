@@ -5,14 +5,15 @@ import * as React from "react";
 import './inventoryreport.scss';
 import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined';
 import ReactToPrint from "react-to-print";
-import logo from "../../Assets/logo.svg";
+import logo from "../../Assets/CCI_invoice.png";
 import { GET_SALE_BYID } from "../../Schema/sales";
-import { GET_INVENTORY_REPORT } from "../../Schema/report";
+import { GET_SALE_REPORT } from "../../Schema/report";
 import { useQuery } from "@apollo/client";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
 
-const ComponentToPrint = () => {
+
+const ComponentToPrint = ({FromData , ToData}) => {
 
     //get Storage Room ID by Url 
     const location = useLocation();
@@ -24,34 +25,44 @@ const ComponentToPrint = () => {
     }, [location.search]);
     
     // get Sale Details
-    const [dataSale,setDataSale] = React.useState([]);
+    const [ dataSale , setDataSale ] = React.useState([]);
 
-    const { data , error } = useQuery(GET_SALE_BYID , {
+    const { data , error } = useQuery(GET_SALE_REPORT , {
         variables: {
-            id: id,
+            fromDate: FromData,
+            toDate:ToData,
         },
-        onCompleted: ({getSaleById}) => {
-            setDataSale(getSaleById)
+        onCompleted: ({getSaleReport}) => {
+            setDataSale(getSaleReport)
         },
     })
 
-    console.log(dataSale)
-    const item = [1,2,3]
+    console.log(dataSale , "dataSale")    
+
     return (
-        <Box  width="100%" height="800px" display="flex" flexDirection="column" justifyContent="center" sx={{backgroundColor:'#fff', padding: 3}}>
+        <Box  width="100%"  display="flex" flexDirection="column" justifyContent="center" sx={{backgroundColor:'#fff', padding: 3}}>
             <Box width="100%" >
                 <Grid container>
-                    <Grid item xs={12} display="flex" justifyContent="center">
-                        <Stack direction="column" justifyContent="center">
-                            <Stack direction="row" justifyContent="center">
-                                <Typography variant="body1" sx={{fontWeight: "bold"}}>CCS CAMBODIA</Typography>
-                            </Stack>
-                            <Stack direction="row" justifyContent="center">
-                                <Typography variant="body1" sx={{fontWeight: "bold"}}>Item Sold to Customers</Typography>
-                            </Stack>
-                            <Stack direction="row" justifyContent="center">
-                                <Typography variant="body1" sx={{fontWeight: "bold"}}>From Sep 01, 2020 to Sep 30, 2020</Typography>
-                            </Stack>
+                    <Grid item xs={12}>
+                        <Stack direction="row" display="flex" justifyContent="center" spacing={1} width="400px" sx={{position: "absolute" , zIndex: "1"}}>
+                            <img src={logo} alt="logo" width="60%"/>
+                        </Stack>
+                        <Stack direction="row" spacing={2}>                            
+                            <Box sx={{display: "flex" , justifyContent: "center" , width: "100%"}}>
+                                <Stack direction="column" justifyContent="center">
+                                    <Stack direction="row" justifyContent="center">
+                                        <Typography variant="body1" sx={{fontWeight: "bold"}}>CCS CAMBODIA</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="center">
+                                        <Typography variant="body1" sx={{fontWeight: "bold"}}>Production Report Summary</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="center">
+                                        <Typography variant="body1" sx={{fontWeight: "bold"}}>
+                                            From {moment(FromData).format("MMM DD, YYYY")} to {moment(ToData).format("MMM DD, YYYY")}
+                                        </Typography>
+                                    </Stack>
+                                </Stack>
+                            </Box>
                         </Stack>
                     </Grid>                    
 
@@ -61,7 +72,7 @@ const ComponentToPrint = () => {
                     </Grid>
         
                     <Grid item xs={12} sx={{mt:6}}>
-                        <Box width="100%">
+                        <Box width="100%" display="flex" flexDirection="column" justifyContent="center" >
                             <TableContainer className="table">
                                 <Table sx={{ width:"100%" }}>
                                     <TableBody className='header'>
@@ -76,7 +87,7 @@ const ComponentToPrint = () => {
                                                 <Typography variant="body2" className="text">Customer ID</Typography>
                                             </TableCell>
                                             <TableCell 
-                                                className="cell-item" width="15%"
+                                                className="cell-item" width="10%"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Name</Typography>
@@ -116,6 +127,13 @@ const ComponentToPrint = () => {
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
+                                                <Typography variant="body2" className="text">Sale Price</Typography>
+                                            </TableCell>
+                                            <TableCell 
+                                                align="center" width="6%"
+                                                className="cell-item"
+                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                            >
                                                 <Typography variant="body2" className="text">Amount</Typography>
                                             </TableCell> 
                                             <TableCell 
@@ -144,65 +162,370 @@ const ComponentToPrint = () => {
                                 </Table>
                             </TableContainer>
 
-                        {/* {
-                            dataSale?.items?.map( (item,index) => (
+                        {
+                            dataSale?.saleInfo?.map( (item,index) => (
                                 <TableContainer key={index} className="table">
                                     <Table sx={{ width:"100%" }}>
                                         <TableBody className='body'>
                                             <TableRow className="body-row">
+
                                                 <TableCell  
-                                                    className="cell-item" width="13%"
-                                                    sx={{border:"none" , padding: "8px"}}
+                                                    className="cell-item" width="8%"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text"  sx={{fontWeight: "bold"}} >
-                                                       {item?.productId?.productId}
-                                                    </Typography>
+                                                    <Typography variant="body2" className="text">{item?.customerId}</Typography>
                                                 </TableCell>
                                                 <TableCell 
-                                                    className="cell-item" width="40%"
-                                                    sx={{border:"none" , padding: "8px"}}
+                                                    className="cell-item" width="10%"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">
-                                                        {item?.productId?.productName}
-                                                    </Typography>
-                                                </TableCell>    
+                                                    <Typography variant="body2" className="text">{item?.name}</Typography>
+                                                </TableCell>         
 
                                                 <TableCell 
-                                                    align="center" width="13%"
+                                                    align="center" width="10%"
                                                     className="cell-item"
-                                                    sx={{border:"none" , padding: "8px"}}
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 > 
-                                                    <Typography variant="body2" className="text">
-                                                        {item?.qty}
-                                                    </Typography>
+                                                    <Typography variant="body2" className="text"> </Typography>
                                                 </TableCell>  
 
                                                 <TableCell 
-                                                    align="center"
-                                                    className="cell-item"  width="20%"
-                                                    sx={{border:"none" , padding: "8px"}}
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  ,   padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">
-                                                        {item?.unitPrice}
-                                                    </Typography>
+                                                    <Typography variant="body2" className="text"> </Typography>
                                                 </TableCell>   
                                                 <TableCell 
-                                                    align="center"
+                                                    align="center" width="10%"
                                                     className="cell-item"
-                                                    sx={{border:"none" , padding: "8px"}}
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">
-                                                        {item?.amount?.toFixed(2)}
-                                                    </Typography>
-                                                </TableCell>                                                        
-                                            </TableRow>                                                                  
+                                                    <Typography variant="body2" className="text"> </Typography>
+                                                </TableCell>      
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"> </Typography>
+                                                </TableCell> 
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"> </Typography>
+                                                </TableCell>
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"> </Typography>
+                                                </TableCell> 
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"> </Typography>
+                                                </TableCell> 
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"> </Typography>
+                                                </TableCell>  
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"> </Typography>
+                                                </TableCell>   
+
+                                            </TableRow>    
+
+                                            {
+                                                item?.invoiceInfo?.map((row,index) => (
+                                            <TableRow className="body-row">
+
+                                                <TableCell  
+                                                    className="cell-item" width="8%"
+                                                    sx={{border: "none"   , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"></Typography>
+                                                </TableCell>
+                                                <TableCell 
+                                                    className="cell-item" width="10%"
+                                                    sx={{border: "none"   , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"></Typography>
+                                                </TableCell>         
+
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none"   , padding: "8px"}}
+                                                > 
+                                                    <Typography variant="body2" className="text">CCI{moment(row?.date).format("YYYY")}-{row?.invoiceNumber?.padStart(4, '0')}</Typography>
+                                                </TableCell>  
+
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none"   ,   padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{moment(row?.date).format("DD/MMM/YYYY")}</Typography>
+                                                </TableCell>   
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none"   , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{row?.itemDescription}</Typography>
+                                                </TableCell>      
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none"   , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{row?.qty}</Typography>
+                                                </TableCell> 
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none"   , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{row?.salePrice}</Typography>
+                                                </TableCell>
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none"   , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{row?.amount}</Typography>
+                                                </TableCell> 
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none"   , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{row?.costOfSales?.toFixed(2)}</Typography>
+                                                </TableCell> 
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none"   , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{row?.grossMargin?.toFixed(2)}</Typography>
+                                                </TableCell>  
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none"   , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{row?.grossProfit?.toFixed(2)}</Typography>
+                                                </TableCell>   
+
+                                            </TableRow> 
+                                                ))
+                                            }         
+
+                                            <TableRow className="body-row">
+                                                <TableCell  
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"></Typography>
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow className="body-row">
+
+                                                <TableCell  
+                                                    className="cell-item" width="8%"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"></Typography>
+                                                </TableCell>
+                                                <TableCell 
+                                                    className="cell-item" width="10%"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"></Typography>
+                                                </TableCell>         
+
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                > 
+                                                    <Typography variant="body2" className="text"></Typography>
+                                                </TableCell>  
+
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  ,   padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"></Typography>
+                                                </TableCell>   
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"></Typography>
+                                                </TableCell>      
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{ color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{item?.totalQty}</Typography>
+                                                </TableCell> 
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{item?.totalSalePrice?.toFixed(2)}</Typography>
+                                                </TableCell>
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{item?.totalAmout?.toFixed(2)}</Typography>
+                                                </TableCell> 
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{item?.totalCostOfSales?.toFixed(2)}</Typography>
+                                                </TableCell> 
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{item?.totalGrossProfit?.toFixed(2)}</Typography>
+                                                </TableCell>  
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{item?.totalGrossMargin?.toFixed(2)}</Typography>
+                                                </TableCell>   
+
+                                            </TableRow> 
+
                                         </TableBody>                      
                                     </Table>
                                 </TableContainer>
                             ))
-                        }    */}
-                                 
-                            
+                        }   
+
+                                <TableContainer className="table">
+                                    <Table sx={{ width:"100%" }}>
+                                        <TableBody className='body'>
+                                            <TableRow className="body-row">                        
+                                                <TableCell  
+                                                    className="cell-item" width="8%"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"></Typography>
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow className="body-row">
+                        
+                                                <TableCell  
+                                                    className="cell-item" width="8%"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">Report Totals</Typography>
+                                                </TableCell>
+                                                <TableCell 
+                                                    className="cell-item" width="10%"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"></Typography>
+                                                </TableCell>         
+
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                > 
+                                                    <Typography variant="body2" className="text"></Typography>
+                                                </TableCell>  
+
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  ,   padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"></Typography>
+                                                </TableCell>   
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text"></Typography>
+                                                </TableCell>      
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{dataSale?.reportTotal?.totalQty}</Typography>
+                                                </TableCell> 
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{dataSale?.reportTotal?.totalSalePrice?.toFixed(2)}</Typography>
+                                                </TableCell>
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{dataSale?.reportTotal?.totalAmount?.toFixed(2)}</Typography>
+                                                </TableCell> 
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{dataSale?.reportTotal?.totalCostOfSales?.toFixed(2)}</Typography>
+                                                </TableCell> 
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{dataSale?.reportTotal?.totalGrossProfit?.toFixed(2)}</Typography>
+                                                </TableCell>  
+                                                <TableCell 
+                                                    align="center" width="6%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{dataSale?.reportTotal?.totalGrossMargin?.toFixed(2)}</Typography>
+                                                </TableCell>  
+
+                                            </TableRow> 
+                                        </TableBody>                      
+                                    </Table>
+                                </TableContainer>
                         </Box>              
                     </Grid>
 
@@ -228,7 +551,7 @@ const ComponentToPrint = () => {
     )
 }
 
-export default function SaleReport() {
+export default function SaleReport({FromData , ToData}) {
 
     const componentRef = React.useRef(null);
     
@@ -247,7 +570,10 @@ export default function SaleReport() {
                     }}
                 >
 
-                    <ComponentToPrint/>
+                    <ComponentToPrint
+                        FromData={FromData}
+                        ToData={ToData}
+                    />
 
                 </Box>  
                               

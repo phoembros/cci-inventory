@@ -1,5 +1,34 @@
 @import '../../themes.scss';
 
+
+.dialog-delete-sale {
+
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        width: 400px !important;
+    }
+
+    .title{
+        font-weight: bold;
+        color: $primary-color;  
+    }
+    .body-title {
+        color: $primary-color;
+    }
+
+    .body-void {
+        color: $primary-color;
+        text-transform: none;   
+        font-weight: bold;     
+    }
+
+    .btn-void {
+        background-color: red;
+        color: white;
+        border: none;
+    }
+
+}
 .delete-sale{
 
     position: absolute;

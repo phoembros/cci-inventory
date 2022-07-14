@@ -12,8 +12,16 @@ import {CREATE_RAW_MATERAIL, GET_RAW_GETEGORY_PAGINATION, UPDATE_RAW_MATERAIL} f
 import {useMutation , useQuery} from "@apollo/client";
 import { GET_RAW_MATERIAL_UNIT } from '../../Schema/rawmaterial';
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+
 export default function CreateRawMaterials({
   handleClose,
+  open,
   btnTitle,
   setAlert,
   setMessage,
@@ -163,174 +171,185 @@ export default function CreateRawMaterials({
   const { errors, touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm } = formik;
 
   return (
-    <Box className="create-raw-material">
-      <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Stack direction="row" spacing={5}>
-            <Typography className="header-title" variant="h6">
-              Raw Material
-            </Typography>
-            <Box sx={{ flexGrow: 1 }}></Box>
-            <IconButton onClick={() => handleClose()}>
-              <DoDisturbOnOutlinedIcon sx={{ color: "red" }} />
-            </IconButton>
-          </Stack>
-          
-          <Stack direction="row" spacing={5} width="100%">
-            <Box sx={{ width: "45%" }}>
-              {
-                checkStatus === "create" ?
-                  <Autocomplete                      
-                      disablePortal
-                      sx={{ width: 300 }}
-                      options={categoryMaterail}                                                
-                      onChange={(event, value) =>  setFieldValue("categoryId" , value?._id) }
-                      renderInput={(params) => 
-                          <TextField 
-                              {...params} placeholder='category' size="small" 
-                              error={Boolean(touched.categoryId && errors.categoryId)}
-                              helperText={touched.categoryId && errors.categoryId}
-                          /> 
-                      }
-                  /> 
-                :
-                  <Autocomplete                      
-                      disablePortal
-                      sx={{ width: 300 }}
-                      options={categoryMaterail}                
-                      value={valueTest}
-                      getOptionSelected={(option, value) => option._id === value._id }               
-                      onChange={(event, value) => {
-                          setValueTest(value);
-                          setFieldValue("categoryId" , value?._id)
-                      }}
-                      renderInput={(params) => 
-                          <TextField 
-                              {...params}  placeholder='category' size="small" 
-                              error={Boolean(touched.categoryId && errors.categoryId)}
-                              helperText={touched.categoryId && errors.categoryId}
-                          /> 
-                      }
-                  /> 
-              }
-              
-            </Box>
-          </Stack>
 
-          <Box className="container">
-            <TableContainer>
-              <Table className="table-top" aria-label="simple table">
-                <TableHead>
-                  <TableRow className="header-row">
-                    <TableCell className="header-title">
-                        Material Name
-                    </TableCell>
-                    <TableCell className="header-title" width="3%"></TableCell>
-                    <TableCell className="header-title" align="center">
-                        UnitPrice
-                    </TableCell>
-                    <TableCell className="header-title" width="3%"></TableCell>
-                    <TableCell className="header-title" align="center">
-                        Unit
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
+      <Dialog open={open} className="dialog-create-raw-material">
+            <DialogTitle id="alert-dialog-title">
+                  <Stack direction="row" spacing={5}>
+                        <Typography className="header-title" variant="h6">
+                          Raw Material
+                        </Typography>
+                        <Box sx={{ flexGrow: 1 }}></Box>
+                        <IconButton onClick={() => handleClose()}>
+                          <DoDisturbOnOutlinedIcon sx={{ color: "red" }} />
+                        </IconButton>
+                  </Stack> 
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">  
 
-                <TableBody component={Paper} className="body">
-                  <TableRow className="body-row">
-                    <TableCell
-                      className="body-title"
-                      component="th"
-                      scope="row"
-                      width="40%"
-                    >
-                      <TextField
-                        size="small"
-                        fullWidth
-                        placeholder='materialName'
-                        {...getFieldProps("materialName")}
-                        error={Boolean(
-                          touched.materialName && errors.materialName
-                        )}
-                        helperText={touched.materialName && errors.materialName}
-                      />
-                    </TableCell>
-                    <TableCell className="body-title"></TableCell>
-                    <TableCell
-                      className="body-title"
-                      component="th"
-                      scope="row"
-                      width="15%"
-                    >
-                      <TextField
-                        size="small"
-                        type="number"
-                        fullWidth                        
-                        {...getFieldProps("unitPrice")}
-                        error={Boolean(touched.unitPrice && errors.unitPrice)}
-                        helperText={touched.unitPrice && errors.unitPrice}                      
-                        InputProps={{                                 
-                          inputProps: { min: 1 },
-                        }}
-                      />
-                    </TableCell>
+                      
+                        <FormikProvider value={formik}>
+                          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                            
+                            
+                            <Stack direction="row" spacing={5} width="100%">
+                              <Box sx={{ width: "45%" }}>
+                                {
+                                  checkStatus === "create" ?
+                                    <Autocomplete                      
+                                        disablePortal
+                                        sx={{ width: 300 }}
+                                        options={categoryMaterail}                                                
+                                        onChange={(event, value) =>  setFieldValue("categoryId" , value?._id) }
+                                        renderInput={(params) => 
+                                            <TextField 
+                                                {...params} placeholder='category' size="small" 
+                                                error={Boolean(touched.categoryId && errors.categoryId)}
+                                                helperText={touched.categoryId && errors.categoryId}
+                                            /> 
+                                        }
+                                    /> 
+                                  :
+                                    <Autocomplete                      
+                                        disablePortal
+                                        sx={{ width: 300 }}
+                                        options={categoryMaterail}                
+                                        value={valueTest}
+                                        getOptionSelected={(option, value) => option._id === value._id }               
+                                        onChange={(event, value) => {
+                                            setValueTest(value);
+                                            setFieldValue("categoryId" , value?._id)
+                                        }}
+                                        renderInput={(params) => 
+                                            <TextField 
+                                                {...params}  placeholder='category' size="small" 
+                                                error={Boolean(touched.categoryId && errors.categoryId)}
+                                                helperText={touched.categoryId && errors.categoryId}
+                                            /> 
+                                        }
+                                    /> 
+                                }
+                                
+                              </Box>
+                            </Stack>
 
-                    <TableCell className="body-title"></TableCell>
-                    <TableCell
-                      className="body-title"
-                      width="15%"
-                      align="center"
-                    >
-                      <FormControl fullWidth size="small">
-                        <Select  
-                          {...getFieldProps("unit")}    
-                          error={Boolean(touched.unit && errors.unit)}
-                          helperText={touched.unit && errors.unit}
-                        >
-                          {
-                            unitRawMaterial.map( (item) => (
-                                  <MenuItem value={item}>{item}</MenuItem> 
-                            ))
-                          }                                                  
-                        
-                        </Select>
-                      </FormControl>
+                            <Box className="container">
+                              <TableContainer>
+                                <Table className="table-top" aria-label="simple table">
+                                  <TableHead>
+                                    <TableRow className="header-row">
+                                      <TableCell className="header-title">
+                                          Material Name
+                                      </TableCell>
+                                      <TableCell className="header-title" width="3%"></TableCell>
+                                      <TableCell className="header-title" align="center">
+                                          UnitPrice
+                                      </TableCell>
+                                      <TableCell className="header-title" width="3%"></TableCell>
+                                      <TableCell className="header-title" align="center">
+                                          Unit
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableHead>
 
-                      {!!errors.unit && (
-                          <FormHelperText error id="outlined-adornment-email">
-                              {errors.unit}
-                          </FormHelperText>
-                      )} 
+                                  <TableBody component={Paper} className="body">
+                                    <TableRow className="body-row">
+                                      <TableCell
+                                        className="body-title"
+                                        component="th"
+                                        scope="row"
+                                        width="40%"
+                                      >
+                                        <TextField
+                                          size="small"
+                                          fullWidth
+                                          placeholder='materialName'
+                                          {...getFieldProps("materialName")}
+                                          error={Boolean(
+                                            touched.materialName && errors.materialName
+                                          )}
+                                          helperText={touched.materialName && errors.materialName}
+                                        />
+                                      </TableCell>
+                                      <TableCell className="body-title"></TableCell>
+                                      <TableCell
+                                        className="body-title"
+                                        component="th"
+                                        scope="row"
+                                        width="15%"
+                                      >
+                                        <TextField
+                                          size="small"
+                                          type="number"
+                                          fullWidth                        
+                                          {...getFieldProps("unitPrice")}
+                                          error={Boolean(touched.unitPrice && errors.unitPrice)}
+                                          helperText={touched.unitPrice && errors.unitPrice}                      
+                                          InputProps={{                                 
+                                            inputProps: { min: 1 },
+                                          }}
+                                        />
+                                      </TableCell>
 
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
+                                      <TableCell className="body-title"></TableCell>
+                                      <TableCell
+                                        className="body-title"
+                                        width="15%"
+                                        align="center"
+                                      >
+                                        <FormControl fullWidth size="small">
+                                          <Select  
+                                            {...getFieldProps("unit")}    
+                                            error={Boolean(touched.unit && errors.unit)}
+                                            helperText={touched.unit && errors.unit}
+                                          >
+                                            {
+                                              unitRawMaterial.map( (item) => (
+                                                    <MenuItem value={item}>{item}</MenuItem> 
+                                              ))
+                                            }                                                  
+                                          
+                                          </Select>
+                                        </FormControl>
 
-          <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-            <Typography className="header-title">Remark</Typography>
-            <TextField
-              multiline
-              rows={3}
-              size="small"
-              fullWidth
-              type="text"
-              placeholder="remark"
-              {...getFieldProps("remark")}
-              error={Boolean(touched.remark && errors.remark)}
-              helperText={touched.remark && errors.remark}
-            />
-          </Stack>
+                                        {!!errors.unit && (
+                                            <FormHelperText error id="outlined-adornment-email">
+                                                {errors.unit}
+                                            </FormHelperText>
+                                        )} 
 
-          <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-            <Button sx={{boxShadow: "none"}} type="submit" variant="contained">
-              {btnTitle}
-            </Button>
-          </Stack>
-        </Form>
-      </FormikProvider>
-    </Box>
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Box>
+
+                            <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                              <Typography className="header-title">Remark</Typography>
+                              <TextField
+                                multiline
+                                rows={3}
+                                size="small"
+                                fullWidth
+                                type="text"
+                                placeholder="remark"
+                                {...getFieldProps("remark")}
+                                error={Boolean(touched.remark && errors.remark)}
+                                helperText={touched.remark && errors.remark}
+                              />
+                            </Stack>
+
+                            <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                              <Button sx={{boxShadow: "none"}} type="submit" className='btn-create'>
+                                {btnTitle}
+                              </Button>
+                            </Stack>
+                          </Form>
+                        </FormikProvider>
+                      
+              </DialogContentText>
+        </DialogContent>       
+    </Dialog>    
   );
 }

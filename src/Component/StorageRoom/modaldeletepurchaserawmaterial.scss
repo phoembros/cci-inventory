@@ -1,5 +1,41 @@
 @import '../../themes.scss';
 
+.dialog-delete-storageRoom {
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        width: 450px !important;
+    }
+
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+
+    .body-title {
+        color: $primary-color;
+    }
+
+    .body-void {
+        color: $secondary-color;
+        text-transform: none;   
+        font-weight: bold;     
+    }
+
+    
+    .btn-void {           
+        background-color: red;
+        color: white;
+        border: none;
+        
+        :hover {
+            background-color: red !important;
+            color: white !important;
+            border: none;
+        }
+    }
+    
+}
+
 .delete-raw-material {
 
     position: absolute;
@@ -10,7 +46,7 @@
     background-color: #fff;
     box-shadow: 30px;
     border-radius: 10px;
-    padding: 20px;
+    padding: 20px;    
 
 
     .header-title {
@@ -23,7 +59,7 @@
     }
 
     .body-void {
-        color: $primary-color;
+        color: $secondary-color;
         text-transform: uppercase;   
         font-weight: bold;     
     }

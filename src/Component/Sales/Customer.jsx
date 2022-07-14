@@ -17,9 +17,14 @@ import {useQuery} from "@apollo/client";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import CustomerOwe from "./CustomerOwe";  
+import {GET_USER_LOGIN} from "../../Schema/user"
+import PermissionContent from "../Permission/PermissionContent";
 
 export default function Customer() {
+
+    const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+  // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -83,7 +88,7 @@ export default function Customer() {
                 className="text-field"
                 fullWidth
                 id="input-with-sx"
-                placeholder="Search Dashboard"
+                placeholder="Customer Name"
                 size="small"
                 InputProps={{
                   startAdornment: (
@@ -95,22 +100,29 @@ export default function Customer() {
               />
             </Box>
 
-            <Button
-              onClick={handleOpen}
-              startIcon={<AddIcon />}
-              className="btn-add"
-            >
-              <Typography className="btn-text">Add</Typography>
-            </Button>
-            <Modal open={open}>
+            {
+              dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createCustomer ?
+                <Button
+                  onClick={handleOpen}
+                  startIcon={<AddIcon />}
+                  className="btn-add"
+                >
+                  <Typography className="btn-text">Add</Typography>
+                </Button>
+              : null
+            }
+            
+            {/* <Modal open={open}> */}
               <CustomerSetup
                 setRefetch={refetch}
+                open={open}
                 setAlert={setAlert}
                 setMessage={setMessage}
                 setCheckMessage={setCheckMessage}
                 handleClose={handleClose}
+                
               />
-            </Modal>
+            {/* </Modal> */}
           </Stack>
         </Stack>
 
@@ -121,140 +133,171 @@ export default function Customer() {
             </Box>
 
         :        
+          <>
+              {
+                dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getCustomerPagination ?
+                  <>
+                      <Box className="container">
+                          <TableContainer className="table-container">
+                            <Table className="table" aria-label="simple table">
+                              <TableHead>
+                                <TableRow className="header-row">
+                                  <TableCell className="header-title">ID</TableCell>
+                                  <TableCell className="header-title">Name</TableCell>
+                                  <TableCell className="header-title">Phone Number</TableCell>
+                                  <TableCell className="header-title">Email</TableCell>
+                                  <TableCell className="header-title">Address</TableCell>
+                                  <TableCell className="header-title">
+                                    {
+                                      dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getOweCustomer ?
+                                        <>
+                                            Owe
+                                        </>
+                                      :
+                                        null
+                                    }                              
+                                  </TableCell>
+                                  <TableCell className="header-title" align="center"></TableCell>
+                                </TableRow>
+                              </TableHead>                        
 
-        <Box className="container">
-          <TableContainer>
-            <Table className="table" aria-label="simple table">
-              <TableHead>
-                <TableRow className="header-row">
-                  <TableCell className="header-title">Name</TableCell>
-                  <TableCell className="header-title">Phone Number</TableCell>
-                  <TableCell className="header-title">Email</TableCell>
-                  <TableCell className="header-title">Address</TableCell>
-                  <TableCell className="header-title">Owe</TableCell>
-                  <TableCell
-                    className="header-title"
-                    align="center"
-                  ></TableCell>
-                </TableRow>
-              </TableHead>                        
+                              { data?.getCustomerPagination?.customers?.map((row, index) => (
 
-              { data?.getCustomerPagination?.customers?.map((row, index) => (
+                                <TableBody
+                                    key={index}
+                                    component={Paper}
+                                    className={index % 2 === 0 ? "body" : "body-odd"}
+                                >
+                                  <TableRow className="body-row">
+                                    <TableCell
+                                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
+                                      className="body-title"
+                                      component="th"
+                                      width="10%"
+                                    >
+                                      {row?.cusId}
+                                    </TableCell>
+                                    <TableCell
+                                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
+                                      className="body-title"
+                                      component="th"
+                                      width="30%"
+                                    >
+                                      {row?.name}
+                                    </TableCell>
+                                    <TableCell
+                                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
+                                      className="body-title"
+                                      component="th"
+                                      scope="row"
+                                      width="15%"
+                                    >
+                                    {row.phoneNumber}
+                                    </TableCell>
+                                    <TableCell
+                                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
+                                      className="body-title"
+                                      component="th"
+                                      scope="row"
+                                      width="15%"
+                                    >
+                                      {row.email}
+                                    </TableCell>
+                                    <TableCell
+                                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
+                                      className="body-title"
+                                      width="30%"
+                                    >
+                                      {row.address}
+                                    </TableCell>
+                                    <TableCell
+                                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
+                                      className="body-title"
+                                      width="45%"
+                                    >
+                                      {
+                                        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getOweCustomer ?
+                                          <>
+                                              <CustomerOwe  dataOwe={row?._id}/>
+                                          </>
+                                        :
+                                          null
+                                      }                                      
 
-                <TableBody
-                  key={index}
-                  component={Paper}
-                  className={index % 2 === 0 ? "body" : "body-odd"}
-                >
-                  <TableRow className="body-row">
-                    <TableCell
-                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
-                      className="body-title"
-                      component="th"
-                      width="30%"
-                    >
-                      {index + 1}- {row.name}
-                    </TableCell>
-                    <TableCell
-                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
-                      className="body-title"
-                      component="th"
-                      scope="row"
-                      width="15%"
-                    >
-                     {row.phoneNumber}
-                    </TableCell>
-                    <TableCell
-                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
-                      className="body-title"
-                      component="th"
-                      scope="row"
-                      width="15%"
-                    >
-                      {row.email}
-                    </TableCell>
-                    <TableCell
-                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
-                      className="body-title"
-                      width="30%"
-                    >
-                      {row.address}
-                    </TableCell>
-                    <TableCell
-                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
-                      className="body-title"
-                      width="45%"
-                    >
-                      ${350+index}.00
-                    </TableCell>
-                    <TableCell className="body-title" align="right">
-                      <CustomerAction 
-                        setRefetch={refetch}
-                        DataCustomer={row}
-                        setAlert={setAlert}
-                        setMessage={setMessage}
-                        setCheckMessage={setCheckMessage}
-                        handleClose={handleClose}
-                        />
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              ))} 
-              
-            </Table>
-          </TableContainer>
+                                    </TableCell>
+                                    <TableCell className="body-title" align="right">
+                                      <CustomerAction 
+                                        dataUserLogin={dataUserLogin}
+                                        setRefetch={refetch}
+                                        DataCustomer={row}
+                                        setAlert={setAlert}
+                                        setMessage={setMessage}
+                                        setCheckMessage={setCheckMessage}
+                                        handleClose={handleClose}
+                                        />
+                                    </TableCell>
+                                  </TableRow>
+                                </TableBody>
+                              ))} 
+                              
+                            </Table>
+                          </TableContainer>
 
 
-          <Stack direction="row" justifyContent="right" spacing={2}>
-            <IconButton
-                disabled={
-                  data?.getCustomerPagination?.paginator?.next === null
-                    ? true
-                    : false
-                }
-                onClick={() =>
-                    setPage(data?.getCustomerPagination?.paginator?.next)
-                }
-            >
-              <ArrowBackIosNewIcon />
-            </IconButton>
-            <Stack direction="column" justifyContent="center">
-              <Pagination
-                  page={pageShow}
-                  hideNextButton={true}
-                  hidePrevButton={true}
-                  count={data?.getCustomerPagination?.paginator?.totalPages}
-                  variant="outlined"
-                  color="primary"
-                  onChange={(event) =>
-                      setPage(parseInt(event?.target?.textContent))
-                  }
-              />
-            </Stack>
+                          <Stack direction="row" justifyContent="right" spacing={2}>
+                            <IconButton
+                                disabled={
+                                  data?.getCustomerPagination?.paginator?.next === null
+                                    ? true
+                                    : false
+                                }
+                                onClick={() =>
+                                    setPage(data?.getCustomerPagination?.paginator?.next)
+                                }
+                            >
+                              <ArrowBackIosNewIcon />
+                            </IconButton>
+                            <Stack direction="column" justifyContent="center">
+                              <Pagination
+                                  page={pageShow}
+                                  hideNextButton={true}
+                                  hidePrevButton={true}
+                                  count={data?.getCustomerPagination?.paginator?.totalPages}
+                                  variant="outlined"
+                                  color="primary"
+                                  onChange={(event) =>
+                                      setPage(parseInt(event?.target?.textContent))
+                                  }
+                              />
+                            </Stack>
 
-            <IconButton
-                disabled={
-                  data?.getCustomerPagination?.paginator?.prev === null
-                    ? true
-                    : false
-                }
-                onClick={() =>
-                    setPage(data?.getCustomerPagination?.paginator?.prev)
-                }
-            >
-              <ArrowForwardIosIcon />
-            </IconButton> 
-          </Stack>
-           
+                            <IconButton
+                                disabled={
+                                  data?.getCustomerPagination?.paginator?.prev === null
+                                    ? true
+                                    : false
+                                }
+                                onClick={() =>
+                                    setPage(data?.getCustomerPagination?.paginator?.prev)
+                                }
+                            >
+                              <ArrowForwardIosIcon />
+                            </IconButton> 
+                          </Stack>
+                          
 
-        </Box>
-
+                        </Box>
+                  </>
+                :
+                  <PermissionContent />
+              }
+          </>        
       }
             
 
-        <Modal open={openView}>
-          <ViewCustomer handleCloseView={handleCloseView} DetailsData={DetailsData} />
-        </Modal>
+        {/* <Modal open={openView}> */}
+          <ViewCustomer open={openView} handleCloseView={handleCloseView} DetailsData={DetailsData} />
+        {/* </Modal> */}
 
         <AlertMessage
           alert={alert}

@@ -7,11 +7,18 @@ import './suppliesadd.scss';
 import {useMutation} from "@apollo/client";
 import {CREATE_NEW_SUPPLIES} from "../../Schema/supplies";
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 
 export default function SuppliesAdd({
     setAlert,
     setMessage,
     setCheckMessage,
+    open,
     handleClose,     
     setRefetch,
 }) {
@@ -25,7 +32,11 @@ export default function SuppliesAdd({
           setMessage(createSupplier?.message);
           handleClose();   
           setRefetch();
-        }         
+        } else {
+          setAlert(true)
+          setCheckMessage('error');
+          setMessage(createSupplier?.message);
+        }      
     }, 
     onError: (error) => {
       // console.log(error.message)
@@ -66,9 +77,9 @@ export default function SuppliesAdd({
   const {errors,touched, values,  isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm,} = formik;    
 
   return (
-       <FormikProvider value={formik}>
-          <Form noValidate autoComplete='off' onSubmit={handleSubmit} >
-            <Box spacing={5} className="supplies" >
+
+    <Dialog open={open} className="dialog-create-supplies">
+        <DialogTitle id="alert-dialog-title">
                 <Stack direction="row" spacing={2}> 
                         <Typography variant='h6' className="title" > Supplies </Typography> 
                         <Box sx={{flexGrow:1}}/>
@@ -77,67 +88,81 @@ export default function SuppliesAdd({
                         </IconButton>    
                 </Stack>
 
-                <Stack direction="row" spacing={5} sx={{mb:2}}>
+                <Stack direction="row" spacing={5} sx={{mb:1}}>
                     <Typography variant='body2'>Please input each field below</Typography>
-                </Stack>
+                </Stack>  
+        </DialogTitle>
+        <DialogContent>
+            <DialogContentText id="alert-dialog-description">   
 
-                <Stack direction="column" spacing={2} >
-                    <Grid xs={12} md={12}>
-                        <Typography className="Sub-title">Name</Typography>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            placeholder='Name'
-                            {...getFieldProps("name")}
-                            error={Boolean(touched.name && errors.name)}
-                            helperText={touched.name && errors.name}
-                        />
-                    </Grid>                    
+
+                <FormikProvider value={formik}>
+                    <Form noValidate autoComplete='off' onSubmit={handleSubmit} >
                      
-                    <Grid xs={12} md={12}>
-                      <Typography className="Sub-title"> Email </Typography>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            placeholder='Email'
-                            {...getFieldProps("email")}
-                            error={Boolean(touched.email && errors.email)}
-                            helperText={touched.email && errors.email}
-                        />
-                    </Grid>
+                          
 
-                    <Grid xs={12} md={12}>
-                      <Typography className="Sub-title"> Phone Number </Typography>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            placeholder='Phone Number'
-                            {...getFieldProps("phoneNumber")}
-                            error={Boolean(touched.phoneNumber && errors.phoneNumber)}
-                            helperText={touched.phoneNumber && errors.phoneNumber}
-                        />
-                    </Grid>
+                          <Stack direction="column" spacing={2} >
+                              <Grid xs={12} md={12}>
+                                  <Typography className="Sub-title">Name</Typography>
+                                  <TextField
+                                      size="small"
+                                      fullWidth
+                                      placeholder='Name'
+                                      {...getFieldProps("name")}
+                                      error={Boolean(touched.name && errors.name)}
+                                      helperText={touched.name && errors.name}
+                                  />
+                              </Grid>                    
+                              
+                              <Grid xs={12} md={12}>
+                                <Typography className="Sub-title"> Email </Typography>
+                                  <TextField
+                                      size="small"
+                                      fullWidth
+                                      placeholder='Email'
+                                      {...getFieldProps("email")}
+                                      error={Boolean(touched.email && errors.email)}
+                                      helperText={touched.email && errors.email}
+                                  />
+                              </Grid>
 
-                    <Grid xs={12} >
-                      <Typography className="Sub-title"> Address </Typography>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            placeholder='address'
-                            {...getFieldProps("address")}
-                            error={Boolean(touched.address && errors.address)}
-                            helperText={touched.address && errors.address}
-                        />
-                    </Grid>
-                    
-                    <Stack direction='row' spacing={2}>
-                        <Button sx={{boxShadow: "none"}}  variant='contained' fullWidth type='submit'>
-                            Add    
-                        </Button>
-                    </Stack>
-              </Stack>
-            </Box>
-        </Form>
-      </FormikProvider>
+                              <Grid xs={12} md={12}>
+                                <Typography className="Sub-title"> Phone Number </Typography>
+                                  <TextField
+                                      size="small"
+                                      fullWidth
+                                      placeholder='Phone Number'
+                                      {...getFieldProps("phoneNumber")}
+                                      error={Boolean(touched.phoneNumber && errors.phoneNumber)}
+                                      helperText={touched.phoneNumber && errors.phoneNumber}
+                                  />
+                              </Grid>
+
+                              <Grid xs={12} >
+                                <Typography className="Sub-title"> Address </Typography>
+                                  <TextField
+                                      size="small"
+                                      fullWidth
+                                      placeholder='address'
+                                      {...getFieldProps("address")}
+                                      error={Boolean(touched.address && errors.address)}
+                                      helperText={touched.address && errors.address}
+                                  />
+                              </Grid>
+                              
+                              <Stack direction='row' spacing={2}>
+                                  <Button className="btn-createsp" sx={{boxShadow: "none"}}  variant='contained' fullWidth type='submit'>
+                                      Add    
+                                  </Button>
+                              </Stack>
+                        </Stack>
+                      
+                  </Form>
+                </FormikProvider>
+
+            </DialogContentText>
+        </DialogContent>       
+    </Dialog>     
+
   )
 }

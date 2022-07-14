@@ -7,8 +7,16 @@ import { useMutation, useQuery } from "@apollo/client";
 import { GET_USER_LOGIN } from '../../Schema/user';
 import { COMPLETE_PURCHASE } from "../../Schema/rawmaterial";
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+
 export default function ModalCheckPurchase({
     handleClose,
+    open,
     editData,
     setAlert,
     setMessage,
@@ -56,87 +64,97 @@ export default function ModalCheckPurchase({
     }
 
     return (
-        <Box className="purchase-check">
-            <Stack direction="row" spacing={5}>                 
-                <Typography className='header-title' variant="h6" >
-                    Comfirm Purchase.
-                </Typography>             
-                <Box sx={{flexGrow:1}}></Box>
-                <IconButton onClick={() => handleClose()}>
-                    <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
-                </IconButton>    
-            </Stack> 
-
-            <Box className="container">
-                <TableContainer >
-                    <Table className="table" aria-label="simple table">
-                    <TableHead>
-                        <TableRow className="header-row">
-                        <TableCell className="header-title">
-                            Raw Materail
-                        </TableCell>
-                        
-                        <TableCell className="header-title" align="center">
-                            QTY
-                        </TableCell>
-                        
-                        <TableCell className="header-title" align="center">
-                            UnitPrice
-                        </TableCell>
-                        
-                        <TableCell className="header-title" align="center">
-                            Supplies
-                        </TableCell>
-                        
-                        </TableRow>
-                    </TableHead>
-                        {editData?.productsItems.map((row , index) => (
-                            <TableBody key={index} component={Paper} className="body" >                        
-                                <TableRow  className="body-row">                                
-                                    <TableCell className="body-title" component="th" scope="row">{row?.rawMaterialId?.materialName}</TableCell>
-                                    <TableCell className="body-title"  align="center" width="20%">{row?.newQty}</TableCell>  
-                                    <TableCell className="body-title"  align="center" width="20%" >{row?.rawMaterialId?.unitPrice} </TableCell>
-                                    <TableCell className="body-title"  align="center" width="20%">{row?.suppliersName}</TableCell> 
-                                    <TableCell className="body-title" ></TableCell>
-                                    <TableCell className="body-title" ></TableCell>                                                  
+        <Dialog open={open} className="dialog-check-purchase">
+            <DialogTitle id="alert-dialog-title">
+                <Stack direction="row" spacing={5}>                 
+                    <Typography className='header-title' variant="h6" >
+                        Comfirm Purchase.
+                    </Typography>             
+                    <Box sx={{flexGrow:1}}></Box>
+                    <IconButton onClick={() => handleClose()}>
+                        <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
+                    </IconButton>    
+                </Stack> 
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">     
+                               
+                    <Box className="container">
+                        <TableContainer >
+                            <Table className="table" aria-label="simple table">
+                            <TableHead>
+                                <TableRow className="header-row">
+                                <TableCell className="header-title">
+                                    Raw Materail
+                                </TableCell>
+                                
+                                <TableCell className="header-title" align="center">
+                                    QTY
+                                </TableCell>
+                                
+                                <TableCell className="header-title" align="center">
+                                    UnitPrice
+                                </TableCell>
+                                
+                                <TableCell className="header-title" align="center">
+                                    Supplies
+                                </TableCell>
+                                
                                 </TableRow>
-                            </TableBody>                        
-                        ))}                        
+                            </TableHead>
+                                {editData?.productsItems.map((row , index) => (
+                                    <TableBody key={index} component={Paper} className="body" >                        
+                                        <TableRow  className="body-row">                                
+                                            <TableCell className="body-title" component="th" scope="row">{row?.rawMaterialId?.materialName}</TableCell>
+                                            <TableCell className="body-title"  align="center" width="20%">{row?.newQty}</TableCell>  
+                                            <TableCell className="body-title"  align="center" width="20%" >{row?.rawMaterialId?.unitPrice} </TableCell>
+                                            <TableCell className="body-title"  align="center" width="20%">{row?.suppliersName}</TableCell> 
+                                            <TableCell className="body-title" ></TableCell>
+                                            <TableCell className="body-title" ></TableCell>                                                  
+                                        </TableRow>
+                                    </TableBody>                        
+                                ))}                        
 
-                    </Table>
-                </TableContainer>
-            </Box>
+                            </Table>
+                        </TableContainer>
+                    </Box>
 
-            <Box sx={{mt:2}}>
-                <Typography className='body-title' variant="body" >
-                    Update Status
-                </Typography>
-            </Box>
-            
-            <FormControl fullWidth size="small" >         
-                <Select                     
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"  
-                    defaultValue={"completed"}                  
-                    onChange={(e) => setQualityCheck("completed")}
-                >
-                    {/* <MenuItem value="in progress">
-                        <Typography>In progress</Typography>                        
-                    </MenuItem> */}
-                    <MenuItem value="completed">
-                        <Typography>Completed</Typography>                                           
-                    </MenuItem>                    
-                </Select>
-            </FormControl>
+                    <Box sx={{mt:2}}>
+                        <Typography className='sub-header-title' variant="body" >
+                            Update Status
+                        </Typography>
+                    </Box>
+                    
+                    <FormControl fullWidth size="small" >         
+                        <Select                     
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"  
+                            defaultValue={"completed"}                  
+                            onChange={(e) => setQualityCheck("completed")}
+                        >
+                            {/* <MenuItem value="in progress">
+                                <Typography>In progress</Typography>                        
+                            </MenuItem> */}
+                            <MenuItem value="completed">
+                                <Typography>Completed</Typography>                                           
+                            </MenuItem>                    
+                        </Select>
+                    </FormControl>
 
-            
-            
-            <Stack direction="row" spacing={5} sx={{mt:3}}>
-                <Box sx={{flexGrow:1}}></Box>
-                <Button sx={{boxShadow: "none"}} variant="contained" color="error">Cancel</Button> 
-                <Button sx={{boxShadow: "none"}} variant="contained" onClick={handleUpdateStatus}>Ok</Button> 
-            </Stack> 
+                    
+                    
+                    <Stack direction="row" spacing={5} sx={{mt:3}}>
+                        <Box sx={{flexGrow:1}}></Box>
+                        <Button sx={{boxShadow: "none"}} variant="contained" onClick={handleClose} color="error">Cancel</Button> 
+                        <Button sx={{boxShadow: "none"}} variant="contained" onClick={handleUpdateStatus}>Ok</Button> 
+                    </Stack> 
 
-        </Box>
+     
+                    
+                    
+                </DialogContentText>
+            </DialogContent>       
+        </Dialog> 
+        
     )
 }

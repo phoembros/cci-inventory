@@ -21,9 +21,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 // icon
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";   
-
+import PermissionContent from "../Component/Permission/PermissionContent";
+import { GET_USER_LOGIN } from "../Schema/user"
   
 export default function Sales() {
+
+  const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+  console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
   //get Storage Room ID by Url 
   const location = useLocation();
@@ -90,7 +94,7 @@ export default function Sales() {
       setPageShow(page)
   }, [page, limit , keyword , status ])
 
-  // console.log(data?.getSaleWithPagination?.sales , "data")
+  console.log(data?.getSaleWithPagination?.sales , "data")
   
 
     return (
@@ -103,7 +107,7 @@ export default function Sales() {
 
           <Box sx={{ flexGrow: 1 }} />
           <Stack direction="row" spacing={2} className="btn">
-              <Box className="btn-text-field">
+              <Box className="btn-text-field" >
                   <TextField
                         onChange={(event) => setKeyword(event?.target?.value)}
                         className="text-field"
@@ -131,18 +135,25 @@ export default function Sales() {
               </Button> */}
                       
               {/* Create Sale */}
-              <Button startIcon={<AddIcon />} onClick={handleOpen} className="btn-add-style">
-                <Typography className="style-add"> Create </Typography>
-              </Button>
-              <Modal open={open}>                
+              {
+                  dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createSale ?
+                      <Button startIcon={<AddIcon />} onClick={handleOpen} className="btn-add-style">
+                        <Typography className="style-add"> Create </Typography>
+                      </Button>
+                  : null
+              }
+              
+
+              {/* <Modal open={open}>                 */}
                   <SalesCreated 
                       handleClose={handleClose} 
+                      open={open}
                       setAlert={setAlert}
                       setMessage={setMessage}
                       setCheckMessage={setCheckMessage}
                       setRefetch={refetch}
                   />                 
-              </Modal>
+              {/* </Modal> */}
               {/* End Sale */}
           </Stack>
           
@@ -155,84 +166,108 @@ export default function Sales() {
             </Box>
           :
             <>
-            <Box className="container">
-              <TableContainer className="materail">
-                  <Table className="table-head">
-                    <TableHead className="header-title">
-                          <TableRow className="header-row">
-                            <TableCell className="header-title">Created</TableCell>
-                            <TableCell className="header-title">Invoice No</TableCell>
-                            <TableCell className="header-title">Customer</TableCell>
-                            <TableCell className="header-title">Total Amount</TableCell>   
-                            <TableCell className="header-title">Paid Amount</TableCell>                    
-                            <TableCell className="header-title">VAT</TableCell>                            
-                            <TableCell className="header-title">Status</TableCell>
-                            <TableCell className="header-title"></TableCell>
-                          </TableRow>
-                    </TableHead>
+              {
+                  dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getSalePagination ?
+                    <>
+                      <Box className="container">
+                          <TableContainer className="materail">
+                              <Table className="table-head">
+                                <TableHead className="header-title">
+                                      <TableRow className="header-row">
+                                        <TableCell className="header-title">Created</TableCell>
+                                        <TableCell className="header-title">Invoice No</TableCell>
+                                        <TableCell className="header-title">Customer</TableCell>
+                                        <TableCell className="header-title">Total Amount</TableCell>   
+                                        <TableCell className="header-title">Paid Amount</TableCell>                    
+                                        <TableCell className="header-title">VAT</TableCell>                            
+                                        <TableCell className="header-title">Status</TableCell>
+                                        <TableCell className="header-title"></TableCell>
+                                      </TableRow>
+                                </TableHead>
 
-                  {data?.getSaleWithPagination?.sales?.map((row, index) => (
-                      <TableBody key={index} component={Paper} className={index%2 === 0 ? "body" : "body-odd" }>
-                        <TableRow className="body-row" >
-                          <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="10%">{moment(row?.date).format("DD/MM/YYYY")}</TableCell>
-                          <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="15%">CCI{moment(row?.createdAt).format("YYYY")}-{row?.invoiceNo.padStart(4, '0')}</TableCell>
-                          <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="20%">{row?.billTo?.label}</TableCell>
-                          <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="20%">{row?.totalAmount?.toFixed(2)}$</TableCell>      
-                          <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="20%">{row?.paidAmount}$</TableCell>                
-                          <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="10%">{row?.vat}%</TableCell>                    
-                          <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" >
-                              <Typography  className={`status-${row?.status}`} >{row?.status} </Typography> 
-                          </TableCell>
-                          <TableCell className="body-title" >
-                              <SalesAction 
-                                  setAlert={setAlert}
-                                  setMessage={setMessage}
-                                  setCheckMessage={setCheckMessage}
-                                  setRefetch={refetch}
-                                  DataSale={row}
-                              />
-                          </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  ))}
-                </Table>
-              </TableContainer>
+                              {data?.getSaleWithPagination?.sales?.map((row, index) => (
+                                  <TableBody key={index} component={Paper} className={index%2 === 0 ? "body" : "body-odd" }>
+                                    <TableRow className="body-row" >
+                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="10%">{moment(row?.date).format("DD/MM/YYYY")}</TableCell>
+                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="15%">
+                                        {
+                                            row?.invoiceNo ?
+                                                <>
+                                                CCI{moment(row?.createdAt).format("YYYY")}-{row?.invoiceNo?.padStart(4, '0')}
+                                                </>
+                                            : 
+                                              null
+                                        }
+                                        
+                                      </TableCell>
+                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="20%">{row?.billTo?.label}</TableCell>
+                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="20%">{row?.totalAmount?.toFixed(2)}$</TableCell>      
+                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="20%">{row?.paidAmount}$</TableCell>                
+                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="10%">{row?.vat}%</TableCell>                    
+                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" >
+                                          {
+                                              row?.voided !== true ?
+                                                <Typography  className={`status-${row?.status}`} >{row?.status}</Typography> 
+                                              : 
+                                                <Typography  className={`status-voided`} >void</Typography> 
+                                          }
+                                          
+                                      </TableCell>
+                                      <TableCell className="body-title" >
+                                          <SalesAction 
+                                              dataUserLogin={dataUserLogin}
+                                              setAlert={setAlert}
+                                              setMessage={setMessage}
+                                              setCheckMessage={setCheckMessage}
+                                              setRefetch={refetch}
+                                              DataSale={row}
+                                          />
+                                      </TableCell>
+                                  </TableRow>
+                                </TableBody>
+                              ))}
+                            </Table>
+                          </TableContainer>
 
-            </Box>
-            <Stack direction="row" justifyContent="right" spacing={2}>
-                <IconButton
-                    disabled={ data?.getSaleWithPagination?.paginator?.prev === null ? true: false}
-                    onClick={() =>setPage(data?.getSaleWithPagination?.paginator?.prev)}
-                    >
-                      <ArrowBackIosNewIcon sx={{":hover" :{color:'primary'}}}/>
-                </IconButton>
-                <Stack direction="column" justifyContent="center">
-                  <Pagination
-                      page={pageShow}
-                      hideNextButton={true}
-                      hidePrevButton={true}
-                      variant="outlined"
-                      color="primary"
-                      count={data?.getSaleWithPagination?.paginator?.totalPages}
-                      onChange={(event) =>
-                        setPage(parseInt(event?.target?.textContent))
-                      }
-                    />
-                  </Stack>
-                  <IconButton
-                        disabled={data?.getSaleWithPagination?.paginator?.next === null ? true: false}
-                        onClick={() =>setPage(data?.getSaleWithPagination?.paginator?.next)}
-                  >
-                    <ArrowForwardIosIcon sx={{":hover" :{color:'primary'}}}/>
-                  </IconButton>
-              </Stack>
+                        </Box>
+                        <Stack direction="row" justifyContent="right" spacing={2}>
+                            <IconButton
+                                disabled={ data?.getSaleWithPagination?.paginator?.prev === null ? true: false}
+                                onClick={() =>setPage(data?.getSaleWithPagination?.paginator?.prev)}
+                            >
+                                <ArrowBackIosNewIcon sx={{":hover" :{color:'primary'}}}/>
+                            </IconButton>
+                            <Stack direction="column" justifyContent="center">
+                              <Pagination
+                                  page={pageShow}
+                                  hideNextButton={true}
+                                  hidePrevButton={true}
+                                  variant="outlined"
+                                  color="primary"
+                                  count={data?.getSaleWithPagination?.paginator?.totalPages}
+                                  onChange={(event) =>
+                                    setPage(parseInt(event?.target?.textContent))
+                                  }
+                                />
+                              </Stack>
+                              <IconButton
+                                    disabled={data?.getSaleWithPagination?.paginator?.next === null ? true: false}
+                                    onClick={() =>setPage(data?.getSaleWithPagination?.paginator?.next)}
+                              >
+                                <ArrowForwardIosIcon sx={{":hover" :{color:'primary'}}}/>
+                              </IconButton>
+                          </Stack>
+                    </>
+                :
+                  <PermissionContent />
+              }            
             </>
         }      
 
 
-        <Modal open={openView} >
-          <ViewSale handleCloseView={handleCloseView} RowData={RowData}/>
-        </Modal>
+        {/* <Modal open={openView} > */}
+          <ViewSale open={openView} handleCloseView={handleCloseView} RowData={RowData}/>
+        {/* </Modal> */}
 
         <AlertMessage alert={alert} setAlert={setAlert} message={message} checkMessage={checkMessage}/>
 

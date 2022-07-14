@@ -11,6 +11,7 @@ import EditCustomer from './EditCustomer';
 import CustomerDelete from './CustomerDelete';
 
 export default function CustomerAction({
+  dataUserLogin,
   setRefetch,
   setAlert,
   setMessage,
@@ -41,51 +42,73 @@ export default function CustomerAction({
         <MoreVertIcon sx={{ color: "#3C64F6" }} />
       </IconButton>
 
-      <Menu
-        id="basic-button"
-        anchorEl={anchorEl}
-        open={openEl}
-        onClose={handleCloseEl}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem onClick={() => {handleOpen(); handleCloseEl() }}>
-          <Stack direction="row" spacing={2}>
-            <EditIcon sx={{ color: "blue" }} />
-            <Typography> Edit </Typography>
-          </Stack>
-        </MenuItem>
+    {
+      dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateCustomer ||
+      dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteCustomer ?
+        <>
+          <Menu
+            id="basic-button"
+            anchorEl={anchorEl}
+            open={openEl}
+            onClose={handleCloseEl}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
 
-        <MenuItem onClick={() => {handleOpenDel(); handleCloseEl() }}>
-          <Stack direction="row" spacing={2}>
-            <DeleteIcon sx={{ color: "red" }} />
-            <Typography> Delete</Typography>
-          </Stack>
-        </MenuItem>
-      </Menu>
+            {
+              dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateCustomer ?
+                <MenuItem onClick={() => {handleOpen(); handleCloseEl() }}>
+                  <Stack direction="row" spacing={2}>
+                    <EditIcon sx={{ color: "blue" }} />
+                    <Typography> Edit </Typography>
+                  </Stack>
+                </MenuItem>
+              : null
+            }
 
-      <Modal open={open}>
+            {
+              dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteCustomer ?
+                <MenuItem onClick={() => {handleOpenDel(); handleCloseEl() }}>
+                  <Stack direction="row" spacing={2}>
+                    <DeleteIcon sx={{ color: "red" }} />
+                    <Typography> Delete</Typography>
+                  </Stack>
+                </MenuItem>
+              : null
+            }
+            
+          </Menu>
+        </>
+      :
+        null
+    }
+
+      
+
+      {/* <Modal open={open}> */}
         <EditCustomer
           setRefetch={setRefetch}
+          open={open}
           handleClose={handleClose}
           DataCustomer={DataCustomer}
           setAlert={setAlert}
           setMessage={setMessage}
           setCheckMessage={setCheckMessage}
         />
-      </Modal>
+      {/* </Modal>s */}
 
-      <Modal open={openDel}>
+      {/* <Modal open={openDel}> */}
         <CustomerDelete
           setRefetch={setRefetch}
+          open={openDel}
           handleCloseDel={handleCloseDel}
           DataCustomer={DataCustomer}
           setAlert={setAlert}
           setMessage={setMessage}
           setCheckMessage={setCheckMessage}
         />
-      </Modal>
+      {/* </Modal> */}
     </div>
   );
 }

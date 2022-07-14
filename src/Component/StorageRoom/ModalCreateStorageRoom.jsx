@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import "./modalcreatestorageroom.scss";
 import {
   FormControl,
+  FormHelperText,
   Icon,
   IconButton,
   InputLabel,
@@ -26,6 +27,11 @@ import { CREATE_STORAGE_ROOM, UPDATE_STORAGE_ROOM} from "../../Schema/starageroo
 import { useMutation } from "@apollo/client";
 import * as Yup from "yup";
 import { useFormik, Form, FormikProvider } from "formik";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 // check Expire
 import { auth } from "../../firebase";
@@ -35,6 +41,7 @@ import { useNavigate } from "react-router-dom";
 export default function ModalCreateStorageRoom({
   handleClose,
   btnTitle,
+  open,
   row,
   setAlert,
   checkStatus,
@@ -59,16 +66,16 @@ export default function ModalCreateStorageRoom({
         setMessage(createStorageRoom?.message)
         setAlert(true)
 
-        // token-expired
-        setTimeout( () => {          
-          if(createStorageRoom?.message === "token-expired") {
-              signOut(auth).then( () => {                 
-                  navigate("/login")
-              }).catch( (error) => {                
-                  console.log(error)
-              });
-          }
-        },1000)
+        // token-expired                  
+        if(createStorageRoom?.message === "token-expired") {
+            signOut(auth).then( () => { 
+              setTimeout( () => {                
+                navigate("/login")
+              },1000)
+            }).catch( (error) => {                
+                console.log(error)
+            });
+        }        
         // End
         
       }
@@ -152,111 +159,131 @@ export default function ModalCreateStorageRoom({
   // End Formik
 
   return (
-    <Box className="create-storage-room">
-      <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Stack direction="row" spacing={5}>
-            <Typography className="header-title" variant="h6">
-              Create Storage Room
-            </Typography>
-            <Box sx={{ flexGrow: 1 }}></Box>
-            <IconButton onClick={() => handleClose()}>
-              <DoDisturbOnOutlinedIcon sx={{ color: "red" }} />
-            </IconButton>
-          </Stack>
-
-        {
-          checkStatus === 'update' ?
-
-            <Stack direction="row" spacing={5} width="100%">
-              <Box sx={{ width: "45%" }}>
-                <FormControl fullWidth size="small" disabled>
-                  <InputLabel>Room Type</InputLabel>
-                  <Select                      
-                      label="Room Type"                   
-                      {...getFieldProps("type")}
-                      error={Boolean(touched.type && errors.type)}
-                      helperText={touched.type && errors.type}
-                    >
-                    <MenuItem value="Raw Materials">
-                      <Typography>Raw Materials</Typography>
-                    </MenuItem>
-                    <MenuItem value="Products">
-                      <Typography>Products</Typography>
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
+    <>
+      <Dialog open={open} className="dialog-create-storageRoom">
+        <DialogTitle id="alert-dialog-title">
+            <Stack direction="row" spacing={5} className="create-storage-room">
+                <Typography className="header-title" variant="h6">
+                  Create Storage Room
+                </Typography>
+                <Box sx={{ flexGrow: 1 }}></Box>
+                    <IconButton onClick={() => handleClose()}>
+                    <DoDisturbOnOutlinedIcon sx={{ color: "red" }} />
+                </IconButton>
             </Stack>
+        </DialogTitle>
+        <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+                <Box className="create-storage-room">
+                  <FormikProvider value={formik}>
+                      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>         
 
-          :
+                      {
+                        checkStatus === 'update' ?
 
-            <Stack direction="row" spacing={5} width="100%">
-              <Box sx={{ width: "45%" }}>
-                <FormControl fullWidth size="small">
-                  <InputLabel>Room Type</InputLabel>
-                  <Select
-                      label="Room Type"                   
-                      {...getFieldProps("type")}
-                      error={Boolean(touched.type && errors.type)}
-                      helperText={touched.type && errors.type}
-                    >
-                    <MenuItem value="Raw Materials">
-                      <Typography>Raw Materials</Typography>
-                    </MenuItem>
-                    <MenuItem value="Products">
-                      <Typography>Products</Typography>
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-            </Stack>
-        }
-          
+                          <Stack direction="row" spacing={5} width="100%">
+                            <Box sx={{ width: "60%" , mt:1}}>
+                              <FormControl fullWidth size="small" disabled>
+                                <InputLabel>Room Type</InputLabel>
+                                <Select                      
+                                    label="Room Type"                   
+                                    {...getFieldProps("type")}
+                                    error={Boolean(touched.type && errors.type)}
+                                    helperText={touched.type && errors.type}
+                                  >
+                                  <MenuItem value="Raw Materials">
+                                    <Typography>Raw Materials</Typography>
+                                  </MenuItem>
+                                  <MenuItem value="Products">
+                                    <Typography>Products</Typography>
+                                  </MenuItem>
+                                </Select>
+                              </FormControl>
 
-          <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-            <Typography className="header-title">Room Name</Typography>
-            <TextField
-              size="small"
-              fullWidth
-              placeholder="room name"
-              {...getFieldProps("name")}
-              error={Boolean(touched.name && errors.name)}
-              helperText={touched.name && errors.name}
-            />
-          </Stack>
+                              {!!errors.type && (
+                                  <FormHelperText error id="outlined-adornment-email">
+                                      {errors.type}
+                                  </FormHelperText>
+                              )}
+                            </Box>
+                          </Stack>
 
-          <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-            <Typography className="header-title">Location</Typography>
-            <TextField
-              size="small"
-              fullWidth
-              placeholder="location"
-              {...getFieldProps("address")}
-              error={Boolean(touched.address && errors.address)}
-              helperText={touched.address && errors.address}
-            />
-          </Stack>
+                        :
 
-          <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-            <Typography className="header-title">Remark</Typography>
-            <TextField
-              size="small"
-              fullWidth
-              placeholder="remark"
-              {...getFieldProps("remark")}
-              error={Boolean(touched.remark && errors.remark)}
-              helperText={touched.remark && errors.remark}
-            />
-          </Stack>
+                          <Stack direction="row" spacing={5} width="100%">
+                            <Box sx={{ width: "60%" ,mt:1}}>
+                              <FormControl fullWidth size="small">
+                                <InputLabel>Room Type</InputLabel>
+                                <Select
+                                    label="Room Type"                   
+                                    {...getFieldProps("type")}
+                                    error={Boolean(touched.type && errors.type)}
+                                    helperText={touched.type && errors.type}
+                                  >
+                                  <MenuItem value="Raw Materials">
+                                    <Typography>Raw Materials</Typography>
+                                  </MenuItem>
+                                  <MenuItem value="Products">
+                                    <Typography>Products</Typography>
+                                  </MenuItem>
+                                </Select>
+                              </FormControl>
+                              {!!errors.type && (
+                                  <FormHelperText error id="outlined-adornment-email">
+                                      {errors.type}
+                                  </FormHelperText>
+                              )}
+                            </Box>
+                          </Stack>
+                      }
 
-          <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-            <Button sx={{boxShadow: "none"}} variant="contained" type="submit" >
-                {btnTitle}
-            </Button>
-          </Stack>
-        </Form>
-      </FormikProvider>
-    </Box>
+                      <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                          <Typography className="sub-header-title">Room Name</Typography>
+                          <TextField
+                            size="small"
+                            fullWidth
+                            placeholder="room name"
+                              {...getFieldProps("name")}
+                            error={Boolean(touched.name && errors.name)}
+                            helperText={touched.name && errors.name}
+                            />
+                      </Stack>
+
+                      <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                        <Typography className="sub-header-title">Location</Typography>
+                        <TextField
+                          size="small"
+                          fullWidth
+                          placeholder="location"
+                          {...getFieldProps("address")}
+                          error={Boolean(touched.address && errors.address)}
+                          helperText={touched.address && errors.address}
+                        />
+                      </Stack>
+
+                      <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                        <Typography className="sub-header-title">Remark</Typography>
+                        <TextField
+                          size="small"
+                          fullWidth
+                          placeholder="remark"
+                          {...getFieldProps("remark")}
+                          error={Boolean(touched.remark && errors.remark)}
+                          helperText={touched.remark && errors.remark}
+                        />
+                      </Stack>
+
+                      <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                            <Button sx={{boxShadow: "none"}} type="submit" className="btn-submit">
+                                {btnTitle}
+                            </Button>
+                      </Stack>
+                      </Form>
+                  </FormikProvider>
+                </Box>
+            </DialogContentText>
+        </DialogContent>       
+      </Dialog>
+    </>   
   );
 }

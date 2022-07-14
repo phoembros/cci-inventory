@@ -33,7 +33,38 @@
         }
 
     }
+
+    .page-title {
+        
+        @include mobile-small {
+            display: none;
+        }
+        
+        @include mobile {
+            display: none;
+        }
+        
+        @include mobile-large {
+            display: none;
+        }
+    }
     
+    .page-title-mobile {
+        display: none;
+
+        @include mobile-small {
+            display: flex;
+        }
+
+        @include mobile {
+            display: flex;
+        }
+        
+        @include mobile-large {
+            display: flex;
+        }
+    }
+
     .slash {
         width: 4px;
         height: 45px;
@@ -53,6 +84,18 @@
             width:300px;
             background-color: #fff;
             border-radius:10px;
+
+            @include mobile-small {
+                display: none;
+            }
+            
+            @include mobile {
+                display: none;
+            }
+            
+            @include mobile-large {
+                display: none;
+            }
         }
         
         .btn-add {
@@ -76,10 +119,38 @@
     .container {
         margin-top: 20px;
 
+        @include mobile-small {
+            width: 310px !important;           
+        }
+
+        @include mobile {
+            width: 370px !important;        
+        }
+
+        @include mobile-large {
+            width: 476px !important;
+        }
+
+
         .table {
             width: 100%;
+            display: table;
+            overflow-x: auto;            
             border-collapse: separate;
             border-spacing: 0px 8px;
+
+            @include mobile-small {
+                white-space: nowrap;
+            }
+    
+            @include mobile {
+                white-space: nowrap;
+            }
+    
+            @include mobile-large {
+                white-space: nowrap;
+            }
+
 
             .header-row {            
                 .header-title {

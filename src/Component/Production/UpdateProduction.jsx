@@ -31,9 +31,15 @@ import { GET_STORAGE_ROOM_PRODUCT } from '../../Schema/starageroom';
 import { GET_CUSTOMER_PAGINATION } from "../../Schema/sales";
 import { colorChannel } from '@mui/system';
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 export default function UpdateProduction({
     handleClose,
+    open,
     btnTitle,
     editDataProduction,
     storageRoomDataSelected,
@@ -261,322 +267,335 @@ export default function UpdateProduction({
 
     
   return (
-    <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>    
-            <Box className='production-create'>
-                <Stack direction="row" spacing={5}>             
-                    <Typography className='header-title' variant="h6" >
-                        Production
-                    </Typography>            
-                    <Box sx={{flexGrow:1}}></Box>
-                    <IconButton onClick={() => handleClose()}>
-                        <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
-                    </IconButton>    
-                </Stack>   
-                <Stack direction="row" spacing={5} sx={{mt:-1 , mb:2}}>             
-                    <Typography variant="body2" >
-                       Please input each field:
-                    </Typography>           
-                </Stack>
-            
-                <Stack direction="row" spacing={2} sx={{mb:1}}>
-                    <Box sx={{width:"35%"}}>
-                        <Autocomplete
-                            disablePortal                           
-                            value={storageRoomSelected}
-                            options={storageRoom}         
-                            getOptionSelected={(option, value) => option._id === value._id } 
-                            getOptionLabel={(option) => (option ? option.label : "")}               
-                            onChange={(e, value) => {
-                                setFieldValue( "storageRoomId" , value?._id );
-                                setStorageRoomSelected(value);
-                            }}
-                            renderInput={(params) => 
-                                <TextField 
-                                    {...params} 
-                                    size="small" 
-                                    label="Storage Room" 
-                                    error={Boolean(touched.storageRoomId && errors.storageRoomId)}
-                                    helperText={touched.storageRoomId && errors.storageRoomId}
-                                />
-                            }
-                        />                    
-                    </Box>
 
-                    <Box sx={{flexGrow:1}}/>
 
-                    {
-                       editDataProduction?.workOrders ? 
-                            <Box sx={{width:"35%"}}>
-                                <Autocomplete
-                                    disablePortal                           
-                                    value={customerSelected}
-                                    options={customer}      
-                                    getOptionSelected={ (option , value) => option._id === value._id } 
-                                    getOptionLabel={(option) => (option ? option.label : "")}                 
-                                    onChange={(e, value) => {
-                                        setCustomerId(value?._id)
-                                        setCustomerSelected(value);
-                                    }}
-                                    renderInput={(params) => 
-                                        <TextField   {...params}  size="small"  label="Customer" />
-                                    }
-                                />                    
-                            </Box>
-                       :
-                            <Box sx={{width:"35%"}}>
-                                <Autocomplete
-                                    disablePortal
-                                    id="combo-box-demo"
-                                    options={customer}                        
-                                    onChange={(e, value) => setCustomerId(value?._id)}
-                                    renderInput={(params) => 
-                                        <TextField   {...params}  size="small"  label="Customer" />
-                                    }
-                                />                     
-                            </Box>
-                    }
-                    
-                </Stack>
-                                
-                <Box className="container">
-                    <TableContainer >
-                        <Table className="table-top" aria-label="simple table">
-                            <TableHead >
-                                <TableRow className="header-row">
-                                    <TableCell className="header-title">Product</TableCell>  
-                                    <TableCell className="header-title" width="3%"></TableCell>                            
-                                    <TableCell className="header-title" align='center' >QTY</TableCell>  
-                                    <TableCell className="header-title" width="3%"></TableCell>
-                                    <TableCell className="header-title" align='center' >Duration</TableCell>                                                       
-                                </TableRow>
-                            </TableHead>                    
-                            <TableBody component={Paper} className="body" >                        
-                                <TableRow  className="body-row">
-                                    <TableCell className="body-title" component="th" scope="row" width="50%" >
-                                        
-                                        <Autocomplete
-                                            disablePortal
-                                            id="combo-box-demo"
-                                            value={productSelected}
-                                            options={product}         
-                                            getOptionSelected={(option, value) => option._id === value._id }               
-                                            onChange={(e, value) => {
-                                                setFieldValue( "productId" , value?._id )
-                                                setFieldValue( "productName" , value?.label)
-                                                setFieldValue( "qtyOnHand" , value?.qtyOnHand )  
-                                                setProductSelected(value)
-                                                getProductById({ variables: { productId: value?._id } })                  
-                                            }}
-                                            renderInput={(params) => <TextField {...params} size="small" />}
-                                        /> 
-                                    
-                                    </TableCell>
-                                    <TableCell className="body-title"></TableCell>
-                                    <TableCell className="body-title" component="th" align='center' width="15%" >
-                                        <TextField 
-                                            type="number"
-                                            size='small' 
-                                            fullWidth
-                                            {...getFieldProps("qty")}
-                                            error={Boolean(touched.qty && errors.qty)}
-                                            helperText={touched.qty && errors.qty}
-                                            InputProps={{                                 
-                                                inputProps: { min: 1 },
-                                            }}
-                                        />
-                                    </TableCell>
-                                    <TableCell className="body-title"></TableCell>
-                                    <TableCell className="body-title" width="15%" align='center'>
-                                        {
-                                            productById?.durationProduce ?
-                                                <TextField value={`${productById?.durationProduce*values?.qty}s`} size='small' fullWidth />
-                                            : 
-                                                <TextField disabled  size='small' fullWidth />
-                                        } 
-                                    </TableCell>                                                      
-                                </TableRow>
-                            </TableBody>                       
-                        </Table>
-                    </TableContainer>
-
-                    <TableContainer >
-                        <Table className="table" aria-label="simple table">
-                            <TableHead >
-                                <TableRow className="header-row">
-                                    <TableCell className="header-title">Raw Materail</TableCell>                            
-                                    <TableCell className="header-title">QTY</TableCell>  
-                                    <TableCell className="header-title"></TableCell>                                                       
-                                </TableRow>
-                            </TableHead>
-                            {productById?.ingredients?.map((row , index) => (
-                                <TableBody key={index} component={Paper} className="body" >                        
-                                    <TableRow  className="body-row">                                
-                                        <TableCell className="body-title" component="th" scope="row" > {row?.rawMaterialId?.materialName} </TableCell>
-                                        <TableCell className="body-title" >{row?.amount*values?.qty} {row?.rawMaterialId?.unit}</TableCell>    
-                                        <TableCell className="body-title" ></TableCell>                                                   
-                                    </TableRow>
-                                </TableBody>                        
-                            ))}
-                        </Table>
-                    </TableContainer>
-
-                    
-                    <TableContainer >
-                        <Table className="table-buttom" aria-label="simple table">
-                            <TableHead >
-                                <TableRow className="header-row">
-                                    {/* <TableCell className="header-title">Progress</TableCell>                             */}
-                                    <TableCell className="header-title">Prirority</TableCell>  
-                                    <TableCell className="header-title">Start Date</TableCell>  
-                                    <TableCell className="header-title">Due Date</TableCell>                                                    
-                                </TableRow>
-                            </TableHead>                    
-                            <TableBody component={Paper} className="body" >                        
-                                <TableRow  className="body-row">
-                                    {/* <TableCell className="body-title" component="th" scope="row" width="25%" >
-                                        <FormControl fullWidth size="small" >                                    
-                                            <Select                                                        
-                                                {...getFieldProps("progress")}
-                                                error={Boolean(touched.progress && errors.progress)}
-                                                helperText={touched.progress && errors.progress} 
-                                            >   
-                                                <MenuItem value="not started">
-                                                    <Stack direction="row" spacing={1}>
-                                                        <PanoramaFishEyeIcon sx={{color:"gray", width:"17px"}} />
-                                                        <Typography>Not started</Typography>
-                                                    </Stack>
-                                                </MenuItem>                                                
-                                                <MenuItem value="in progress">
-                                                    <Stack direction="row" spacing={1}>
-                                                        <WifiProtectedSetupIcon sx={{color:"green", width:"17px"}} />
-                                                        <Typography>In Progress</Typography>
-                                                    </Stack>
-                                                </MenuItem>
-                                                <MenuItem value="completed">
-                                                    <Stack direction="row" spacing={1}>
-                                                        <CheckCircleIcon sx={{color:"#0969A0", width:"17px"}} />
-                                                        <Typography>Completed</Typography>
-                                                    </Stack>
-                                                </MenuItem>                                        
-                                            </Select>
-                                        </FormControl>
-                                    </TableCell> */}
-                                    <TableCell className="body-title" component="th" align='center' width="25%" >
-                                        <FormControl fullWidth size="small">                                    
-                                            <Select                                              
-                                                {...getFieldProps("priority")}
-                                                error={Boolean(touched.priority && errors.priority)}
-                                                helperText={touched.priority && errors.priority} 
-                                            >
-                                                <MenuItem value="urgent">
-                                                    <Stack direction="row" spacing={1}>
-                                                        <NotificationsActiveIcon sx={{color:"red", width:"17px"}} />
-                                                        <Typography>Urgent</Typography>
-                                                    </Stack>
-                                                </MenuItem>
-                                                {/* <MenuItem value="important">
-                                                    <Stack direction="row" spacing={1}>
-                                                        <PriorityHighIcon sx={{color:"red", width:"17px"}} />
-                                                        <Typography>Important</Typography>
-                                                    </Stack>                                            
-                                                </MenuItem> */}
-                                                <MenuItem value="medium">
-                                                    <Stack direction="row" spacing={1}>
-                                                        <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />
-                                                        <Typography>Medium</Typography>
-                                                    </Stack>
-                                                </MenuItem>
-                                                <MenuItem value="low">
-                                                    <Stack direction="row" spacing={1}>
-                                                        <ArrowDownwardIcon sx={{color:"blue", width:"17px"}} />
-                                                        <Typography>Low</Typography>
-                                                    </Stack>
-                                                </MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                    </TableCell>
-                                    <TableCell className="body-title" width="25%" align='center'>
-                                        <LocalizationProvider className="date-controll" dateAdapter={AdapterDateFns} >
-                                            <DatePicker  
-                                                onChange={(e)=> setFieldValue("startDate", e)}
-                                                renderInput={(params) => (
-                                                    <TextField size='small' {...params} type="date" fullWidth />
-                                                )}                       
-                                                value={values.startDate}
-                                            />
-                                        </LocalizationProvider>                                        
-                                    </TableCell>   
-                                    <TableCell className="body-title" width="25%" align='center'>
-                                        <LocalizationProvider className="date-controll" dateAdapter={AdapterDateFns} >
-                                            <DatePicker  
-                                                onChange={(e)=> setFieldValue("dueDate", e)}
-                                                renderInput={(params) => (
-                                                    <TextField size='small' {...params} type="date" fullWidth />
-                                                )}                       
-                                                value={values.dueDate}
-                                            />
-                                        </LocalizationProvider>
-                                    </TableCell>                                                   
-                                </TableRow>
-                            </TableBody>                       
-                        </Table>
-                    </TableContainer>
-                </Box> 
-
-                <Stack direction="column" spacing={1} sx={{mt:2}}>
-                    <Typography className='header-title'>
-                        Remark
-                    </Typography>
-                    <TextField 
-                        multiline
-                        size='small' 
-                        fullWidth
-                        placeholder='Remark'
-                        {...getFieldProps("remark")}
-                        error={Boolean(touched.remark && errors.remark)}
-                        helperText={touched.remark && errors.remark}
-                    />            
-                </Stack>
-
-                {/* <Stack direction="column" spacing={1} sx={{mt:2}}>
-                    <Typography className='header-title'>
-                        Manager Comment
-                    </Typography>
-                    <TextField 
-                        multiline
-                        size='small' 
-                        fullWidth
-                        placeholder='Comment'
-                        {...getFieldProps("comment")}
-                        error={Boolean(touched.comment && errors.comment)}
-                        helperText={touched.comment && errors.comment}
-                    />            
-                </Stack> */}
-
-                
-                         
-                {/* <Stack direction="row" spacing={2} sx={{mt:2}}>
-                    <Stack direction="column" spacing={1} width="40%">
-                        <Typography className='header-title'>
-                            Create By
-                        </Typography>
-                        <Typography> Mr. CHANDA </Typography>     
+    <Dialog open={open} className="dialog-production-create">
+            <DialogTitle id="alert-dialog-title">
+                    <Stack direction="row" spacing={5}>             
+                        <Typography className='header-title' variant="h6" >
+                            Production
+                        </Typography>            
+                        <Box sx={{flexGrow:1}}></Box>
+                        <IconButton onClick={() => handleClose()}>
+                            <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
+                        </IconButton>    
                     </Stack>   
-                    <Box sx={{flexGrow:1}}/>
-                    <Stack direction="column" spacing={1} width="40%">
-                        <Typography className='header-title'>
-                            Approve By
-                        </Typography>
-                        <Typography> Mr. CHANDA </Typography>      
-                    </Stack>                          
-                </Stack> */}
-                <Stack direction="row" spacing={2} sx={{mt:2}}>
-                    <Button sx={{boxShadow: "none"}}  type='submit' variant='contained' fullWidth>{btnTitle}</Button>                                            
-                </Stack>
-                
-            </Box>   
-        </Form>
-    </FormikProvider>     
+                    <Stack direction="row" spacing={5} sx={{mt:-1 , mb:2}}>             
+                        <Typography variant="body2" >
+                        Please input each field:
+                        </Typography>           
+                    </Stack>
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description"> 
+
+                    <FormikProvider value={formik}>
+                        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>    
+                            
+                                
+                            
+                                <Stack direction="row" spacing={2} sx={{ mt:1 , mb:1}}>
+                                    <Box sx={{width:"35%"}}>
+                                        <Autocomplete
+                                            disablePortal                           
+                                            value={storageRoomSelected}
+                                            options={storageRoom}         
+                                            getOptionSelected={(option, value) => option._id === value._id } 
+                                            getOptionLabel={(option) => (option ? option.label : "")}               
+                                            onChange={(e, value) => {
+                                                setFieldValue( "storageRoomId" , value?._id );
+                                                setStorageRoomSelected(value);
+                                            }}
+                                            renderInput={(params) => 
+                                                <TextField 
+                                                    {...params} 
+                                                    size="small" 
+                                                    label="Storage Room" 
+                                                    error={Boolean(touched.storageRoomId && errors.storageRoomId)}
+                                                    helperText={touched.storageRoomId && errors.storageRoomId}
+                                                />
+                                            }
+                                        />                    
+                                    </Box>
+
+                                    <Box sx={{flexGrow:1}}/>
+
+                                    {
+                                    editDataProduction?.workOrders ? 
+                                            <Box sx={{width:"35%"}}>
+                                                <Autocomplete
+                                                    disablePortal                           
+                                                    value={customerSelected}
+                                                    options={customer}      
+                                                    getOptionSelected={ (option , value) => option._id === value._id } 
+                                                    getOptionLabel={(option) => (option ? option.label : "")}                 
+                                                    onChange={(e, value) => {
+                                                        setCustomerId(value?._id)
+                                                        setCustomerSelected(value);
+                                                    }}
+                                                    renderInput={(params) => 
+                                                        <TextField   {...params}  size="small"  label="Customer" />
+                                                    }
+                                                />                    
+                                            </Box>
+                                    :
+                                            <Box sx={{width:"35%"}}>
+                                                <Autocomplete
+                                                    disablePortal
+                                                    id="combo-box-demo"
+                                                    options={customer}                        
+                                                    onChange={(e, value) => setCustomerId(value?._id)}
+                                                    renderInput={(params) => 
+                                                        <TextField   {...params}  size="small"  label="Customer" />
+                                                    }
+                                                />                     
+                                            </Box>
+                                    }
+                                    
+                                </Stack>
+                                                
+                                <Box className="container">
+                                    <TableContainer >
+                                        <Table className="table-top" aria-label="simple table">
+                                            <TableHead >
+                                                <TableRow className="header-row">
+                                                    <TableCell className="header-title">Product</TableCell>  
+                                                    <TableCell className="header-title" width="3%"></TableCell>                            
+                                                    <TableCell className="header-title" align='center' >QTY</TableCell>  
+                                                    <TableCell className="header-title" width="3%"></TableCell>
+                                                    <TableCell className="header-title" align='center' >Duration</TableCell>                                                       
+                                                </TableRow>
+                                            </TableHead>                    
+                                            <TableBody component={Paper} className="body" >                        
+                                                <TableRow  className="body-row">
+                                                    <TableCell className="body-title" component="th" scope="row" width="50%" >
+                                                        
+                                                        <Autocomplete
+                                                            disablePortal
+                                                            id="combo-box-demo"
+                                                            value={productSelected}
+                                                            options={product}         
+                                                            getOptionSelected={(option, value) => option._id === value._id }               
+                                                            onChange={(e, value) => {
+                                                                setFieldValue( "productId" , value?._id )
+                                                                setFieldValue( "productName" , value?.label)
+                                                                setFieldValue( "qtyOnHand" , value?.qtyOnHand )  
+                                                                setProductSelected(value)
+                                                                getProductById({ variables: { productId: value?._id } })                  
+                                                            }}
+                                                            renderInput={(params) => <TextField {...params} size="small" />}
+                                                        /> 
+                                                    
+                                                    </TableCell>
+                                                    <TableCell className="body-title"></TableCell>
+                                                    <TableCell className="body-title" component="th" align='center' width="15%" >
+                                                        <TextField 
+                                                            type="number"
+                                                            size='small' 
+                                                            fullWidth
+                                                            {...getFieldProps("qty")}
+                                                            error={Boolean(touched.qty && errors.qty)}
+                                                            helperText={touched.qty && errors.qty}
+                                                            InputProps={{                                 
+                                                                inputProps: { min: 1 },
+                                                            }}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell className="body-title"></TableCell>
+                                                    <TableCell className="body-title" width="15%" align='center'>
+                                                        {
+                                                            productById?.durationProduce ?
+                                                                <TextField value={`${productById?.durationProduce*values?.qty}s`} size='small' fullWidth />
+                                                            : 
+                                                                <TextField disabled  size='small' fullWidth />
+                                                        } 
+                                                    </TableCell>                                                      
+                                                </TableRow>
+                                            </TableBody>                       
+                                        </Table>
+                                    </TableContainer>
+
+                                    <TableContainer >
+                                        <Table className="table" aria-label="simple table">
+                                            <TableHead >
+                                                <TableRow className="header-row">
+                                                    <TableCell className="header-title">Raw Materail</TableCell>                            
+                                                    <TableCell className="header-title">QTY</TableCell>  
+                                                    <TableCell className="header-title"></TableCell>                                                       
+                                                </TableRow>
+                                            </TableHead>
+                                            {productById?.ingredients?.map((row , index) => (
+                                                <TableBody key={index} component={Paper} className="body" >                        
+                                                    <TableRow  className="body-row">                                
+                                                        <TableCell className="body-title" component="th" scope="row" > {row?.rawMaterialId?.materialName} </TableCell>
+                                                        <TableCell className="body-title" >{row?.amount*values?.qty} {row?.rawMaterialId?.unit}</TableCell>    
+                                                        <TableCell className="body-title" ></TableCell>                                                   
+                                                    </TableRow>
+                                                </TableBody>                        
+                                            ))}
+                                        </Table>
+                                    </TableContainer>
+
+                                    
+                                    <TableContainer >
+                                        <Table className="table-buttom" aria-label="simple table">
+                                            <TableHead >
+                                                <TableRow className="header-row">
+                                                    {/* <TableCell className="header-title">Progress</TableCell>                             */}
+                                                    <TableCell className="header-title">Prirority</TableCell>  
+                                                    <TableCell className="header-title">Start Date</TableCell>  
+                                                    <TableCell className="header-title">Due Date</TableCell>                                                    
+                                                </TableRow>
+                                            </TableHead>                    
+                                            <TableBody component={Paper} className="body" >                        
+                                                <TableRow  className="body-row">
+                                                    {/* <TableCell className="body-title" component="th" scope="row" width="25%" >
+                                                        <FormControl fullWidth size="small" >                                    
+                                                            <Select                                                        
+                                                                {...getFieldProps("progress")}
+                                                                error={Boolean(touched.progress && errors.progress)}
+                                                                helperText={touched.progress && errors.progress} 
+                                                            >   
+                                                                <MenuItem value="not started">
+                                                                    <Stack direction="row" spacing={1}>
+                                                                        <PanoramaFishEyeIcon sx={{color:"gray", width:"17px"}} />
+                                                                        <Typography>Not started</Typography>
+                                                                    </Stack>
+                                                                </MenuItem>                                                
+                                                                <MenuItem value="in progress">
+                                                                    <Stack direction="row" spacing={1}>
+                                                                        <WifiProtectedSetupIcon sx={{color:"green", width:"17px"}} />
+                                                                        <Typography>In Progress</Typography>
+                                                                    </Stack>
+                                                                </MenuItem>
+                                                                <MenuItem value="completed">
+                                                                    <Stack direction="row" spacing={1}>
+                                                                        <CheckCircleIcon sx={{color:"#0969A0", width:"17px"}} />
+                                                                        <Typography>Completed</Typography>
+                                                                    </Stack>
+                                                                </MenuItem>                                        
+                                                            </Select>
+                                                        </FormControl>
+                                                    </TableCell> */}
+                                                    <TableCell className="body-title" component="th" align='center' width="25%" >
+                                                        <FormControl fullWidth size="small">                                    
+                                                            <Select                                              
+                                                                {...getFieldProps("priority")}
+                                                                error={Boolean(touched.priority && errors.priority)}
+                                                                helperText={touched.priority && errors.priority} 
+                                                            >
+                                                                <MenuItem value="urgent">
+                                                                    <Stack direction="row" spacing={1}>
+                                                                        <NotificationsActiveIcon sx={{color:"red", width:"17px"}} />
+                                                                        <Typography>Urgent</Typography>
+                                                                    </Stack>
+                                                                </MenuItem>
+                                                                {/* <MenuItem value="important">
+                                                                    <Stack direction="row" spacing={1}>
+                                                                        <PriorityHighIcon sx={{color:"red", width:"17px"}} />
+                                                                        <Typography>Important</Typography>
+                                                                    </Stack>                                            
+                                                                </MenuItem> */}
+                                                                <MenuItem value="medium">
+                                                                    <Stack direction="row" spacing={1}>
+                                                                        <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />
+                                                                        <Typography>Medium</Typography>
+                                                                    </Stack>
+                                                                </MenuItem>
+                                                                <MenuItem value="low">
+                                                                    <Stack direction="row" spacing={1}>
+                                                                        <ArrowDownwardIcon sx={{color:"blue", width:"17px"}} />
+                                                                        <Typography>Low</Typography>
+                                                                    </Stack>
+                                                                </MenuItem>
+                                                            </Select>
+                                                        </FormControl>
+                                                    </TableCell>
+                                                    <TableCell className="body-title" width="25%" align='center'>
+                                                        <LocalizationProvider className="date-controll" dateAdapter={AdapterDateFns} >
+                                                            <DatePicker  
+                                                                onChange={(e)=> setFieldValue("startDate", e)}
+                                                                renderInput={(params) => (
+                                                                    <TextField size='small' {...params} type="date" fullWidth />
+                                                                )}                       
+                                                                value={values.startDate}
+                                                            />
+                                                        </LocalizationProvider>                                        
+                                                    </TableCell>   
+                                                    <TableCell className="body-title" width="25%" align='center'>
+                                                        <LocalizationProvider className="date-controll" dateAdapter={AdapterDateFns} >
+                                                            <DatePicker  
+                                                                onChange={(e)=> setFieldValue("dueDate", e)}
+                                                                renderInput={(params) => (
+                                                                    <TextField size='small' {...params} type="date" fullWidth />
+                                                                )}                       
+                                                                value={values.dueDate}
+                                                            />
+                                                        </LocalizationProvider>
+                                                    </TableCell>                                                   
+                                                </TableRow>
+                                            </TableBody>                       
+                                        </Table>
+                                    </TableContainer>
+                                </Box> 
+
+                                <Stack direction="column" spacing={1} sx={{mt:2}}>
+                                    <Typography className='header-title'>
+                                        Remark
+                                    </Typography>
+                                    <TextField 
+                                        multiline
+                                        size='small' 
+                                        fullWidth
+                                        placeholder='Remark'
+                                        {...getFieldProps("remark")}
+                                        error={Boolean(touched.remark && errors.remark)}
+                                        helperText={touched.remark && errors.remark}
+                                    />            
+                                </Stack>
+
+                                {/* <Stack direction="column" spacing={1} sx={{mt:2}}>
+                                    <Typography className='header-title'>
+                                        Manager Comment
+                                    </Typography>
+                                    <TextField 
+                                        multiline
+                                        size='small' 
+                                        fullWidth
+                                        placeholder='Comment'
+                                        {...getFieldProps("comment")}
+                                        error={Boolean(touched.comment && errors.comment)}
+                                        helperText={touched.comment && errors.comment}
+                                    />            
+                                </Stack> */}
+
+                                
+                                        
+                                {/* <Stack direction="row" spacing={2} sx={{mt:2}}>
+                                    <Stack direction="column" spacing={1} width="40%">
+                                        <Typography className='header-title'>
+                                            Create By
+                                        </Typography>
+                                        <Typography> Mr. CHANDA </Typography>     
+                                    </Stack>   
+                                    <Box sx={{flexGrow:1}}/>
+                                    <Stack direction="column" spacing={1} width="40%">
+                                        <Typography className='header-title'>
+                                            Approve By
+                                        </Typography>
+                                        <Typography> Mr. CHANDA </Typography>      
+                                    </Stack>                          
+                                </Stack> */}
+                                <Stack direction="row" spacing={2} sx={{mt:2}}>
+                                    <Button className="btn-create" sx={{boxShadow: "none"}}  type='submit' variant='contained' fullWidth>{btnTitle}</Button>                                            
+                                </Stack>
+                                
+                             
+                        </Form>
+                    </FormikProvider>     
+
+            </DialogContentText>
+        </DialogContent>       
+    </Dialog>  
   );
 }

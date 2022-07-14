@@ -1,6 +1,7 @@
 @import '../themes.scss';
 
 .storageroom-page {
+    
     .slash {
         width: 4px;
         height: 45px;
@@ -26,11 +27,27 @@
     .container {
         margin-top: 20px;
 
+        @include mobile-small {
+            width: 310px !important;
+        }
+
+        @include mobile {
+            width: 370px !important;
+        }
+
+        @include mobile-large {
+            width: 476px !important;
+        }
+
         .table {
             width: 100%;
+            display: table;
+            overflow-x: auto;
+            white-space: nowrap;
             border-collapse: separate;
-            border-spacing: 0px 8px;            
-
+            border-spacing: 0px 8px;  
+            
+            
             .header-row {            
                 .header-title {
                     padding: 10px;

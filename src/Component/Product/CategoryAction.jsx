@@ -14,6 +14,7 @@ import ModalDeleteCategory from './ModalDeleteCategory';
 import CreateCategory from './CreateCategory';
 
 export default function CategoryAction({
+    dataUserLogin,
     setAlert,
     setMessage,
     setCheckMessage,
@@ -41,42 +42,60 @@ export default function CategoryAction({
         <IconButton onClick={handleClick}>
             <MoreVertIcon sx={{color:"#3C64F6"}}/>   
         </IconButton>
-        <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-                'aria-labelledby': 'basic-button',
-            }}
-        >
-            
-            <MenuItem onClick={()=> {
-                handleClose();
-                handleOpenEdit();
-            }}>
-                <Stack direction="row" spacing={1}>
-                    <EditIcon sx={{color:"Orange"}}/>
-                    <Typography>Edit</Typography>
-                </Stack> 
-            </MenuItem>         
-                 
-            <MenuItem  onClick={()=> {
-                handleClose();
-                handleOpenDelete();
-            }}>
-                <Stack direction="row" spacing={1}>
-                    <DeleteIcon sx={{color:"red"}}/>
-                    <Typography>Delete</Typography>
-                </Stack>    
-            </MenuItem>
 
-        </Menu>
+    {
+        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateProductCategory ||
+        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteProductCategory ?
+            <>
+                <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                    }}
+                >
+                    {
+                        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateProductCategory ?
+                            <MenuItem onClick={()=> {
+                                handleClose();
+                                handleOpenEdit();
+                            }}>
+                                <Stack direction="row" spacing={1}>
+                                    <EditIcon sx={{color:"blue"}}/>
+                                    <Typography>Edit</Typography>
+                                </Stack> 
+                            </MenuItem> 
+                        : null
+                    }
+
+                    {
+                        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteProductCategory ?
+                            <MenuItem  onClick={()=> {
+                                handleClose();
+                                handleOpenDelete();
+                            }}>
+                                <Stack direction="row" spacing={1}>
+                                    <DeleteIcon sx={{color:"red"}}/>
+                                    <Typography>Delete</Typography>
+                                </Stack>    
+                            </MenuItem>
+                        : null
+                    }
+                        
+                </Menu>
+            </>
+        :
+            null
+    }
+        
 
         
-        <Modal open={openEdit} >
+        {/* <Modal open={openEdit} > */}
             <CreateCategory 
                 handleClose={handleCloseEdit} 
+                open={openEdit}
                 btnTitle={"Update"} 
                 editData={editData}
                 setAlert={setAlert}
@@ -85,18 +104,19 @@ export default function CategoryAction({
                 setRefetch={setRefetch}
                 checkStatus={"update"} 
             />
-        </Modal>
+        {/* </Modal> */}
         { /*  */}
-        <Modal open={openDelete} >
+        {/* <Modal open={openDelete} > */}
             <ModalDeleteCategory 
                 editData={editData}
+                open={openDelete}
                 handleClose={handleCloseDelete} 
                 setAlert={setAlert}
                 setMessage={setMessage}
                 setCheckMessage={setCheckMessage}    
                 setRefetch={setRefetch}
             />
-        </Modal>
+        {/* </Modal> */}
 
 
 

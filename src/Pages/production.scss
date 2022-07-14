@@ -53,6 +53,19 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+
+        @include mobile-small {
+            display: none;
+        }
+
+        @include mobile {
+            display: none;
+        }
+
+        @include mobile-large {
+            display: none;
+        }
+
         
         .form-controll-select {
            
@@ -80,6 +93,18 @@
             width:300px;
             background-color: #fff;
             border-radius:10px;
+
+            @include mobile-small {
+                display: none;
+            }
+
+            @include mobile {
+                display: none;
+            }
+
+            @include mobile-large {
+                display: none;
+            }
         }
         
         .btn-add {
@@ -102,11 +127,28 @@
 
     .container {
         margin-top: 20px;
+        width: 100%;
+        
+        @include mobile-small {
+            width: 310px !important;
+        }
+
+        @include mobile {
+            width: 370px !important;
+        }
+
+        @include mobile-large {
+            width: 476px !important;
+        }
 
         .table {
             width: 100%;
+            display: table;
+            overflow-x: auto;
+            white-space: nowrap;
             border-collapse: separate;
             border-spacing: 0px 8px;
+
 
             .header-row {            
                 .header-title {

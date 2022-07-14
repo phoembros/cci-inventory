@@ -69,6 +69,12 @@ export const GET_PRODUCT_UNIT =  gql`
     }
 `
 
+export const GET_PRODUCTION_UNIT =  gql`
+  query Query {
+    getCompletedProductsUnits
+  }
+`
+
 export const GET_PRODUCT_WITH_PAGINATION = gql`
 query GetProductPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean) {
   getProductPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination) {
@@ -84,6 +90,7 @@ query GetProductPagination($page: Int, $limit: Int, $keyword: String, $paginatio
         createdAt
       }
       unit
+      completedUnit
       unitPrice
       durationProduce
       totalStockAmount

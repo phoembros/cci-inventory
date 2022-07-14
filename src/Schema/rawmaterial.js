@@ -6,6 +6,7 @@ export const GET_RAW_MATERIAL_UNIT = gql`
   }
 `
 
+
 export const CREATE_RAW_CATEGORY = gql`
     mutation CreateRawMaterialCategory($newRawMaterialCategory: RawMaterialCategoryInput) {
         createRawMaterialCategory(newRawMaterialCategory: $newRawMaterialCategory) {
