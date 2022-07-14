@@ -14,6 +14,7 @@ import SalesRole from "./SalesRole";
 import SupplierRole from "./SupplierRole";
 import UserRole from "./UserRole";
 import ProductionRole from "./ProductionRole";
+import RolePermission from "./RolePermission";
 
 import AddIcon from '@mui/icons-material/Add';
 import CreateRole from "./CreateRole";
@@ -193,6 +194,14 @@ export default function Role () {
                                 Report
                             </Button>
 
+                            {/* <Button fullWidth 
+                                onClick={ () => activateButton ?  setMenuRole("role-permission") : setMenuRole("") }
+                                className={ menuRole === "role-permission" ? "btn-permission-active" : "btn-permission"}
+                            >
+                                Role & Permission
+                            </Button> */}
+
+
                         </Stack>
                     </Grid>
                     <Grid item xs={9}>
@@ -215,7 +224,9 @@ export default function Role () {
                                     { menuRole === "supplier" ? <SupplierRole setRefetch={refetch}  dataRole={dataRolePermission} /> : null  }
                                     { menuRole === "user" ? <UserRole setRefetch={refetch}  dataRole={dataRolePermission} /> : null  }
                                     { menuRole === "report" ? <ReportRole setRefetch={refetch}  dataRole={dataRolePermission} /> : null  }
-                                   
+                                    { menuRole === "role-permission" ? <RolePermission setRefetch={refetch}  dataRole={dataRolePermission} /> : null  }
+
+
                                 </Table>
                             </TableContainer>
                     </Grid>

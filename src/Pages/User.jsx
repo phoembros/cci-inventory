@@ -137,31 +137,31 @@ export default function User() {
                                     {data?.getUsersPagination?.users?.map((row, index) => (
                                         <TableBody className='body'>
                                             <TableRow key={index} className='body-row'>
-                                            <TableCell className='body-title' width="5%"> {index+1}- </TableCell>
-                                            <TableCell onClick={handleOpenView} className='body-title'>
-                                                <Stack direction="row"  spacing={2}> 
-                                                <Avatar src="static/images/avatar/2.jpg"  />
-                                                <Stack direction="column" justifyContent="center">
-                                                    <Typography>{row?.first_name+" "+row?.last_name}</Typography>
-                                                </Stack>                    
-                                                </Stack>
-                                            </TableCell>
-                                            <TableCell onClick={()=>{ handleOpenView(); setUserData(row)}} className='body-title' width="20%">{row?.gender}</TableCell>
-                                            <TableCell onClick={()=>{ handleOpenView(); setUserData(row)}} className='body-title' width="20%">{moment(row?.birthOfDate).format('DD/MM/YYYY')}</TableCell>
-                                            <TableCell onClick={()=>{ handleOpenView(); setUserData(row)}} className='body-title' width="20%">{row?.email}</TableCell>
-                                            <TableCell onClick={()=>{ handleOpenView(); setUserData(row)}} className='body-title' width="30%">{row?.phone_umber}</TableCell>
+                                                <TableCell className='body-title' width="5%"> {index+1}- </TableCell>
+                                                <TableCell onClick={handleOpenView} className='body-title'>
+                                                    <Stack direction="row"  spacing={2}> 
+                                                        <Avatar src="static/images/avatar/2.jpg"  />
+                                                        <Stack direction="column" justifyContent="center">
+                                                            <Typography>{row?.first_name+" "+row?.last_name}</Typography>
+                                                        </Stack>                    
+                                                    </Stack>
+                                                </TableCell>
+                                                <TableCell onClick={()=>{ handleOpenView(); setUserData(row)}} className='body-title' width="20%">{row?.gender}</TableCell>
+                                                <TableCell onClick={()=>{ handleOpenView(); setUserData(row)}} className='body-title' width="20%">{moment(row?.birthOfDate).format('DD/MM/YYYY')}</TableCell>
+                                                <TableCell onClick={()=>{ handleOpenView(); setUserData(row)}} className='body-title' width="20%">{row?.email}</TableCell>
+                                                <TableCell onClick={()=>{ handleOpenView(); setUserData(row)}} className='body-title' width="30%">{row?.phone_umber}</TableCell>
 
-                                            <TableCell className='body-title'>
-                                                <UserAction            
-                                                    dataUserLogin={dataUserLogin}                                                                                
-                                                    DataUser={row}
-                                                    setRefech={refetch}
-                                                    setAlert={setAlert}
-                                                    setMessage={setMessage}
-                                                    checkMessage={checkMessage} 
-                                                    setCheckMessage={setCheckMessage}
-                                                />
-                                            </TableCell>
+                                                <TableCell className='body-title'>
+                                                    <UserAction            
+                                                        dataUserLogin={dataUserLogin}                                                                                
+                                                        DataUser={row}
+                                                        setRefech={refetch}
+                                                        setAlert={setAlert}
+                                                        setMessage={setMessage}
+                                                        checkMessage={checkMessage} 
+                                                        setCheckMessage={setCheckMessage}
+                                                    />
+                                                </TableCell>
                                             </TableRow>
                                         </TableBody>                
                                     ))}
@@ -208,6 +208,7 @@ export default function User() {
         {/* </Modal> */}
 
         <AlertMessage alert={alert} setAlert={setAlert} message={message} setMessage={setMessage} checkMessage={checkMessage} />
+    
     </div>
   );
 }

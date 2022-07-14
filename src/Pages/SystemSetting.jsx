@@ -4,12 +4,23 @@ import './systemsetting.scss';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useTheme } from '@mui/material/styles';
 import { Link } from "react-router-dom";
+import AlertMessage from "../Component/AlertMessage/AlertMessage";
+import { GET_USER_LOGIN } from "../Schema/user";
+import { useQuery } from "@apollo/client";
 
 
 
 export default function SystemSetting() {
 
     const theme = useTheme();
+
+    //Alert message
+    const [alert, setAlert] = React.useState(false);
+    const [message, setMessage] = React.useState('');
+    const [checkMessage, setCheckMessage]= React.useState('')
+
+    const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+    console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
     return(
         <div className="system-page">
@@ -32,12 +43,28 @@ export default function SystemSetting() {
                                 <Stack direction="column" justifyContent="center" spacing={2}>
                                     <SettingsIcon className="icon"/>
                                 </Stack>
-                                <Stack direction="column" justifyContent="center" spacing={1}> 
-                                    <Link to="/system-setting/role" style={{textDecoration: "none"}}>
-                                        <Typography className="text-title">Role & Permission</Typography>
-                                    </Link>
-                                    <Typography variant="body">Edit abilities of system can do to change mode.</Typography>                                    
-                                </Stack>
+
+                                {
+                                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createRole ?
+                                        <>
+                                        <Stack direction="column" justifyContent="center" spacing={1}> 
+                                            <Link to="/system-setting/role" style={{textDecoration: "none"}}>
+                                                <Typography className="text-title">Role & Permission</Typography>
+                                            </Link>
+                                            <Typography variant="body">Edit abilities of system can do to change mode.</Typography>                                    
+                                        </Stack>
+                                        </>
+                                    :
+                                        <>
+                                        <Stack direction="column" justifyContent="center" spacing={1}>
+                                            <Link to="/system-setting" style={{textDecoration: "none"}}>
+                                                <Typography className="text-title">Role & Permission</Typography> 
+                                            </Link>                                            
+                                            <Typography variant="body">Edit abilities of system can do to change mode.</Typography>                                    
+                                        </Stack>
+                                        </>
+                                }
+                                
                             </Stack>
                         </Stack>
                     </Box>
@@ -62,6 +89,8 @@ export default function SystemSetting() {
                 </Grid>
                 
             </Grid>
+
+            <AlertMessage alert={alert} setAlert={setAlert} message={message} setMessage={setMessage} checkMessage={checkMessage} />
 
         </div>
     );
