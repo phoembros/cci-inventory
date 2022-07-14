@@ -22,7 +22,7 @@ import ViewUser from "../Component/User/ViewUser";
 export default function User() {    
 
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
-    console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+    // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
 
     const [loading,setLoading] = React.useState(true);
@@ -152,7 +152,8 @@ export default function User() {
                                             <TableCell onClick={()=>{ handleOpenView(); setUserData(row)}} className='body-title' width="30%">{row?.phone_umber}</TableCell>
 
                                             <TableCell className='body-title'>
-                                                <UserAction                                                                                            
+                                                <UserAction            
+                                                    dataUserLogin={dataUserLogin}                                                                                
                                                     DataUser={row}
                                                     setRefech={refetch}
                                                     setAlert={setAlert}
