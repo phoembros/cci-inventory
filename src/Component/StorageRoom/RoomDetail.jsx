@@ -136,7 +136,7 @@ export default function RoomDetail() {
                                                 <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" component="th" scope="row" width="25%"> {row.productName} </TableCell>
                                                 <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >{row.qtyInThisStorage} {row?.completedUnit}</TableCell>
                                                 <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >{row.unitPrice}$</TableCell>
-                                                <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >{row.unitPrice*row?.qtyInThisStorage}$</TableCell>                                                                   
+                                                <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >${(row.unitPrice*row?.qtyInThisStorage).toFixed(2)}</TableCell>                                                                   
                                                 <TableCell className="body-title" align="right">
                                                     <RoomDetialAction />                        
                                                 </TableCell>                            

@@ -75,8 +75,8 @@ function ListCreateSales(props) {
                                     inputProps: { min: 1 },
                                 }}
                                 onFocus={handleTouch}
-                                error={ touched && item?.qty < 1 || touched && isNaN(item?.qty) }
-                                helperText={ item?.qty < 1 && errorMessage[0] || isNaN(item?.qty) && errorMessage[1] }
+                                error={ touched && item?.qty < 0.01 || touched && isNaN(item?.qty) }
+                                helperText={ item?.qty < 0.01 && errorMessage[0] || isNaN(item?.qty) && errorMessage[1] }
                             />
                         </TableCell>   
 

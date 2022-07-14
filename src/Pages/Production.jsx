@@ -39,7 +39,7 @@ import { GET_USER_LOGIN } from "../Schema/user";
 export default function Production() {
 
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
-  console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+//   console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
     
     const [loading,setLoading] = React.useState(true);
     //View details

@@ -99,7 +99,7 @@ export default function SalesCreated({
     // End get  Customer
 
     // List Product to Sell
-    const [currentItem, setCurrentItem] = React.useState({ itemName: '' , productId: '', qty: 1 , unitPrice: 0.01 , amount: 0 , key: 0 ,})
+    const [currentItem, setCurrentItem] = React.useState({ itemName: '' , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: 0 ,})
     const [item, setItem] = React.useState([])
 
     const addItem = () => {     
@@ -111,13 +111,13 @@ export default function SalesCreated({
             ];
             setItem([... items])
             setCurrentItem({
-                itemName: '' , productId: '', qty: 1 , unitPrice: 0.01 , amount: 0 , key: 0
+                itemName: '' , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: 0
             })
         }
     }
 
     const handleAddSales = () => {
-        setCurrentItem({ itemName: 'product' , productId: '', qty: 1 , unitPrice: 0.01 , amount: 0 , key: Date.now() });
+        setCurrentItem({ itemName: 'product' , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: Date.now() });
     }
 
     React.useEffect(() => {

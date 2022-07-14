@@ -104,7 +104,7 @@ return (
                         Total:
                     </Typography>  
                     <Typography variant='body1'>
-                    ${DataView?.unitPrice*DataView?.qtyInThisStorage}
+                    ${(DataView?.unitPrice*DataView?.qtyInThisStorage).toFixed(2)}
                     </Typography>   
                 </Stack>        
                               

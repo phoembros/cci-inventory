@@ -106,13 +106,17 @@ export default function CreateProduction({
     const [productById,setProductById] = React.useState({})
     const [getProductById, { data: dataProductById }] = useLazyQuery(GET_PRODUCT_BYID);
 
+
     React.useEffect( () => {
-        console.log(dataProductById?.getProductById)
+        console.log(dataProductById?.getProductById , "dsfa")
         if(dataProductById?.getProductById){
             setProductById(dataProductById?.getProductById)
         }
     },[dataProductById?.getProductById])   
    
+    React.useEffect( () => {
+        setProductById({})
+    },[])
 
 
     // Get Storage Room
@@ -353,15 +357,23 @@ export default function CreateProduction({
                                                     <TableCell className="header-title"></TableCell>                                                       
                                                 </TableRow>
                                             </TableHead>
-                                            {productById?.ingredients?.map((row , index) => (
-                                                <TableBody key={index} component={Paper} className="body" >                        
-                                                    <TableRow  className="body-row">                                
-                                                        <TableCell className="body-title" component="th" scope="row" > {row?.rawMaterialId?.materialName} </TableCell>
-                                                        <TableCell className="body-title" >{row?.amount*values?.qty}{row?.rawMaterialId?.unit}</TableCell>    
-                                                        <TableCell className="body-title" ></TableCell>                                                   
-                                                    </TableRow>
-                                                </TableBody>                        
-                                            ))}
+                                        {
+                                            productById?.ingredients?.length !== 0 ?
+                                                <>
+                                                    {productById?.ingredients?.map((row , index) => (
+                                                        <TableBody key={index} component={Paper} className="body" >                        
+                                                            <TableRow  className="body-row">                                
+                                                                <TableCell className="body-title" component="th" scope="row" > {row?.rawMaterialId?.materialName} </TableCell>
+                                                                <TableCell className="body-title" >{row?.amount*values?.qty}{row?.rawMaterialId?.unit}</TableCell>    
+                                                                <TableCell className="body-title" ></TableCell>                                                   
+                                                            </TableRow>
+                                                        </TableBody>                        
+                                                    ))}
+                                                </>
+                                            :
+                                                null
+                                        }    
+                                            
                                         </Table>
                                     </TableContainer>
 

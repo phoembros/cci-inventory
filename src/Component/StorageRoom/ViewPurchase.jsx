@@ -180,7 +180,7 @@ return (
                                             <TableRow  className="body-row">                                
                                                 <TableCell className="body-title" component="th" scope="row" width="300px">{row?.rawMaterialId?.materialName}</TableCell>
                                                 <TableCell className="body-title"  align="center" width="20%">{row?.newQty}</TableCell>  
-                                                <TableCell className="body-title"  align="center" width="20%" >{row?.rawMaterialId?.unitPrice} </TableCell>
+                                                <TableCell className="body-title"  align="center" width="20%" >${row?.unitPrice} </TableCell>
                                                 {/* <TableCell className="body-title"  align="center" width="20%">{row?.suppliersName}</TableCell>  */}
                                                 <TableCell className="body-title" ></TableCell>
                                                 <TableCell className="body-title" ></TableCell>                                                  
