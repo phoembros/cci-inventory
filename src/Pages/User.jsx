@@ -65,7 +65,9 @@ export default function User() {
         },
         pollInterval: 10000,
     });
-    // console.log(data?.getUsersPagination?.users, 'user')
+
+
+    console.log(data?.getUsersPagination?.users, 'user')
    
 
     React.useEffect(()=>{
@@ -186,8 +188,8 @@ export default function User() {
                                         <Pagination
                                             page={pageShow}
                                             component="div"
-                                            hideNextButton="true"
-                                            hidePrevButton="true"
+                                            hideNextButton={true}
+                                            hidePrevButton={true}
                                             count={data?.getUsersPagination?.paginator?.totalPages}
                                             variant="outlined"
                                             color="primary"

@@ -170,9 +170,7 @@ function UpdateUser({
       gender: DataUser?.gender,
       phone_number: DataUser?.phone_number,
       birthOfDate: DataUser?.birthOfDate,
-      role_and_permission: DataUser?.role_and_permission?._id,
-      image_name: "",
-      image_src: DataUser?.image_src,
+      role_and_permission: DataUser?.role_and_permission?._id,      
     },
 
     validationSchema: Update_user,
@@ -184,11 +182,14 @@ function UpdateUser({
         return;
       }
 
+      console.log(uploadedImage , "image")
+
       updateUser({
         variables: {
           id: DataUser?._id,
           userUpdate: {
-            image_src: uploadedImage ? uploadedImage : "",
+            image_name: "",
+            image_src: uploadedImage ? uploadedImage : " ",
             ...values,
           },
         },
@@ -196,7 +197,7 @@ function UpdateUser({
     },
   });
 
-  console.log(DataUser?.image_src, "::Image");
+  // console.log(DataUser?.image_src, "::Image");
 
   const {
     errors,

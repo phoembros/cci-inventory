@@ -14,7 +14,7 @@ import { useQuery } from "@apollo/client";
 export default function Profile () {
 
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
-    console.log(dataUserLogin?.getuserLogin)
+    // console.log(dataUserLogin?.getuserLogin)
 
     const navigate = useNavigate();
     const theme = useTheme();
@@ -83,7 +83,7 @@ export default function Profile () {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem onClick={() => navigate("/user")}>
-                    <Avatar /> Profile
+                    <Avatar src={dataUserLogin?.getuserLogin?.image_src} sx={{ width: 100, height: 100 }}/>  Profile
                 </MenuItem>
                                 
                 <Divider />
