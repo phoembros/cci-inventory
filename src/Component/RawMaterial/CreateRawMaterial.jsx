@@ -165,6 +165,8 @@ export default function CreateRawMaterials({
         });
       }
 
+      resetForm();
+
     },
   });
 

@@ -153,6 +153,10 @@ export default function ModalCreateStorageRoom({
           }
         })
       }
+
+      resetForm();
+
+      
     },
   });
   const { errors, touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm,} = formik;

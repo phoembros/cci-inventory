@@ -259,6 +259,8 @@ export default function SalesCreated({
                   }
               }
           })
+
+          resetForm();
         
       },
     });

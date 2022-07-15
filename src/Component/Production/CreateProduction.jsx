@@ -49,6 +49,7 @@ export default function CreateProduction({
     setRefetch,
 }) {
 
+   
     const [createProductions] = useMutation(CREATE_PRODUCTION , {
         onCompleted: ({createProductions}) => { 
             console.log(createProductions)         
@@ -57,7 +58,7 @@ export default function CreateProduction({
                 setMessage(createProductions?.message)
                 setAlert(true);
                 handleClose();
-                setRefetch();
+                setRefetch();               
             } else {
                 setCheckMessage("error")
                 setAlert(true);
@@ -71,7 +72,8 @@ export default function CreateProduction({
         }
 
     });
-  
+
+      
     // Get User ID  
     const { data: userLoginData } = useQuery(GET_USER_LOGIN);  
     const userId =  userLoginData?.getuserLogin?._id;
@@ -89,7 +91,7 @@ export default function CreateProduction({
     React.useEffect( () => {
         if(dataProduct?.getProductPagination?.products){
             let rows = [];
-            dataProduct?.getProductPagination?.products?.forEach((element) => {
+            dataProduct?.getProductPagination?.products?.forEach( (element) => {
                 const allrow = {
                     label: element?.productName,
                     qtyOnHand: element?.totalStockAmount,
@@ -102,17 +104,20 @@ export default function CreateProduction({
     },[dataProduct?.getProductPagination?.products])    
     
 
+    
     // get Product Infor by ID  
     const [productById,setProductById] = React.useState({})
     const [getProductById, { data: dataProductById }] = useLazyQuery(GET_PRODUCT_BYID);
 
 
     React.useEffect( () => {
-        console.log(dataProductById?.getProductById , "dsfa")
+        console.log(dataProductById?.getProductById)
         if(dataProductById?.getProductById){
             setProductById(dataProductById?.getProductById)
         }
     },[dataProductById?.getProductById])   
+
+       
    
     React.useEffect( () => {
         setProductById({})
@@ -163,6 +168,8 @@ export default function CreateProduction({
             setCustomer(rows);
         }
     },[dataCustomer?.getCustomerPagination?.customers]) 
+
+    
    
     // Formik
     const createProduction = Yup.object().shape({        
@@ -172,7 +179,7 @@ export default function CreateProduction({
         priority: Yup.string(),
         qty: Yup.number().min(1 , "Can't under 1"),
         productName: Yup.string(),
-        productId: Yup.string(),
+        productId: Yup.string().required("Product is required!"),
         qtyOnHand: Yup.number(),
         progress: Yup.string(),
         comment: Yup.string(),
@@ -226,7 +233,8 @@ export default function CreateProduction({
                     }
                 }
             })
-                     
+                 
+            resetForm();
            
         },
 
@@ -234,7 +242,8 @@ export default function CreateProduction({
     const { errors, touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm } = formik;
     // End Formik
 
-    
+
+       
   return (
         <Dialog open={open} className="dialog-production-create">
             <DialogTitle id="alert-dialog-title">
@@ -316,7 +325,11 @@ export default function CreateProduction({
                                                                 setFieldValue( "qtyOnHand" , value?.qtyOnHand )   
                                                                 getProductById({ variables: { productId: value?._id } })                 
                                                             }}
-                                                            renderInput={(params) => <TextField {...params} size="small" />}
+                                                            renderInput={(params) => <TextField {...params}
+                                                                    placeholder="Product Name" size="small"
+                                                                    error={Boolean(touched.productId && errors.productId)}
+                                                                    helperText={touched.productId && errors.productId}
+                                                            />}
                                                         /> 
                                                     
                                                     </TableCell>
@@ -358,7 +371,7 @@ export default function CreateProduction({
                                                 </TableRow>
                                             </TableHead>
                                         {
-                                            productById?.ingredients?.length !== 0 ?
+                                            values?.productId !== "" ?
                                                 <>
                                                     {productById?.ingredients?.map((row , index) => (
                                                         <TableBody key={index} component={Paper} className="body" >                        
@@ -372,7 +385,7 @@ export default function CreateProduction({
                                                 </>
                                             :
                                                 null
-                                        }    
+                                        }                                                                                    
                                             
                                         </Table>
                                     </TableContainer>
@@ -382,7 +395,7 @@ export default function CreateProduction({
                                         <Table className="table-buttom" aria-label="simple table">
                                             <TableHead >
                                                 <TableRow className="header-row">
-                                                    {/* <TableCell className="header-title">Progress</TableCell>                             */}
+                                                    {/* <TableCell className="header-title">Progress</TableCell> */}
                                                     <TableCell className="header-title">Prirority</TableCell>  
                                                     <TableCell className="header-title">Start Date</TableCell>  
                                                     <TableCell className="header-title">Due Date</TableCell>                                                    

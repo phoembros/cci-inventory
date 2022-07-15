@@ -68,14 +68,16 @@ export default function CustomerSetup({
 
     validationSchema: SetupAdd,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      console.log(values, "value");
-      createCustomer({
-        variables: {
-          newCustomer: {
-            ...values,
-          }
-        },
-      });
+        console.log(values, "value");
+        createCustomer({
+          variables: {
+            newCustomer: {
+              ...values,
+            }
+          },
+        });
+
+        resetForm();
     },
   });
 
