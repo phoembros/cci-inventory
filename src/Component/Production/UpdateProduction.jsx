@@ -37,6 +37,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { sendMessage } from '../TelegrameClient/TelegrameClient';
+import moment from 'moment';
 
 export default function UpdateProduction({
     nameRequest,
@@ -60,7 +61,7 @@ export default function UpdateProduction({
                 handleClose();
                 setRefetch();
 
-                await sendMessage({content: `<b>Request Create Production</b>\nThis is to inform you that <i>${nameRequest}</i> would like to create production.\n<code>For details info please kindly check system.</code>\<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+                await sendMessage({content: `<b>[Request Create Production]</b>\n👩‍🚀 <i>${nameRequest}</i>\n\n${updateProductions?.data?.production?.productId?.productName} (x${updateProductions?.data?.qty} ${updateProductions?.data?.production?.productId?.unit})\n\n🗓 Date:${moment(updateProductions?.data?.createdAt).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
 
             } else {
                 setCheckMessage("error")

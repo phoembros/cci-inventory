@@ -119,14 +119,14 @@ export default function PaymentModal({
                             value={editData?.totalPayment}
                             fullWidth 
                             InputProps={{                  
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton disableRipple={true} size="small">
-                                        $
-                                    </IconButton>
-                                </InputAdornment>
-                            ),
-                        }}
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton disableRipple={true} size="small">
+                                            $
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
                     </Box>
                 </Stack>

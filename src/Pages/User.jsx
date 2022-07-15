@@ -21,10 +21,12 @@ import ViewUser from "../Component/User/ViewUser";
 
 export default function User() {    
 
+
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
         pollInterval: 10000,
     })
     // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+    const [UserData, setUserData] = React.useState([]);
 
     const [loading,setLoading] = React.useState(true);
 
@@ -39,7 +41,10 @@ export default function User() {
 
 
     const [openView, setOpenView] = React.useState(false);
-    const handleOpenView = () => setOpenView(true);
+    const handleOpenView = (row) => {
+        setOpenView(true);
+        setUserData(row);
+    };
     const handleCloseView = () => setOpenView(false);
 
     //get Pagegination
@@ -68,7 +73,7 @@ export default function User() {
         setPageShow(page)
     }, [page,keyword])
 
-    const [UserData, setUserData] = React.useState([]);
+    
 
   return (
     <div className="user-page">
@@ -142,16 +147,16 @@ export default function User() {
                                                 <TableCell className='body-title' width="5%"> {index+1}- </TableCell>
                                                 <TableCell onClick={handleOpenView} className='body-title'>
                                                     <Stack direction="row"  spacing={2}> 
-                                                        <Avatar src="static/images/avatar/2.jpg"  />
+                                                        <Avatar src= {row?.image_src} alt={row?.name}/>
                                                         <Stack direction="column" justifyContent="center">
                                                             <Typography>{row?.first_name+" "+row?.last_name}</Typography>
                                                         </Stack>                    
                                                     </Stack>
                                                 </TableCell>
-                                                <TableCell onClick={()=>{ handleOpenView(); setUserData(row)}} className='body-title' width="20%">{row?.gender}</TableCell>
-                                                <TableCell onClick={()=>{ handleOpenView(); setUserData(row)}} className='body-title' width="20%">{moment(row?.birthOfDate).format('DD/MM/YYYY')}</TableCell>
-                                                <TableCell onClick={()=>{ handleOpenView(); setUserData(row)}} className='body-title' width="20%">{row?.email}</TableCell>
-                                                <TableCell onClick={()=>{ handleOpenView(); setUserData(row)}} className='body-title' width="30%">{row?.phone_umber}</TableCell>
+                                                <TableCell onClick={()=>{ handleOpenView(row) }} className='body-title' width="20%">{row?.gender}</TableCell>
+                                                <TableCell onClick={()=>{ handleOpenView(row) }} className='body-title' width="20%">{moment(row?.birthOfDate).format('DD/MM/YYYY')}</TableCell>
+                                                <TableCell onClick={()=>{ handleOpenView(row) }} className='body-title' width="20%">{row?.email}</TableCell>
+                                                <TableCell onClick={()=>{ handleOpenView(row) }} className='body-title' width="30%">{row?.phone_umber}</TableCell>
 
                                                 <TableCell className='body-title'>
                                                     <UserAction            

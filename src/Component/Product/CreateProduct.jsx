@@ -87,7 +87,6 @@ export default function CreateProduct({
           keyword: "",
           pagination: false,
       }
-
     }); 
 
     React.useEffect(() => {
@@ -231,7 +230,9 @@ export default function CreateProduct({
                     }
                 }
             }) 
+
             
+            setItem([{ rawName: 'Material Name' , rawMaterialId: '' , amount: 1 , unitRawMaterial: "" ,  key: Date.now()}])                     
             resetForm();
         },
 

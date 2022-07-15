@@ -30,6 +30,7 @@ import { GET_USER_LOGIN } from '../../Schema/user';
 import { GET_STORAGE_ROOM_PRODUCT } from '../../Schema/starageroom';
 import { GET_CUSTOMER_PAGINATION } from "../../Schema/sales";
 
+import moment from "moment"
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -62,7 +63,7 @@ export default function CreateProduction({
                 handleClose();
                 setRefetch();   
                 
-                await sendMessage({content: `<b>Request Create Production</b>\nThis is to inform you that <i>${nameRequest}</i> would like to create production.\n<code>For details info please kindly check system.</code>\<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+                await sendMessage({content: `<b>[Request Create Production]</b>\n👩‍🚀 <i>${nameRequest}</i>\n\n${createProductions?.data?.production?.productId?.productName} (x${createProductions?.data?.qty} ${createProductions?.data?.production?.productId?.unit})\n\n🗓 Date:${moment(createProductions?.data?.createdAt).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
 
             } else {
                 setCheckMessage("error")

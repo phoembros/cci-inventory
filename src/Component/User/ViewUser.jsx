@@ -34,7 +34,7 @@ export default function ViewUser({handleCloseView, open , UserData}) {
             <DialogContentText id="alert-dialog-description">     
                      
                 <Stack direction="row" spacing={2} justifyContent="center" className="profile-image-mobile" sx={{mt:1}}>                    
-                        <Avatar src="/static/images/avatar/1.jpg"sx={{ width: 100, height: 100 }}/>                                      
+                        <Avatar src="/static/images/avatar/1.jpg" sx={{ width: 100, height: 100 }}/>                                      
                 </Stack>
 
                 <TableContainer className="main-table">
@@ -43,7 +43,7 @@ export default function ViewUser({handleCloseView, open , UserData}) {
                         <TableRow className="head-title">
                             <TableCell className="head-title profile-image" width='20%' >
                                 <Stack direction='column' spacing={2} className="view-user">
-                                    <Avatar src="/static/images/avatar/1.jpg"sx={{ width: 100, height: 100 }}/>
+                                    <Avatar src={UserData?.image_src} sx={{ width: 100, height: 100 }}/>
                                 </Stack>
                                 <caption style={{alignItems: 'center' }}>Persional</caption>
                             </TableCell>

@@ -34,6 +34,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { GET_SUPPLIERS_BY_PAGINATION } from '../../Schema/supplies';
 import { sendMessage } from '../TelegrameClient/TelegrameClient';
 
+import moment from "moment";
 
 export default function PurchaseRawMaterial({
   nameRequest,
@@ -49,33 +50,7 @@ export default function PurchaseRawMaterial({
 
   const [totalAmount,setTotalAmount] = React.useState(0);
   
-  // Create
-  const [createPurchaseRawMaterial] = useMutation(CREATE_PURCHASE_RAW_MATERIAL,{
-    onCompleted: async ({createPurchaseRawMaterial}) => {
-        console.log(createPurchaseRawMaterial?.message, "message");
-        if(createPurchaseRawMaterial?.success){
-          setCheckMessage('success')
-          setMessage(createPurchaseRawMaterial?.message);
-          setAlert(true);
-          handleClose();
-          setRefetch();
-
-          await sendMessage({content: `<b>Request Purchase Rawmateril</b>\nThis is to inform you that <i>${nameRequest}</i> would like to request purchase material.\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
-
-
-        } else {
-          setCheckMessage('error')
-          // setMessage("Material & Supplier invalid value!");
-          setMessage(createPurchaseRawMaterial?.message);
-          setAlert(true);
-        }
-    },
-    onError: (error) => {     
-      setAlert(true)
-      setCheckMessage('error')
-      setMessage(error?.message)
-    },
-  });
+  
 
   const [btnCheckSubmit,setBtnCheckSubmit] = React.useState(true);
        
@@ -123,7 +98,7 @@ export default function PurchaseRawMaterial({
   // List RawMaterial have to purchase===========================================================================
 
     const [currentItem, setCurrentItem] = React.useState({ rawName: '', rawMaterialId: '', newQty: 1 , unitPrice : 0.01 , suppliersName: '' , suppliersId: '', key: ''})
-    const [item, setItem] = React.useState([])
+    const [item, setItem] = React.useState([]);
 
     const addItem = () => {     
         const newItem = currentItem;
@@ -182,13 +157,14 @@ export default function PurchaseRawMaterial({
 
         setItem([...items]) 
     }
-    const setUpdateRawName = (rawName,key) => {
+    const setUpdateRawName = (rawName, baseUnitPrice , key) => {
         const items = item;
         items.map(i=>{      
           if(i.key===key){           
             i.rawName= rawName;
             i.suppliersName= supplierAutoComplete?.label;
             i.suppliersId= supplierAutoComplete?._id;
+            i.unitPrice = baseUnitPrice;
           }
         })
         setItem([...items]) 
@@ -295,6 +271,41 @@ export default function PurchaseRawMaterial({
     },[supplierAutoComplete])
 
     // End List Purchase =========================================================================================
+    
+    // Create
+    const [createPurchaseRawMaterial] = useMutation(CREATE_PURCHASE_RAW_MATERIAL,{
+    onCompleted: async ({createPurchaseRawMaterial}) => {
+        console.log(createPurchaseRawMaterial?.message, "message");
+        if(createPurchaseRawMaterial?.success){
+          setCheckMessage('success')
+          setMessage(createPurchaseRawMaterial?.message);
+          setAlert(true);
+          handleClose();
+          setRefetch();
+          // console.log(createPurchaseRawMaterial?.data)
+          var ListRawMaterils = "";
+          createPurchaseRawMaterial?.data?.productsItems?.map( i => (
+            ListRawMaterils+= `\n👉 ${i?.rawMaterialId?.materialName} (x${i?.newQty} ${i?.rawMaterialId?.unit})` 
+          ))
+
+          await sendMessage({content: `<b>[Request Purchase RawMaterial]</b>\n👩‍🚀 <i>${nameRequest}</i>\n${ListRawMaterils}\n\n🗓 Date:${moment(createPurchaseRawMaterial?.data?.purchaseDate).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+
+        } else {
+          setCheckMessage('error')
+          // setMessage("Material & Supplier invalid value!");
+          setMessage(createPurchaseRawMaterial?.message);
+          setAlert(true);
+        }
+    },
+    onError: (error) => {     
+      setAlert(true)
+      setCheckMessage('error')
+      setMessage(error?.message)
+    },
+  });
+
+
+
 
     const SalesAdd = Yup.object().shape({        
         purchaseDate: Yup.date(),
@@ -334,12 +345,15 @@ export default function PurchaseRawMaterial({
               }
           })
 
+          setItem([{ rawName: "Material Name" , rawMaterialId: "", newQty: 1 , unitPrice : 0.01 , suppliersName: '' , suppliersId: '' , key: Date.now() }])
           resetForm();
           
       },
     });
     
     const { errors,  touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm } = formik;
+
+    
 
     return (
         <Dialog open={open} className="dialog-create-purchase">

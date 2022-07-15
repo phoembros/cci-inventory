@@ -4,7 +4,78 @@ export const CREATE_PRODUCTION = gql`
     mutation CreateProductions($newProductions: ProductionsInput) {
         createProductions(newProductions: $newProductions) {
         success
-        message
+        message  
+        data {
+          _id
+          productionsId
+          startDate
+          dueDate
+          workOrders
+          customerId {
+            _id
+            cusId
+            name
+            phoneNumber
+          }
+          productionsBy {
+            _id
+            first_name
+            last_name
+            gender
+            email
+          }
+          approveOrRejectBy {
+            _id
+            first_name
+            last_name
+            gender
+          }
+          qualityCheck {
+            _id
+            first_name
+            last_name
+            gender
+          }
+          status
+          priority
+          progress
+          production {
+            productId {
+              _id
+              productName
+              productId
+              category {
+                _id
+                categoryName
+              }
+              unit
+              completedUnit
+              unitPrice
+              durationProduce
+              totalStockAmount
+              totalSoldAmount
+              remark
+            }
+            productName
+            qtyOnHand
+          }
+          qty
+          completedQtyUM
+          completedQtyVM
+          completedRemark
+          storageRoomId {
+            _id
+            name
+            address
+            type
+          }
+          comment
+          remark
+          warning
+          remarkWarning
+          updatedAt
+          createdAt
+        }     
         }
     }
 `
@@ -173,6 +244,77 @@ export const UPDATE_PRODUCTION = gql`
     updateProductions(_id: $id, ProductionsEdit: $productionsEdit) {
       success
       message
+      data {
+        _id
+        productionsId
+        startDate
+        dueDate
+        workOrders
+        customerId {
+          _id
+          cusId
+          name
+          phoneNumber
+        }
+        productionsBy {
+          _id
+          first_name
+          last_name
+          gender
+          email
+        }
+        approveOrRejectBy {
+          _id
+          first_name
+          last_name
+          gender
+        }
+        qualityCheck {
+          _id
+          first_name
+          last_name
+          gender
+        }
+        status
+        priority
+        progress
+        production {
+          productId {
+            _id
+            productName
+            productId
+            category {
+              _id
+              categoryName
+            }
+            unit
+            completedUnit
+            unitPrice
+            durationProduce
+            totalStockAmount
+            totalSoldAmount
+            remark
+          }
+          productName
+          qtyOnHand
+        }
+        qty
+        completedQtyUM
+        completedQtyVM
+        completedRemark
+        storageRoomId {
+          _id
+          name
+          address
+          type
+        }
+        comment
+        remark
+        warning
+        remarkWarning
+        updatedAt
+        createdAt
+      } 
     }
   }
 `

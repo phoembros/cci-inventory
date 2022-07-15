@@ -1,6 +1,6 @@
 import React from 'react';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import { Autocomplete, Box, IconButton, Paper, Stack, TableBody, TableCell, TableRow, TextField } from '@mui/material';
+import { Autocomplete, Box, IconButton, InputAdornment, Paper, Stack, TableBody, TableCell, TableRow, TextField } from '@mui/material';
 import './listrawmaterial.scss';
 import { useQuery } from '@apollo/client';
 // Schema 
@@ -20,12 +20,14 @@ function ListRawMaterial(props) {
     })
 
     React.useEffect(() => {
-        if (rawmaterialData) {            
+        if (rawmaterialData) {    
+            console.log(rawmaterialData?.getRawMaterialPagination?.rawMaterial)        
             let rows = [];            
             rawmaterialData?.getRawMaterialPagination?.rawMaterial?.forEach((element) => {
                 const allrow = { 
                   label: element?.materialName, 
-                  _id: element?._id 
+                  _id: element?._id,
+                  unitPrice: element?.unitPrice,
                 };
                 rows.push(allrow);
             });
@@ -76,7 +78,7 @@ function ListRawMaterial(props) {
                                 getOptionLabel={ (option) => option.label ? option.label :  ""}                             
                                 onChange={(e, value) => {
                                     props.setUpdateRawId( value?._id , item.key ) 
-                                    props.setUpdateRawName( value?.label , item.key )                                   
+                                    props.setUpdateRawName( value?.label , value?.unitPrice , item.key )                                   
                                 }}                                
                                 renderInput={ (params) => 
                                     <TextField  
@@ -100,7 +102,7 @@ function ListRawMaterial(props) {
                                 size='small' 
                                 value={item.newQty} 
                                 onChange={(e) => props.setUpdateQty(parseFloat(e.target.value), item.key)}
-                                InputProps={{                                 
+                                InputProps={{                                                                     
                                     inputProps: { min: 1 },
                                 }}
                                 onFocus={handleTouch}
@@ -117,7 +119,14 @@ function ListRawMaterial(props) {
                                 id={item.key} 
                                 size='small' 
                                 value={item.unitPrice} 
-                                InputProps={{                                 
+                                InputProps={{  
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <IconButton disableRipple={true} size="small">
+                                                $
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),                               
                                     inputProps: { min: 0.01 },
                                 }}
                                 onChange={(e) => props.setUpdateUnitPrice(parseFloat(e.target.value), item.key)}

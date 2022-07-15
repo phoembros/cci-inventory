@@ -140,7 +140,79 @@ export const CREATE_PURCHASE_RAW_MATERIAL = gql`
   mutation CreatePurchaseRawMaterial($newPurchaseRawMaterial: PurchaseRawMaterialInput) {
     createPurchaseRawMaterial(newPurchaseRawMaterial: $newPurchaseRawMaterial) {
       success
-      message
+      message      
+      data {
+        _id
+        purchaseId
+        PurchaseProduct
+        purchaseDate
+        purchaseBy {
+          _id
+          first_name
+          last_name
+          gender
+          email
+          password
+          phone_number
+          image_name
+          image_src
+          birthOfDate
+          create_at
+          update_at
+          status
+        }
+        approveBy {
+          _id
+          first_name
+          last_name
+          gender
+        }
+        completedBy {
+          _id
+          first_name
+          last_name
+        }
+        status
+        priority
+        storageRoom {
+          _id
+          name
+          address
+          type
+        }
+        supplierID {
+          _id
+          name
+          email
+        }
+        productsItems {
+          rawMaterialId {
+            _id
+            materialName
+            unit
+            unitPrice
+            totalStockAmount
+            usedStockAmount
+          }
+          newQty
+          unitPrice
+          rawName
+          suppliersId {
+            _id
+            name
+            email
+            phoneNumber
+            address
+          }
+          suppliersName
+        }
+        totalPayment
+        paymentStatus
+        paidAmount
+        remark
+        updatedAt
+        createdAt
+      }
     }
   }
 `
@@ -150,6 +222,78 @@ export const UPDATE_PURCHASE_RAW_MATERIAL = gql`
     updatePurchaseRawMaterial(_id: $id, PurchaseRawMaterialEdit: $purchaseRawMaterialEdit) {
       success
       message
+      data {
+        _id
+        purchaseId
+        PurchaseProduct
+        purchaseDate
+        purchaseBy {
+          _id
+          first_name
+          last_name
+          gender
+          email
+          password
+          phone_number
+          image_name
+          image_src
+          birthOfDate
+          create_at
+          update_at
+          status
+        }
+        approveBy {
+          _id
+          first_name
+          last_name
+          gender
+        }
+        completedBy {
+          _id
+          first_name
+          last_name
+        }
+        status
+        priority
+        storageRoom {
+          _id
+          name
+          address
+          type
+        }
+        supplierID {
+          _id
+          name
+          email
+        }
+        productsItems {
+          rawMaterialId {
+            _id
+            materialName
+            unit
+            unitPrice
+            totalStockAmount
+            usedStockAmount
+          }
+          newQty
+          unitPrice
+          rawName
+          suppliersId {
+            _id
+            name
+            email
+            phoneNumber
+            address
+          }
+          suppliersName
+        }
+        totalPayment
+        paymentStatus
+        paidAmount
+        remark
+        updatedAt
+        createdAt
+      }
     }
   }
 `

@@ -35,6 +35,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { GET_SUPPLIERS_BY_PAGINATION } from '../../Schema/supplies';
 import { sendMessage } from '../TelegrameClient/TelegrameClient';
 
+import moment from "moment";
 
 export default function PurchaseRawMaterialUpdate({
   nameRequest,
@@ -50,7 +51,7 @@ export default function PurchaseRawMaterialUpdate({
   // Update
   const [updatePurchaseRawMaterial] = useMutation(UPDATE_PURCHASE_RAW_MATERIAL,{
     onCompleted: async ({updatePurchaseRawMaterial}) => {
-      // console.log(updatePurchaseRawMaterial?.message, "message");
+      console.log(updatePurchaseRawMaterial, "message");
       if(updatePurchaseRawMaterial?.success){
         setCheckMessage('success')
         setMessage(updatePurchaseRawMaterial?.message);
@@ -58,7 +59,12 @@ export default function PurchaseRawMaterialUpdate({
         handleClose();
         setRefetch();
 
-        await sendMessage({content: `<b>Request Purchase Rawmateril</b>\nThis is to inform you that <i>${nameRequest}</i> would like to request purchase material.\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+        var ListRawMaterils = "";
+        updatePurchaseRawMaterial?.data?.productsItems?.map( i => (
+          ListRawMaterils+= `\n👉 ${i?.rawMaterialId?.materialName} (x${i?.newQty} ${i?.rawMaterialId?.unit})` 
+        ))
+
+        await sendMessage({content: `<b>[Request Purchase RawMaterial]</b>\n👩‍🚀 <i>${nameRequest}</i>\n${ListRawMaterils}\n\n🗓 Date:${moment(updatePurchaseRawMaterial?.data?.purchaseDate).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
 
 
       } else {
