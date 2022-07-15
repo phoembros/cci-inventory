@@ -33,9 +33,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { GET_SUPPLIERS_BY_PAGINATION } from '../../Schema/supplies';
+import { sendMessage } from '../TelegrameClient/TelegrameClient';
 
 
 export default function PurchaseRawMaterialUpdate({
+  nameRequest,
   handleClose, 
   open,
   btnTitle,
@@ -47,7 +49,7 @@ export default function PurchaseRawMaterialUpdate({
 }) {
   // Update
   const [updatePurchaseRawMaterial] = useMutation(UPDATE_PURCHASE_RAW_MATERIAL,{
-    onCompleted: ({updatePurchaseRawMaterial}) => {
+    onCompleted: async ({updatePurchaseRawMaterial}) => {
       // console.log(updatePurchaseRawMaterial?.message, "message");
       if(updatePurchaseRawMaterial?.success){
         setCheckMessage('success')
@@ -55,6 +57,10 @@ export default function PurchaseRawMaterialUpdate({
         setAlert(true);
         handleClose();
         setRefetch();
+
+        await sendMessage({content: `<b>Request Purchase Rawmateril</b>\nThis is to inform you that <i>${nameRequest}</i> would like to request purchase material.\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+
+
       } else {
         setCheckMessage('error')        
         setMessage("Material & Supplier invalid value!");

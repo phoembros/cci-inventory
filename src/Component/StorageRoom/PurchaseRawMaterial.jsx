@@ -32,9 +32,11 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { GET_SUPPLIERS_BY_PAGINATION } from '../../Schema/supplies';
+import { sendMessage } from '../TelegrameClient/TelegrameClient';
 
 
 export default function PurchaseRawMaterial({
+  nameRequest,
   handleClose, 
   open,
   btnTitle,
@@ -49,7 +51,7 @@ export default function PurchaseRawMaterial({
   
   // Create
   const [createPurchaseRawMaterial] = useMutation(CREATE_PURCHASE_RAW_MATERIAL,{
-    onCompleted: ({createPurchaseRawMaterial}) => {
+    onCompleted: async ({createPurchaseRawMaterial}) => {
         console.log(createPurchaseRawMaterial?.message, "message");
         if(createPurchaseRawMaterial?.success){
           setCheckMessage('success')
@@ -57,6 +59,10 @@ export default function PurchaseRawMaterial({
           setAlert(true);
           handleClose();
           setRefetch();
+
+          await sendMessage({content: `<b>Request Purchase Rawmateril</b>\nThis is to inform you that <i>${nameRequest}</i> would like to request purchase material.\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+
+
         } else {
           setCheckMessage('error')
           // setMessage("Material & Supplier invalid value!");
@@ -333,8 +339,7 @@ export default function PurchaseRawMaterial({
       },
     });
     
-    const { errors,  touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm, } = formik;
-
+    const { errors,  touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm } = formik;
 
     return (
         <Dialog open={open} className="dialog-create-purchase">

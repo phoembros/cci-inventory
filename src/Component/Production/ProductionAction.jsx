@@ -18,6 +18,7 @@ import WifiProtectedSetupIcon from '@mui/icons-material/WifiProtectedSetup';
 
 
 export default function ProductionAction({
+    nameRequest,
     dataUserLogin,
     editDataProduction,   
     setAlert,
@@ -146,6 +147,7 @@ export default function ProductionAction({
          
         {/* <Modal open={openEdit} > */}
             <UpdateProduction  
+                nameRequest={nameRequest}
                 handleClose={handleCloseEdit} 
                 open={openEdit}
                 btnTitle={"Update"} 

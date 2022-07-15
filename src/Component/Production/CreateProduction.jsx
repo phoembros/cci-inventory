@@ -36,9 +36,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { sendMessage } from '../TelegrameClient/TelegrameClient';
 
 
 export default function CreateProduction({
+    nameRequest,
     handleClose,
     open,
     btnTitle,
@@ -51,14 +53,17 @@ export default function CreateProduction({
 
    
     const [createProductions] = useMutation(CREATE_PRODUCTION , {
-        onCompleted: ({createProductions}) => { 
+        onCompleted: async ({createProductions}) => { 
             console.log(createProductions)         
             if(createProductions?.success){
                 setCheckMessage("success")
                 setMessage(createProductions?.message)
                 setAlert(true);
                 handleClose();
-                setRefetch();               
+                setRefetch();   
+                
+                await sendMessage({content: `<b>Request Create Production</b>\nThis is to inform you that <i>${nameRequest}</i> would like to create production.\n<code>For details info please kindly check system.</code>\<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+
             } else {
                 setCheckMessage("error")
                 setAlert(true);

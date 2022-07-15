@@ -200,7 +200,8 @@ export default function Production() {
                     }      
 
                     {/* <Modal open={openCreateProduction} >  */}
-                        <CreateProduction  
+                        <CreateProduction 
+                            nameRequest={dataUserLogin?.getuserLogin?.first_name+" "+dataUserLogin?.getuserLogin?.last_name}
                             handleClose={handleCloseCreateProduction}
                             open={openCreateProduction}
                             btnTitle={"Create"}
@@ -364,6 +365,7 @@ export default function Production() {
                                                 </TableCell>                                    
                                                 <TableCell className="body-title" align="right">
                                                     <ProductionAction 
+                                                        nameRequest={dataUserLogin?.getuserLogin?.first_name+" "+dataUserLogin?.getuserLogin?.last_name}
                                                         dataUserLogin={dataUserLogin}
                                                         btnTitle={"Update"}                                                                                    
                                                         editDataProduction={row}

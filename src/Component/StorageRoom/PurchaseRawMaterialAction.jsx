@@ -17,6 +17,7 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import PaymentModal from './PaymentModal';
 
 export default function RawMaterialAction({
+    nameRequest,
     dataUserLogin,
     editData,
     setAlert,
@@ -198,6 +199,7 @@ export default function RawMaterialAction({
 
         {/* <Modal open={openEdit}> */}
             <PurchaseRawMaterialUpdate 
+                nameRequest={nameRequest}
                 handleClose={handleCloseEdit} 
                 open={openEdit}
                 btnTitle={"Update"} 

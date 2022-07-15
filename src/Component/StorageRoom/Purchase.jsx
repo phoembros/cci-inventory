@@ -30,7 +30,7 @@ import PermissionContent from "../Permission/PermissionContent";
 export default function ProductCategories() {
 
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
-    // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+    console.log(dataUserLogin?.getuserLogin?.first_name)
 
     //Dataview 
     const [PurchaseData, setPurchaseData] = React.useState([])
@@ -155,6 +155,7 @@ export default function ProductCategories() {
                     
                     {/* <Modal open={open}> */}
                         <PurchaseRawMaterial 
+                            nameRequest={dataUserLogin?.getuserLogin?.first_name+" "+dataUserLogin?.getuserLogin?.last_name}
                             handleClose={handleClose} 
                             open={open}
                             btnTitle={"Create"}
@@ -231,6 +232,7 @@ export default function ProductCategories() {
                                                 </TableCell>                                                              
                                                 <TableCell className="body-title" align="right">
                                                     <PurchaseRawMaterialAction 
+                                                        nameRequest={dataUserLogin?.getuserLogin?.first_name+" "+dataUserLogin?.getuserLogin?.last_name}
                                                         dataUserLogin={dataUserLogin}
                                                         editData={row}
                                                         setAlert={setAlert}
