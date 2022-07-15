@@ -19,8 +19,10 @@ export default function SystemSetting() {
     const [message, setMessage] = React.useState('');
     const [checkMessage, setCheckMessage]= React.useState('')
 
-    const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
-    console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+    const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
+        pollInterval: 10000,
+    })
+    // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
     return(
         <div className="system-page">

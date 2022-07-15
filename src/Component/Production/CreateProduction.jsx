@@ -115,10 +115,13 @@ export default function CreateProduction({
     const [getProductById, { data: dataProductById }] = useLazyQuery(GET_PRODUCT_BYID);
 
 
+    const [dataIngredientView,setDataIngredientView] = React.useState([])
+
     React.useEffect( () => {
         console.log(dataProductById?.getProductById)
         if(dataProductById?.getProductById){
             setProductById(dataProductById?.getProductById)
+            // setDataIngredientView(productById?.ingredients)
         }
     },[dataProductById?.getProductById])   
 
@@ -244,9 +247,9 @@ export default function CreateProduction({
         },
 
     });  
+    
     const { errors, touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm } = formik;
     // End Formik
-
 
        
   return (
@@ -263,7 +266,7 @@ export default function CreateProduction({
                     </Stack>   
                     <Stack direction="row" spacing={5} sx={{mt:-1 , mb:2}}>             
                         <Typography variant="body2" >
-                        Please input each field:
+                            Please input each field:
                         </Typography>           
                     </Stack>  
             </DialogTitle>

@@ -36,7 +36,9 @@ import PermissionContent from "../Component/Permission/PermissionContent";
 
 export default function RawMaterial() {
 
-  const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+  const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
+    pollInterval: 10000,
+  })
   // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
   const navigate = useNavigate();

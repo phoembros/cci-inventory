@@ -20,7 +20,9 @@ import PermissionContent from "../Component/Permission/PermissionContent";
 
 export default function Supplies() {
 
-    const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+    const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
+      pollInterval: 10000,
+    })
     // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
     const [loading,setLoading] = React.useState(true);

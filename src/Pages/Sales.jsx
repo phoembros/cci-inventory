@@ -26,7 +26,9 @@ import { GET_USER_LOGIN } from "../Schema/user"
   
 export default function Sales() {
 
-  const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+  const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
+    pollInterval: 10000,
+  })
   // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
   //get Storage Room ID by Url 
