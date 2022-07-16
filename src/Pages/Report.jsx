@@ -1,21 +1,18 @@
-import { Box, Button , FormControl, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button , FormControl, InputAdornment, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
 import * as React from "react";
 import AddIcon from '@mui/icons-material/Add';
 import './report.scss';
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { LicenseInfo } from '@mui/x-license-pro';
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import DateRangeIcon from "@mui/icons-material/DateRange";
 import InventoryReport from "../Component/Report/InventoryReport";
 import ProductionReport from "../Component/Report/ProductionReport";
 import SaleReport from "../Component/Report/SaleReport";
 
 export default function Report() {
 
-    const [value, setValue] = React.useState([null, null]);   
-    React.useMemo( () => {
-        LicenseInfo.setLicenseKey('x0jTPl0USVkVZV0SsMjM1kDNyADM5cjM2ETPZJVSQhVRsIDN0YTM6IVREJ1T0b9586ef25c9853decfa7709eee27a1e');
-    },[])
+    const [value, setValue] = React.useState([null, null]);      
     
     const [typeReport,setTypeReport] = React.useState("default");
     const [fromDate,setFromDate] = React.useState(null);
@@ -34,28 +31,8 @@ export default function Report() {
                 <Box sx={{flexGrow: 1}} />                
             </Stack>
 
-            <Box className="container">   
-                                         
-                {/* <Stack direction="row" spacing={1}>                    
-                    <Stack direction="column" justifyContent="center" sx={{width:"200px"}}>
-                        <Typography className="title-filter" variant="body1">Storage Room :</Typography>
-                    </Stack>                    
-                    <FormControl size="small" fullWidth >                       
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"  
-                            defaultValue={10}                    
-                        >
-                            <MenuItem value={10}>Storage Room A</MenuItem>
-                            <MenuItem value={20}>Storage Room B</MenuItem>
-                            <MenuItem value={30}>Storage Room C</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Stack>             */}
-
-                
+            <Box className="container">  
                 <Box sx={{flexGrow:1}}/>
-
                 <Stack direction="row" spacing={1} width="300px">
                     <Stack direction="column" justifyContent="center" sx={{width:"80px"}}>
                         <Typography className="title-filter" variant="body1">Type :</Typography>
@@ -74,8 +51,59 @@ export default function Report() {
                         </Select>
                     </FormControl>
                 </Stack>
-                <Stack direction="row" spacing={1} width="300px" ml={4}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <Stack direction="row" spacing={2} width="350px" ml={4}>
+
+                    <LocalizationProvider  className="date-controll" dateAdapter={AdapterMoment} >
+                        <MobileDatePicker
+                            inputFormat="DD/MM/yyyy"
+                            value={fromDate}
+                            onChange={(e) => setFromDate(e)}
+                            renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                size="small"
+                                className="select-date"
+                                fullWidth
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <DateRangeIcon />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                            )}
+                        />
+                    </LocalizationProvider>
+
+                    <Stack direction="column" justifyContent="center">
+                        <Typography variant="body">To</Typography>
+                    </Stack>
+
+                    <LocalizationProvider  className="date-controll" dateAdapter={AdapterMoment} >
+                        <MobileDatePicker
+                            inputFormat="DD/MM/yyyy"
+                            value={toDate}
+                            onChange={(e) => setToDate(e)}
+                            renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                size="small"
+                                className="select-date"
+                                fullWidth
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <DateRangeIcon />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                            )}
+                        />
+                    </LocalizationProvider>
+
+                    {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateRangePicker 
                             startText="mm/dd/yyyy"
                             endText="mm/dd/yyyy"
@@ -93,7 +121,7 @@ export default function Report() {
                                 </React.Fragment>
                             )}
                         />
-                    </LocalizationProvider>                   
+                    </LocalizationProvider>                    */}
                 </Stack>
 
                 {/* <Stack direction="row" spacing={1} ml={4}>

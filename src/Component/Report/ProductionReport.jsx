@@ -129,6 +129,14 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
+                                                <Typography variant="body2" className="text">Cost of Production</Typography>
+                                            </TableCell>
+
+                                            <TableCell 
+                                                align="center" width="10%"
+                                                className="cell-item"
+                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                            >
                                                 <Typography variant="body2" className="text">Working Hours</Typography>
                                             </TableCell> 
                                                                                              
@@ -211,7 +219,16 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                         {item?.actualProduction}-{item?.unitUM}
                                                     </Typography>
                                                 </TableCell>
-
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">
+                                                        ${item?.costOfProduction.toFixed(2)}
+                                                    </Typography>
+                                                </TableCell>
+                                                
                                                 <TableCell 
                                                     align="center" width="10%"
                                                     className="cell-item"

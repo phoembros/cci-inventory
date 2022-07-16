@@ -383,7 +383,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                 <TableCell 
                                                     align="center" width="6%"
                                                     className="cell-item"
-                                                    sx={{ color: "#0969A0"  , padding: "8px"}}
+                                                    sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text">{item?.totalQty}</Typography>
                                                 </TableCell> 

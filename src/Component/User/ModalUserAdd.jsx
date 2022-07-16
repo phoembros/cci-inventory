@@ -145,14 +145,14 @@ function ModalUserAdd({
 
       // Compression file
       const options = {
-        maxSizeMB: 1,
+        maxSizeMB: 0.8,
         maxWidthOrHeight: 1920,
         useWebWorker: true,
       };
       const compressedFile = await imageCompression(file, options);
 
-      var newFile = new File([compressedFile], `$(file?.name).jpg`, {
-        type: "image/jpg",
+      var newFile = new File([compressedFile], `$(file?.name).png`, {
+        type: "image/png",
       });
 
       formData.append("file", newFile);

@@ -26,7 +26,7 @@ export default function User() {
         pollInterval: 10000,
     })
     // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
-    const [UserData, setUserData] = React.useState([]);
+    const [UserData, setUserData] = React.useState(null);
 
     const [loading,setLoading] = React.useState(true);
 
@@ -42,8 +42,8 @@ export default function User() {
 
     const [openView, setOpenView] = React.useState(false);
     const handleOpenView = (row) => {
-        setOpenView(true);
         setUserData(row);
+        setOpenView(true);
     };
     const handleCloseView = () => setOpenView(false);
 
@@ -64,11 +64,8 @@ export default function User() {
             setLoading(false)
         },
         pollInterval: 10000,
+        fetchPolicy: 'network-only'
     });
-
-
-    console.log(data?.getUsersPagination?.users, 'user')
-   
 
     React.useEffect(()=>{
         refetch()
@@ -213,7 +210,7 @@ export default function User() {
     }        
 
         {/* <Modal open={openView} > */}
-            <ViewUser open={openView} handleCloseView={handleCloseView} UserData={UserData}/>
+            <ViewUser open={openView} handleCloseView={handleCloseView} data={UserData}/>
         {/* </Modal> */}
 
         <AlertMessage alert={alert} setAlert={setAlert} message={message} setMessage={setMessage} checkMessage={checkMessage} />
