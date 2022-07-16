@@ -18,6 +18,31 @@
         font-weight: bold;
     }
 
+    .page-title {
+        @include mobile-small {
+            display: none;
+        }
+        @include mobile {
+            display: none;
+        }
+        @include mobile-large {
+            display: none;
+        }
+    }
+
+    .page-title-mobile {
+        display: none;
+        @include mobile-small {
+            display: flex;
+        }
+        @include mobile {
+            display: flex;
+        }
+        @include mobile-large {
+            display: flex;
+        }
+    }
+
     .btn-permission-active {
         background-color: #fb7e7e !important;
         color: #fff;

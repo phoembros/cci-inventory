@@ -68,14 +68,19 @@ export default function Role () {
         <div className="system-page-role">
             <Stack direction="row" spacing={2}>
                 <Box className="slash" />
-                <Stack direction="column" justifyContent="center">
+                <Stack direction="column" justifyContent="center" className="page-title">
                     <Link to="/system-setting" style={{ textDecoration: "none"}}>
                         <Typography className="color">System Setting</Typography>
                     </Link>
                 </Stack>
-                <Stack direction="column" justifyContent="center">
+                <Stack direction="column" justifyContent="center" className="page-title">
                     <Typography className="color">/ Role</Typography>
                 </Stack>
+
+                <Stack direction="column" justifyContent="center" className="page-title-mobile">
+                    <Typography className="color">Role</Typography>
+                </Stack>
+
                 <Box sx={{flexGrow: 1}} />  
                 <Stack direction="row" className="stack-btn"  justifyContent="right" spacing={1}>                       
                     <Button onClick={handleOpenCreateRole} startIcon={<AddIcon/>} className="btn-add">
@@ -124,7 +129,7 @@ export default function Role () {
             </Box>
             
             <Grid container spacing={5} >
-                    <Grid item xs={3}>
+                    <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
                         <Stack direction="column" justifyContent="center" spacing={2} sx={{mt:1}}>
 
                             <Button fullWidth                                 
@@ -204,10 +209,10 @@ export default function Role () {
 
                         </Stack>
                     </Grid>
-                    <Grid item xs={9}>
+                    <Grid item xs={12} sm={12} md={6} lg={9} xl={9}>
                             <TableContainer className="table-container">
                                 <Table className="table" aria-label="simple table">
-                                    <TableHead>
+                                    <TableHead sx={{width: "100%"}}>
                                         <TableRow className="head-row">
                                             <TableCell width="50%" align="center" className="header-title">ACTION</TableCell>
                                             <TableCell width="50%" align="center" className="header-title">PERMISSION</TableCell>                                            

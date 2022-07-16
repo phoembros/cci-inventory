@@ -16,6 +16,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import CircularProgress from "@mui/material/CircularProgress";
 import TruncateMarkup from "react-truncate-markup";
+import DescriptionIcon from '@mui/icons-material/Description';
 import { GET_USER_LOGIN } from "../Schema/user"
 
 import PermissionContent from "../Component/Permission/PermissionContent";
@@ -166,7 +167,9 @@ export default function Product() {
                                                 <TableCell className="header-title" align="center"></TableCell>                        
                                             </TableRow>
                                         </TableHead>
-                                        
+                                {
+                                    productData?.length !== 0 ?
+                                        <>
                                         {productData?.map((row , index) => (
                                             <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
                                                 <TableRow  className="body-row">
@@ -194,6 +197,26 @@ export default function Product() {
                                                 </TableRow>
                                             </TableBody>                        
                                             ))}
+                                        </>
+                                    :
+                                        <>
+                                            <TableBody component={Paper} className="body-odd">                        
+                                                <TableRow  className="body-row">
+                                                    <TableCell className="body-title" align="center" colSpan={8} rowSpan={5}>
+                                                        <Stack direction="row" justifyContent="center">                                                
+                                                            <Stack direction="column" justifyContent="center" >
+                                                                <IconButton>
+                                                                    <DescriptionIcon sx={{color: "white"}}/>
+                                                                </IconButton>
+                                                                <Typography variant="body2" sx={{color: "white" }}>No Data</Typography>
+                                                            </Stack>                                                
+                                                        </Stack>
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </>
+                                }
+                                        
                                     </Table>
 
                                 </TableContainer>

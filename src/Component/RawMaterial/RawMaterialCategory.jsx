@@ -18,7 +18,7 @@ import { useQuery } from "@apollo/client";
 import CircularProgress from "@mui/material/CircularProgress";
 import { GET_USER_LOGIN } from "../../Schema/user";
 import PermissionContent from "../Permission/PermissionContent";
-
+import DescriptionIcon from '@mui/icons-material/Description';
 
 export default function RawMaterialCategory() {
 
@@ -87,7 +87,7 @@ export default function RawMaterialCategory() {
                             className="text-field"
                             fullWidth
                             id="input-with-sx" 
-                            placeholder="Search Dashboard"                           
+                            placeholder="Category Name"                           
                             size="small"                           
                             InputProps={{
                                 startAdornment: (
@@ -142,7 +142,9 @@ export default function RawMaterialCategory() {
                                             <TableCell className="header-title" align="center"></TableCell>                        
                                         </TableRow>
                                     </TableHead>
-                                    {data?.getRawMaterialCategoryPagination?.rawMaterialCategory?.map((row , index) => (
+                            { data?.getRawMaterialCategoryPagination?.rawMaterialCategory?.length !== 0 ?
+                                    <>
+                                        {data?.getRawMaterialCategoryPagination?.rawMaterialCategory?.map((row , index) => (
                                         <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
                                             <TableRow  className="body-row">
                                                 <TableCell className="body-title" component="th" scope="row" width="5%" > {index+1}- </TableCell>
@@ -161,6 +163,26 @@ export default function RawMaterialCategory() {
                                             </TableRow>
                                         </TableBody>                        
                                     ))}
+                                    </>
+                                :
+                                    <>
+                                        <TableBody component={Paper} className="body-odd">                        
+                                            <TableRow  className="body-row">
+                                                <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
+                                                    <Stack direction="row" justifyContent="center">                                                
+                                                        <Stack direction="column" justifyContent="center" >
+                                                            <IconButton>
+                                                                <DescriptionIcon sx={{color: "white"}}/>
+                                                            </IconButton>
+                                                            <Typography variant="body2" sx={{color: "white" }}>No Data</Typography>
+                                                        </Stack>                                                
+                                                    </Stack>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </>
+                            }
+                                    
                                 </Table>
                             </TableContainer>
                         </Box> 

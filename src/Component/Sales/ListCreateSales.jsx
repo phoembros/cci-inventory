@@ -1,6 +1,6 @@
 import React from 'react';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import { Autocomplete, Box, IconButton, Paper, Stack, TableBody, TableCell, TableRow, TextField } from '@mui/material';
+import { Autocomplete, Box, IconButton, InputAdornment, Paper, Stack, TableBody, TableCell, TableRow, TextField } from '@mui/material';
 import './listcreatesales.scss';
 import { withStyles } from '@material-ui/core/styles';
 import {GET_STORAGE_ROOM_PAGINATION} from "../../Schema/starageroom";
@@ -18,7 +18,7 @@ function ListCreateSales(props) {
         pagination: false,
       },
     });
-    // console.log(data?.getProductPagination?.products,"data")
+    console.log(data?.getProductPagination?.products,"data")
 
     React.useEffect( () => {
         if (data?.getProductPagination?.products) {
@@ -27,6 +27,7 @@ function ListCreateSales(props) {
                 const allrow = {
                   label: element?.productName,
                   _id: element?._id,
+                  unitPrice: element?.unitPrice,
                 };
                 rows.push(allrow);
             });
@@ -54,6 +55,7 @@ function ListCreateSales(props) {
                                 onChange={(e, value) => {
                                     props.setUpdateProductId( value?._id , item.key ) 
                                     props.setUpdateItemName( value?.label , item.key )
+                                    props.setUpdateRate( value?.unitPrice , item.key);
                                 }}
                                 renderInput={(params) => <TextField {...params} size="small" className='text-field' />}
                             />
@@ -93,6 +95,11 @@ function ListCreateSales(props) {
                                     props.setUpdateAmount(e.target.value*item?.qty, item.key);
                                 }}
                                 InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            $
+                                        </InputAdornment>
+                                    ),
                                     inputProps: { min: 1 },
                                 }}
                                 onFocus={handleTouch}

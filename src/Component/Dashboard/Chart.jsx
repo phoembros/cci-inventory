@@ -109,8 +109,7 @@ export default function Chart({dataUserLogines}) {
               </Stack>
             </>
           :           
-            <PermissionContent />
-            
+            <PermissionContent />            
         }
         
     </Stack>

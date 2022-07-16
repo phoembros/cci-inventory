@@ -25,7 +25,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { GET_USER_LOGIN } from "../../Schema/user";
 import PermissionContent from "../Permission/PermissionContent";
-  
+import DescriptionIcon from '@mui/icons-material/Description';
 
 export default function ProductCategories() {
 
@@ -185,7 +185,11 @@ export default function ProductCategories() {
                                             <TableCell className="header-title">Status</TableCell>                           
                                             <TableCell className="header-title" align="center"></TableCell>                        
                                         </TableRow>
-                                    </TableHead>
+                                    </TableHead>  
+
+                                {
+                                    dataPurchaseRawMaterial?.length !== 0 ?
+                                    <>
                                     {dataPurchaseRawMaterial?.map((row , index) => (
                                         <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
                                             <TableRow  className="body-row">
@@ -244,6 +248,24 @@ export default function ProductCategories() {
                                             </TableRow>
                                         </TableBody>                        
                                     ))}
+                                    </>
+                                :
+                                    <TableBody component={Paper} className="body-odd">                        
+                                        <TableRow  className="body-row">
+                                            <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
+                                                <Stack direction="row" justifyContent="center">                                                
+                                                    <Stack direction="column" justifyContent="center" >
+                                                        <IconButton>
+                                                            <DescriptionIcon sx={{color: "white"}}/>
+                                                        </IconButton>
+                                                        <Typography variant="body2" sx={{color: "white" }}>No Data</Typography>
+                                                    </Stack>                                                
+                                                </Stack>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                }                                      
+                                    
                                 </Table>
                             </TableContainer>
                         </Box>

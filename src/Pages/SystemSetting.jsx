@@ -72,7 +72,7 @@ export default function SystemSetting() {
                     </Box>
                 </Grid>
 
-                <Grid item xs={12} sm={12} md={6} lg={6} className="grid-item">
+                {/* <Grid item xs={12} sm={12} md={6} lg={6} className="grid-item">
                     <Box className={theme.palette.mode === 'dark' ? 'box-item-dark' : 'box-item' }>                        
                         <Stack direction="column" justifyContent="center" spacing={2} sx={{height:"100%"}}>
                             <Stack direction="row" spacing={2} sx={{ml:2}}>
@@ -88,7 +88,7 @@ export default function SystemSetting() {
                             </Stack>
                         </Stack>
                     </Box>
-                </Grid>
+                </Grid> */}
                 
             </Grid>
 

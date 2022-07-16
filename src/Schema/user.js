@@ -29,6 +29,7 @@ export const GET_USER = gql`
     }
   }
 `;
+
 export const GET_USER_PAGINATION = gql`
 query GetUsersPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean) {
   getUsersPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination) {

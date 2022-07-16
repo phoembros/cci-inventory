@@ -1,0 +1,82 @@
+@import "../themes.scss";
+
+.page-not-founds {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+   
+    .image-error {
+        height: 500px;
+         width: 500px;
+    }   
+    
+        @include laptop {
+          
+            .image-error {
+
+                width: 500px;
+                height: 500px;
+            }
+        }
+
+        @include tablet { // 426 - 768
+            .title {
+            
+                font-size: 18px;
+                text-align: center;
+            }
+            .image-error {
+
+                width: 450px;
+                height: 450px;
+            }
+            .paragraph{
+                font-size: 12px;
+                text-align: center;
+            }
+        }
+
+        @include mobile-large{ // 426 - 600
+            
+            // .title {
+            
+            //     font-size: 14px;
+            // }
+
+            .image-error {
+                width: 400px;
+                height: 400px;
+            }
+
+            // .paragraph{
+            //     font-size: 10px;
+            // }
+
+            @include  mobile { // 377 - 425
+                .title {
+                    font-size: 10px;
+                }
+                .image-error {
+                    width: 100px;
+                    height: 100px;
+                }
+                .paragraph{
+                    font-size: 10px;
+                }
+            }
+
+            @include  mobile-small{
+                .title {
+                    font-size: 10px;
+                }
+                .image-error {
+                    width: 100px;
+                    height: 100px;
+                }
+                .paragraph{
+                    font-size: 8px;
+                }
+            }
+        }
+}

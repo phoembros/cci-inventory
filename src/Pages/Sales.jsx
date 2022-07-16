@@ -23,11 +23,13 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";   
 import PermissionContent from "../Component/Permission/PermissionContent";
 import { GET_USER_LOGIN } from "../Schema/user"
+
+import DescriptionIcon from '@mui/icons-material/Description';
   
 export default function Sales() {
 
   const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
-    pollInterval: 10000,
+      pollInterval: 10000,
   })
   // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
@@ -187,7 +189,9 @@ export default function Sales() {
                                         <TableCell className="header-title"></TableCell>
                                       </TableRow>
                                 </TableHead>
-
+                          {
+                            data?.getSaleWithPagination?.sales?.length !== 0 ?
+                              <>
                               {data?.getSaleWithPagination?.sales?.map((row, index) => (
                                   <TableBody key={index} component={Paper} className={index%2 === 0 ? "body" : "body-odd" }>
                                     <TableRow className="body-row" >
@@ -229,6 +233,27 @@ export default function Sales() {
                                   </TableRow>
                                 </TableBody>
                               ))}
+                              </>
+                            :
+                              <>
+                              <TableBody component={Paper} className="body-odd">                        
+                                <TableRow  className="body-row">
+                                    <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
+                                        <Stack direction="row" justifyContent="center">                                                
+                                            <Stack direction="column" justifyContent="center" >
+                                                <IconButton>
+                                                    <DescriptionIcon sx={{color: "white"}}/>
+                                                </IconButton>
+                                                <Typography variant="body2" sx={{color: "white" }}>No Data</Typography>
+                                            </Stack>                                                
+                                        </Stack>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                              </>
+                          }
+
+                              
                             </Table>
                           </TableContainer>
 

@@ -17,7 +17,7 @@ import {useLocation} from "react-router-dom";
 import ViewRoomDetail from "./ViewRoomDetail";
 import { GET_USER_LOGIN } from "../../Schema/user";
 import PermissionContent from "../Permission/PermissionContent";
-  
+import DescriptionIcon from '@mui/icons-material/Description';
 
 export default function RoomDetail() {
 
@@ -79,7 +79,7 @@ export default function RoomDetail() {
 
                 <Box sx={{flexGrow: 1}} />
                 <Stack direction="row" className="btn"  justifyContent="right" spacing={1}>  
-                     <Box className="btn-text-field" >                       
+                     {/* <Box className="btn-text-field" >                       
                         <TextField 
                             className="text-field"
                             fullWidth
@@ -101,7 +101,7 @@ export default function RoomDetail() {
                                 ),
                             }}
                         />
-                    </Box> 
+                    </Box>  */}
                 </Stack>
                  {/* <Stack direction="row" className="stack-btn"  justifyContent="right" spacing={1}>                       
                     <Button onClick={handleOpen} startIcon={<AddIcon/>} className="btn-add">
@@ -129,20 +129,41 @@ export default function RoomDetail() {
                                             <TableCell className="header-title"></TableCell>                              
                                         </TableRow>
                                     </TableHead>
-                                    {data?.getProductByStorageRoomId.map((row , index) => (
-                                        <TableBody component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
+                                {
+                                    data?.getProductByStorageRoomId?.length !== 0 ?
+                                        <>
+                                            {data?.getProductByStorageRoomId?.map((row , index) => (
+                                                <TableBody component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
+                                                    <TableRow  className="body-row">
+                                                        <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" component="th" scope="row" width="3%" > {index+1}- </TableCell>
+                                                        <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" component="th" scope="row" width="25%"> {row.productName} </TableCell>
+                                                        <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >{row.qtyInThisStorage} {row?.completedUnit}</TableCell>
+                                                        <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >{row.unitPrice}$</TableCell>
+                                                        <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >${(row.unitPrice*row?.qtyInThisStorage).toFixed(2)}</TableCell>                                                                   
+                                                        <TableCell className="body-title" align="right">
+                                                            <RoomDetialAction />                        
+                                                        </TableCell>                            
+                                                    </TableRow>
+                                                </TableBody>                        
+                                            ))}
+                                        </>
+                                    :
+                                        <TableBody component={Paper} className="body-odd">                        
                                             <TableRow  className="body-row">
-                                                <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" component="th" scope="row" width="3%" > {index+1}- </TableCell>
-                                                <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" component="th" scope="row" width="25%"> {row.productName} </TableCell>
-                                                <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >{row.qtyInThisStorage} {row?.completedUnit}</TableCell>
-                                                <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >{row.unitPrice}$</TableCell>
-                                                <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >${(row.unitPrice*row?.qtyInThisStorage).toFixed(2)}</TableCell>                                                                   
-                                                <TableCell className="body-title" align="right">
-                                                    <RoomDetialAction />                        
-                                                </TableCell>                            
+                                                <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
+                                                    <Stack direction="row" justifyContent="center">                                                
+                                                        <Stack direction="column" justifyContent="center" >
+                                                            <IconButton>
+                                                                <DescriptionIcon sx={{color: "white"}}/>
+                                                            </IconButton>
+                                                            <Typography variant="body2" sx={{color: "white" }}>No Data</Typography>
+                                                        </Stack>                                                
+                                                    </Stack>
+                                                </TableCell>
                                             </TableRow>
-                                        </TableBody>                        
-                                    ))}
+                                        </TableBody>
+                                }
+                                    
                                 </Table>
                             </TableContainer>
                         </Box> 

@@ -33,11 +33,12 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import CircularProgress from "@mui/material/CircularProgress";
 import { GET_USER_LOGIN } from "../Schema/user";
 import PermissionContent from "../Component/Permission/PermissionContent";
+import DescriptionIcon from '@mui/icons-material/Description';
 
 export default function RawMaterial() {
 
   const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
-    pollInterval: 10000,
+      pollInterval: 10000,
   })
   // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
@@ -192,7 +193,10 @@ export default function RawMaterial() {
                                         <TableCell className="header-title"> </TableCell>
                                     </TableRow>
                                 </TableHead>
-                              {data?.getRawMaterialPagination?.rawMaterial?.map((row, index) => (
+                        {
+                            data?.getRawMaterialPagination?.rawMaterial?.length !== 0 ?
+                          <>
+                          {data?.getRawMaterialPagination?.rawMaterial?.map((row, index) => (
                               <TableBody
                                   component={Paper}
                                   className={index % 2 === 0 ? "body" : "body-odd"}
@@ -269,6 +273,26 @@ export default function RawMaterial() {
                               </TableRow>
                             </TableBody>
                           ))}
+                          </>
+                        :
+                          <>
+                            <TableBody component={Paper} className="body-odd">                        
+                                <TableRow  className="body-row">
+                                    <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
+                                        <Stack direction="row" justifyContent="center">                                                
+                                            <Stack direction="column" justifyContent="center" >
+                                                <IconButton>
+                                                    <DescriptionIcon sx={{color: "white"}}/>
+                                                </IconButton>
+                                                <Typography variant="body2" sx={{color: "white" }}>No Data</Typography>
+                                            </Stack>                                                
+                                        </Stack>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                          </>
+                        }
+                            
                         </Table>
                       </TableContainer>
                     </Box>

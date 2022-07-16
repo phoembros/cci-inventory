@@ -13,10 +13,27 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import PermissionContent from "../Permission/PermissionContent";
+import ViewProduction from "../Production/ViewProduction";
+import AlertMessage from "../AlertMessage/AlertMessage";
 
 
 function PurchaseProduct({dataUserLogines}) {
+
+
     const navigate = useNavigate();
+
+    const [ViewData,setViewData] = React.useState(null);
+    
+    // Alert Message
+    const [alert,setAlert] = React.useState(false);
+    const [message,setMessage] = React.useState("");
+    const [checkMessage,setCheckMessage] = React.useState("");
+
+    // open dialog
+    const [openView,setOpenView] = React.useState(false);
+    const handleOpenView = () => setOpenView(true);
+    const handleCloseView = () => setOpenView(false);
+
 
     // get Production 
     const [productionData,setProductionData] = React.useState([]);  
@@ -155,12 +172,14 @@ function PurchaseProduct({dataUserLogines}) {
                                             align="right"
                                             width="15%"
                                             >
-                                            <Button sx={{textTransform: "none"}}>
-                                                    <Stack direction="row" justifyContent="center" spacing={1}>
-                                                        <RemoveRedEyeIcon sx={{ color: "blue" }} />
-                                                        <Typography className="invoice-table-text">View</Typography>
-                                                    </Stack>                  
-                                                </Button> 
+                                                
+                                                    <Button sx={{textTransform: "none"}} onClick={ () => { handleOpenView(); setViewData(row) }}>
+                                                        <Stack direction="row" justifyContent="center" spacing={1}>
+                                                            <RemoveRedEyeIcon sx={{ color: "blue" }} />
+                                                            <Typography className="invoice-table-text">View</Typography>
+                                                        </Stack>                  
+                                                    </Button> 
+
                                             </TableCell>                        
                                         </TableRow>
                                         </TableBody>
@@ -183,7 +202,29 @@ function PurchaseProduct({dataUserLogines}) {
                 <PermissionContent />
         }
     
-        
+        {/* <Modal open={openView}> */}
+        <ViewProduction 
+            dataUserLogin={dataUserLogines}
+            open={openView}
+            handleClose={handleCloseView} 
+            ViewData={ViewData}
+            setAlert={setAlert}
+            setMessage={setMessage}
+            setCheckMessage={setCheckMessage}
+            setRefetch={refetch}
+        />
+        {/* </Modal> */}
+
+        <AlertMessage
+          alert={alert}
+          message={message}
+          setAlert={setAlert}
+          setMessage={setMessage}
+          checkMessage={checkMessage}
+          setCheckMessage={setCheckMessage}
+        />
+
+
     </Stack>
   );
 }

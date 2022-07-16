@@ -36,9 +36,9 @@ export default function TopNavbar ({ prefersDarkMode , setPrefersDarkMode , hand
 
                     <Stack direction="row" spacing={1} justifyContent="right">   
 
-                        <IconButton onClick={() => setPrefersDarkMode(!prefersDarkMode)} color="inherit">
+                        {/* <IconButton onClick={() => setPrefersDarkMode(!prefersDarkMode)} color="inherit">
                             {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon sx={{ color: "#007654" }}/>}
-                        </IconButton>                           
+                        </IconButton> */}
 
                         {/* <IconButton>
                             <NotificationsActiveOutlinedIcon sx={{color: theme.palette.mode === 'dark' ? "#fff": "#0969A0" }} />

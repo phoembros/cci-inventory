@@ -46,6 +46,7 @@ function TableRawMaterail({dataUserLogines}) {
     setPaymentStatus(["unpaid" , "owe"]);      
   },[])
 
+  console.log(dataPurchaseRawMaterial)
 
 
   return (
@@ -62,7 +63,7 @@ function TableRawMaterail({dataUserLogines}) {
       {
           dataUserLogines?.getuserLogin?.role_and_permission?.permissions?.getPurchaseRawMaterialPagination ?
           
-            <Box display="flex" flexDirection="column" justifyContent="center" height="100%">
+            <Box display="flex" flexDirection="column" justifyContent="center">
                 {
                   dataPurchaseRawMaterial?.length === 0 ? 
                     <Stack direction="row" justifyContent="center" height="100%">
@@ -125,7 +126,27 @@ function TableRawMaterail({dataUserLogines}) {
                                             </Stack>
                                         </Stack>
                                     </Button>
-                                  </TableCell>                        
+                                  </TableCell>     
+
+                                  <TableCell 
+                                    className="body-title"
+                                    align="right"
+                                    width="15%"
+                                  >
+                                    <Button className="btn-unpaid" 
+                                        onClick={ () => navigate(`/storage-room/purchase?storageId=${row?.storageRoom?._id}&name=${row?.storageRoom?.name}`)}
+                                    >
+                                        <Stack direction="row" justifyContent="center" spacing={1}>
+                                            <Stack direction="column" justifyContent="center">
+                                              <Stack direction="row">                                                 
+                                                <Typography className="text-pay">GoPay</Typography>
+                                              </Stack>
+                                            </Stack>
+                                        </Stack>
+                                    </Button>
+                                  </TableCell>
+
+
                                 </TableRow>
                               </TableBody>
                             ))} 

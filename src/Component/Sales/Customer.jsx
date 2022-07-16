@@ -20,6 +20,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import CustomerOwe from "./CustomerOwe";  
 import {GET_USER_LOGIN} from "../../Schema/user"
 import PermissionContent from "../Permission/PermissionContent";
+import DescriptionIcon from '@mui/icons-material/Description';
 
 export default function Customer() {
 
@@ -159,86 +160,109 @@ export default function Customer() {
                                   </TableCell>
                                   <TableCell className="header-title" align="center"></TableCell>
                                 </TableRow>
-                              </TableHead>                        
+                              </TableHead>    
 
-                              { data?.getCustomerPagination?.customers?.map((row, index) => (
+                        {
+                          data?.getCustomerPagination?.customers?.length !== 0 ?
+                            <>
+                            { data?.getCustomerPagination?.customers?.map((row, index) => (
+                                  <TableBody
+                                      key={index}
+                                      component={Paper}
+                                      className={index % 2 === 0 ? "body" : "body-odd"}
+                                  >
+                                    <TableRow className="body-row">
+                                      <TableCell
+                                        onClick={()=>{handleOpenView(); setDetailsData(row)}}
+                                        className="body-title"
+                                        component="th"
+                                        width="10%"
+                                      >
+                                        {row?.cusId}
+                                      </TableCell>
+                                      <TableCell
+                                        onClick={()=>{handleOpenView(); setDetailsData(row)}}
+                                        className="body-title"
+                                        component="th"
+                                        width="30%"
+                                      >
+                                        {row?.name}
+                                      </TableCell>
+                                      <TableCell
+                                        onClick={()=>{handleOpenView(); setDetailsData(row)}}
+                                        className="body-title"
+                                        component="th"
+                                        scope="row"
+                                        width="15%"
+                                      >
+                                      {row.phoneNumber}
+                                      </TableCell>
+                                      <TableCell
+                                        onClick={()=>{handleOpenView(); setDetailsData(row)}}
+                                        className="body-title"
+                                        component="th"
+                                        scope="row"
+                                        width="15%"
+                                      >
+                                        {row.email}
+                                      </TableCell>
+                                      <TableCell
+                                        onClick={()=>{handleOpenView(); setDetailsData(row)}}
+                                        className="body-title"
+                                        width="30%"
+                                      >
+                                        {row.address}
+                                      </TableCell>
+                                      <TableCell
+                                        onClick={()=>{handleOpenView(); setDetailsData(row)}}
+                                        className="body-title"
+                                        width="45%"
+                                      >
+                                        {
+                                          dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getOweCustomer ?
+                                            <>
+                                                <CustomerOwe  dataOwe={row?._id}/>
+                                            </>
+                                          :
+                                            null
+                                        }                                      
 
-                                <TableBody
-                                    key={index}
-                                    component={Paper}
-                                    className={index % 2 === 0 ? "body" : "body-odd"}
-                                >
-                                  <TableRow className="body-row">
-                                    <TableCell
-                                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
-                                      className="body-title"
-                                      component="th"
-                                      width="10%"
-                                    >
-                                      {row?.cusId}
+                                      </TableCell>
+                                      <TableCell className="body-title" align="right">
+                                        <CustomerAction 
+                                          dataUserLogin={dataUserLogin}
+                                          setRefetch={refetch}
+                                          DataCustomer={row}
+                                          setAlert={setAlert}
+                                          setMessage={setMessage}
+                                          setCheckMessage={setCheckMessage}
+                                          handleClose={handleClose}
+                                          />
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                  ))} 
+                            </>
+                          :
+                            <>
+                            <TableBody component={Paper} className="body-odd">                        
+                                <TableRow  className="body-row">
+                                    <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
+                                        <Stack direction="row" justifyContent="center">                                                
+                                            <Stack direction="column" justifyContent="center" >
+                                                <IconButton>
+                                                    <DescriptionIcon sx={{color: "white"}}/>
+                                                </IconButton>
+                                                <Typography variant="body2" sx={{color: "white" }}>No Data</Typography>
+                                            </Stack>                                                
+                                        </Stack>
                                     </TableCell>
-                                    <TableCell
-                                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
-                                      className="body-title"
-                                      component="th"
-                                      width="30%"
-                                    >
-                                      {row?.name}
-                                    </TableCell>
-                                    <TableCell
-                                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
-                                      className="body-title"
-                                      component="th"
-                                      scope="row"
-                                      width="15%"
-                                    >
-                                    {row.phoneNumber}
-                                    </TableCell>
-                                    <TableCell
-                                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
-                                      className="body-title"
-                                      component="th"
-                                      scope="row"
-                                      width="15%"
-                                    >
-                                      {row.email}
-                                    </TableCell>
-                                    <TableCell
-                                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
-                                      className="body-title"
-                                      width="30%"
-                                    >
-                                      {row.address}
-                                    </TableCell>
-                                    <TableCell
-                                      onClick={()=>{handleOpenView(); setDetailsData(row)}}
-                                      className="body-title"
-                                      width="45%"
-                                    >
-                                      {
-                                        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getOweCustomer ?
-                                          <>
-                                              <CustomerOwe  dataOwe={row?._id}/>
-                                          </>
-                                        :
-                                          null
-                                      }                                      
+                                </TableRow>
+                            </TableBody>
+                            </>
+                        }                    
 
-                                    </TableCell>
-                                    <TableCell className="body-title" align="right">
-                                      <CustomerAction 
-                                        dataUserLogin={dataUserLogin}
-                                        setRefetch={refetch}
-                                        DataCustomer={row}
-                                        setAlert={setAlert}
-                                        setMessage={setMessage}
-                                        setCheckMessage={setCheckMessage}
-                                        handleClose={handleClose}
-                                        />
-                                    </TableCell>
-                                  </TableRow>
-                                </TableBody>
-                              ))} 
+                              
                               
                             </Table>
                           </TableContainer>
