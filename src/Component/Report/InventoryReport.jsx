@@ -144,7 +144,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                     className="cell-item"
                                                     sx={{border: "none" , padding: "8px"}}
                                                 > 
-                                                    <Typography variant="body2" className="text">{item?.qtyOnHand}</Typography>
+                                                    <Typography variant="body2" className="text">{item?.qtyOnHand?.toFixed(2)}</Typography>
                                                 </TableCell>  
 
                                                 <TableCell 
@@ -152,7 +152,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                     className="cell-item"
                                                     sx={{border: "none" ,   padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">${item?.unitCost}</Typography>
+                                                    <Typography variant="body2" className="text">${item?.unitCost?.toFixed(2)}</Typography>
                                                 </TableCell>   
                                                 <TableCell 
                                                     align="center" width="8%"
@@ -166,7 +166,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                     className="cell-item"
                                                     sx={{border: "none" , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.qtySold}</Typography>
+                                                    <Typography variant="body2" className="text">{item?.qtySold?.toFixed(2)}</Typography>
                                                 </TableCell>                                                                                                      
                                             </TableRow>                                                                  
                                         </TableBody>                      
