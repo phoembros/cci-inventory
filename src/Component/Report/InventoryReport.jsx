@@ -45,7 +45,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                         <Typography variant="body1" sx={{fontWeight: "bold"}}>CCS CAMBODIA</Typography>
                                     </Stack>
                                     <Stack direction="row" justifyContent="center">
-                                        <Typography variant="body1" sx={{fontWeight: "bold"}}>Production Report Summary</Typography>
+                                        <Typography variant="body1" sx={{fontWeight: "bold"}}>Inventory Report Summary</Typography>
                                     </Stack>
                                     <Stack direction="row" justifyContent="center">
                                         <Typography variant="body1" sx={{fontWeight: "bold"}}>

@@ -77,23 +77,7 @@ export default function StorageRoom() {
       // console.log(getStorageRoomWithPagination ,"storageRoom")
       setDataStorageRoom(getStorageRoomWithPagination?.storageRoom)
       setLoading(false)
-    },
-    onError: (error) => {
-       // token-expired     
-        // setMessage(error?.message);
-        // setCheckMessage("error");
-        // setAlert(true);
-        // if(error?.message === "token-expired") {
-        //     signOut(auth).then( () => {    
-        //       setTimeout( () => {                
-        //         navigate("/login")
-        //       },1500)
-        //     }).catch( (error) => {                
-        //         console.log(error)
-        //     });
-        // }      
-      // End
-    },
+    },   
     pollInterval: 10000,
 
   });
@@ -104,8 +88,7 @@ export default function StorageRoom() {
       setPageShow(page);
   }, [page, keyword]);
 
-
-  
+ 
 
   return (
     <div className="storageroom-page">
@@ -116,182 +99,180 @@ export default function StorageRoom() {
         </Stack>
         <Box sx={{ flexGrow: 1 }} />
         <Stack direction="row" spacing={5} className="btn-add">
+
           {/* Create Storage Room */}
-          {
-            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createStorageRoom ?
-              <Button onClick={handleOpen} startIcon={<AddIcon />}>
-                  <Typography className="style-add"> Add </Typography>
-              </Button>
-            :
-              null
-          }
-          
+            {
+              dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createStorageRoom ?
+                <Button onClick={handleOpen} startIcon={<AddIcon />}>
+                    <Typography className="style-add"> Add </Typography>
+                </Button>
+              :
+                null
+            }          
           {/* <Modal open={open}> */}
+
             <ModalCreateStorageRoom
-              open={open}
-              handleClose={handleClose}
-              btnTitle={"Create"}
-              checkStatus={"create"}
-              setAlert={setAlert}
-              setMessage={setMessage}
-              checkMessage={checkMessage}
-              setCheckMessage={setCheckMessage}
-              setRefetch={refetch}
+                open={open}
+                handleClose={handleClose}
+                btnTitle={"Create"}
+                checkStatus={"create"}
+                setAlert={setAlert}
+                setMessage={setMessage}
+                checkMessage={checkMessage}
+                setCheckMessage={setCheckMessage}
+                setRefetch={refetch}
             />
           {/* </Modal> */}
+
           {/* End Storage Room */}
         </Stack>
       </Stack>
 
 
-    {
-        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getStorageRoomWithPagination ?
-
-        <>
         {
           loading ?
-            <Box
-                sx={{ display: "flex", flexDirection: "column", alignItems: "center" , mt:10}}
-            >
+            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" , mt:10}}>
                 <CircularProgress />
             </Box>
           :
-              <Box className="container">
-                <TableContainer>
-                  <Table className="table" aria-label="simple table">
-                    {dataStorageRoom?.map(
-                      (row, index) => (
-                        <TableBody component={Paper} className="body">
-                          <TableRow className="body-row">
-                            <TableCell
+            <>
+              {
+                dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getStorageRoomWithPagination ?
+              <>
+                <Box className="container">
+                  <TableContainer>
+                    <Table className="table" aria-label="simple table">
+                      {dataStorageRoom?.map(
+                        (row, index) => (
+                          <TableBody component={Paper} className="body">
+                            <TableRow className="body-row">
+                              <TableCell
+                                  onClick={()=>
+                                    row.type === "Products" ? 
+                                      navigate(`/storage-room/roomdetail?storageId=${row._id}&name=${row.name}`) 
+                                    : 
+                                      navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`) 
+                                  }                        
+                                  className="body-title"
+                                  width="3%"
+                              >
+                                {index + 1}-
+                              </TableCell>
+                              <TableCell
                                 onClick={()=>
                                   row.type === "Products" ? 
                                     navigate(`/storage-room/roomdetail?storageId=${row._id}&name=${row.name}`) 
                                   : 
-                                    navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`) 
-                                }                        
+                                  navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`)
+                                } 
                                 className="body-title"
-                                width="3%"
-                            >
-                              {index + 1}-
-                            </TableCell>
-                            <TableCell
-                              onClick={()=>
-                                row.type === "Products" ? 
+                                width="20%"
+                              >
+                                Name: {row.name} 
+                              </TableCell>
+                              <TableCell
+                                onClick={()=>
+                                  row.type === "Products" ? 
+                                    navigate(`/storage-room/roomdetail?storageId=${row._id}&name=${row.name}`) 
+                                  : 
+                                  navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`)
+                                } 
+                                className="body-title"
+                                width="30%"
+                              >
+                                Location: {row.address}
+                              </TableCell>
+                              <TableCell
+                                onClick={()=>
+                                  row.type === "Products" ? 
                                   navigate(`/storage-room/roomdetail?storageId=${row._id}&name=${row.name}`) 
-                                : 
-                                navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`)
-                              } 
-                              className="body-title"
-                              width="20%"
-                            >
-                              Name: {row.name} 
-                            </TableCell>
-                            <TableCell
-                              onClick={()=>
-                                row.type === "Products" ? 
-                                  navigate(`/storage-room/roomdetail?storageId=${row._id}&name=${row.name}`) 
-                                : 
-                                navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`)
-                              } 
-                              className="body-title"
-                              width="30%"
-                            >
-                              Location: {row.address}
-                            </TableCell>
-                            <TableCell
-                              onClick={()=>
-                                row.type === "Products" ? 
-                                navigate(`/storage-room/roomdetail?storageId=${row._id}&name=${row.name}`) 
-                                : 
-                                navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`)
-                              } 
-                              className="body-title"
-                              align="left"
-                              width="15%"
-                            >
-                              Type: {row.type}
-                            </TableCell>
-                            <TableCell
-                              onClick={()=>
-                                row.type === "Products" ? 
-                                navigate(`/storage-room/roomdetail?storageId=${row._id}&name=${row.name}`)  
-                                : 
-                                navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`)
-                              } 
-                              className="body-title"
-                              align="left"                      
-                            >
-                              Remark: {row.remark}
-                            </TableCell>
-                            <TableCell className="body-title" align="right">
-                              <StorageRoomAction
-                                  dataUserLogin={dataUserLogin}
-                                  row={row}
-                                  setRefetch={refetch}
-                                  setAlert={setAlert}
-                                  setMessage={setMessage}
-                                  setCheckMessage={setCheckMessage}                        
-                              />
-                            </TableCell>
-                          </TableRow>
-                        </TableBody>
-                      )
-                    )}
-                  </Table>
-                  <Stack direction="row" justifyContent="right" spacing={2}>
-                    <IconButton
-                      disabled={ data?.getStorageRoomWithPagination?.paginator?.prev === null ? true  : false }
-                      onClick={() =>
-                        setPage(data?.getStorageRoomWithPagination?.paginator?.prev)
-                      }
-                    >
-                      <ArrowBackIosNewIcon sx={{ ":hover": { color: "#0969A0" } }} />
-                    </IconButton>
+                                  : 
+                                  navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`)
+                                } 
+                                className="body-title"
+                                align="left"
+                                width="15%"
+                              >
+                                Type: {row.type}
+                              </TableCell>
+                              <TableCell
+                                onClick={()=>
+                                  row.type === "Products" ? 
+                                  navigate(`/storage-room/roomdetail?storageId=${row._id}&name=${row.name}`)  
+                                  : 
+                                  navigate(`/storage-room/purchase?storageId=${row._id}&name=${row.name}`)
+                                } 
+                                className="body-title"
+                                align="left"                      
+                              >
+                                Remark: {row.remark}
+                              </TableCell>
+                              <TableCell className="body-title" align="right">
+                                <StorageRoomAction
+                                    dataUserLogin={dataUserLogin}
+                                    row={row}
+                                    setRefetch={refetch}
+                                    setAlert={setAlert}
+                                    setMessage={setMessage}
+                                    setCheckMessage={setCheckMessage}                        
+                                />
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        )
+                      )}
+                    </Table>
+                    <Stack direction="row" justifyContent="right" spacing={2}>
+                      <IconButton
+                        disabled={ data?.getStorageRoomWithPagination?.paginator?.prev === null ? true  : false }
+                        onClick={() =>
+                          setPage(data?.getStorageRoomWithPagination?.paginator?.prev)
+                        }
+                      >
+                        <ArrowBackIosNewIcon sx={{ ":hover": { color: "#0969A0" } }} />
+                      </IconButton>
 
-                    <Stack direction="column" justifyContent="center" spacing={2}>
-                      <Pagination
-                        page={pageShow}
-                        component="div"
-                        hideNextButton="true"
-                        hidePrevButton="true"
-                        count={
-                          data?.getStorageRoomWithPagination?.paginator?.totalPages
+                      <Stack direction="column" justifyContent="center" spacing={2}>
+                        <Pagination
+                          page={pageShow}
+                          component="div"
+                          hideNextButton="true"
+                          hidePrevButton="true"
+                          count={
+                            data?.getStorageRoomWithPagination?.paginator?.totalPages
+                          }
+                          variant="outlined"
+                          color="primary" 
+                          shape="circle"
+                          onChange={(event) =>
+                            setPage(parseInt(event?.target?.textContent))
+                          }
+                        />
+                      </Stack>
+                      <IconButton
+                        disabled={
+                          data?.getStorageRoomWithPagination?.paginator?.prev === null
+                            ? true
+                            : false
                         }
-                        variant="outlined"
-                        color="primary" 
-                        shape="circle"
-                        onChange={(event) =>
-                          setPage(parseInt(event?.target?.textContent))
+                        onClick={() =>
+                          setPage(data?.getStorageRoomWithPagination?.paginator?.next)
                         }
-                      />
+                      >
+                        <ArrowForwardIosIcon sx={{ ":hover": { color: "#0969A0" } }} />
+                      </IconButton>
                     </Stack>
-                    <IconButton
-                      disabled={
-                        data?.getStorageRoomWithPagination?.paginator?.prev === null
-                          ? true
-                          : false
-                      }
-                      onClick={() =>
-                        setPage(data?.getStorageRoomWithPagination?.paginator?.next)
-                      }
-                    >
-                      <ArrowForwardIosIcon sx={{ ":hover": { color: "#0969A0" } }} />
-                    </IconButton>
-                  </Stack>
-                </TableContainer>
-              </Box>
-          
+                  </TableContainer>
+                </Box>
+              </>
+            :
+              <PermissionContent />               
+            }
+
+          </>              
         }
-        </>
-      :
-        <PermissionContent />
-
-    }
+          
     
-    
-
-      
 
       <AlertMessage
         alert={alert}

@@ -146,7 +146,8 @@ export const GET_PRODUCT_STORAGE_ROOM_BY = gql`
       completedUnit
       unitPrice
       durationProduce
-      qtyInThisStorage
+      totalQtyUM
+      totalQtyUMSold
       totalStockAmount
       usedStockAmount
       ingredients {

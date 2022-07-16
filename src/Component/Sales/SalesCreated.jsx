@@ -86,7 +86,7 @@ export default function SalesCreated({
     React.useEffect(() => {
       if (data) {
           let rows = [];
-          data?.getCustomerPagination?.customers.forEach((element) => {
+          data?.getCustomerPagination?.customers?.forEach((element) => {
               const allrow = {
                 label: element?.name,
                 _id: element?._id
