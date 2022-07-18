@@ -26,6 +26,8 @@ import Pagination from "@mui/material/Pagination";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
+import DescriptionIcon from '@mui/icons-material/Description';
+
 import { GET_STORAGE_ROOM_PAGINATION} from "../Schema/starageroom";
 import { useQuery } from "@apollo/client";
 import AlertMessage from "../Component/AlertMessage/AlertMessage";
@@ -142,6 +144,10 @@ export default function StorageRoom() {
                 <Box className="container">
                   <TableContainer>
                     <Table className="table" aria-label="simple table">
+
+                  {
+                    dataStorageRoom?.length !== 0 ? 
+                      <>
                       {dataStorageRoom?.map(
                         (row, index) => (
                           <TableBody component={Paper} className="body">
@@ -221,6 +227,26 @@ export default function StorageRoom() {
                           </TableBody>
                         )
                       )}
+                      </>
+                    :
+                      <>
+                      <TableBody component={Paper} className="body-odd">                        
+                          <TableRow  className="body-row">
+                              <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
+                                  <Stack direction="row" justifyContent="center">                                                
+                                      <Stack direction="column" justifyContent="center" >
+                                          <IconButton>
+                                              <DescriptionIcon sx={{color: "white"}}/>
+                                          </IconButton>
+                                          <Typography variant="body2" sx={{color: "white" }}>No Data</Typography>
+                                      </Stack>                                                
+                                  </Stack>
+                              </TableCell>
+                          </TableRow>
+                      </TableBody>
+                      </>
+                  }
+                      
                     </Table>
                     <Stack direction="row" justifyContent="right" spacing={2}>
                       <IconButton
