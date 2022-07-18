@@ -79,6 +79,35 @@
                     }
                 }
             }
+
+            .body-odd {
+                box-shadow: none;
+
+                .body-row {       
+                    background-color: $background-table-modal;
+        
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status-Pending {
+                            font-weight: bold;      
+                            color: red;                      
+                        }
+
+                        .status-Rejected {
+                            font-weight: bold;      
+                            color: #006FFF;                      
+                        }
+                        .status-Approval {
+                            font-weight: bold;      
+                            color: #20D819;                      
+                        }                        
+
+                    }
+                }
+            }
             
 
         }
