@@ -288,3 +288,21 @@ query GetuserLogin {
   }
 }
 `;
+
+export const GET_USER_BYID = gql`
+query GetUserById($id: ID!) {
+  getUserById(_id: $id) {
+    _id
+    first_name
+    last_name
+    gender
+    email
+    password
+    phone_number
+    image_name
+    image_src
+    birthOfDate
+    status
+  }
+}
+`

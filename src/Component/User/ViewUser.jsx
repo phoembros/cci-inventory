@@ -17,16 +17,25 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useQuery } from "@apollo/client";
+import { GET_USER_BYID } from "../../Schema/user";
 
 export default function ViewUser({ handleCloseView, open, data }) {
 
     const [userData,setUserData] = useState(null)
 
+    const { data: dataUserInfo , error } = useQuery(GET_USER_BYID,{
+      variables: {
+        id: data?._id,
+      }
+    })
+
     useEffect(()=>{
-        if(data){
-            setUserData(data)
+        if(dataUserInfo?.getUserById){
+            setUserData(dataUserInfo?.getUserById)
+            // console.log(dataUserInfo?.getUserById)
         }
-    },[data])
+    },[dataUserInfo?.getUserById])
 
   return (
     <Dialog open={open} className="dialog-view-user">
