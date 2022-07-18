@@ -141,32 +141,28 @@ function ModalUserAdd({
 
   const uploadImage = async (file) => {
     try {
-      const formData = new FormData();
 
-      // Compression file
-      const options = {
-        maxSizeMB: 0.8,
-        maxWidthOrHeight: 1920,
-        useWebWorker: true,
-      };
-      const compressedFile = await imageCompression(file, options);
+        const formData = new FormData();
+        // Compression file
+        const options = {
+            maxSizeMB: 0.8,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        };
 
-      var newFile = new File([compressedFile], `$(file?.name).png`, {
-        type: "image/png",
-      });
+        const compressedFile = await imageCompression(file, options);
 
-      formData.append("file", newFile);
-      formData.append("upload_preset", "vc41aa9y");
+        var newFile = new File([compressedFile], `$(file?.name).png`, { type: "image/png", });
 
-      const res = await Axios.post(
-        "https://api.cloudinary.com/v1_1/ccicambodia/image/upload",
-        formData
-      );
+        formData.append("file", newFile);
+        formData.append("upload_preset", "vc41aa9y");
 
-      return res?.data?.secure_url;
+        const res = await Axios.post( "https://api.cloudinary.com/v1_1/ccicambodia/image/upload",formData);
+        return res?.data?.secure_url;
+
     } catch (err) {
-      console.log(err);
-      return undefined;
+        console.log(err);
+        return undefined;
     }
   };
 

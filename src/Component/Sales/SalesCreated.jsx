@@ -511,6 +511,8 @@ export default function SalesCreated({
                                                 setPaidAmount(e.target.value);                                
                                                 if( isNaN(parseFloat(e.target.value)) ||  parseFloat(e.target.value) === 0){                                  
                                                     setFieldValue("status", "unpaid")                                    
+                                                } else if(isNaN(parseFloat(e.target.value)) ||  parseFloat(e.target.value) === finalAmount) {
+                                                    setFieldValue("status", "paid")
                                                 } else {
                                                     setFieldValue("status", "owe")
                                                 }

@@ -86,7 +86,8 @@ export default function CreateProduct({
       variables:{
           keyword: "",
           pagination: false,
-      }
+      },
+      pollInterval: 1000,      
     }); 
 
     React.useEffect(() => {

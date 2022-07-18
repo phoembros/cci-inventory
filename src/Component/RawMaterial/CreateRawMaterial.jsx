@@ -51,7 +51,8 @@ export default function CreateRawMaterials({
     variables: {
       keyword: "",
       pagination: false,
-    }
+    },
+    pollInterval: 1000,
   });
   React.useEffect(() => {
     if (data) {

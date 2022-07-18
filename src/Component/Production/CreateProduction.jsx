@@ -91,7 +91,8 @@ export default function CreateProduction({
         variables: {           
             keyword: "",
             pagination: false,
-        }
+        },
+        pollInterval: 1000,
     })   
 
     React.useEffect( () => {
@@ -135,7 +136,9 @@ export default function CreateProduction({
 
     // Get Storage Room
     const [storageRoom,setStorageRoom] = React.useState([])
-    const { data , refetch } = useQuery(GET_STORAGE_ROOM_PRODUCT)
+    const { data , refetch } = useQuery(GET_STORAGE_ROOM_PRODUCT,{
+        pollInterval: 1000,
+    })
 
     React.useEffect( () => {
         if(data?.getStorageRoomProducts){
@@ -161,7 +164,8 @@ export default function CreateProduction({
         variables: {
             keyword: "",
             pagination: false,
-        },        
+        },
+        pollInterval: 1000,        
     })
 
     React.useEffect( () => {

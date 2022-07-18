@@ -321,14 +321,14 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     className="cell-item"
                                                     sx={{border: "none"   , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{row?.grossMargin?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" className="text">{row?.grossProfit?.toFixed(2)}</Typography>
                                                 </TableCell>  
                                                 <TableCell 
                                                     align="center" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none"   , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{row?.grossProfit?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" className="text">{row?.grossMargin?.toFixed(2)}</Typography>
                                                 </TableCell>   
 
                                             </TableRow> 
