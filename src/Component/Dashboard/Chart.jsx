@@ -13,7 +13,7 @@ export default function Chart({dataUserLogines}) {
   const { data : dataBar } = useQuery(GET_BAR_CHART)
   
 
-  // console.log(data?.getBarChart , "data")
+
   const [dataRevenue,setDataRevenue] = React.useState([]) 
   const [dataExpense,setDataExpense] = React.useState([])
   const [dataCategories,setDataCategories] = React.useState([])
@@ -82,6 +82,8 @@ export default function Chart({dataUserLogines}) {
     }
   }
  
+  console.log(dataRevenue , dataExpense , dataCategories );
+
   return(
     <Stack direction="column" height="100%" className='chart' >
         <Stack direction='row' spacing={2}>          
@@ -94,7 +96,8 @@ export default function Chart({dataUserLogines}) {
             <>
               <Stack id="chart">
                   {
-                    dataRevenue?.length !== 0 && dataExpense?.length !== 0 &&  dataCategories?.length !== 0 ? 
+                    dataRevenue !== null && dataExpense !== null &&  dataCategories !== null ?
+                    // dataRevenue?.length !== 0 && dataExpense?.length !== 0 &&  dataCategories?.length !== 0 ? 
                       <ReactApexChart options={state.options} series={state.series} type="bar" height={320} className='chart-absotute'/>
                     :
                       <Stack direction="row" justifyContent="center" height={320} >
@@ -110,7 +113,7 @@ export default function Chart({dataUserLogines}) {
             </>
           :           
             <PermissionContent />            
-        }
+        }        
         
     </Stack>
   )
