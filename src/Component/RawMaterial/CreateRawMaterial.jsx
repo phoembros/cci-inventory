@@ -54,6 +54,7 @@ export default function CreateRawMaterials({
     },
     pollInterval: 1000,
   });
+
   React.useEffect(() => {
     if (data) {
       let rows = []; 
@@ -67,6 +68,7 @@ export default function CreateRawMaterials({
       setCategoryMaterail(rows);
     }
   }, [data]);
+
 
   // Create
   const [createRawMaterial] = useMutation(CREATE_RAW_MATERAIL, {
@@ -131,7 +133,8 @@ export default function CreateRawMaterials({
 
     validationSchema: CreateCategory,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      // console.log(values, 'hhh')
+      console.log(values, 'hhh')
+      
       if(checkStatus === 'create'){
         createRawMaterial({
           variables: {

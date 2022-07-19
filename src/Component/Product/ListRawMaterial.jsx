@@ -17,6 +17,7 @@ function ListRawMaterial(props) {
         keyword: "",
         pagination: false,
       },
+      pollInterval: 500,    
     });
     // console.log(data?.getRawMaterialPagination?.rawMaterial,"data")
 

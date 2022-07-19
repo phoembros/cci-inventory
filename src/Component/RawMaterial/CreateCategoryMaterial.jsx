@@ -86,7 +86,9 @@ export default function CreateCategoryMaterial({
         },
     
         validationSchema: CreateCategory,
-        onSubmit: async (values, { setSubmitting, resetForm }) => {        
+        onSubmit: async (values, { setSubmitting, resetForm }) => {      
+            
+            console.log(values);
             
             if(checkStatus === "create") {
                 createRawMaterialCategory({

@@ -18,6 +18,7 @@ export default function ListRawMaterial(props) {
             keyword: "",
             pagination: false,
         },
+        pollInterval: 500,
     });
     
     React.useEffect( () => {
