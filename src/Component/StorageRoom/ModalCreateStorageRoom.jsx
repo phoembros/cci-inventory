@@ -271,9 +271,7 @@ export default function ModalCreateStorageRoom({
                           size="small"
                           fullWidth
                           placeholder="remark"
-                          {...getFieldProps("remark")}
-                          error={Boolean(touched.remark && errors.remark)}
-                          helperText={touched.remark && errors.remark}
+                          {...getFieldProps("remark")}                          
                         />
                       </Stack>
 
