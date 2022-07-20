@@ -28,11 +28,10 @@ export default function CustomerSetup({
     const [createCustomer] = useMutation(CREATE_SET_UP_CUSTOMER, {
     onCompleted: ({ createCustomer }) => {
       // console.log(createCustomer.message, "mgs");
-
       if(createCustomer?.success){
           setCheckMessage('success')
           setMessage(createCustomer?.message);
-          setAlert(true);
+          setAlert(true);          
           setRefetch();
           handleClose();
       } else {
@@ -78,6 +77,7 @@ export default function CustomerSetup({
         });
 
         resetForm();
+        handleClose();
     },
   });
 

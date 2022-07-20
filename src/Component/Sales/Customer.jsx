@@ -22,6 +22,7 @@ import {GET_USER_LOGIN} from "../../Schema/user"
 import PermissionContent from "../Permission/PermissionContent";
 import DescriptionIcon from '@mui/icons-material/Description';
 
+
 export default function Customer() {
 
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
@@ -57,8 +58,9 @@ export default function Customer() {
         pagination: true,
       },
       onCompleted: () => {
-        setLoading(false)
-      }
+        setLoading(false);
+      },
+
     });
 
     React.useEffect(()=>{
@@ -116,6 +118,7 @@ export default function Customer() {
             {/* <Modal open={open}> */}
               <CustomerSetup
                 setRefetch={refetch}
+                setKeyword={setKeyword}
                 open={open}
                 setAlert={setAlert}
                 setMessage={setMessage}

@@ -75,6 +75,7 @@ export default function PurchaseRawMaterial({
           keyword: "",
           pagination: false,
       },
+      pollInterval: 1000,
   })
 
   React.useEffect(() => {

@@ -80,7 +80,8 @@ export default function SalesCreated({
         variables:{
           keyword: "",
           pagination: false,
-        }
+        },
+        pollInterval: 10000,
     })
 
     React.useEffect(() => {
@@ -281,7 +282,7 @@ export default function SalesCreated({
                   </IconButton>    
               </Stack>  
               <Stack direction="row" sx={{mt:-1}}>
-                <Typography variant="body2"> Please Input each field:</Typography>
+                <Typography variant="body2">Please Input each field:</Typography>
               </Stack> 
         </DialogTitle>
         <DialogContent>
