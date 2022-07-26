@@ -50,6 +50,8 @@ export default function ViewProduction({
     setRefetch,
 }) {
 
+    // console.log( "ViewData::",ViewData)
+
     const [startDate,setStartDate] = React.useState(new Date());   
     const [endDate,setEndDate] = React.useState(new Date()); 
 
@@ -195,11 +197,11 @@ export default function ViewProduction({
                                     <TableBody component={Paper} className="body" >                        
                                         <TableRow  className="body-row">
                                             <TableCell className="body-title" component="th" scope="row" width="50%" >
-                                                <TextField size='small' fullWidth value={ViewData?.production?.productName}/>
+                                                <TextField size='small' fullWidth value={ViewData?.production?.productId ? ViewData?.production?.productId?.productName : "Product is deleted."}/>
                                             </TableCell>
                                             <TableCell className="body-title"></TableCell>
                                             <TableCell className="body-title" component="th" align='center' width="15%" >
-                                                <TextField size='small' fullWidth value={ViewData?.qty+' '+ViewData?.production?.productId?.unit}/>
+                                                <TextField size='small' fullWidth value={ ViewData?.production?.productId ? ViewData?.qty+' '+ViewData?.production?.productId?.unit : ""}/>
                                             </TableCell>
                                             <TableCell className="body-title"></TableCell>
                                             <TableCell className="body-title" width="15%" align='center'>

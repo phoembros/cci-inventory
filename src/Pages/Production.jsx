@@ -258,7 +258,7 @@ export default function Production() {
                                                     <Stack direction="row" spacing={2}>
                                                         <Stack direction="column" justifyContent="center">
                                                             <Typography variant="body1">
-                                                                {row?.production?.productName}
+                                                                {row?.production?.productId ? row?.production?.productId?.productName : "Product is deleted!"}
                                                             </Typography>
                                                         </Stack>
                                                         
@@ -279,7 +279,7 @@ export default function Production() {
                                                 </TableCell>
                                                 
                                                 <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" align="left" width="15%">
-                                                    {row?.qty}-{row?.production?.productId?.unit} 
+                                                   { row?.production?.productId ? row?.qty+"-"+row?.production?.productId?.unit : "---" } 
                                                 </TableCell>
 
                                                 <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" width="20%">
