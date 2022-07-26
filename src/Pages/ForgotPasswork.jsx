@@ -19,7 +19,7 @@ import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 //src
 import app from "../../src/firebase";
 import "./forgotpasswork.scss";
-import logiImage from "../Assets/logoLogin.svg";
+import logiImage from "../Assets/ccilogin.svg";
 import AlertMessage from "../Component/AlertMessage/AlertMessage";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 

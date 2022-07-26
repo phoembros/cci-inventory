@@ -73,7 +73,7 @@ export default function ListRawMaterial(props) {
 
                         </TableCell>
                          
-                        <TableCell className="body-title" width="27%" align='center'>
+                        <TableCell className="body-title" width="35%" align='center'>
                             <TextField  
                                 className='text-field'
                                 fullWidth
@@ -91,8 +91,8 @@ export default function ListRawMaterial(props) {
                                     inputProps: { min: 1 },
                                 }}
                                 onFocus={handleTouch}
-                                error={ touched && item?.amount < 0.01 || touched && isNaN(item?.amount) }
-                                helperText={ item?.amount < 0.01 && errorMessage[0] || isNaN(item?.amount) && errorMessage[1] }  
+                                error={ touched && item?.amount < 0 || touched && isNaN(item?.amount) }
+                                helperText={ item?.amount < 0 && errorMessage[0] || isNaN(item?.amount) && errorMessage[1] }  
                             />
                         </TableCell>   
                         

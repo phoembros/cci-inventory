@@ -126,7 +126,7 @@ export default function CreateProduct({
     }
 
     const handleAddMaterail = () => {
-        setCurrentItem({ rawName: 'Material Name' , rawMaterialId: '' , amount: 1 , unitRawMaterial: "" ,  key: Date.now() });
+        setCurrentItem({ rawName: 'Material Name' , rawMaterialId: '' , amount: 0.01 , unitRawMaterial: "" ,  key: Date.now() });
     }
 
     React.useEffect(() => {

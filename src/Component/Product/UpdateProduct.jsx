@@ -258,6 +258,19 @@ export default function UpdateProduct({
     });  
     const { errors, touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm } = formik;
     // End Formik
+
+    React.useEffect( () => {
+        
+        setFieldValue("productName" , editData?.productName)
+        setFieldValue("productId" , editData?.productId)
+        setFieldValue("remark" , editData?.remark)
+        setFieldValue("unitPrice" , editData?.unitPrice)
+        setFieldValue("unit" ,  editData?.unit)
+        setFieldValue("completedUnit" , editData?.completedUnit)
+        setFieldValue("category" , editData?.category?._id)
+        setFieldValue("durationProduce" , editData?.durationProduce)       
+            
+    },[editData])
    
     return (
 

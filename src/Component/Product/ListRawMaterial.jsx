@@ -61,6 +61,7 @@ function ListRawMaterial(props) {
                                 renderInput={(params) => 
                                     <TextField 
                                         {...params} size="small" className='text-field' 
+                                        placeholder='Raw Material'
                                         onFocus={handleTouch}
                                         error={ touched && item?.rawName === undefined }
                                         helperText={ item?.rawName === undefined && errorMessage[2] }   
@@ -87,8 +88,8 @@ function ListRawMaterial(props) {
                                     inputProps: { min: 1 },
                                 }}
                                 onFocus={handleTouch}
-                                error={ touched && item?.amount < 0.01 || touched && isNaN(item?.amount) }
-                                helperText={ item?.amount < 0.01 && errorMessage[0] || isNaN(item?.amount) && errorMessage[1] }     
+                                error={ touched && item?.amount < 0 || touched && isNaN(item?.amount) }
+                                helperText={ item?.amount < 0 && errorMessage[0] || isNaN(item?.amount) && errorMessage[1] }     
                             />
                         </TableCell>  
                          
