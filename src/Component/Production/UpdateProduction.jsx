@@ -109,7 +109,7 @@ export default function UpdateProduction({
 
     // Product Selected
     const  [productSelected,setProductSelected] = React.useState({
-        label: editDataProduction?.production?.productName,
+        label: editDataProduction?.production?.productId?.productName,
         qtyOnHand: editDataProduction?.production?.qtyOnHand,
         _id: editDataProduction?.production?.productId?._id,
     })    
@@ -223,7 +223,7 @@ export default function UpdateProduction({
             priority: editDataProduction?.priority,
             qty: editDataProduction?.qty,
             productId: editDataProduction?.production?.productId?._id,
-            productName: editDataProduction?.production?.productName,
+            productName: editDataProduction?.production?.productId?.productName,
             qtyOnHand: editDataProduction?.production?.qtyOnHand,
             progress: "not started",
             comment: editDataProduction?.comment,
@@ -305,9 +305,9 @@ export default function UpdateProduction({
                                         <Autocomplete
                                             disablePortal                           
                                             value={storageRoomSelected}
-                                            options={storageRoom}         
+                                            options={storageRoom} 
+                                            getOptionLabel={(option) => option.label ? option.label : " " }               
                                             getOptionSelected={(option, value) => option._id === value._id } 
-                                            getOptionLabel={(option) => (option ? option.label : "")}               
                                             onChange={(e, value) => {
                                                 setFieldValue( "storageRoomId" , value?._id );
                                                 setStorageRoomSelected(value);
@@ -334,7 +334,7 @@ export default function UpdateProduction({
                                                     value={customerSelected}
                                                     options={customer}      
                                                     getOptionSelected={ (option , value) => option._id === value._id } 
-                                                    getOptionLabel={(option) => (option ? option.label : "")}                 
+                                                    getOptionLabel={(option) => option.label ? option.label : "" }                 
                                                     onChange={(e, value) => {
                                                         setCustomerId(value?._id)
                                                         setCustomerSelected(value);
@@ -381,7 +381,8 @@ export default function UpdateProduction({
                                                             id="combo-box-demo"
                                                             value={productSelected}
                                                             options={product}         
-                                                            getOptionSelected={(option, value) => option._id === value._id }               
+                                                            getOptionSelected={(option, value) => option?._id === value?._id }                                                         
+                                                            getOptionLabel={(option) => option.label ? option.label : " " }                   
                                                             onChange={(e, value) => {
                                                                 setFieldValue( "productId" , value?._id )
                                                                 setFieldValue( "productName" , value?.label)
