@@ -100,15 +100,31 @@ export default function ModalQualityCheck({
             <DialogContent>
                 <DialogContentText id="alert-dialog-description"> 
 
-  
-                    <Stack direction="row" spacing={5} width="100%">
-                        <Typography variant='body1'>
-                            Product : {editDataProduction?.production?.productName}
-                        </Typography>
-                        <Typography variant='body1'>
-                            Qty : {editDataProduction?.qty}{editDataProduction?.production?.productId?.unit}
-                        </Typography>                
-                    </Stack>
+                {
+                    editDataProduction?.production?.productId ?
+                        <>
+                            <Stack direction="row" spacing={5} width="100%">
+                                <Typography variant='body1'>
+                                    Product : {editDataProduction?.production?.productId?.productName}
+                                </Typography>
+                                <Typography variant='body1'>
+                                    Qty : {editDataProduction?.qty}{editDataProduction?.production?.productId?.unit}
+                                </Typography>                
+                            </Stack>
+                        </>
+                    :
+                        <>
+                            <Stack direction="row" spacing={5} width="100%">
+                                <Typography variant='body1'>
+                                    Product :  ---
+                                </Typography>
+                                <Typography variant='body1'>
+                                    Qty :  ---
+                                </Typography>                
+                            </Stack>
+                        </>
+                }
+                    
 
                     <Box sx={{mt:2}}>
                         <Typography className='body-title' variant="body" >
