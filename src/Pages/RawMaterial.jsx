@@ -308,8 +308,8 @@ export default function RawMaterial() {
                           <Stack direction='column' justifyContent="center">
                               <Pagination
                                 page={pageShow}
-                                hideNextButton="true"
-                                hidePrevButton="true"
+                                hideNextButton={true}
+                                hidePrevButton={true}
                                 count={data?.getRawMaterialPagination?.paginator?.totalPages}
                                 variant="outlined" 
                                 color="primary" 
