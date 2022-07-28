@@ -148,7 +148,7 @@ return (
                                     Supplier: 
                                 </Typography>
                             </Stack>
-                            <Box sx={{width:'100px'}}>
+                            <Box>
                                 <Typography variant='body'>{PurchaseData?.supplierID?.name}</Typography>
                             </Box>
                         </Stack>
@@ -159,7 +159,7 @@ return (
                                 <TableHead>
                                     <TableRow className="header-row">
                                         <TableCell className="header-title">
-                                            Raw Materail's Name
+                                            Raw Materail
                                         </TableCell>
                                         
                                         <TableCell className="header-title" align="center">
@@ -178,7 +178,7 @@ return (
                                     {PurchaseData?.productsItems?.map((row , index) => (
                                         <TableBody key={index} component={Paper} className="body" >                        
                                             <TableRow  className="body-row">                                
-                                                <TableCell className="body-title" component="th" scope="row" width="300px">{row?.rawMaterialId?.materialName}</TableCell>
+                                                <TableCell className="body-title" component="th" scope="row" width="250px">{row?.rawMaterialId?.materialName}</TableCell>
                                                 <TableCell className="body-title"  align="center" width="20%">{row?.newQty}</TableCell>  
                                                 <TableCell className="body-title"  align="center" width="20%" >${row?.unitPrice} </TableCell>
                                                 {/* <TableCell className="body-title"  align="center" width="20%">{row?.suppliersName}</TableCell>  */}

@@ -22,8 +22,8 @@ function App() {
     const { state } = useContext(AuthContext);
     const { user } = state;
 
-    // console.log(state,'state')
-  
+    console.log(state,'state')  
+
     const httpLink = createHttpLink({      
         uri: process.env.React_APP_END_POINT,
         // uri: "http://192.168.2.126:4055/graphql",

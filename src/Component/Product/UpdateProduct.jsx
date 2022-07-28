@@ -212,7 +212,7 @@ export default function UpdateProduct({
         remark: Yup.string(),  
         unitPrice: Yup.number().min(0.01 , "Unit Price can't under 0"),     
         unit: Yup.string().required("Unit is required!"),  
-        completedUnit : Yup.string().required("Unit is required!"),
+        completedUnit : Yup.string(),
         durationProduce: Yup.number(),
         category: Yup.string().required("Category is required!"),      
     });
@@ -356,8 +356,8 @@ export default function UpdateProduct({
                                                     <TableCell className="header-title" width="3%"></TableCell>  
                                                     <TableCell className="header-title">Unit</TableCell>  
                                                     <TableCell className="header-title" width="3%"></TableCell>  
-                                                    <TableCell className="header-title">Stock U/M</TableCell>  
-                                                    <TableCell className="header-title" width="3%"></TableCell>                       
+                                                    {/* <TableCell className="header-title">Stock U/M</TableCell>   */}
+                                                    {/* <TableCell className="header-title" width="3%"></TableCell>                        */}
                                                     <TableCell className="header-title" align='center' >Duration</TableCell>                                                       
                                                 </TableRow>
                                             </TableHead>                    
@@ -396,8 +396,9 @@ export default function UpdateProduct({
                                                         )}
 
                                                     </TableCell>
-                                                    <TableCell className="body-title"></TableCell>    
-                                                    <TableCell className="body-title" width="20%">
+                                                    <TableCell className="body-title"></TableCell>
+
+                                                    {/* <TableCell className="body-title" width="20%">
                                                         <FormControl fullWidth size="small">
                                                         <Select                           
                                                             {...getFieldProps("completedUnit")}
@@ -415,10 +416,10 @@ export default function UpdateProduct({
                                                                 {errors.completedUnit}
                                                             </FormHelperText>
                                                         )} 
+                                                    </TableCell> */}
 
-                                                    </TableCell>      
-                                                    <TableCell className="body-title"></TableCell>                
-                                                    <TableCell className="body-title" width="15%" align='center'>
+                                                    {/* <TableCell className="body-title"></TableCell>                 */}
+                                                    <TableCell className="body-title" width="20%" align='center'>
                                                         <TextField 
                                                             size='small' 
                                                             fullWidth
@@ -428,7 +429,7 @@ export default function UpdateProduct({
                                                             InputProps={{                                  
                                                                 endAdornment: (
                                                                     <InputAdornment position="end">                                             
-                                                                        s                                         
+                                                                        min                                         
                                                                     </InputAdornment>
                                                                 ), 
                                                                 inputProps: { min: 1 },                                               

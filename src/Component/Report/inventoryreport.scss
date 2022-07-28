@@ -2,8 +2,7 @@
 
 .inventory-report-pages {
 
-    width: 100% !important;
-   
+    width: 100% !important;   
     
     .btn {
 
@@ -33,6 +32,7 @@
     .container {
         margin-top: 20px;
         width: 100%;
+        height: fit-content;
 
         @include mobile-small {
             width: 1200px !important;
@@ -49,6 +49,7 @@
            
         .table {
             width: 100%;
+            height: fit-content;
             display: table;
             overflow-x: auto;
             border-collapse: separate;

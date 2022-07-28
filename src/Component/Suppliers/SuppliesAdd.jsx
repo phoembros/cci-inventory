@@ -47,9 +47,9 @@ export default function SuppliesAdd({
   })
     const AddSupplies = Yup.object().shape({
         name: Yup.string().required("Name is required!"),        
-        email: Yup.string().email('Must be a valid email').required("email is required!"),
-        phoneNumber: Yup.string().required("Phonenumber is required!"),
-        address:Yup.string().required("address is required!"),
+        email: Yup.string().email('Must be a valid email'),
+        phoneNumber: Yup.string(),
+        address:Yup.string(),
       });
     
       const formik = useFormik({
@@ -97,10 +97,8 @@ export default function SuppliesAdd({
 
 
                 <FormikProvider value={formik}>
-                    <Form noValidate autoComplete='off' onSubmit={handleSubmit} >
-                     
+                    <Form noValidate autoComplete='off' onSubmit={handleSubmit} >                    
                           
-
                           <Stack direction="column" spacing={2} >
                               <Grid xs={12} md={12}>
                                   <Typography className="Sub-title">Name</Typography>
@@ -115,7 +113,7 @@ export default function SuppliesAdd({
                               </Grid>                    
                               
                               <Grid xs={12} md={12}>
-                                <Typography className="Sub-title"> Email </Typography>
+                                <Typography className="Sub-title">Email</Typography>
                                   <TextField
                                       size="small"
                                       fullWidth
@@ -127,7 +125,7 @@ export default function SuppliesAdd({
                               </Grid>
 
                               <Grid xs={12} md={12}>
-                                <Typography className="Sub-title"> Phone Number </Typography>
+                                <Typography className="Sub-title">Phone Number</Typography>
                                   <TextField
                                       size="small"
                                       fullWidth

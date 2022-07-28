@@ -15,10 +15,8 @@ import SupplierRole from "./SupplierRole";
 import UserRole from "./UserRole";
 import ProductionRole from "./ProductionRole";
 import RolePermission from "./RolePermission";
-
 import AddIcon from '@mui/icons-material/Add';
 import CreateRole from "./CreateRole";
-
 import { GET_ROLE_BYID, GET_ROLE_PERMISSION } from "../../Schema/role";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import DashboardRole from "./DashboardRole";
@@ -26,13 +24,11 @@ import DashboardRole from "./DashboardRole";
 export default function Role () {
 
     const [menuRole,setMenuRole] = React.useState("");
-
     const [activateButton,setActivateButton] = React.useState(false)
     // 
     const [openCreateRole, setOpenCreateRole] = React.useState(false);
     const handleOpenCreateRole = () => setOpenCreateRole(true);
     const handleCloseCreateRole = () => setOpenCreateRole(false);
-
 
     // get Data
     const [roleDataAuto,setRoleDataAuto] = React.useState([])
@@ -64,6 +60,7 @@ export default function Role () {
         }        
     },[data?.getRoleAndPermissionById])
 
+
     return(
         <div className="system-page-role">
             <Stack direction="row" spacing={2}>
@@ -93,7 +90,7 @@ export default function Role () {
                         // setAlert={setAlert}
                         // setMessage={setMessage}
                         // setCheckMessage={setCheckMessage}
-                        // setRefetch={refetch}
+                        setRefetch={refetch}
                     />                     
                 </Stack>
             </Stack>

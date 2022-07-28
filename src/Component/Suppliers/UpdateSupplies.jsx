@@ -41,9 +41,9 @@ export default function UpdateSupplies({
 
     const SuppliesUpdate = Yup.object().shape({
         name: Yup.string().required("Name is required!"),        
-        email: Yup.string().email('Must be a valid email').required("email is required!"),
-        phoneNumber: Yup.string().required("Phonenumber is required!"),
-        address:Yup.string().required("address is required!"),
+        email: Yup.string().email('Must be a valid email'),
+        phoneNumber: Yup.string(),
+        address:Yup.string(),
     });
     
       const formik = useFormik({

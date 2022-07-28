@@ -40,7 +40,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
     console.log(dataSale , "dataSale")    
 
     return (
-        <Box  width="100%"  display="flex" flexDirection="column" justifyContent="center" sx={{backgroundColor:'#fff', padding: 3}}>
+        <Box  width="100%"  display="flex" height="fit-content" flexDirection="column" justifyContent="center" sx={{backgroundColor:'#fff', padding: 3}}>
             <Box width="100%" >
                 <Grid container>
                     <Grid item xs={12}>

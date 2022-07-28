@@ -9,6 +9,37 @@
         // width: 650px !important;
     }  
 
+    .tin-sale {
+
+        @include mobile-small {
+            display: none;
+        }
+
+        @include mobile {
+            display: none;
+        }
+
+        @include mobile-large {
+            display: none;
+        }
+    }
+
+    .tin-sale-mobile {
+        display: none;
+
+        @include mobile-small {
+            display: flex;
+        }
+
+        @include mobile {
+            display: flex;
+        }
+
+        @include mobile-large {
+            display: flex;
+        }
+    }
+
     .date-sale-mobile {
         display: none;
 

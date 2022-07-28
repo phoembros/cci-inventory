@@ -14,13 +14,14 @@ import { useMutation } from "@apollo/client";
 import { CREATE_ROLE } from "../../Schema/role";
 
 
-export default function CreateRoleUser({ open , handleClose , btnTitle }) {
+export default function CreateRoleUser({ open , handleClose , btnTitle , setRefetch}) {
 
     const [ createRole ] = useMutation(CREATE_ROLE , {
         onCompleted: ({createRole}) => {
             console.log(createRole)
             if(createRole?.success){
-                handleClose()
+                handleClose();
+                setRefetch();
             } else {
                 console.log(createRole?.message)
             }
@@ -45,7 +46,7 @@ export default function CreateRoleUser({ open , handleClose , btnTitle }) {
         validationSchema: CreateRoles,
         onSubmit: async (values, { setSubmitting, resetForm }) => {
 
-            console.log(values)
+            // console.log(values)
             
             createRole({
                 variables: {

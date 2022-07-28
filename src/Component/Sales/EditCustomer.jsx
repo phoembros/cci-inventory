@@ -48,9 +48,9 @@ export default function EditCustomer({
   const SetupAdd = Yup.object().shape({
     cusId: Yup.string().required("Customer ID is required!"),
     name: Yup.string().required("Name is required!"),
-    email: Yup.string().required("Email is required!"),
-    address: Yup.string().required("Address is required!"),
-    phoneNumber: Yup.number().required("Phone number is required!"),
+    email: Yup.string(),
+    address: Yup.string(),
+    phoneNumber: Yup.number(),
   });
 
   const formik = useFormik({
@@ -64,7 +64,7 @@ export default function EditCustomer({
 
     validationSchema: SetupAdd,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      console.log(values, 'test')
+      // console.log(values, 'test')
       updateCustomer({
         variables: {
           id: DataCustomer?._id,

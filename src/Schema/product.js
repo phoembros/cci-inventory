@@ -53,6 +53,15 @@ export const DELETE_PRODUCT_CATEGORY = gql`
     }
 `
 
+export const CREATE_PRODUCT_GROUP = gql`
+  mutation CreateProductGroup($newProductGroup: ProductGroupInput) {
+    createProductGroup(newProductGroup: $newProductGroup) {
+      success
+      message
+    }
+  }
+`
+
 
 export const CREATE_PRODUCT = gql`
     mutation CreateProduct($newProduct: ProductInput) {

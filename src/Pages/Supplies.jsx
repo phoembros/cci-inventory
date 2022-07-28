@@ -122,12 +122,10 @@ export default function Supplies() {
                         <Table className="table" aria-label="simple table">
                           <TableHead>
                             <TableRow className="header-row">
-                              <TableCell className="header-title" colSpan={2}>
-                                Name
-                              </TableCell>
+                              <TableCell className="header-title" colSpan={2}>Name</TableCell> 
+                              <TableCell className="header-title">Phone Number</TableCell>  
+                              <TableCell className="header-title">Address</TableCell>                             
                               <TableCell className="header-title">Email</TableCell>
-                              <TableCell className="header-title">Phone Number</TableCell>
-                              <TableCell className="header-title">Address</TableCell>
                               <TableCell className="header-title">
                                   {
                                         dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getOweSupplier ?
@@ -144,18 +142,18 @@ export default function Supplies() {
                           </TableHead>
                           {data?.getSuppliersPagination?.suppliers?.map((item, index) => (
                             <TableBody
-                                  key={index}
-                                  component={Paper}
-                                  className={index % 2 === 0 ? "body" : "body-odd"}
-                                >
+                                key={index}
+                                component={Paper}
+                                className={index % 2 === 0 ? "body" : "body-odd"}
+                            >
                               <TableRow className="body-row">
                                 <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}} className="body-title" component="th"scope="row"width="3%">
-                                  {index + 1}-{" "}
+                                  {index + 1}
                                 </TableCell>
-                                <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}} className="body-title" component="th"scope="row" width="25%">{item?.name}</TableCell>
-                                <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >{item?.email}</TableCell>
-                                <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" > {item?.phoneNumber}</TableCell>
+                                <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}} className="body-title" component="th"scope="row" width="20%">{item?.name}</TableCell>
+                                <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >{item?.phoneNumber}</TableCell>
                                 <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >{item?.address}</TableCell>
+                                <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >{item?.email}</TableCell>
                                 <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >
                                     {
                                         dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getOweSupplier ?

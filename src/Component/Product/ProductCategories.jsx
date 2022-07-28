@@ -23,7 +23,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 export default function ProductCategories() {
 
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
-  console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+    // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);

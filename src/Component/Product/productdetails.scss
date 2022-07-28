@@ -1,0 +1,130 @@
+@import "../../themes.scss";
+
+.product-details-page {
+    width: 100%;
+
+    .slash {
+        width: 4px;
+        height: 45px;
+        background-color: $primary-color;
+    }
+    .color {
+        color: $primary-color;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .stack-btn {             
+       
+        .btn-add {
+            text-transform: none;            
+            border-radius: 6px;
+            background-color: #fff; 
+
+            .MuiButton-startIcon {
+                margin-right: 0px !important;
+                margin-left: 0px !important;
+            }
+
+            // .icon {
+            //     color: $primary-color;
+            // }
+
+            .btn-text {
+                color: $primary-color;
+                font-weight: bold;
+                margin: 0px 5px 0px 5px;
+            }
+        }
+    }
+
+    .container {
+        margin-top: 20px;  
+        
+        .header-title {
+            font-weight: bold;
+        }
+
+        .content-left {
+            width: 220px;
+
+            .background {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                height: 45px;            
+                
+            }
+        }
+
+        .content-right {
+            width: 400px;
+
+            .background-radius {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                background-color: #fff;
+                height: 45px;
+                border-radius: 10px;
+
+                .text-content {
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+
+        }
+
+                
+
+        .list-product-group {
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 15px;      
+            
+            .table {
+                width: 100%;
+                // display: table;
+                // overflow-x: auto;
+                // white-space: nowrap;
+                // border-collapse: separate;
+                // border-spacing: 0px 8px;
+    
+                // @include mobile-small {
+                //     width: 310px !important;
+                // }
+    
+                // @include mobile {
+                //     width: 370px !important;
+                // }
+    
+                // @include mobile-large {
+                //     width: 476px !important;
+                // }
+    
+    
+                .header-row {    
+                            
+                    .header-title {
+                        // padding: 5px;
+                        font-size: $font-Size-Subtitle;
+                        font-weight: bold;
+                        border: none;
+                    }
+                    .body-title {
+                        // padding: 5px;
+                        border: none;
+                    }
+                }
+                
+                
+            }
+
+        }
+        
+    
+    }
+
+}

@@ -194,7 +194,7 @@ export default function CreateProduct({
         remark: Yup.string(),  
         unitPrice: Yup.number().min(0.01 , "Unit Price can't under 0"),     
         unit: Yup.string().required("Unit is required!"),  
-        completedUnit:  Yup.string().required("Unit is required!"),
+        completedUnit:  Yup.string(),
         durationProduce: Yup.number(),
         category: Yup.string().required("Category is required!"),     
     });
@@ -207,6 +207,7 @@ export default function CreateProduct({
             unitPrice: 0,
             unit: "",
             completedUnit: "",
+            durationProduce: 0,
             category:"",
         },
     
@@ -328,11 +329,11 @@ export default function CreateProduct({
                                       className="header-title"
                                       width="3%"
                                     ></TableCell>
-                                    <TableCell className="header-title">Stock U/M</TableCell>
+                                    {/* <TableCell className="header-title">Stock U/M</TableCell>
                                     <TableCell
                                       className="header-title"
                                       width="3%"
-                                    ></TableCell>
+                                    ></TableCell> */}
                                     <TableCell className="header-title" align="center">
                                       Duration
                                     </TableCell>
@@ -376,7 +377,8 @@ export default function CreateProduct({
 
                                     </TableCell>
                                     <TableCell className="body-title"></TableCell>
-                                    <TableCell className="body-title" width="20%">
+
+                                    {/* <TableCell className="body-title" width="20%">
                                       <FormControl fullWidth size="small">
                                         <Select                           
                                           {...getFieldProps("completedUnit")}
@@ -396,7 +398,8 @@ export default function CreateProduct({
                                       )} 
 
                                     </TableCell>
-                                    <TableCell className="body-title"></TableCell>
+                                    <TableCell className="body-title"></TableCell> */}
+
                                     <TableCell
                                       className="body-title"
                                       width="18%"
@@ -412,7 +415,7 @@ export default function CreateProduct({
                                           InputProps={{                                  
                                             endAdornment: (
                                                 <InputAdornment position="end">                                             
-                                                    s                                         
+                                                    min                                         
                                                 </InputAdornment>
                                             ), 
                                             inputProps: { min: 1 },                                               

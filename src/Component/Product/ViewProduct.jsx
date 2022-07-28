@@ -61,7 +61,7 @@ export default function ViewProduct({ handleClose , open , dataRowPruduct }) {
                                 Duration :
                             </Typography>
                             <Typography variant='body'>
-                                {dataRowPruduct?.durationProduce}s
+                                {dataRowPruduct?.durationProduce}min
                             </Typography>     
                         </Stack>
                     </Stack>
@@ -73,7 +73,7 @@ export default function ViewProduct({ handleClose , open , dataRowPruduct }) {
                                 Duration :
                             </Typography>
                             <Typography variant='body'>
-                                {dataRowPruduct?.durationProduce}s
+                                {dataRowPruduct?.durationProduce}min
                             </Typography>     
                         </Stack>
                     </Stack>
@@ -88,15 +88,14 @@ export default function ViewProduct({ handleClose , open , dataRowPruduct }) {
                                 {dataRowPruduct?.unit}
                             </Typography>     
                         </Stack> 
-                        <Stack direction="column" spacing={1}>
+                        {/* <Stack direction="column" spacing={1}>
                             <Typography className='header-title'>
                                 Stock U/M :
                             </Typography>
                             <Typography variant='body'>
                                 {dataRowPruduct?.completedUnit}
                             </Typography>     
-                        </Stack> 
-                        
+                        </Stack>  */}                        
                     </Stack>
 
 

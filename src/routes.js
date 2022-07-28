@@ -29,6 +29,7 @@ import ForgotPasswork from "./Pages/ForgotPasswork"
 import { AuthContext } from './context/AuthContext'
 import { useContext } from "react";
 import PrintInvoice from "./Component/Sales/PrintInvoice";
+import ProductDetails from "./Component/Product/ProductDetails";
 import Role from "./Component/Setting/Role";
 
 export default function Router({prefersDarkMode,setPrefersDarkMode}) {
@@ -66,17 +67,16 @@ export default function Router({prefersDarkMode,setPrefersDarkMode}) {
 
                 { path: "product", element: <Product /> },
                 { path: "product/categories", element: <ProductCategories /> },
+                { path: "product/details", element: <ProductDetails /> },
                 
                 { path: "sales", element: <Sales /> },                
                 { path: "sales/print", element: <PrintInvoice /> },
 
                 { path: "customer", element: <Customer /> },
-
-                { path: "production", element: <Production /> },
+                { path: "production", element: <Production /> },          
                 { path: "supplies", element: <Supplies /> },
                 { path: "user", element: <User /> },  
                 { path: "report", element: <Report /> }, 
-
                 { path: "system-setting", element: <SystemSetting /> },  
                 { path: "system-setting/role", element: <Role /> }, 
                 

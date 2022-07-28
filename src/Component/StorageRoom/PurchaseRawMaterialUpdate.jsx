@@ -514,7 +514,7 @@ export default function PurchaseRawMaterialUpdate({
                                 <TableHead>
                                   <TableRow className="header-row">
                                     <TableCell className="header-title">
-                                      Raw Materail's Name
+                                      Raw Materail
                                     </TableCell>
                                     
                                     <TableCell className="header-title" align="center">

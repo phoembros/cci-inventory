@@ -218,6 +218,7 @@ export default function SalesCreated({
       date: Yup.date(),  
       vat: Yup.number(),
       tin: Yup.string(),
+      invoice: Yup.string(),
       remark: Yup.string(), 
       status: Yup.string(),    
     });
@@ -228,6 +229,7 @@ export default function SalesCreated({
         billToID: "",
         date: new Date(),     
         vat: 0,
+        invoice: "",
         tin: "",
         remark: "",
         status: "unpaid",       
@@ -294,29 +296,29 @@ export default function SalesCreated({
                         <Box sx={{ width: "100%" }}>
                           <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                             <Stack direction="column" justifyContent="center" sx={{width:"60px"}}>
-                              <Typography className="type-field"> Bill To: </Typography>
+                              <Typography className="type-field">Bill To:</Typography>
                             </Stack>
-                            <Autocomplete
-                              id="combo-box-demo"
-                              disablePortal
-                              sx={{ width: 220 }}
-                              options={getSetupCustomer}
-                              onChange={(event, value) => {
-                                  setFieldValue("billToName" , value?.label);
-                                  setFieldValue("billToID" , value?._id);
-                              }}
-                              renderInput={(params) => ( 
-                                  <TextField 
-                                      {...params} placeholder="customer" size="small" 
-                                      error={Boolean(touched.billToName && errors.billToName)}
-                                      helperText={touched.billToName && errors.billToName}
-                                  /> 
-                              )}
-                            />
+                            <Box sx={{width:"200px"}}>
+                              <Autocomplete                            
+                                disablePortal                             
+                                options={getSetupCustomer}
+                                onChange={(event, value) => {
+                                    setFieldValue("billToName" , value?.label);
+                                    setFieldValue("billToID" , value?._id);
+                                }}
+                                renderInput={(params) => ( 
+                                    <TextField 
+                                        {...params} placeholder="customer" size="small" fullWidth
+                                        error={Boolean(touched.billToName && errors.billToName)}
+                                        helperText={touched.billToName && errors.billToName}
+                                    /> 
+                                )}
+                              />
+                            </Box>
                           
                             <Box sx={{flexGrow:1}}></Box>
 
-                            <Stack direction="column" justifyContent="center" className='date-sale'>
+                            <Stack direction="column" justifyContent="center" className='date-sale' sx={{width:"60px"}}>
                                 <Typography className="type-field"> Date: </Typography>
                             </Stack>
                             <Box sx={{width:"160px"}} className='date-sale'>
@@ -341,7 +343,7 @@ export default function SalesCreated({
                         <Box sx={{ width: "100%" }} className="date-sale-mobile">
                           <Stack direction="row" spacing={2} sx={{ mt: 2 }}>                            
                             <Stack direction="column" justifyContent="center" sx={{width:"60px"}}>
-                                <Typography className="type-field"> Date: </Typography>
+                                <Typography className="type-field">Date:</Typography>
                             </Stack>
                             <Box sx={{width:"160px"}}>
                                 <LocalizationProvider className="date-controll" dateAdapter={AdapterMoment}>
@@ -374,19 +376,48 @@ export default function SalesCreated({
                         <Box sx={{ width: "100%" }}>
                           <Stack direction="row" spacing={2} sx={{ mt: 2 }}>                                
                                 <Stack direction="column" justifyContent="center" sx={{width:"60px"}}>
-                                  <Typography className="type-field"> Tin: </Typography>
+                                    <Typography className="type-field"> In No: </Typography>
                                 </Stack>
                                 <Box sx={{width:"160px"}}>
                                       <TextField 
                                           size='small' fullWidth className='text-field'
-                                          {...getFieldProps("tin")}
-                                          error={Boolean(touched.tin && errors.tin)}
-                                          helperText={touched.tin && errors.tin}
+                                          {...getFieldProps("invoice")}
+                                          error={Boolean(touched.invoice && errors.invoice)}
+                                          helperText={touched.invoice && errors.invoice}
                                       />
-                                </Box>
+                                </Box>                                
                                 <Box sx={{flexGrow:1}}></Box>
+                                <Stack direction="column" justifyContent="center" sx={{width:"60px"}} className="tin-sale">
+                                    <Typography className="type-field"> Tin: </Typography>
+                                </Stack>
+                                <Box sx={{width:"160px"}} className="tin-sale">
+                                    <TextField 
+                                        size='small' fullWidth className='text-field'
+                                        {...getFieldProps("tin")}
+                                        error={Boolean(touched.tin && errors.tin)}
+                                        helperText={touched.tin && errors.tin}
+                                    />
+                                </Box>
                           </Stack>
                         </Box>
+
+                        {/* responsive mobile */}
+                        <Box sx={{ width: "100%" }}>
+                          <Stack direction="row" spacing={2} sx={{ mt: 2 }}>                                                                                                
+                                <Stack direction="column" justifyContent="center" sx={{width:"60px"}} className="tin-sale-mobile">
+                                    <Typography className="type-field"> Tin: </Typography>
+                                </Stack>
+                                <Box sx={{width:"160px"}} className="tin-sale-mobile">
+                                    <TextField 
+                                        size='small' fullWidth className='text-field'
+                                        {...getFieldProps("tin")}
+                                        error={Boolean(touched.tin && errors.tin)}
+                                        helperText={touched.tin && errors.tin}
+                                    />
+                                </Box>
+                          </Stack>
+                        </Box>
+                        {/* responsive mobile */}
 
                         <Box className='container'  sx={{mt:2}}>
                             <TableContainer className='table-container'>

@@ -31,7 +31,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
 
     
     return (
-        <Box  width="100%" height="800px" display="flex" flexDirection="column" justifyContent="center" sx={{backgroundColor:'#fff', padding: 3}}>
+        <Box  width="100%" height="fit-content" display="flex" flexDirection="column" justifyContent="center" sx={{backgroundColor:'#fff', padding: 3}}>
             <Box width="100%" >
                 <Grid container>
                     <Grid item xs={12}>
@@ -184,21 +184,20 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
             </Box>
             
             <Box sx={{flexGrow:1}}/>
-
             
-            <Grid container sx={{mb:5}}>
+            {/* <Grid container sx={{mb:5}}>
                 <Grid item xs={12}>
-                    <Divider sx={{border: "1px solid #0969A0"}}/>
+                    <Divider sx={{border: "1px solid #0969A0" , mt:5}}/>
                 </Grid>
-                {/* <Grid item xs={6} display="flex" justifyContent="center">                      
+                <Grid item xs={6} display="flex" justifyContent="center">                      
                     <Typography variant="body2">Received By:</Typography>
                     <Typography variant="body2">___________________________</Typography>                        
                 </Grid>
                 <Grid item xs={6} display="flex" justifyContent="center">                      
                     <Typography variant="body2">Issued By:</Typography>
                     <Typography variant="body2">___________________________</Typography>  
-                </Grid> */}
-            </Grid>
+                </Grid>
+            </Grid> */}
 
         </Box>
     )

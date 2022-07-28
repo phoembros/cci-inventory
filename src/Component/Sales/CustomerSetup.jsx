@@ -49,11 +49,11 @@ export default function CustomerSetup({
 //end
 
   const SetupAdd = Yup.object().shape({
-    name: Yup.string().required("name is required!"),
-    email: Yup.string().required("email is required!"),
-    address: Yup.string().required("address is required!"),
-    phoneNumber: Yup.number().required("phone is required!"),
     cusId: Yup.string().required("Customer ID is required!"),
+    name: Yup.string().required("name is required!"),
+    email: Yup.string(),
+    address: Yup.string(),
+    phoneNumber: Yup.number(),    
   });
 
   const formik = useFormik({
@@ -62,12 +62,12 @@ export default function CustomerSetup({
       name: "",
       email: "",
       address: "",
-      phoneNumber:""
+      phoneNumber:"",
     },
 
     validationSchema: SetupAdd,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-        console.log(values, "value");
+        // console.log(values, "value");
         createCustomer({
           variables: {
             newCustomer: {
