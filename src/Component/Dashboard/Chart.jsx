@@ -7,13 +7,20 @@ import { GET_BAR_CHART } from "../../Schema/dasboard"
 import { Box } from '@mui/system';
 import DescriptionIcon from '@mui/icons-material/Description';
 import PermissionContent from '../Permission/PermissionContent';
+import LoadingPage from "../Permission/LoadingPage";
 
 export default function Chart({dataUserLogines}) {
 
+  const [loading,setLoading] = React.useState(true);
+
   const { data : dataBar } = useQuery(GET_BAR_CHART)
+
+  React.useEffect( () => {
+      if(dataUserLogines?.getuserLogin?.role_and_permission?.permissions) {
+          setLoading(false)
+      }
+  },[dataUserLogines?.getuserLogin?.role_and_permission])
   
-
-
   const [dataRevenue,setDataRevenue] = React.useState([]) 
   const [dataExpense,setDataExpense] = React.useState([])
   const [dataCategories,setDataCategories] = React.useState([])
@@ -84,6 +91,7 @@ export default function Chart({dataUserLogines}) {
  
   console.log(dataRevenue , dataExpense , dataCategories );
 
+
   return(
     <Stack direction="column" height="100%" className='chart' >
         <Stack direction='row' spacing={2}>          
@@ -112,7 +120,14 @@ export default function Chart({dataUserLogines}) {
               </Stack>
             </>
           :           
-            <PermissionContent />            
+              <>
+                {  loading ?                                            
+                    <LoadingPage />   
+                  :                    
+                    <PermissionContent />
+                }                   
+              </>
+                     
         }        
         
     </Stack>

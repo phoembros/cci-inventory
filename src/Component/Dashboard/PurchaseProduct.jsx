@@ -15,12 +15,21 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import PermissionContent from "../Permission/PermissionContent";
 import ViewProduction from "../Production/ViewProduction";
 import AlertMessage from "../AlertMessage/AlertMessage";
+import LoadingPage from "../Permission/LoadingPage";
 
 
 function PurchaseProduct({dataUserLogines}) {
 
 
     const navigate = useNavigate();
+
+    const [loading,setLoading] = React.useState(true);
+
+    React.useEffect( () => {
+        if(dataUserLogines?.getuserLogin?.role_and_permission?.permissions) {
+            setLoading(false)
+        }
+    },[dataUserLogines?.getuserLogin?.role_and_permission?.permissions])
 
     const [ViewData,setViewData] = React.useState(null);
     
@@ -199,7 +208,11 @@ function PurchaseProduct({dataUserLogines}) {
                     </Box>
                 </>
             :
-                <PermissionContent />
+                loading ?
+                    <LoadingPage />
+                :
+                    <PermissionContent />
+
         }
     
         {/* <Modal open={openView}> */}

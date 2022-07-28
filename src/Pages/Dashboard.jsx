@@ -41,15 +41,23 @@ import { GET_RAW_MATERAIL_PAGINATION } from "../Schema/rawmaterial";
 import { GET_PRODUCT_WITH_PAGINATION } from "../Schema/product";
 import { GET_SAL_UNPAITOWE } from "../Schema/dasboard";
 import PermissionContent from "../Component/Permission/PermissionContent";
+import LoadingPage from "../Component/Permission/LoadingPage";
 
 
 export default function Dashboard() {
 
+  const [loading,setLoading] = React.useState(true);
 
   const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
     pollInterval: 10000,
   })
   // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+
+  React.useEffect( () => {
+    if(dataUserLogin?.getuserLogin?.role_and_permission?.permissions) {
+        setLoading(false)
+    }
+  },[dataUserLogin?.getuserLogin?.role_and_permission?.permissions])
 
   //Query Raw Material
   const { data, refetch } = useQuery(GET_RAW_MATERAIL_PAGINATION, {
@@ -149,7 +157,7 @@ export default function Dashboard() {
                   <Button className="btn-maker">
                       <Stack direction="row" justifyContent="center" spacing={1}>
                         <Box className="circle">
-                          <Typography className="text-padding">{data?.getRawMaterialPagination?.rawMaterial?.length}</Typography>
+                          <Typography className="text-padding">{data?.getRawMaterialPagination?.rawMaterial ? data?.getRawMaterialPagination?.rawMaterial?.length : 0}</Typography>
                         </Box>                      
                       </Stack>
                   </Button>
@@ -172,7 +180,7 @@ export default function Dashboard() {
                 <Button className="btn-maker">
                   <Stack direction="row" justifyContent="center" spacing={1}>
                     <Box className="circle">
-                      <Typography className="text-padding">{dataProduct?.getProductPagination?.products?.length}</Typography>
+                      <Typography className="text-padding">{dataProduct?.getProductPagination?.products? dataProduct?.getProductPagination?.products?.length : 0}</Typography>
                     </Box>                   
                   </Stack>
                 </Button>
@@ -195,7 +203,7 @@ export default function Dashboard() {
                   <Button className="btn-maker">
                     <Stack direction="row" justifyContent="center" spacing={1}>
                       <Box className="circle">
-                        <Typography className="text-padding">{dataSale?.getInvoiceOweAndUnpaid}</Typography>
+                        <Typography className="text-padding">{dataSale?.getInvoiceOweAndUnpaid ? dataSale?.getInvoiceOweAndUnpaid : 0}</Typography>
                       </Box>                      
                     </Stack>
                   </Button>
@@ -228,7 +236,10 @@ export default function Dashboard() {
                               dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getTopRawMaterial ?
                                 <RadialChart />
                               :
-                                <PermissionContent />
+                                loading ? 
+                                  <LoadingPage />
+                                :
+                                  <PermissionContent />
                             }
                             
                           </Grid>

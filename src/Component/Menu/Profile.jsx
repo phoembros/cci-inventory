@@ -44,7 +44,12 @@ export default function Profile () {
             </IconButton>
 
             <Button onClick={handleClick} sx={{color: theme.palette.mode === 'dark' ? "#fff": "#007654" }}>
-                <Typography>{dataUserLogin?.getuserLogin?.first_name+" "+dataUserLogin?.getuserLogin?.last_name}</Typography>                                
+                {
+                    dataUserLogin?.getuserLogin ? 
+                        <Typography>{dataUserLogin?.getuserLogin?.first_name+" "+dataUserLogin?.getuserLogin?.last_name}</Typography> 
+                    :
+                        null
+                }                                               
             </Button>
 
             <Menu

@@ -238,7 +238,7 @@ export default function Sales() {
                               <>
                               <TableBody component={Paper} className="body-odd">                        
                                 <TableRow  className="body-row">
-                                    <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
+                                    <TableCell className="body-title" align="center" colSpan={8} rowSpan={5}>
                                         <Stack direction="row" justifyContent="center">                                                
                                             <Stack direction="column" justifyContent="center" >
                                                 <IconButton>

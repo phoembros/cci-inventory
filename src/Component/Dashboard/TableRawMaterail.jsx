@@ -10,9 +10,12 @@ import moment from "moment"
 import { GET_PURCHASE_RAW_MATERAIL_PAGINATION } from "../../Schema/starageroom";
 import DescriptionIcon from '@mui/icons-material/Description';
 import PermissionContent from "../Permission/PermissionContent";
+import LoadingPage from "../Permission/LoadingPage";
 
 
 function TableRawMaterail({dataUserLogines}) {
+
+  const [loading,setLoading] = React.useState(true);
 
   const navigate = useNavigate();
   
@@ -46,7 +49,7 @@ function TableRawMaterail({dataUserLogines}) {
     setPaymentStatus(["unpaid" , "owe"]);      
   },[])
 
-  console.log(dataPurchaseRawMaterial)
+  // console.log(dataPurchaseRawMaterial)
 
 
   return (
@@ -66,7 +69,7 @@ function TableRawMaterail({dataUserLogines}) {
             <Box display="flex" flexDirection="column" justifyContent="center">
                 {
                   dataPurchaseRawMaterial?.length === 0 ? 
-                    <Stack direction="row" justifyContent="center" height="100%">
+                    <Stack direction="row" justifyContent="center" height={320}>
                         <Stack direction="column" justifyContent="center">
                             <IconButton>
                                 <DescriptionIcon sx={{color: "#d0e3ed"}}/>
@@ -156,7 +159,14 @@ function TableRawMaterail({dataUserLogines}) {
                 </Box>      
             </Box>
           :
-            <PermissionContent />
+            <>
+              { loading ?
+                  <LoadingPage />
+                :
+                  <PermissionContent />
+              }
+            </>            
+               
       }
         
     </Stack>
