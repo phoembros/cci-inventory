@@ -52,6 +52,8 @@ export default function UpdateProduction({
     setRefetch,
 }) {
 
+    const [loading,setLoading] = React.useState(false);
+
     const [updateProductions] = useMutation(UPDATE_PRODUCTION , {
         onCompleted: async ({updateProductions}) => {          
             if(updateProductions?.success){
@@ -64,12 +66,14 @@ export default function UpdateProduction({
                 // await sendMessage({content: `<b>[Request Create Production]</b>\n👩‍🚀 <i>${nameRequest}</i>\n\n${updateProductions?.data?.production?.productId?.productName} (x${updateProductions?.data?.qty} ${updateProductions?.data?.production?.productId?.unit})\n\n🗓 Date:${moment(updateProductions?.data?.createdAt).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
 
             } else {
+                setLoading(false)
                 setCheckMessage("error")
                 setAlert(true);
                 setMessage(updateProductions?.message)                
             }
         },
-        onError: (error) => {            
+        onError: (error) => {   
+            setLoading(false)         
             setCheckMessage("error")
             setAlert(true);
             setMessage(error.message);            
@@ -233,6 +237,7 @@ export default function UpdateProduction({
         validationSchema: createProduction,
         onSubmit: async (values, { setSubmitting, resetForm }) => {   
                      
+            setLoading(true)
             const newValue = {
                 storageRoomId: values?.storageRoomId,
                 startDate: values?.startDate,
@@ -594,7 +599,12 @@ export default function UpdateProduction({
                                     </Stack>                          
                                 </Stack> */}
                                 <Stack direction="row" spacing={2} sx={{mt:2}}>
-                                    <Button className="btn-create" sx={{boxShadow: "none"}}  type='submit' variant='contained' fullWidth>{btnTitle}</Button>                                            
+                                    {
+                                        loading ?
+                                            <Button className="btn-create" sx={{boxShadow: "none"}} variant='contained' fullWidth>Loading...</Button>     
+                                        :
+                                            <Button className="btn-create" sx={{boxShadow: "none"}}  type='submit' variant='contained' fullWidth>{btnTitle}</Button>     
+                                    }                                       
                                 </Stack>
                                 
                              

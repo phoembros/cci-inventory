@@ -28,7 +28,9 @@ export default function CreateCategoryMaterial({
     setRefetch,
     checkStatus,
 }) {
-    
+
+    const [loading,setLoading] = React.useState(false);
+        
     const [createRawMaterialCategory ] = useMutation(CREATE_RAW_CATEGORY , {
         onCompleted: ({createRawMaterialCategory}) => {
             // console.log(createRawMaterialCategory)
@@ -38,9 +40,15 @@ export default function CreateCategoryMaterial({
                 setAlert(true);
                 handleClose();
                 setRefetch()
-            } 
+            } else {
+                setLoading(false);
+                setCheckMessage("error")
+                setMessage(createRawMaterialCategory?.message)
+                setAlert(true);
+            }
         },
-        onError: (error) => {            
+        onError: (error) => {     
+            setLoading(false);       
             setCheckMessage("error")
             setMessage(error.message);
             
@@ -59,12 +67,14 @@ export default function CreateCategoryMaterial({
                 handleClose();
                 setRefetch()
             } else {
+                setLoading(false);
                 setCheckMessage("error")
                 setMessage(updateRawMaterialCategory?.message)
                 setAlert(true);
             }
         },
-        onError: (error) => {            
+        onError: (error) => { 
+            setLoading(false);           
             setCheckMessage("error")
             setMessage(error.message);
             setAlert(true);
@@ -87,7 +97,7 @@ export default function CreateCategoryMaterial({
     
         validationSchema: CreateCategory,
         onSubmit: async (values, { setSubmitting, resetForm }) => {      
-            
+            setLoading(true);
             console.log(values);
             
             if(checkStatus === "create") {
@@ -174,7 +184,12 @@ export default function CreateCategoryMaterial({
                                 />            
                             </Stack>
                             <Stack direction="column" spacing={1} sx={{mt:2}}>           
-                                <Button  className="btn-update" sx={{boxShadow: "none"}} type='submit' variant="contained">{btnTitle}</Button>
+                               {
+                                loading ?
+                                    <Button  className="btn-update" sx={{boxShadow: "none"}} variant="contained">Loading...</Button>
+                                :
+                                    <Button  className="btn-update" sx={{boxShadow: "none"}} type='submit' variant="contained">{btnTitle}</Button>
+                               }
                             </Stack>
                         </Form>    
                     </FormikProvider>

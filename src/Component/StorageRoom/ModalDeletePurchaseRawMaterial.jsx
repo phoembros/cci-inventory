@@ -23,6 +23,7 @@ export default function ModalDeletePurchaseRawMaterial({
 }) {
 
     const [valueVoid,setValueVoid] = React.useState("");
+    const [loading,setLoading] = React.useState(false);
 
     // const [deletePurchaseRawMaterial] = useMutation(DELETE_PURCHASE_RAW_MATERIAL, {
     //     onCompleted:({deletePurchaseRawMaterial})=>{        
@@ -51,15 +52,21 @@ export default function ModalDeletePurchaseRawMaterial({
     const [updatePurchaseRawMaterial] = useMutation(UPDATE_PURCHASE_RAW_MATERIAL, {
         onCompleted:({updatePurchaseRawMaterial})=>{        
             if(updatePurchaseRawMaterial?.success){
-            setCheckMessage('success')
-            setMessage(updatePurchaseRawMaterial?.message)
-            setAlert(true)
-            setRefetch();
-            handleClose()
+                setCheckMessage('success')
+                setMessage(updatePurchaseRawMaterial?.message)
+                setAlert(true)
+                setRefetch();
+                handleClose()
+            } else {
+                setLoading(false);
+                setCheckMessage('error')
+                setMessage(updatePurchaseRawMaterial?.message)
+                setAlert(true)
             }
         }, 
         onError:(error) =>{
             // console.log(error.message)
+            setLoading(false);
             setAlert(true)
             setCheckMessage('error')
             setMessage(error.message)
@@ -68,6 +75,7 @@ export default function ModalDeletePurchaseRawMaterial({
 
 
     const handleVoid = () => {
+        setLoading(true);
         updatePurchaseRawMaterial({
             variables: {
                 id: editData?._id,
@@ -121,15 +129,26 @@ export default function ModalDeletePurchaseRawMaterial({
                     
                     <Stack direction="row" spacing={5}>       
                         { valueVoid === "material" ?
-                            <Button 
-                                onClick={handleVoid}
-                                sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
-                                className="btn-void" 
-                                variant="outlined" 
-                                fullWidth 
-                            >
-                                void now
-                            </Button> 
+
+                            loading ?
+                                <Button                                     
+                                    sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
+                                    className="btn-void" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                >
+                                    Loading...
+                                </Button> 
+                            :
+                                <Button 
+                                    onClick={handleVoid}
+                                    sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
+                                    className="btn-void" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                >
+                                    void now
+                                </Button> 
                         :
                             <Button variant="outlined" fullWidth >void</Button>
                         }         

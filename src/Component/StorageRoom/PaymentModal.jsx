@@ -23,6 +23,8 @@ export default function PaymentModal({
 }) {
 
     // console.log(editData)
+    const [loading,setLoading] = React.useState(false);
+
     // 
     const [paidAmount,setPaidAmount] = React.useState(0);
     const [checkStatus,setCheckStatus] = React.useState(editData?.paymentStatus);
@@ -33,20 +35,22 @@ export default function PaymentModal({
     // Update
     const [updatePurchaseRawMaterial] = useMutation(UPDATE_PURCHASE_RAW_MATERIAL,{
         onCompleted: ({updatePurchaseRawMaterial}) => {
-        // console.log(updatePurchaseRawMaterial?.message, "message");
-        if(updatePurchaseRawMaterial?.success){
-            setCheckMessage('success')
-            setMessage(updatePurchaseRawMaterial?.message);
-            setAlert(true);
-            handleClose();
-            setRefetch();
-        } else {
-            setCheckMessage('error')        
-            setMessage(updatePurchaseRawMaterial?.message);
-            setAlert(true)
-        }
+            // console.log(updatePurchaseRawMaterial?.message, "message");
+            if(updatePurchaseRawMaterial?.success){
+                setCheckMessage('success')
+                setMessage(updatePurchaseRawMaterial?.message);
+                setAlert(true);
+                handleClose();
+                setRefetch();
+            } else {
+                setLoading(false)
+                setCheckMessage('error')        
+                setMessage(updatePurchaseRawMaterial?.message);
+                setAlert(true)
+            }
         },
-        onError: (error) => {     
+        onError: (error) => {  
+            setLoading(false)   
             setAlert(true)
             setCheckMessage('error')
             setMessage(error?.message)
@@ -74,6 +78,7 @@ export default function PaymentModal({
 
 
     const handleUpdatePayment = () => {
+        setLoading(true);
         updatePurchaseRawMaterial({
             variables: {
                 id: editData?._id,
@@ -185,15 +190,25 @@ export default function PaymentModal({
 
                 {
                     pay === true ?
-                        <Button
-                            sx={{ mt: 2 ,boxShadow: "none"}}
-                            className="btn-create"
-                            size="large"
-                            type="submit"                            
-                            onClick={handleUpdatePayment}
-                        >
-                            payment
-                        </Button>
+
+                        loading ?
+                            <Button
+                                sx={{ mt: 2 ,boxShadow: "none"}}
+                                className="btn-create"
+                                size="large"                                                          
+                            >
+                                Loading...
+                            </Button>
+                        :
+                            <Button
+                                sx={{ mt: 2 ,boxShadow: "none"}}
+                                className="btn-create"
+                                size="large"
+                                type="submit"                            
+                                onClick={handleUpdatePayment}
+                            >
+                                payment
+                            </Button>
                     :
                         <Button
                             disabled

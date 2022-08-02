@@ -23,7 +23,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
             toDate: ToData,
         },
         onCompleted: ({getProductionReport}) => {
-            console.log(getProductionReport)
+            // console.log(getProductionReport)
             setDataReport(getProductionReport)
         },
     })
@@ -206,7 +206,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     sx={{border: "none" ,  padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text">
-                                                        {item?.targetProduction}
+                                                        {item?.targetProduction}-{item?.unitVM}
                                                     </Typography>
                                                 </TableCell> 
 
@@ -216,7 +216,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     sx={{border: "none" ,  padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text">
-                                                        {item?.actualProduction}-{item?.unitUM}
+                                                        {/* {item?.actualProduction}-{item?.unitUM} */}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell 
@@ -239,7 +239,105 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     </Typography>
                                                 </TableCell>                                                  
 
-                                            </TableRow>                                                                  
+                                            </TableRow>    
+
+                                        {
+                                            item?.actualProduction?.map( (row,index) => (
+
+                                            <TableRow key={index} className="body-row">
+
+                                                <TableCell  
+                                                    className="cell-item" width="8%"
+                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">
+                                                        {/* {moment(item?.date).format("DD/MMM/YY")} */}
+                                                    </Typography>
+                                                </TableCell>
+
+                                                <TableCell 
+                                                    className="cell-item" width="15%"
+                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">
+                                                        {/* {item?.customerName} */}
+                                                    </Typography>
+                                                </TableCell>         
+
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                > 
+                                                    <Typography variant="body2" className="text">
+                                                        {/* {moment(item?.date).format("YYMM")}-{item?.batchCardNumber} */}
+                                                    </Typography>
+                                                </TableCell>  
+
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" ,    padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">
+                                                        {/* {item?.itemID} */}
+                                                    </Typography>
+                                                </TableCell>  
+
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">
+                                                        {row?.productGroupId?.name}
+                                                    </Typography>
+                                                </TableCell> 
+
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">
+                                                        {/* {item?.targetProduction} */}---
+                                                    </Typography>
+                                                </TableCell> 
+
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">
+                                                        {row?.qtyOfUM}-U/M
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">
+                                                        {/* ${item?.costOfProduction.toFixed(2)} */}
+                                                    </Typography>
+                                                </TableCell>
+                                                
+                                                <TableCell 
+                                                    align="center" width="10%"
+                                                    className="cell-item"
+                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">
+                                                        {/* {item?.workingHours} */}
+                                                    </Typography>
+                                                </TableCell>                                                  
+
+                                            </TableRow>  
+
+                                            ))
+                                        }
+
                                         </TableBody>                      
                                     </Table>
                                 </TableContainer>

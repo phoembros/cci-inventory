@@ -48,6 +48,9 @@ export default function PurchaseRawMaterialUpdate({
   setRefetch,
   editData,
 }) {
+
+  const [loading,setLoading] = React.useState(false);
+
   // Update
   const [updatePurchaseRawMaterial] = useMutation(UPDATE_PURCHASE_RAW_MATERIAL,{
     onCompleted: async ({updatePurchaseRawMaterial}) => {
@@ -68,12 +71,14 @@ export default function PurchaseRawMaterialUpdate({
 
 
       } else {
+        setLoading(false)
         setCheckMessage('error')        
         setMessage("Material & Supplier invalid value!");
         setAlert(true)
       }
     },
     onError: (error) => {     
+      setLoading(false)
       setAlert(true)
       setCheckMessage('error')
       setMessage(error?.message)
@@ -333,6 +338,7 @@ export default function PurchaseRawMaterialUpdate({
 
       validationSchema: SalesAdd,
       onSubmit: async (values, { setSubmitting, resetForm }) => {          
+          setLoading(true)
           const newValue = {
               purchaseDate: values?.purchaseDate,              
               purchaseBy: userId,
@@ -575,14 +581,19 @@ export default function PurchaseRawMaterialUpdate({
 
                           {
                               btnCheckSubmit ?
-
+                                  
                                   <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
                                     <Button sx={{boxShadow: "none"}} className="btn-submit" >{btnTitle}</Button>
                                   </Stack>
                               :
-                                  <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-                                    <Button sx={{boxShadow: "none"}} className="btn-submit" type='submit'>{btnTitle}</Button>
-                                  </Stack>                    
+                                  loading ?
+                                    <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                                      <Button sx={{boxShadow: "none"}} className="btn-submit">Loading...</Button>
+                                    </Stack> 
+                                  :
+                                    <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                                      <Button sx={{boxShadow: "none"}} className="btn-submit" type='submit'>{btnTitle}</Button>
+                                    </Stack>                    
                           }
                         
                       </Form>

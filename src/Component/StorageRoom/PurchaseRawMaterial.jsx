@@ -50,7 +50,7 @@ export default function PurchaseRawMaterial({
 
   const [totalAmount,setTotalAmount] = React.useState(0);
   
-  
+  const [loading,setLoading] = React.useState(false);
 
   const [btnCheckSubmit,setBtnCheckSubmit] = React.useState(true);
        
@@ -276,13 +276,16 @@ export default function PurchaseRawMaterial({
     // Create
     const [createPurchaseRawMaterial] = useMutation(CREATE_PURCHASE_RAW_MATERIAL,{
     onCompleted: async ({createPurchaseRawMaterial}) => {
-        console.log(createPurchaseRawMaterial?.message, "message");
+        // console.log(createPurchaseRawMaterial?.message, "message");
         if(createPurchaseRawMaterial?.success){
           setCheckMessage('success')
           setMessage(createPurchaseRawMaterial?.message);
           setAlert(true);
           handleClose();
           setRefetch();
+
+          setItem([{ rawName: "Material Name" , rawMaterialId: "", newQty: 1 , unitPrice : 0.01 , suppliersName: '' , suppliersId: '' , key: Date.now() }])
+          resetForm();
           // console.log(createPurchaseRawMaterial?.data)
           var ListRawMaterils = "";
           createPurchaseRawMaterial?.data?.productsItems?.map( i => (
@@ -292,13 +295,15 @@ export default function PurchaseRawMaterial({
           // await sendMessage({content: `<b>[Request Purchase RawMaterial]</b>\n👩‍🚀 <i>${nameRequest}</i>\n${ListRawMaterils}\n\n🗓 Date:${moment(createPurchaseRawMaterial?.data?.purchaseDate).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
 
         } else {
+          setLoading(false)
           setCheckMessage('error')
           // setMessage("Material & Supplier invalid value!");
           setMessage(createPurchaseRawMaterial?.message);
           setAlert(true);
         }
     },
-    onError: (error) => {     
+    onError: (error) => {   
+      setLoading(false)  
       setAlert(true)
       setCheckMessage('error')
       setMessage(error?.message)
@@ -337,7 +342,7 @@ export default function PurchaseRawMaterial({
               totalPayment: parseFloat(totalAmount?.toFixed(2)),
           }
 
-          console.log(newValue)
+          // console.log(newValue)
           createPurchaseRawMaterial({
               variables: {
                   newPurchaseRawMaterial: {
@@ -346,8 +351,6 @@ export default function PurchaseRawMaterial({
               }
           })
 
-          setItem([{ rawName: "Material Name" , rawMaterialId: "", newQty: 1 , unitPrice : 0.01 , suppliersName: '' , suppliersId: '' , key: Date.now() }])
-          resetForm();
           
       },
     });
@@ -569,9 +572,15 @@ export default function PurchaseRawMaterial({
                                 <Button sx={{boxShadow: "none"}} className="btn-submit" >{btnTitle}</Button>
                               </Stack>
                           :
-                              <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-                                <Button sx={{boxShadow: "none"}} className="btn-submit" type='submit'>{btnTitle}</Button>
-                              </Stack>                    
+                              loading ?
+                                <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                                  <Button sx={{boxShadow: "none"}} className="btn-submit" >Loading...</Button>
+                                </Stack> 
+                              :
+
+                                <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                                  <Button sx={{boxShadow: "none"}} className="btn-submit" type='submit'>{btnTitle}</Button>
+                                </Stack>                    
                       }
                       
                     </Form>

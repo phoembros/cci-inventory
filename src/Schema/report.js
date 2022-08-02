@@ -17,19 +17,80 @@ export const GET_INVENTORY_REPORT = gql`
 
 export const GET_PRODUCTION_REPORT = gql`
     query GetProductionReport($fromDate: Date, $toDate: Date) {
-        getProductionReport(fromDate: $fromDate, toDate: $toDate) {
+      getProductionReport(fromDate: $fromDate, toDate: $toDate) {
         date
         customerName
         batchCardNumber
         itemID
         itemDescription
         targetProduction
-        unitVM
-        actualProduction
+        unitVM          
+        actualProduction {
+          _id          
+          productGroupId {
+            _id
+            name
+            quantityPerStockUM
+            groupBy {
+              _id
+              productName
+              productId
+              category {
+                _id
+                categoryName
+                remark
+              }
+              unit
+              completedUnit
+              unitPrice
+              durationProduce
+              totalStockAmount
+              totalSoldAmount
+              ingredients {
+                rawName
+                rawMaterialId {
+                  _id
+                  materialName
+                  category {
+                    _id
+                    categoryName
+                  }
+                  totalStockAmount
+                  usedStockAmount
+                  unit
+                  unitPrice
+                }
+                amount
+                key
+                unitRawMaterial
+              }
+              remark
+              updatedAt
+              createdAt
+            }                   
+            unitPrice
+            totalStockAmount
+            totalSold
+            updatedAt
+            createdAt
+          }
+          qtyOfUM
+          key
+          label
+          unitQtyGroup
+        }
         unitUM
         costOfProduction
         workingHours
-        }
+        productGroup {
+          _id
+          name   
+          quantityPerStockUM          
+          unitPrice    
+          totalSold
+          totalStockAmount          
+        } 
+      }
     }
 `
 

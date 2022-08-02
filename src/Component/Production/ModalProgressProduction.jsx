@@ -23,6 +23,7 @@ export default function ModalProgressProduction({
     setRefetch,
 }) {
 
+    const [loading,setLoading] = React.useState(false)
      // Get User ID  
      const { data: userLoginData } = useQuery(GET_USER_LOGIN);  
      const userId =  userLoginData?.getuserLogin?._id;
@@ -38,12 +39,14 @@ export default function ModalProgressProduction({
                 handleClose();
                 setRefetch();
             } else {
+                setLoading(false)
                 setCheckMessage("error")
                 setAlert(true);
                 setMessage(updateProductions?.message)                
             }
         },
-        onError: (error) => {            
+        onError: (error) => {  
+            setLoading(false)          
             setCheckMessage("error")
             setAlert(true);
             setMessage(error.message);            
@@ -51,7 +54,8 @@ export default function ModalProgressProduction({
     });
 
     
-    const handleUpdateProgress = () => {      
+    const handleUpdateProgress = () => {    
+        setLoading(true)  
         updateProductions({
             variables: {
                 id: editDataProduction?._id,
@@ -99,7 +103,12 @@ export default function ModalProgressProduction({
                         <Stack direction="row" spacing={5} sx={{mt:3}}>
                             <Box sx={{flexGrow:1}}></Box>
                             <Button variant="contained" onClick={handleClose} color="error">Cancel</Button> 
-                            <Button variant="contained" onClick={handleUpdateProgress}>Ok</Button> 
+                            {
+                                loading ?
+                                <Button variant="contained">Loading...</Button>
+                                :
+                                <Button variant="contained" onClick={handleUpdateProgress}>Ok</Button>
+                            } 
                         </Stack> 
                     
             </DialogContentText>

@@ -24,6 +24,8 @@ export default function ModalCheckPurchase({
     setRefetch,
 }) {
 
+    const [loading,setLoading] = React.useState(false);
+
      // Get User ID  
      const { data: userLoginData } = useQuery(GET_USER_LOGIN);  
      const userId =  userLoginData?.getuserLogin?._id;
@@ -39,9 +41,15 @@ export default function ModalCheckPurchase({
                 setAlert(true);
                 handleClose();
                 setRefetch();
+            } else {
+                setLoading(false)
+                setCheckMessage('error')
+                setMessage(completePurchaseRawMaterial?.message);
+                setAlert(true);
             }
         },
-        onError: (error) => {     
+        onError: (error) => {  
+            setLoading(false)   
             setAlert(true)
             setCheckMessage('error')
             setMessage(error?.message)
@@ -52,6 +60,7 @@ export default function ModalCheckPurchase({
     const [qualityChecks,setQualityCheck] = React.useState("completed");
 
     const handleUpdateStatus = (e) => {
+        setLoading(true)
         completePurchaseRawMaterial({
             variables: {
                 id: editData?._id,
@@ -145,8 +154,14 @@ export default function ModalCheckPurchase({
                     
                     <Stack direction="row" spacing={5} sx={{mt:3}}>
                         <Box sx={{flexGrow:1}}></Box>
-                        <Button sx={{boxShadow: "none"}} variant="contained" onClick={handleClose} color="error">Cancel</Button> 
-                        <Button sx={{boxShadow: "none"}} variant="contained" onClick={handleUpdateStatus}>Ok</Button> 
+                        <Button sx={{boxShadow: "none"}} variant="contained" onClick={handleClose} color="error">Cancel</Button>
+                        {
+                            loading ?
+                                <Button sx={{boxShadow: "none"}} variant="contained">Loading...</Button> 
+                            :
+                                <Button sx={{boxShadow: "none"}} variant="contained" onClick={handleUpdateStatus}>Ok</Button> 
+                        } 
+                        
                     </Stack> 
 
      

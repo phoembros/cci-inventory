@@ -39,6 +39,8 @@ export default function CreateRawMaterials({
     }
   });
 
+  const [loading,setLoading] = React.useState(false);
+
   // 
   const [categoryMaterail, setCategoryMaterail] = React.useState([]);
    
@@ -82,12 +84,14 @@ export default function CreateRawMaterials({
           resetForm();
 
       } else {
+          setLoading(false);
           setCheckMessage("error");
           setMessage(createRawMaterial?.message);
           setAlert(true);
       }
     },
     onError: (error) => {
+          setLoading(false);
           setCheckMessage("error");
           setMessage(error.message);
     },
@@ -104,6 +108,7 @@ export default function CreateRawMaterials({
           resetForm();
 
         } else {
+          setLoading(false);
           setCheckMessage("error");
           setMessage(updateRawMaterial?.message);
           setAlert(true);
@@ -111,6 +116,7 @@ export default function CreateRawMaterials({
       },
       onError: (error) => {
         // console.log(error.message, "err");
+        setLoading(false);
         setCheckMessage("error");
         setMessage(error.message);
       },
@@ -137,7 +143,8 @@ export default function CreateRawMaterials({
 
     validationSchema: CreateCategory,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      // console.log(values, 'hhh')      
+      // console.log(values, 'hhh')   
+      setLoading(true);   
       if(checkStatus === 'create'){
         createRawMaterial({
           variables: {
@@ -348,9 +355,16 @@ export default function CreateRawMaterials({
                             </Stack>
 
                             <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-                              <Button sx={{boxShadow: "none"}} type="submit" className='btn-create'>
-                                {btnTitle}
-                              </Button>
+                              {
+                                loading ?
+                                <Button sx={{boxShadow: "none"}} className='btn-create'>
+                                 Loading...
+                                </Button>
+                                :
+                                <Button sx={{boxShadow: "none"}} type="submit" className='btn-create'>
+                                  {btnTitle}
+                                </Button>
+                              }
                             </Stack>
                           </Form>
                         </FormikProvider>

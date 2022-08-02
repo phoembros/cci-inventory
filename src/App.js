@@ -28,6 +28,7 @@ function App() {
         uri: process.env.React_APP_END_POINT,
         // uri: "http://192.168.2.126:4055/graphql",
     });
+    
     // 
     const authLink = setContext((_, { headers }) => {
       return {

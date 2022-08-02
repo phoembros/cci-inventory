@@ -25,7 +25,7 @@ export default function ModalQualityCheck({
     setRefetch,
 }) {
 
-    
+    const [loading,setLoading] = React.useState(false);
 
     // Get User ID  
     const { data: userLoginData } = useQuery(GET_USER_LOGIN);  
@@ -177,12 +177,14 @@ export default function ModalQualityCheck({
                 handleClose();
                 setRefetch();
             } else {
+                setLoading(false)
                 setCheckMessage("error")
                 setAlert(true);
                 setMessage(completeProduction?.message)                
             }
         },
-        onError: (error) => {            
+        onError: (error) => { 
+            setLoading(false)           
             setCheckMessage("error")
             setAlert(true);
             setMessage(error.message);            
@@ -194,7 +196,8 @@ export default function ModalQualityCheck({
     const [completedQty,setCompletedQty] = React.useState(1);
     const [completedRemark,setCompletedRemark] = React.useState("")
     
-    const handleUpdateProgress = () => {   
+    const handleUpdateProgress = () => { 
+        setLoading(true)  
         // console.log("clikc")     
         completeProduction({
             variables: {
@@ -413,6 +416,9 @@ export default function ModalQualityCheck({
                             completedQty > editDataProduction?.qty || completedQty < 0.01 ?
                                 <Button variant="contained">Ok</Button>
                             :
+                                loading ?
+                                <Button variant="contained"  >Loading...</Button>
+                                :
                                 <Button variant="contained" onClick={handleUpdateProgress}>Ok</Button>
                         }
                         

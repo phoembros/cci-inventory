@@ -23,6 +23,8 @@ export default function ModalVoidProduction({
     setRefetch,
 }) {
 
+    const [loading,setLoading] = React.useState(false);
+
     const [valueVoid,setValueVoid] = React.useState("");
 
     const [deleteProductions] = useMutation(DELETE_PRODUCTION , {
@@ -35,12 +37,14 @@ export default function ModalVoidProduction({
                 handleClose();
                 setRefetch();
             } else {
+                setLoading(false)
                 setCheckMessage("error")
                 setAlert(true);
                 setMessage(deleteProductions?.message)                
             }
         },
-        onError: (error) => {            
+        onError: (error) => {   
+            setLoading(false)         
             setCheckMessage("error")
             setAlert(true);
             setMessage(error.message);            
@@ -48,7 +52,8 @@ export default function ModalVoidProduction({
     });
 
 
-    const handleDelete = () => {        
+    const handleDelete = () => {  
+        setLoading(true)      
         deleteProductions({
             variables: {
                 id: editDataProduction?._id,
@@ -97,15 +102,26 @@ export default function ModalVoidProduction({
                         
                         <Stack direction="row" spacing={5}>       
                             { valueVoid === "PRODUCTION" ?
-                                <Button 
-                                    sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
-                                    className="btn-void" 
-                                    variant="outlined" 
-                                    fullWidth 
-                                    onClick={handleDelete}
-                                >
-                                    Delete now
-                                </Button> 
+
+                                loading ?
+                                    <Button 
+                                        sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
+                                        className="btn-void" 
+                                        variant="outlined" 
+                                        fullWidth                                   
+                                    >
+                                        Loading...
+                                    </Button>
+                                :
+                                    <Button 
+                                        sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
+                                        className="btn-void" 
+                                        variant="outlined" 
+                                        fullWidth 
+                                        onClick={handleDelete}
+                                    >
+                                        Delete now
+                                    </Button> 
                             :
                                 <Button variant="outlined" fullWidth >Delete</Button>
                             }         

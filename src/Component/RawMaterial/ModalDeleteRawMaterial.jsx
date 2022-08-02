@@ -22,6 +22,9 @@ export default function ModalDeleteRawMaterial({
   DataRow,
   setRefetch,
 }) {
+
+  const [loading,setLoading] = React.useState(false);
+
   const [valueVoid, setValueVoid] = React.useState("");
   const [deleteRawMaterial] = useMutation(DELETE_RAW_MATERAIL,{
     onCompleted:({deleteRawMaterial})=>{
@@ -33,12 +36,14 @@ export default function ModalDeleteRawMaterial({
             handleClose();
             setRefetch()
           } else {
+            setLoading(false)
             setCheckMessage('error')
             setMessage(deleteRawMaterial?.message)
             setAlert(true)
           }
         }, 
-        onError:(error) =>{
+        onError:(error) => {
+            setLoading(false)
             console.log(error.message)
             setCheckMessage('error')
             // setMessage(error.message)
@@ -46,6 +51,7 @@ export default function ModalDeleteRawMaterial({
     })
 
     const handleDelete = () =>{
+        setLoading(true)
         deleteRawMaterial({
             variables:{
                 id:DataRow?._id, 
@@ -107,16 +113,26 @@ export default function ModalDeleteRawMaterial({
 
                     <Stack direction="row" spacing={5}>
                       {valueVoid === DataRow?.materialName ? (
-                        <Button
-                          onClick={handleDelete}
-                          sx={{ ":hover": { backgroundColor: "red", border: "none" } }}
-                          className="btn-void"
-                          variant="outlined"
-                          fullWidth
-                        >
-                          {/* void now */}
-                          Delete Now
-                        </Button>
+
+                        loading? 
+                            <Button                          
+                              sx={{ ":hover": { backgroundColor: "red", border: "none" } }}
+                              className="btn-void"
+                              variant="outlined"
+                              fullWidth
+                            >
+                            loading...
+                            </Button>
+                          :
+                            <Button
+                              onClick={handleDelete}
+                              sx={{ ":hover": { backgroundColor: "red", border: "none" } }}
+                              className="btn-void"
+                              variant="outlined"
+                              fullWidth
+                            >                             
+                              Delete Now
+                            </Button>
                       ) : (
                         <Button variant="outlined" fullWidth>
                           {/* void */}

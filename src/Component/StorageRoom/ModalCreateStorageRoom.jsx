@@ -52,6 +52,8 @@ export default function ModalCreateStorageRoom({
 
   const navigate = useNavigate();
 
+  const [loading,setLoading] = React.useState(false);
+
   const [createStorageRoom] = useMutation(CREATE_STORAGE_ROOM,{
     onCompleted: ({createStorageRoom}) => {
       // console.log(createStorageRoom?.message, "message");
@@ -60,8 +62,9 @@ export default function ModalCreateStorageRoom({
         setMessage(createStorageRoom?.message)
         setAlert(true)
         handleClose()
-        setRefetch();
+        setRefetch();        
       } else {
+        setLoading(false)
         setCheckMessage('error')
         setMessage(createStorageRoom?.message)
         setAlert(true)
@@ -82,6 +85,7 @@ export default function ModalCreateStorageRoom({
     },
     onError: (error) => {
       // console.log(error.message);
+      setLoading(false)
       setAlert(true)
       setCheckMessage('error')
       setMessage(error?.message);
@@ -99,10 +103,16 @@ export default function ModalCreateStorageRoom({
         setMessage(updateStorageRoom?.message)
         handleClose()
         setRefetch()
+      } else {
+        setLoading(false)        
+        setCheckMessage('error')
+        setMessage(updateStorageRoom?.message)
+        setAlert(true)
       }
     },
     onError: (error) => {
       // console.log(error.message);
+      setLoading(false) 
       setCheckMessage('error')
       setMessage(error?.message)
     },
@@ -126,7 +136,7 @@ export default function ModalCreateStorageRoom({
 
     validationSchema: CreateStorage,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-
+      setLoading(true) 
       if(checkStatus === 'create'){
         createStorageRoom({
           variables:{
@@ -276,9 +286,18 @@ export default function ModalCreateStorageRoom({
                       </Stack>
 
                       <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-                            <Button sx={{boxShadow: "none"}} type="submit" className="btn-submit">
+                        {
+                          loading ?
+                          <Button sx={{boxShadow: "none"}} className="btn-submit">
+                              Loading...
+                          </Button>
+
+                        :
+                          <Button sx={{boxShadow: "none"}} type="submit" className="btn-submit">
                                 {btnTitle}
-                            </Button>
+                          </Button>
+                        }
+                           
                       </Stack>
                       </Form>
                   </FormikProvider>

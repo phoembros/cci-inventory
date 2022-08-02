@@ -22,6 +22,8 @@ export default function ModalDeleteCategoryMaterial({
     setRefetch,
 }) {
     
+    const [loading,setLoading] = React.useState(false);
+
     const [valueVoid,setValueVoid] = React.useState("");
     
     // delete
@@ -34,9 +36,12 @@ export default function ModalDeleteCategoryMaterial({
                 setAlert(true);
                 handleClose();
                 setRefetch()
-            } 
+            } else {
+                setLoading(false)
+            }
         },
-        onError: (error) => {            
+        onError: (error) => { 
+            setLoading(false)           
             setCheckMessage("error")
             setMessage(error.message);
             setAlert(true);
@@ -44,6 +49,7 @@ export default function ModalDeleteCategoryMaterial({
     });
 
     const handleDelete = () => {
+        setLoading(true)
         deleteRawMaterialCategory({
             variables: {
                 id: editData?._id
@@ -92,14 +98,24 @@ export default function ModalDeleteCategoryMaterial({
                         
                         <Stack direction="row" spacing={5}>       
                             { valueVoid === editData?.categoryName ?
+
+                                loading ?
+                                <Button                                      
+                                    sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
+                                    className="btn-void" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                >                                   
+                                    Loading...
+                                </Button> 
+                                :
                                 <Button 
                                     onClick={handleDelete}
                                     sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
                                     className="btn-void" 
                                     variant="outlined" 
                                     fullWidth 
-                                >
-                                    {/* void now */}
+                                >                                   
                                     Delete Now
                                 </Button> 
                             :

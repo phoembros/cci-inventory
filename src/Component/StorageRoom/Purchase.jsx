@@ -43,7 +43,7 @@ export default function ProductCategories() {
 
     React.useEffect( () => {
         setRoomId(params.get("storageId"));  
-        setRoomName(params.get("name"))      
+        setRoomName(params.get("name"));      
     }, [location.search]);
     // End get Id Storage Room
 

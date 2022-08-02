@@ -23,6 +23,8 @@ export default function ModalDeleteStorageRoom({
 
     const [valueVoid, setValueVoid] = React.useState("");
 
+    const [loading,setLoading] = React.useState(false);
+
     const [deleteStorageRoom] = useMutation(DELETE_STORAGE_ROOM, {
         onCompleted:({deleteStorageRoom})=>{
             // console.log(deleteStorageRoom?.message, 'room')
@@ -33,19 +35,22 @@ export default function ModalDeleteStorageRoom({
                 setRefetch();
                 handleClose()
               } else {
+                setLoading(false)
                 setCheckMessage('error')
                 setMessage(deleteStorageRoom?.message)
                 setAlert(true)
               }
             }, 
             onError:(error) =>{
+                setLoading(false)
                 console.log(error.message , "error")
                 setCheckMessage('error')
                 // setMessage(error.message)
             }
         })
     
-        const handleDelete = () =>{
+        const handleDelete = () => {
+            setLoading(true);
             deleteStorageRoom({
                 variables:{
                     id:row?._id, 
@@ -94,13 +99,22 @@ export default function ModalDeleteStorageRoom({
                         
                         <Stack direction="row" spacing={5} >       
                             { valueVoid === row?.name ?
-                                <Button
-                                    onClick={handleDelete}
-                                    sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
-                                    className="btn-void" 
-                                    variant="outlined" 
-                                    fullWidth 
-                                >delete now</Button> 
+
+                                loading ?
+                                    <Button                                         
+                                        sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
+                                        className="btn-void" 
+                                        variant="outlined" 
+                                        fullWidth 
+                                    >Loading...</Button> 
+                                :
+                                    <Button
+                                        onClick={handleDelete}
+                                        sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
+                                        className="btn-void" 
+                                        variant="outlined" 
+                                        fullWidth 
+                                    >delete now</Button> 
                             :
                                 <Button variant="outlined" fullWidth >delete</Button>
                             }         

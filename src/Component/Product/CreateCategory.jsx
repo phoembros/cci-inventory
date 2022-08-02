@@ -29,6 +29,8 @@ export default function CreateCategory({
     checkStatus,
 }) {
 
+    const [loading,setLoading] = React.useState(false);
+
     const [createProductCategory] = useMutation(CREATE_PRODUCT_CATEGORY , {
         onCompleted: ({createProductCategory}) => {          
             if(createProductCategory?.success){
@@ -37,9 +39,12 @@ export default function CreateCategory({
                 setAlert(true);
                 handleClose();
                 setRefetch();
-            } 
+            } else {
+                setLoading(false);
+            }
         },
-        onError: (error) => {            
+        onError: (error) => {    
+            setLoading(false)        
             setCheckMessage("error")
             setAlert(true);
             setMessage(error.message);            
@@ -57,13 +62,15 @@ export default function CreateCategory({
                 handleClose();
                 setRefetch();
             } else {
+                setLoading(false)
                 setCheckMessage("error")
                 setMessage(updateProductCategory?.message)
                 setAlert(true);
             } 
 
         },
-        onError: (error) => {            
+        onError: (error) => {    
+            setLoading(false)        
             setCheckMessage("error")
             setAlert(true);
             setMessage(error.message);            
@@ -87,7 +94,8 @@ export default function CreateCategory({
         },
     
         validationSchema: CreateCategory,
-        onSubmit: async (values, { setSubmitting, resetForm }) => {        
+        onSubmit: async (values, { setSubmitting, resetForm }) => {    
+            setLoading(true)    
             // console.log(values)
             if(checkStatus === "create") {
                 createProductCategory({
@@ -176,7 +184,12 @@ export default function CreateCategory({
                                     />            
                                 </Stack>
                                 <Stack direction="column" spacing={1} sx={{mt:2}}>           
-                                    <Button className="btn-update"  sx={{boxShadow: "none"}} type="submit" variant="contained">{btnTitle}</Button>
+                                    {
+                                        loading ?
+                                        <Button className="btn-update"  sx={{boxShadow: "none"}} variant="contained">loading...</Button>
+                                        :
+                                        <Button className="btn-update"  sx={{boxShadow: "none"}} type="submit" variant="contained">{btnTitle}</Button>
+                                    }
                                 </Stack>               
                                            
                                

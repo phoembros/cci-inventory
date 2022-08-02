@@ -21,6 +21,8 @@ export default function ModalDeleteCategory({
     setRefetch,
 }) {
 
+    const [loading,setLoading] = React.useState(false);
+
     const [valueVoid,setValueVoid] = React.useState("");
 
     const [deleteProductCategory] = useMutation(DELETE_PRODUCT_CATEGORY , {
@@ -31,9 +33,12 @@ export default function ModalDeleteCategory({
                 setAlert(true);
                 handleClose();
                 setRefetch();
-            } 
+            } else {
+                setLoading(false)
+            }
         },
-        onError: (error) => {            
+        onError: (error) => {   
+            setLoading(false)         
             setCheckMessage("error")
             setAlert(true);
             setMessage(error.message);            
@@ -42,6 +47,7 @@ export default function ModalDeleteCategory({
     });
 
     const handleDelete = () => {
+        setLoading(true)
         deleteProductCategory({
             variables: {
                 id: editData?._id,
@@ -90,15 +96,26 @@ export default function ModalDeleteCategory({
                         
                         <Stack direction="row" spacing={5}>       
                             { valueVoid === "CATEGORY" ?
-                                <Button 
-                                    sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
-                                    className="btn-void" 
-                                    variant="outlined" 
-                                    fullWidth
-                                    onClick={handleDelete}
-                                >
-                                    delete now
-                                </Button> 
+
+                                loading ?
+                                    <Button 
+                                        sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
+                                        className="btn-void" 
+                                        variant="outlined" 
+                                        fullWidth                                    
+                                    >
+                                        Loading...
+                                    </Button>
+                                :
+                                    <Button 
+                                        sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
+                                        className="btn-void" 
+                                        variant="outlined" 
+                                        fullWidth
+                                        onClick={handleDelete}
+                                    >
+                                        delete now
+                                    </Button> 
                             :
                                 <Button variant="outlined" fullWidth >delete</Button>
                             }         

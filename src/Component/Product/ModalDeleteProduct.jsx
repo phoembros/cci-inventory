@@ -22,6 +22,8 @@ export default function ModalDeleteProduct({
     setRefetch,
 }) {
 
+    const [loading,setLoading] = React.useState(false);
+
     const [valueVoid,setValueVoid] = React.useState("");
 
     const [deleteProduct] = useMutation(DELETE_PRODUCT , {
@@ -32,9 +34,12 @@ export default function ModalDeleteProduct({
                 setAlert(true);
                 handleClose();
                 setRefetch();
-            } 
+            } else {
+                setLoading(false)
+            }
         },
-        onError: (error) => {            
+        onError: (error) => { 
+            setLoading(false)           
             setCheckMessage("error")
             setAlert(true);
             setMessage(error.message);            
@@ -43,6 +48,7 @@ export default function ModalDeleteProduct({
     });
 
     const handleDelete = () => {
+        setLoading(true)
         deleteProduct({
             variables: {
                 id: editData?._id,
@@ -91,6 +97,17 @@ export default function ModalDeleteProduct({
                         
                         <Stack direction="row" spacing={5}>       
                             { valueVoid === "PRODUCT" ?
+
+                                loading ?
+                                <Button                                      
+                                    sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
+                                    className="btn-void" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                >
+                                    Loading...
+                                </Button> 
+                                :
                                 <Button 
                                     onClick={handleDelete}
                                     sx={{":hover":{ backgroundColor:"red", border:"none"}}} 

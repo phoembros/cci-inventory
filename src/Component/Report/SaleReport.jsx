@@ -251,7 +251,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
 
                                             {
                                                 item?.invoiceInfo?.map((row,index) => (
-                                            <TableRow className="body-row">
+                                            <TableRow key={index} className="body-row">
 
                                                 <TableCell  
                                                     className="cell-item" width="8%"

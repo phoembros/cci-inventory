@@ -181,6 +181,19 @@ export default function RawMaterialAction({
                                 null
                         }
 
+                        {
+                                dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deletePurchaseRawMaterial ?
+                                    <MenuItem  onClick={()=> {
+                                        handleClose();
+                                        handleOpenDelete();
+                                    }}>
+                                        <Stack direction="row" spacing={1}>
+                                            <DeleteIcon sx={{color:"red"}}/>
+                                            <Typography>Void</Typography>
+                                        </Stack>    
+                                    </MenuItem>
+                                : null
+                            }
                             
 
                         </Menu>
