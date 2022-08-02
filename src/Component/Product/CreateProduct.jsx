@@ -33,6 +33,9 @@ export default function CreateProduct({
 }) {
 
 
+    const [currentItem, setCurrentItem] = React.useState({ rawName: '' , rawMaterialId: '', amount: 1 , unitRawMaterial: "" , key: ""})
+    const [item, setItem] = React.useState([])
+
      
     //Create Production
     const [createProduct] = useMutation(CREATE_PRODUCT , {
@@ -43,6 +46,9 @@ export default function CreateProduct({
                 setAlert(true);
                 handleClose();
                 setRefetch();
+
+                setItem([{ rawName: 'Material Name' , rawMaterialId: '' , amount: 1 , unitRawMaterial: "" ,  key: Date.now()}]) 
+                resetForm();
             } else {
                 setCheckMessage("error")
                 setMessage("Material invalid value!")
@@ -107,9 +113,6 @@ export default function CreateProduct({
     
 
     // setup ingrideian ====================================================================================================================
-
-    const [currentItem, setCurrentItem] = React.useState({ rawName: '' , rawMaterialId: '', amount: 1 , unitRawMaterial: "" , key: ""})
-    const [item, setItem] = React.useState([])
 
     const addItem = () => {     
         const newItem = currentItem;
@@ -192,7 +195,7 @@ export default function CreateProduct({
         productName: Yup.string().required("Product's Name is required!"),
         productId: Yup.string().required("Product's ID is required!"),
         remark: Yup.string(),  
-        unitPrice: Yup.number().min(0.01 , "Unit Price can't under 0"),     
+        unitPrice: Yup.number(),     
         unit: Yup.string().required("Unit is required!"),  
         completedUnit:  Yup.string(),
         durationProduce: Yup.number(),
@@ -224,7 +227,9 @@ export default function CreateProduct({
                 remark: values?.remark,  
                 durationProduce: parseFloat(values?.durationProduce),              
             }       
-            console.log(newValue)   
+
+            // console.log(newValue)  
+
             createProduct({
                 variables: {
                     newProduct: {
@@ -232,10 +237,7 @@ export default function CreateProduct({
                     }
                 }
             }) 
-
             
-            setItem([{ rawName: 'Material Name' , rawMaterialId: '' , amount: 1 , unitRawMaterial: "" ,  key: Date.now()}])                     
-            resetForm();
         },
 
     });  
@@ -508,10 +510,10 @@ export default function CreateProduct({
                               helperText={touched.remark && errors.remark}
                             />
                           </Stack>
-                          <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-                            <Button className='btn-update' sx={{boxShadow: "none"}} type="submit" variant="contained">
-                              {btnTitle}
-                            </Button>
+
+
+                          <Stack direction="column" spacing={1} sx={{mt:2}}>           
+                              <Button className="btn-update" sx={{boxShadow: "none"}} type='submit' variant="contained">{btnTitle}</Button>
                           </Stack>
                       
                       </Form>
