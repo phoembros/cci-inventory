@@ -32,13 +32,14 @@ export default function CreateProduct({
     checkStatus,
 }) {
 
+    const [loading,setLoading] = React.useState(false)
 
     const [currentItem, setCurrentItem] = React.useState({ rawName: '' , rawMaterialId: '', amount: 1 , unitRawMaterial: "" , key: ""})
     const [item, setItem] = React.useState([])
 
      
     //Create Production
-    const [createProduct] = useMutation(CREATE_PRODUCT , {
+    const [createProduct] = useMutation( CREATE_PRODUCT , {
         onCompleted: ({createProduct}) => {          
             if(createProduct?.success){
                 setCheckMessage("success")
@@ -46,16 +47,17 @@ export default function CreateProduct({
                 setAlert(true);
                 handleClose();
                 setRefetch();
-
                 setItem([{ rawName: 'Material Name' , rawMaterialId: '' , amount: 1 , unitRawMaterial: "" ,  key: Date.now()}]) 
                 resetForm();
             } else {
+                setLoading(false)
                 setCheckMessage("error")
                 setMessage("Material invalid value!")
                 setAlert(true);
             }
         },
-        onError: (error) => {            
+        onError: (error) => {   
+            setLoading(false)         
             setCheckMessage("error")
             setAlert(true);
             setMessage(error.message);            
@@ -215,7 +217,9 @@ export default function CreateProduct({
         },
     
         validationSchema: CreateProductes,
-        onSubmit: async (values, { setSubmitting, resetForm }) => {        
+        onSubmit: async (values, { setSubmitting, resetForm }) => {    
+          
+            setLoading(true);
             const newValue = {
                 productName: values?.productName,
                 productId: values?.productId,
@@ -512,8 +516,15 @@ export default function CreateProduct({
                           </Stack>
 
 
-                          <Stack direction="column" spacing={1} sx={{mt:2}}>           
-                              <Button className="btn-update" sx={{boxShadow: "none"}} type='submit' variant="contained">{btnTitle}</Button>
+                          <Stack direction="column" spacing={1} sx={{mt:2}}>      
+                             
+                              {
+                                loading ?
+                                    <Button className="btn-update" sx={{boxShadow: "none"}} disabled variant="contained">Loading...</Button>
+                                :
+                                    <Button className="btn-update" sx={{boxShadow: "none"}} type='submit' variant="contained">{btnTitle}</Button>
+                              }
+                              
                           </Stack>
                       
                       </Form>
