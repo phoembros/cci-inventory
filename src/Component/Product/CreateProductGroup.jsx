@@ -41,6 +41,7 @@ export default function ModalProductGroup({
     }, [location.search]);
     // End get Id Storage Room
 
+    const [loading,setLoading] = React.useState(false);
 
     const [createProductGroup] = useMutation(CREATE_PRODUCT_GROUP , {
         onCompleted: ({createProductGroup}) => {          
@@ -51,9 +52,15 @@ export default function ModalProductGroup({
                 handleClose();
                 setRefetch();
                 resetForm();
-            } 
+            } else {
+                setLoading(false)
+                setCheckMessage("error")
+                setMessage(createProductGroup?.message)
+                setAlert(true);
+            }
         },
-        onError: (error) => {            
+        onError: (error) => {   
+            setLoading(false)         
             setCheckMessage("error")
             setAlert(true);
             setMessage(error.message);            
@@ -72,13 +79,15 @@ export default function ModalProductGroup({
                 setRefetch();
                 resetForm();
             } else {
+                setLoading(false)
                 setCheckMessage("error")
                 setMessage(updateProductGroup?.message)
                 setAlert(true);
             } 
 
         },
-        onError: (error) => {            
+        onError: (error) => {  
+            setLoading(false)          
             setCheckMessage("error")
             setAlert(true);
             setMessage(error.message);            
@@ -105,9 +114,9 @@ export default function ModalProductGroup({
         },
     
         validationSchema: CreateCategory,
-        onSubmit: async (values, { setSubmitting, resetForm }) => {        
+        onSubmit: async (values, { setSubmitting, resetForm }) => {      
+            setLoading(true)  
             console.log(values)
-
             if(checkStatus === "create") {
                 createProductGroup({
                     variables: {
@@ -227,8 +236,14 @@ export default function ModalProductGroup({
                                     />            
                                 </Stack>
 
-                                <Stack direction="column" spacing={1} sx={{mt:2}}>           
-                                    <Button className="btn-update"  sx={{boxShadow: "none"}} type="submit" variant="contained">{btnTitle}</Button>
+                                <Stack direction="column" spacing={1} sx={{mt:2}}>       
+                                    {
+                                        loading ?
+                                        <Button className="btn-update"  sx={{boxShadow: "none"}} variant="contained">Loading...</Button>
+                                    :
+                                        <Button className="btn-update"  sx={{boxShadow: "none"}} type="submit" variant="contained">{btnTitle}</Button>
+                                    }
+                                    
                                 </Stack>               
                                            
                                
