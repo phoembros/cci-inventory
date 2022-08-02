@@ -4,7 +4,7 @@ import { Autocomplete, Box, IconButton, InputAdornment, Paper, Stack, TableBody,
 import './listcreatesales.scss';
 import { withStyles } from '@material-ui/core/styles';
 import {GET_STORAGE_ROOM_PAGINATION} from "../../Schema/starageroom";
-import { GET_PRODUCT_WITH_PAGINATION } from "../../Schema/product";
+import { GET_PRODUCT_GROUP_PAGINATION, GET_PRODUCT_WITH_PAGINATION } from "../../Schema/product";
 import {useQuery} from "@apollo/client"
 
 
@@ -18,8 +18,7 @@ function ListCreateSales(props) {
         pagination: false,
       },
     });
-    console.log(data?.getProductPagination?.products,"data")
-
+   
     React.useEffect( () => {
         if (data?.getProductPagination?.products) {
             let rows = [];
@@ -34,7 +33,42 @@ function ListCreateSales(props) {
             setProducts(rows);
         }
     },[data?.getProductPagination?.products])
-   // End Get Storage room
+    // End Get Storage room
+
+
+
+    // getProduct Group ====================================================
+    const [productGroup,setProductGroup] = React.useState([]);
+
+    const { data : productGroupData } = useQuery(GET_PRODUCT_GROUP_PAGINATION, {
+        variables: {           
+            keyword: "",
+            pagination: false,
+        },
+        onError: (error) => {
+            console.log(error.message)
+        }
+    })
+
+    // console.log(productGroupData?.getProductGroupPagination?.productGroups);
+    React.useEffect( () => {
+        if (productGroupData?.getProductGroupPagination?.productGroups) {
+            let rows = [];
+            productGroupData?.getProductGroupPagination?.productGroups?.forEach( (element) => {
+                const allrow = {
+                  label: element?.name,
+                  _id: element?._id,
+                  unitPrice: element?.unitPrice,
+                };
+                rows.push(allrow);
+            });
+            setProductGroup(rows);
+        }
+    },[productGroupData?.getProductGroupPagination?.productGroups]);
+
+    console.log(productGroup)
+
+
 
    // Handle Message Error TextField
    const [errorMessage, setErrorMessage] = React.useState(["Can't input 0" , "Invalid Value" , "Material is required!"]);
@@ -47,11 +81,11 @@ function ListCreateSales(props) {
         return  <TableBody key={item?.key}  component={Paper} className="body-list-material" >                        
                     <TableRow  className="body-row"> 
 
-                        <TableCell className="body-title" component="th" scope="row" >                           
+                        <TableCell className="body-title" component="th" scope="row" width="50%">                           
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
-                                options={products}                                
+                                options={productGroup}                                
                                 onChange={(e, value) => {
                                     props.setUpdateProductId( value?._id , item.key ) 
                                     props.setUpdateItemName( value?.label , item.key )
@@ -61,7 +95,7 @@ function ListCreateSales(props) {
                             />
                         </TableCell>
                       
-                        <TableCell className="body-title" width="20%" align='center'>
+                        <TableCell className="body-title" width="30%" align='center'>
                             <TextField  
                                 className='text-field'
                                 fullWidth
@@ -74,6 +108,11 @@ function ListCreateSales(props) {
                                     props.setUpdateAmount(e.target.value*item?.unitPrice, item.key);
                                 }}
                                 InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            U/M
+                                        </InputAdornment>
+                                    ),
                                     inputProps: { min: 1 },
                                 }}
                                 onFocus={handleTouch}
@@ -116,7 +155,7 @@ function ListCreateSales(props) {
                                 type="text" 
                                 id={item?.key} 
                                 size='small' 
-                                value={item?.amount.toFixed(2)}
+                                value={item?.amount?.toFixed(2)}
                             />                            
                         </TableCell>   
                         {/* <TableCell className="header-title" width='3%'></TableCell>  */}

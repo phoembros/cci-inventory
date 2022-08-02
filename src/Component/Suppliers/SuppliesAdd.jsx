@@ -81,7 +81,7 @@ export default function SuppliesAdd({
     <Dialog open={open} className="dialog-create-supplies">
         <DialogTitle id="alert-dialog-title">
                 <Stack direction="row" spacing={2}> 
-                        <Typography variant='h6' className="title" > Supplies </Typography> 
+                        <Typography variant='h6' className="title" > Supplier </Typography> 
                         <Box sx={{flexGrow:1}}/>
                         <IconButton onClick={handleClose}>
                             <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>

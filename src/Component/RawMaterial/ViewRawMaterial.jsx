@@ -74,7 +74,7 @@ export default function ViewRawMaterial({handleClose, open , DataRow}) {
                                 UnitPrice:
                             </Typography>  
                             <Typography variant='body1'>
-                                {DataRow?.unitPrice}
+                                ${DataRow?.unitPrice}
                             </Typography>                      
                         </Stack>
                         

@@ -63,7 +63,7 @@ export default function CreateProduction({
                 handleClose();
                 setRefetch();   
                 
-                await sendMessage({content: `<b>[Request Create Production]</b>\n👩‍🚀 <i>${nameRequest}</i>\n\n${createProductions?.data?.production?.productId?.productName} (x${createProductions?.data?.qty} ${createProductions?.data?.production?.productId?.unit})\n\n🗓 Date:${moment(createProductions?.data?.createdAt).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+                // await sendMessage({content: `<b>[Request Create Production]</b>\n👩‍🚀 <i>${nameRequest}</i>\n\n${createProductions?.data?.production?.productId?.productName} (x${createProductions?.data?.qty} ${createProductions?.data?.production?.productId?.unit})\n\n🗓 Date:${moment(createProductions?.data?.createdAt).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
 
             } else {
                 setCheckMessage("error")
@@ -234,10 +234,12 @@ export default function CreateProduction({
                     productName: values?.productName,
                     qtyOnHand: parseInt(values?.qtyOnHand),
                 },    
+                completedQtyUM: null,
                 qty: parseInt(values?.qty),  
                 comment: values?.comment,             
             }
-            console.log(newValue)
+
+            // console.log(newValue)
         
             createProductions({
                 variables: {
@@ -364,7 +366,7 @@ export default function CreateProduction({
                                                     <TableCell className="body-title" width="15%" align='center'>
                                                         {
                                                             productById?.durationProduce ?
-                                                                <TextField value={`${productById?.durationProduce*values?.qty}s`} size='small' fullWidth />
+                                                                <TextField value={`${productById?.durationProduce*values?.qty}min`} size='small' fullWidth />
                                                             : 
                                                                 <TextField disabled  size='small' fullWidth />
                                                         }                                        

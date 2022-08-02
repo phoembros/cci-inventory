@@ -8,6 +8,13 @@ export const CREATE_SET_UP_CUSTOMER = gql`
         }
     }
 `
+
+export const GET_INVOICE_NO = gql`
+  query Query {
+    getInvoiceId
+  }
+`
+
 export const GET_CUSTOMER = gql`
     query Query {
         getCustomers {
@@ -104,18 +111,48 @@ query GetSaleWithPagination($page: Int, $limit: Int, $keyword: String, $paginati
         itemName
         productId {
           _id
-          productName
-          productId
-          category {
+          name
+          quantityPerStockUM
+          groupBy {
             _id
-            categoryName
+            productName
+            productId
+            category {
+              _id
+              categoryName
+              remark
+            }
+            unit
+            completedUnit
+            unitPrice
+            durationProduce
+            totalStockAmount
+            totalSoldAmount
+            ingredients {
+              rawName
+              rawMaterialId {
+                category {
+                  _id
+                  categoryName
+                }
+                _id
+                materialName
+                totalStockAmount
+                usedStockAmount
+                unit
+                unitPrice
+              }
+              amount
+              key
+              unitRawMaterial
+            }
             remark
           }
-          unit
           unitPrice
-          durationProduce
           totalStockAmount
-          totalSoldAmount
+          totalSold
+          updatedAt
+          createdAt
         }
         qty
         unitPrice
@@ -196,19 +233,48 @@ query GetSaleById($id: ID!) {
       itemName
       productId {
         _id
-        productName
-        productId
-        category {
+        name
+        quantityPerStockUM
+        groupBy {
           _id
-          categoryName
+          productName
+          productId
+          category {
+            _id
+            categoryName
+            remark
+          }
+          unit
+          completedUnit
+          unitPrice
+          durationProduce
+          totalStockAmount
+          totalSoldAmount
+          ingredients {
+            rawName
+            rawMaterialId {
+              category {
+                _id
+                categoryName
+              }
+              _id
+              materialName
+              totalStockAmount
+              usedStockAmount
+              unit
+              unitPrice
+            }
+            amount
+            key
+            unitRawMaterial
+          }
           remark
         }
-        unit
         unitPrice
-        durationProduce
         totalStockAmount
-        totalSoldAmount
-        remark
+        totalSold
+        updatedAt
+        createdAt
       }
       qty
       unitPrice

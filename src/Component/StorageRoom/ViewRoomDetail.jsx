@@ -30,7 +30,7 @@ export default function ViewRoomDetail({
     const userId =  userLoginData?.getuserLogin?._id;
     // End Get User ID
    
-    console.log(DataView)
+    // console.log(DataView)
     
 return (
     <Dialog open={open} className="dialog-view-purchase">

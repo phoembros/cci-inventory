@@ -50,7 +50,7 @@ export default function SalesAction({
     const handleOpenPayment = () => setOpenPayment(true);
     const handleClosePayment = () => setOpenPayment(false);
 
-    console.log(DataSale)
+    // console.log(DataSale)
   return (
     <div>
 

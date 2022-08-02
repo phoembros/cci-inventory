@@ -53,11 +53,124 @@ export const DELETE_PRODUCT_CATEGORY = gql`
     }
 `
 
+export const UPDATE_PRODUCT_GROUP = gql`
+  mutation UpdateProductGroup($id: ID!, $productGroupEdit: ProductGroupInput) {
+    updateProductGroup(_id: $id, ProductGroupEdit: $productGroupEdit) {
+      success
+      message
+    }
+  }
+`
+
 export const CREATE_PRODUCT_GROUP = gql`
   mutation CreateProductGroup($newProductGroup: ProductGroupInput) {
     createProductGroup(newProductGroup: $newProductGroup) {
       success
       message
+    }
+  }
+`
+
+export const DELETE_PRODUCT_GROUP = gql`
+  mutation DeleteProductGroup($id: ID!) {
+    deleteProductGroup(_id: $id) {
+      success
+      message
+    }
+  }
+`
+
+export const GET_PRODUCT_GROUP_PAGINATION = gql`
+query CompletedQtyUM($page: Int, $limit: Int, $keyword: String, $pagination: Boolean) {
+  getProductGroupPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination) {
+    productGroups {
+      _id
+      name
+      quantityPerStockUM
+      unitPrice
+      totalStockAmount
+      totalSold
+      updatedAt
+      createdAt
+      groupBy {
+        _id
+        productName
+        productId
+        category {
+          _id
+          categoryName
+          remark
+        }
+        unit
+        completedUnit
+        unitPrice
+        durationProduce
+        totalStockAmount
+        totalSoldAmount
+        ingredients {
+          rawName
+          rawMaterialId {
+            _id
+            materialName
+            category {
+              _id
+              categoryName
+            }
+            totalStockAmount
+            usedStockAmount
+            unit
+            unitPrice
+            remark
+          }
+          amount
+          key
+          unitRawMaterial
+        }
+        remark
+      }
+    }
+    paginator {
+      slNo
+      prev
+      next
+      perPage
+      totalPosts
+      totalPages
+      currentPage
+      hasPrevPage
+      hasNextPage
+      totalDocs
+    }
+  }
+}
+`
+
+
+export const GET_PRODUCT_GROUP_BYPRODUCT_ID = gql`
+  query GetProductGroupByProductId($productId: ID!) {
+    getProductGroupByProductId(ProductId: $productId) {
+      _id
+      quantityPerStockUM
+      unitPrice
+      name
+      groupBy {
+        _id
+        productName
+        productId
+        category {
+          _id
+          categoryName
+        }
+        unit
+        completedUnit
+        unitPrice
+        durationProduce
+        totalStockAmount
+        totalSoldAmount
+        remark
+      }
+      updatedAt
+      createdAt
     }
   }
 `
@@ -110,9 +223,11 @@ query GetProductPagination($page: Int, $limit: Int, $keyword: String, $paginatio
           _id
           materialName
           category {
+            updatedAt
             _id
             categoryName
             remark
+            createdAt
           }
           totalStockAmount
           usedStockAmount
@@ -165,50 +280,46 @@ export const DELETE_PRODUCT = gql`
 `
 
 export const GET_PRODUCT_BYID = gql`
-  query GetProductById($productId: ID!) {
-    getProductById(ProductId: $productId) {
+query GetProductById($productId: ID!) {
+  getProductById(ProductId: $productId) {
+    _id
+    productName
+    productId
+    category {
       _id
-      productName
-      productId
-      category {
-        _id
-        categoryName
-        remark
-        updatedAt
-        createdAt
-      }
-      unit
-      unitPrice
-      durationProduce
-      totalStockAmount
-      totalSoldAmount
-      ingredients {
-        rawName
-        rawMaterialId {
-          _id
-          materialName
-          category {
-            _id
-            categoryName
-            remark
-            updatedAt
-            createdAt
-          }
-          totalStockAmount
-          usedStockAmount
-          unit
-          unitPrice
-          remark
-          updatedAt
-          createdAt
-        }
-        amount
-        key
-      }
+      categoryName
       remark
-      updatedAt
-      createdAt
     }
+    unit
+    completedUnit
+    unitPrice
+    durationProduce
+    totalStockAmount
+    totalSoldAmount
+    ingredients {
+      rawName
+      rawMaterialId {
+        category {
+          _id
+          categoryName
+          remark
+        }
+        _id
+        materialName
+        totalStockAmount
+        usedStockAmount
+        unit
+        unitPrice
+        remark
+      }
+      amount
+      key
+      unitRawMaterial
+    }
+    remark
+    updatedAt
+    createdAt
   }
+}
 `
 

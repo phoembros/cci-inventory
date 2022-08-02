@@ -157,16 +157,17 @@ export default function MenuNavbarMobile({open , handleDrawerClose}) {
                 {/* Item */}                   
                 <ListItem className={
                     theme.palette.mode === 'dark' && location.pathname === "/product" || 
-                    theme.palette.mode === 'dark' && location.pathname === "/product/categories"  
+                    theme.palette.mode === 'dark' && location.pathname === "/product/categories"  ||
+                    theme.palette.mode === 'dark' && location.pathname === "/product/details"
                     ? 'list-item-active' : 'list-item' }  disablePadding sx={{ display: 'block' }} 
                 >
                     <Link to="/product" style={{ textDecoration: 'none' }} onClick={handleDrawerClose}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
-                            <ListItemIcon className={location.pathname === "/product" || location.pathname === "/product/categories" ? "list-item-icon-active" : "list-item-icon"} >
+                            <ListItemIcon className={location.pathname === "/product" || location.pathname === "/product/categories" || location.pathname === "/product/details" ? "list-item-icon-active" : "list-item-icon"} >
                                 <WorkOutlineIcon />
                             </ListItemIcon>
                             <ListItemText 
-                                className={location.pathname === "/product" || location.pathname === "/product/categories" ? "list-item-text-active" : "list-item-text"}
+                                className={location.pathname === "/product" || location.pathname === "/product/categories" || location.pathname === "/product/details" ? "list-item-text-active" : "list-item-text"}
                                 primary={"Product"} />
                         </ListItemButton>
                     </Link>

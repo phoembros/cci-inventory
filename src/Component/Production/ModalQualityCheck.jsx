@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, Stack, Table, TableContainer, TextField, Typography } from "@mui/material";
 import * as React from "react";
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import './modalqualitycheck.scss';
@@ -6,6 +6,8 @@ import { UPDATE_PRODUCTION , COMPLETE_PRODUCTION } from "../../Schema/production
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_USER_LOGIN } from '../../Schema/user';
 import { GET_PRODUCTION_UNIT, GET_PRODUCT_UNIT } from "../../Schema/product";
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import ListProductGroup from "./ListProductGroup";
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -23,7 +25,7 @@ export default function ModalQualityCheck({
     setRefetch,
 }) {
 
-    // console.log(editDataProduction?.production?.productId?.unit)
+    
 
     // Get User ID  
     const { data: userLoginData } = useQuery(GET_USER_LOGIN);  
@@ -36,11 +38,134 @@ export default function ModalQualityCheck({
             setUnitProduct(getCompletedProductsUnits)
         }
     });
-   
+
     // Handle Message Error TextField
-    const [errorMessage, setErrorMessage] = React.useState(["Input invalid Qty"]);
+    const [errorMessage, setErrorMessage] = React.useState(["Over than remain" , "Input invalid value"]);
+    const [errorAlert,setErrorAlert] = React.useState(false);
+    const [valueOver,setValueOver] = React.useState(false);
     const [touched, setTouched] = React.useState(false);
     const handleTouch = () =>  setTouched(true);
+    
+
+    // ProductGroup List ===============================================================================
+    const [currentItem, setCurrentItem] = React.useState({ productGroupId: '' , label: "" , unitQtyGroup: 0 , qtyOfUM: 0 , key: ""})
+    const [item, setItem] = React.useState([]);
+
+    const addItem = () => {     
+        const newItem = currentItem;
+        if (newItem.productGroupId !== "") {
+            const items = [
+                ...item,
+                newItem
+            ];
+            setItem([... items])
+            setCurrentItem({ productGroupId: '' , label: "" , unitQtyGroup: 0  , qtyOfUM: 0 , key: "" })
+        }
+    }
+
+    const handleAdd = () => {
+        setCurrentItem({ productGroupId: 'Name' , label: "" , unitQtyGroup: 0 , qtyOfUM: 0 , key: Date.now() });
+    }
+
+    React.useEffect(() => {
+        if (currentItem?.productGroupId !== "") {
+            addItem();
+        }
+    }, [currentItem])
+
+    React.useMemo( async () => {
+        await handleAdd();
+        await addItem();
+    },[])
+
+    
+    // Esstimate ==============================================================================
+    const [showValueEsstimate,setShowValueEsstimate] = React.useState(0);
+    const [valueEsstimate,setValueEsstimate] = React.useState(0);
+
+    const handleValueEsstimate = () => {
+        const items = item;
+        var totalEsstimate = 0;
+
+        items?.map(i => {         
+            console.log(i)    
+            if(i?.productGroupId === undefined ) {
+                totalEsstimate += 0; 
+            } else {
+                totalEsstimate += i.qtyOfUM*i.unitQtyGroup; 
+            }            
+        })
+
+        if(valueEsstimate-totalEsstimate >= 0){           
+            setShowValueEsstimate(valueEsstimate-totalEsstimate);
+            setErrorAlert(false);
+        } else {
+            setErrorAlert(true);
+        }      
+            
+    }
+    
+    React.useEffect( () => {         
+        setValueEsstimate(editDataProduction?.qty)  
+    },[editDataProduction])
+
+    React.useEffect( () => {
+        handleValueEsstimate()
+    },[valueEsstimate, item])
+
+    // End Esstimate ==============================================================================
+
+    const deleteItem = (key) => {
+        const filteredItems = item?.filter(t => t.key !== key);
+        setItem(filteredItems);
+        handleValueEsstimate();
+    }
+
+    const setProductGroupLabel = (label,key) => {
+        const items = item;
+        items.map(i=>{      
+          if(i.key===key){
+            i.label= label;                     
+          }
+        })
+        setItem([...items]) 
+    }
+
+
+    const setProductGroupId = (productGroupId, unitQtyGroup ,key) => {
+        const items = item;
+        var newShowValueEsstimate = showValueEsstimate;
+        items.map(i=>{      
+            if(i.key===key){                
+                i.productGroupId= productGroupId;                 
+                i.unitQtyGroup = unitQtyGroup;                
+                i.qtyOfUM = parseInt(newShowValueEsstimate/unitQtyGroup); 
+            }
+        })        
+        setItem([...items]) 
+        handleValueEsstimate();        
+    }
+
+    const setQtyOfUM = (qtyOfUM,key) => {
+        const items = item;
+        var newShowValueEsstimate = showValueEsstimate;
+        items.map(i=>{      
+          if(i.key===key){
+            i.qtyOfUM= parseFloat(qtyOfUM);   
+            setValueOver(false)         
+          }
+          if(parseFloat(qtyOfUM) > newShowValueEsstimate/i.unitQtyGroup){
+            setValueOver(true)
+          }
+        })       
+        setItem([...items]) 
+        handleValueEsstimate(); 
+    }
+
+    console.log(item)
+    // End List ===============================================================================
+
+   
 
     // Update Status Production
     const [completeProduction] = useMutation(COMPLETE_PRODUCTION , {
@@ -64,6 +189,7 @@ export default function ModalQualityCheck({
         }
     });
 
+
     const [unitSelect,setUnitSelect] = React.useState("");
     const [completedQty,setCompletedQty] = React.useState(1);
     const [completedRemark,setCompletedRemark] = React.useState("")
@@ -75,7 +201,7 @@ export default function ModalQualityCheck({
                 id: editDataProduction?._id,
                 completedInput: {
                     progress: "completed",
-                    completedQtyUM: completedQty,
+                    completedQtyUM: item,
                     completedRemark: completedRemark,
                     qualityCheck: userId,
                 }
@@ -108,7 +234,7 @@ export default function ModalQualityCheck({
                                     Product : {editDataProduction?.production?.productId?.productName}
                                 </Typography>
                                 <Typography variant='body1'>
-                                    Qty : {editDataProduction?.qty}{editDataProduction?.production?.productId?.unit}
+                                    Qty : {editDataProduction?.qty}-{editDataProduction?.production?.productId?.unit}
                                 </Typography>                
                             </Stack>
                         </>
@@ -125,17 +251,23 @@ export default function ModalQualityCheck({
                         </>
                 }
                     
-
-                    <Box sx={{mt:2}}>
-                        <Typography className='body-title' variant="body" >
-                            Complete Production
-                        </Typography>
-                    </Box>
+                    <Stack direction="row" sx={{mt:2,mb:2}}>
+                        <Stack direction="column" justifyContent="center">
+                            <Typography className='body-title' variant="body">
+                                Complete Production
+                            </Typography>
+                        </Stack>                                      
+                        <Box sx={{flexGrow:1}}></Box>
+                        <IconButton onClick={handleAdd}>
+                            <AddCircleOutlineRoundedIcon  sx={{ color: "green" }}/>
+                        </IconButton>
+                    </Stack>
+                    
 
                     <Stack direction="row" spacing={2} width="100%" sx={{mt:2}}>    
                         <Stack direction="column" justifyContent="center" width="260px">           
                             <Typography variant='body1' >
-                                Estimate Qty U/M :
+                                Remain Quantity :
                             </Typography>  
                         </Stack> 
                         <Box  width="300px">
@@ -146,16 +278,11 @@ export default function ModalQualityCheck({
                                 fullWidth 
                                 size="small" 
                                 type="number"
-                                value={
-                                    editDataProduction?.production?.productId?.completedUnit === "Gallon" ? 
-                                        (editDataProduction?.qty*0.2642).toFixed(2)
-                                    : 
-                                        (editDataProduction?.qty*0.0048).toFixed(2)
-                                }
+                                value={ showValueEsstimate ? (showValueEsstimate)?.toFixed(2) : 0 }
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">                                             
-                                            {editDataProduction?.production?.productId?.completedUnit}                                           
+                                            {editDataProduction?.production?.productId?.unit}                                           
                                         </InputAdornment>
                                     ),
                                     inputProps: { min: 1 },
@@ -165,6 +292,30 @@ export default function ModalQualityCheck({
                         </Box>                
 
                     </Stack>
+
+
+                    <TableContainer>
+                        <Table className="table" aria-label="simple table">
+                            <ListProductGroup
+                                items={item}
+                                deleteItem={deleteItem}
+                                setProductGroupId={setProductGroupId}
+                                setQtyOfUM={setQtyOfUM}
+                                productId={editDataProduction?.production?.productId?._id} 
+                                setProductGroupLabel={setProductGroupLabel}                               
+
+                                errorMessage={errorMessage}
+                                errorAlert={errorAlert}
+                                touched={touched}  
+                                handleTouch={handleTouch}    
+                                valueOver={valueOver}  
+                            />
+                        </Table>
+                    </TableContainer>
+
+
+
+                    
 
                     {/* <Stack direction="row" spacing={2} width="100%" sx={{mt:2}}>    
                         <Stack direction="column" justifyContent="center" width="260px">           
@@ -197,7 +348,7 @@ export default function ModalQualityCheck({
                     </Stack> */}
 
                     <Stack direction="row" spacing={2} width="100%" sx={{mt:2}}>    
-                        <Stack direction="column" justifyContent="center" width="260px">           
+                        {/* <Stack direction="column" justifyContent="center" width="260px">           
                             <Typography variant='body1' >
                                 Completed Qty U/M:
                             </Typography>  
@@ -223,7 +374,7 @@ export default function ModalQualityCheck({
                                 error={touched && Boolean(completedQty < 0.01) || touched && Boolean(completedQty > editDataProduction?.qty) }
                                 helperText={Boolean(completedQty < 0.01) && errorMessage[0] || Boolean(completedQty > editDataProduction?.qty) && errorMessage[0]}
                             /> 
-                        </Box>
+                        </Box> */}
                         {/* <Box width="250px">
                             <FormControl fullWidth size="small">                      
                                 <Select 
@@ -240,6 +391,8 @@ export default function ModalQualityCheck({
                         </Box>    */}
 
                     </Stack>
+
+
 
 
                     <Stack direction="row" spacing={5} width="100%" sx={{mt:2}}>      

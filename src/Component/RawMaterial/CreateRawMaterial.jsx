@@ -79,6 +79,8 @@ export default function CreateRawMaterials({
           setAlert(true);
           handleClose();
           setRefetch();
+          resetForm();
+
       } else {
           setCheckMessage("error");
           setMessage(createRawMaterial?.message);
@@ -99,6 +101,8 @@ export default function CreateRawMaterials({
           setAlert(true);
           handleClose();
           setRefetch();
+          resetForm();
+
         } else {
           setCheckMessage("error");
           setMessage(updateRawMaterial?.message);
@@ -133,8 +137,7 @@ export default function CreateRawMaterials({
 
     validationSchema: CreateCategory,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      console.log(values, 'hhh')
-      
+      // console.log(values, 'hhh')      
       if(checkStatus === 'create'){
         createRawMaterial({
           variables: {
@@ -168,8 +171,6 @@ export default function CreateRawMaterials({
             },
         });
       }
-
-      resetForm();
 
     },
   });
@@ -310,8 +311,8 @@ export default function CreateRawMaterials({
                                             helperText={touched.unit && errors.unit}
                                           >
                                             {
-                                              unitRawMaterial.map( (item) => (
-                                                    <MenuItem value={item}>{item}</MenuItem> 
+                                              unitRawMaterial.map( (item,index) => (
+                                                    <MenuItem key={index} value={item}>{item}</MenuItem> 
                                               ))
                                             }                                                  
                                           

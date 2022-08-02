@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Grid, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Avatar, Button, Grid, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import AlertMessage from "../AlertMessage/AlertMessage"
 import AddIcon from '@mui/icons-material/Add';
@@ -9,6 +9,8 @@ import { Link, useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_PRODUCT_BYID } from "../../Schema/product";
 import ProductGroupAction from "./ProductGroupAction";
+import { GET_PRODUCT_GROUP_BYPRODUCT_ID } from "../../Schema/product";
+import DurationImage from "../../Assets/clock.gif";
 
 export default function ProductDetails() {
 
@@ -34,9 +36,10 @@ export default function ProductDetails() {
     }, [location.search]);
     // End get Id Storage Room
 
+
     const { data , refetch} = useQuery(GET_PRODUCT_BYID,{
         variables: {
-            productId: productId,
+            productId: params.get("id"),
         }
     })
 
@@ -46,22 +49,36 @@ export default function ProductDetails() {
         }
     },[data?.getProductById])
 
-    console.log(dataProduct);
+    // productDetails
+    const { data : productGroups , refetch: refetchProductGroup } = useQuery(GET_PRODUCT_GROUP_BYPRODUCT_ID,{
+        variables: {
+            productId: productId
+        }
+    })
+   
+    React.useEffect( () => {       
+        refetch()         
+    },[productGroups?.getProductGroupByProductId])
 
-    const arrayData = [1,2,3,4,5]
+    console.log(dataProduct)
 
     return (
         <div className="product-details-page">
             <Stack direction="row" spacing={2}>                
                 <Box className="slash" />            
-                <Stack direction="column" justifyContent="center">
+                <Stack direction="column" justifyContent="center" className="page-title">
                     <Link to="/product" style={{textDecoration: "none"}}>
                         <Typography className="color">Product</Typography>
                     </Link>
                 </Stack>
-                <Stack direction="column" justifyContent="center">
+                <Stack direction="column" justifyContent="center" className="page-title">
                     <Typography className="color">/ Details</Typography>
                 </Stack>
+
+                <Stack direction="column" justifyContent="center" className="page-title-mobile">
+                    <Typography className="color">Details</Typography>
+                </Stack>
+
                 <Box sx={{flexGrow: 1}} />
                 <Stack direction="row" className="stack-btn"  justifyContent="right" spacing={1}>  
                     <Button onClick={handleOpen} startIcon={<AddIcon className="icon"/>} className="btn-add">
@@ -75,7 +92,9 @@ export default function ProductDetails() {
                             setMessage={setMessage}
                             setCheckMessage={setCheckMessage}
                             btnTitle="Create"
-                            // setRefetch={refetch}
+                            checkStatus="create"
+                            setRefetch={refetchProductGroup}
+                            productUnit={dataProduct?.unit}
                         />
                     {/* </Modal> */}
                 </Stack>
@@ -84,55 +103,77 @@ export default function ProductDetails() {
    
             <Box className="container">    
                 <Grid container spacing={5}>
-                    <Grid item className="content-left">
-                        <Stack direction="column" spacing={2}>
-                            <Box className="background" >
-                                <Typography className="header-title">Type</Typography>
-                            </Box>   
-                            <Box className="background" >
-                                <Typography className="header-title">Product ID</Typography>
-                            </Box> 
-                            <Box className="background" >
-                                <Typography className="header-title">Product Name</Typography>
-                            </Box>
-                            <Box className="background" >
-                                <Typography className="header-title">Unit</Typography>
-                            </Box>
-                            <Box className="background" >
-                                <Typography className="header-title">Type</Typography>
-                            </Box>                                             
+                    <Grid item xs={12} sm={12} md={6} lg={6} className="content">
+
+                        <Box sx={{width: "100%"}}>
+                            <Stack direction='row' justifyContent="center" sx={{mt:2}}>
+                                <Box className="left">                                     
+                                    <Typography className="header-title">Type</Typography>                                   
+                                </Box> 
+                                <Box className="right">
+                                    <Stack direction="row" justifyContent="center">
+                                        <Typography variant="body1">{dataProduct?.category?.categoryName}</Typography>
+                                    </Stack>
+                                </Box> 
+                            </Stack>
+
+                            <Stack direction='row' justifyContent="center" sx={{mt:2}}>
+                                <Box className="left">
+                                    <Typography className="header-title">Product ID</Typography>
+                                </Box> 
+                                <Box className="right">
+                                    <Stack direction="row" justifyContent="center">
+                                        <Typography variant="body1">{dataProduct?.productId}</Typography>
+                                    </Stack>
+                                </Box> 
+                            </Stack>
+
+                            <Stack direction='row' justifyContent="center" sx={{mt:2}}>
+                                <Box className="left">
+                                    <Typography className="header-title">Product Name</Typography>
+                                </Box> 
+                                <Box className="right">
+                                    <Stack direction="row" justifyContent="center">
+                                        <Typography variant="body1">{dataProduct?.productName}</Typography>
+                                    </Stack>
+                                </Box> 
+                            </Stack>
+
+                            <Stack direction='row' justifyContent="center" sx={{mt:2}}>
+                                <Box className="left">
+                                    <Typography className="header-title">Unit</Typography>
+                                </Box> 
+                                <Box className="right">
+                                    <Stack direction="row" justifyContent="center">
+                                        <Typography variant="body1">{dataProduct?.unit}</Typography>
+                                    </Stack>
+                                </Box> 
+                            </Stack>
+
+                            {/* <Stack direction='row' justifyContent="center" sx={{mt:2}}>
+                                <Box className="left">
+                                    <Typography className="header-title">Unit Price</Typography>
+                                </Box> 
+                                <Box className="right">
+                                    <Stack direction="row" justifyContent="center">
+                                        <Typography variant="body1">${dataProduct?.unitPrice}</Typography>
+                                    </Stack>
+                                </Box> 
+                            </Stack>  */}
+                            
+                        </Box>
+                    </Grid>
+
+                    <Grid item xs={12} sm={12} md={6} lg={6} >
+                        <Stack direction="row" justifyContent="center" height="100%">
+                            <Stack direction="column" justifyContent="center"> 
+                                <Avatar src={DurationImage} sx={{width: 180 , height: 180}}/>
+                                <Typography sx={{mt:1}}>Duration to produce {dataProduct?.durationProduce}min.</Typography>
+                            </Stack>
                         </Stack>
                     </Grid>
-                    <Grid item className="content-right">
-                        <Stack direction="column" spacing={2}>
-                            <Box className="background-radius">
-                                <Stack direction="row" justifyContent="center">
-                                    <Typography variant="body1">Type</Typography>
-                                </Stack>
-                            </Box>    
-                            <Box className="background-radius">
-                                <Stack direction="row" justifyContent="center">
-                                    <Typography variant="body1">{dataProduct?.productId}</Typography>
-                                </Stack>
-                            </Box>
-                            <Box className="background-radius">
-                                <Stack direction="row" justifyContent="center">
-                                    <Typography variant="body1">{dataProduct?.productName}</Typography>
-                                </Stack>
-                            </Box>
-                            <Box className="background-radius">
-                                <Stack direction="row" justifyContent="center">
-                                    <Typography variant="body1">{dataProduct?.unit}</Typography>
-                                </Stack>
-                            </Box>
-                            <Box className="background-radius">
-                                <Stack direction="row" justifyContent="center">
-                                    <Typography variant="body1">Type</Typography>
-                                </Stack>
-                            </Box>                       
-                                                     
-                        </Stack>
-                    </Grid>
+
+
                 </Grid>
 
                 <Box sx={{mt:5}}> 
@@ -152,38 +193,46 @@ export default function ProductDetails() {
                                     </TableCell>
                                     <TableCell className="header-title">
                                         Quantity/StockUM
-                                    </TableCell>
+                                    </TableCell>  
                                     <TableCell className="header-title">
-                                        Other
-                                    </TableCell>
+                                        Unit Price
+                                    </TableCell>                                    
                                     <TableCell className="header-title" align="right">
                                         Action
                                     </TableCell>
                                 </TableRow>  
                             </TableHead>
 
+
                             <TableBody>
                             {
-                                arrayData?.map( (row,index) => (
-                                    <TableRow className="header-row">
+                                productGroups?.getProductGroupByProductId?.map( (row,index) => (
+                                    <TableRow key={index} className="header-row">
                                         <TableCell className="body-title">
                                            <Typography variant="body1">{index+1} -</Typography>
                                         </TableCell>
                                         <TableCell className="body-title">
-                                            <Typography variant="body1">Name</Typography>
+                                            <Typography variant="body1">{row?.name}</Typography>
                                         </TableCell>
                                         <TableCell className="body-title">
-                                            <Typography variant="body1">Quantity/StockUM</Typography>
-                                        </TableCell>
+                                            <Typography variant="body1">{row?.quantityPerStockUM}</Typography>
+                                        </TableCell>  
                                         <TableCell className="body-title">
-                                            <Typography variant="body1">Other</Typography>
-                                        </TableCell>
+                                            <Typography variant="body1">${row?.unitPrice}</Typography>
+                                        </TableCell>                                      
                                         <TableCell className="body-title" align="right">
-                                            <ProductGroupAction />
+                                            <ProductGroupAction 
+                                                setAlert={setAlert}
+                                                setMessage={setMessage}
+                                                setCheckMessage={setCheckMessage}  
+                                                setRefetch={refetchProductGroup}
+                                                editData={row} 
+                                                productUnit={dataProduct?.unit}                                         
+                                            />
                                         </TableCell>
                                     </TableRow>     
                                 ))
-                            }                                   
+                            }                                  
 
                             </TableBody>
                         </Table>

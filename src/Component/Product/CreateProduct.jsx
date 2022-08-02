@@ -364,7 +364,7 @@ export default function CreateProduct({
                                           helperText={touched.unit && errors.unit}
                                         >                            
                                           {unit?.map((item, index) => (
-                                            <MenuItem value={`${item}`}>{item}</MenuItem>
+                                            <MenuItem key={index} value={`${item}`}>{item}</MenuItem>
                                           ))}
                                         </Select>
                                       </FormControl>
@@ -472,7 +472,7 @@ export default function CreateProduct({
                             </TableContainer>
                           </Box>
 
-                          <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                          {/* <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
                             <Typography className="header-title">Unit Price</Typography>
                             <Box sx={{width:"300px"}}>
                                 <TextField               
@@ -493,7 +493,7 @@ export default function CreateProduct({
                                   }}
                                 />
                             </Box>              
-                          </Stack>
+                          </Stack> */}
 
                           <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
                             <Typography className="header-title">Remark</Typography>
@@ -509,7 +509,7 @@ export default function CreateProduct({
                             />
                           </Stack>
                           <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-                            <Button sx={{boxShadow: "none"}} type="submit" variant="contained">
+                            <Button className='btn-update' sx={{boxShadow: "none"}} type="submit" variant="contained">
                               {btnTitle}
                             </Button>
                           </Stack>

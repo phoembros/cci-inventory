@@ -85,8 +85,9 @@ export default function Sales() {
           pagination: true,
           status: status,
       },
-      onCompleted: () => {
-          setLoading(false)
+      onCompleted: ({getSaleWithPagination}) => {
+          setLoading(false);
+          console.log(getSaleWithPagination);
       },
       onError: (error) => {
         console.log(error.message)
@@ -99,7 +100,7 @@ export default function Sales() {
       setPageShow(page)
   }, [page, limit , keyword , status ])
 
-  console.log(data?.getSaleWithPagination?.sales , "data")
+  // console.log(data?.getSaleWithPagination?.sales , "data")
   
 
     return (
@@ -197,15 +198,7 @@ export default function Sales() {
                                     <TableRow className="body-row" >
                                       <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="10%">{moment(row?.date).format("DD/MM/YYYY")}</TableCell>
                                       <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="15%">
-                                        {
-                                            row?.invoiceNo ?
-                                                <>
-                                                CCI{moment(row?.createdAt).format("YYYY")}-{row?.invoiceNo?.padStart(4, '0')}
-                                                </>
-                                            : 
-                                              null
-                                        }
-                                        
+                                        { row?.invoiceNo }                                        
                                       </TableCell>
                                       <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="20%">{row?.billTo?.label}</TableCell>
                                       <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="20%">{row?.totalAmount?.toFixed(2)}$</TableCell>      

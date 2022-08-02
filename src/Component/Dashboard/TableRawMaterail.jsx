@@ -33,7 +33,7 @@ function TableRawMaterail({dataUserLogines}) {
           paymentStatus: paymentStatus,        
       },
       onCompleted: ({getPurchaseRawMaterialPagination}) => {
-          // console.log(getPurchaseRawMaterialPagination?.purchaseRawMaterial,"data");    
+          console.log(getPurchaseRawMaterialPagination?.purchaseRawMaterial,"data");    
           setDataPurchaseRawMaterial(getPurchaseRawMaterialPagination?.purchaseRawMaterial)        
       },
       onError: (error) => {
@@ -49,7 +49,7 @@ function TableRawMaterail({dataUserLogines}) {
     setPaymentStatus(["unpaid" , "owe"]);      
   },[])
 
-  // console.log(dataPurchaseRawMaterial)
+  console.log(dataPurchaseRawMaterial)
 
 
   return (

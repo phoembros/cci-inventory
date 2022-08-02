@@ -43,8 +43,8 @@ export default function Product() {
     // 
     const [openView,setOpenView] = React.useState(false);
     const handleOpenView = (e) => {
-        setOpenView(true);
-        // navigate(`/product/details?id=${e}`)
+        // setOpenView(true);
+        navigate(`/product/details?id=${e}`)
     }   
     const handleCloseView = () => setOpenView(false);
 
@@ -162,11 +162,11 @@ export default function Product() {
                                                 <TableCell className="header-title">Product ID</TableCell>
                                                 <TableCell className="header-title">Name</TableCell>                                                
                                                 <TableCell className="header-title">Unit</TableCell>
-                                                <TableCell className="header-title">Unit Price</TableCell>
+                                                {/* <TableCell className="header-title">Unit Price</TableCell> */}
                                                 <TableCell className="header-title">Category</TableCell>
                                                 <TableCell className="header-title">Duration</TableCell>
-                                                <TableCell className="header-title">Qty On Hand</TableCell>
-                                                {/* <TableCell className="header-title">Remark</TableCell>                                    */}
+                                                {/* <TableCell className="header-title">Qty On Hand</TableCell> */}
+                                                <TableCell className="header-title">Remark</TableCell>
                                                 <TableCell className="header-title" align="center"></TableCell>                        
                                             </TableRow>
                                         </TableHead>
@@ -179,15 +179,15 @@ export default function Product() {
                                                     <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="12%" >{row?.productId}</TableCell>
                                                     <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="20%">{row?.productName}</TableCell>
                                                     <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" width="8%">{row?.unit}</TableCell>
-                                                    <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" width="10%">${row?.unitPrice}</TableCell>
+                                                    {/* <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" width="10%">${row?.unitPrice}</TableCell> */}
                                                     <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" width="10%">{row?.category?.categoryName}</TableCell>
                                                     <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" align="left" width="10%">{row.durationProduce}min</TableCell>
-                                                    <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" width="12%">100</TableCell>
-                                                    {/* <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" >                                            
+                                                    {/* <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" width="12%">100</TableCell> */}
+                                                    <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" width="20%">                                            
                                                         <TruncateMarkup lines={2}>    
                                                             <div>{row.remark}</div>    
                                                         </TruncateMarkup>
-                                                    </TableCell>                                                                        */}
+                                                    </TableCell>                                                                       
                                                     <TableCell className="body-title" align="right" width="8%">
                                                         <ProductAction
                                                             dataUserLogin={dataUserLogin}

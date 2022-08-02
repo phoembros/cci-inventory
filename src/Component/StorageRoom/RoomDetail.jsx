@@ -54,9 +54,7 @@ export default function RoomDetail() {
 
     console.log(data?.getProductByStorageRoomId, 'storage')
 
-
-
-
+    
     return(
         <div className="purchases-page">
             <Stack direction="row" spacing={2}>
@@ -133,7 +131,7 @@ export default function RoomDetail() {
                                     data?.getProductByStorageRoomId?.length !== 0 ?
                                         <>
                                             {data?.getProductByStorageRoomId?.map((row , index) => (
-                                                <TableBody component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
+                                                <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
                                                     <TableRow  className="body-row">
                                                         <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" component="th" scope="row" width="3%" > {index+1}- </TableCell>
                                                         <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" component="th" scope="row" width="25%"> {row?.productName} </TableCell>
@@ -142,8 +140,8 @@ export default function RoomDetail() {
                                                         <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >${(row?.totalQtyUM*row?.unitPrice-row?.totalQtyUMSold*row?.unitPrice).toFixed(2)}</TableCell>                                                                   
                                                         <TableCell className="body-title" align="right">
                                                             <RoomDetialAction />                        
-                                                        </TableCell>                            
-                                                    </TableRow>
+                                                        </TableCell>                                                                               
+                                                    </TableRow>                                                    
                                                 </TableBody>                        
                                             ))}
                                         </>

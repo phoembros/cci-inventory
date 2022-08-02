@@ -61,7 +61,7 @@ export default function UpdateProduction({
                 handleClose();
                 setRefetch();
 
-                await sendMessage({content: `<b>[Request Create Production]</b>\n👩‍🚀 <i>${nameRequest}</i>\n\n${updateProductions?.data?.production?.productId?.productName} (x${updateProductions?.data?.qty} ${updateProductions?.data?.production?.productId?.unit})\n\n🗓 Date:${moment(updateProductions?.data?.createdAt).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+                // await sendMessage({content: `<b>[Request Create Production]</b>\n👩‍🚀 <i>${nameRequest}</i>\n\n${updateProductions?.data?.production?.productId?.productName} (x${updateProductions?.data?.qty} ${updateProductions?.data?.production?.productId?.unit})\n\n🗓 Date:${moment(updateProductions?.data?.createdAt).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
 
             } else {
                 setCheckMessage("error")
@@ -412,7 +412,7 @@ export default function UpdateProduction({
                                                     <TableCell className="body-title" width="15%" align='center'>
                                                         {
                                                             productById?.durationProduce ?
-                                                                <TextField value={`${productById?.durationProduce*values?.qty}s`} size='small' fullWidth />
+                                                                <TextField value={`${productById?.durationProduce*values?.qty}min`} size='small' fullWidth />
                                                             : 
                                                                 <TextField disabled  size='small' fullWidth />
                                                         } 

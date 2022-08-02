@@ -207,7 +207,7 @@ export default function ViewProduction({
                                             <TableCell className="body-title" width="15%" align='center'>
                                                     {
                                                         data?.getProductById?.durationProduce ?
-                                                            <TextField value={`${data?.getProductById?.durationProduce*ViewData?.qty}s`} size='small' fullWidth />
+                                                            <TextField value={`${data?.getProductById?.durationProduce*ViewData?.qty}min`} size='small' fullWidth />
                                                         : 
                                                             <TextField disabled  size='small' fullWidth />
                                                     } 
@@ -227,7 +227,7 @@ export default function ViewProduction({
                                         </TableRow>
                                     </TableHead>
                                     {dataIngredients?.map((row , index) => (
-                                        <TableBody key={index} component={Paper} className="body" >                        
+                                        <TableBody key={index} component={Paper} className="body">                        
                                             <TableRow  className="body-row">                                
                                                 <TableCell className="body-title" component="th" scope="row"> {row?.rawName} </TableCell>
                                                 <TableCell className="body-title" >{row?.amount*ViewData?.qty}{row?.rawMaterialId?.unit}</TableCell>    
@@ -243,7 +243,7 @@ export default function ViewProduction({
                                 <Table className="table-buttom" aria-label="simple table">
                                     <TableHead >
                                         <TableRow className="header-row">
-                                            {/* <TableCell className="header-title">Progress</TableCell>                             */}
+                                            {/* <TableCell className="header-title">Progress</TableCell> */}
                                             <TableCell className="header-title">Prirority</TableCell>  
                                             <TableCell className="header-title">Start Date</TableCell>  
                                             <TableCell className="header-title">Due Date</TableCell>                                                    

@@ -32,6 +32,8 @@ import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 // Schema
 import { CREATE_SALE } from "../../Schema/sales";
 import { empty, useMutation, useQuery } from "@apollo/client";
+import { GET_INVOICE_NO } from '../../Schema/sales';
+
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -59,6 +61,7 @@ export default function SalesCreated({
                 setAlert(true);
                 handleClose();
                 setRefetch();
+                resetForm();
             } else {
                 setCheckMessage("error")
                 setMessage(createSale?.message)
@@ -72,6 +75,10 @@ export default function SalesCreated({
         }
 
     });
+
+
+    //
+    const { data: InvoiceNo } = useQuery(GET_INVOICE_NO);
 
 
     //Get Customer 
@@ -100,7 +107,7 @@ export default function SalesCreated({
     // End get  Customer
 
     // List Product to Sell
-    const [currentItem, setCurrentItem] = React.useState({ itemName: '' , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: 0 ,})
+    const [currentItem, setCurrentItem] = React.useState({ itemName: '' , productId: '', qty: 1 , unitPrice: 0.01 , amount: 0 , key: 0 ,})
     const [item, setItem] = React.useState([])
 
     const addItem = () => {     
@@ -112,13 +119,13 @@ export default function SalesCreated({
             ];
             setItem([... items])
             setCurrentItem({
-                itemName: '' , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: 0
+                itemName: '' , productId: '', qty: 1 , unitPrice: 0.01 , amount: 0 , key: 0
             })
         }
     }
 
     const handleAddSales = () => {
-        setCurrentItem({ itemName: 'product' , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: Date.now() });
+        setCurrentItem({ itemName: 'product' , productId: '', qty: 1 , unitPrice: 0.01 , amount: 0 , key: Date.now() });
     }
 
     React.useEffect(() => {
@@ -150,6 +157,7 @@ export default function SalesCreated({
         })
         setTotalPaidAmount(totalPaidAmounts)
     }
+
     React.useEffect( () => {
         setFinalAmount(totalPaidAmount+vatAmount);
     },[vatAmount,totalPaidAmount])
@@ -158,12 +166,13 @@ export default function SalesCreated({
 
     const setUpdateItemName = (itemName,key) => {
         const items = item;
-        items.map(i=>{      
+        items.map( i => {      
           if(i.key===key){           
             i.itemName= itemName;
           }
         })
         setItem([...items]) 
+        setTotalAmount();
     }  
 
     const setUpdateProductId = (productId, key) => {
@@ -173,7 +182,7 @@ export default function SalesCreated({
             i.productId= productId;
           }
         })
-        setItem([...items]) 
+        setItem([...items])         
     }
 
 
@@ -209,8 +218,7 @@ export default function SalesCreated({
         setItem([...items]) 
         setTotalAmount();
     }  
-    // End Setup
-    
+    // End Setup   
   
     const SalesAdd = Yup.object().shape({
       billToName: Yup.string().required("is requried!"),
@@ -218,7 +226,7 @@ export default function SalesCreated({
       date: Yup.date(),  
       vat: Yup.number(),
       tin: Yup.string(),
-      invoice: Yup.string(),
+      invoiceNo: Yup.string(),
       remark: Yup.string(), 
       status: Yup.string(),    
     });
@@ -229,7 +237,7 @@ export default function SalesCreated({
         billToID: "",
         date: new Date(),     
         vat: 0,
-        invoice: "",
+        invoiceNo: "",
         tin: "",
         remark: "",
         status: "unpaid",       
@@ -238,7 +246,8 @@ export default function SalesCreated({
     validationSchema: SalesAdd,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
                   
-          const newValue = {        
+          const newValue = {     
+              invoiceNo: values?.invoiceNo,   
               tin: values?.tin,
               date: values?.date,
               billTo: {
@@ -263,13 +272,16 @@ export default function SalesCreated({
               }
           })
 
-          resetForm();
+         
         
       },
     });
 
     const { errors, touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm, } = formik;
 
+    React.useEffect( () => {
+        setFieldValue("invoiceNo" , InvoiceNo?.getInvoiceId)
+    },[InvoiceNo])
 
   return (
     <Dialog open={open} className="dialog-create-sales">
@@ -381,9 +393,9 @@ export default function SalesCreated({
                                 <Box sx={{width:"160px"}}>
                                       <TextField 
                                           size='small' fullWidth className='text-field'
-                                          {...getFieldProps("invoice")}
-                                          error={Boolean(touched.invoice && errors.invoice)}
-                                          helperText={touched.invoice && errors.invoice}
+                                          {...getFieldProps("invoiceNo")}
+                                          error={Boolean(touched.invoiceNo && errors.invoiceNo)}
+                                          helperText={touched.invoiceNo && errors.invoiceNo}
                                       />
                                 </Box>                                
                                 <Box sx={{flexGrow:1}}></Box>
@@ -425,10 +437,10 @@ export default function SalesCreated({
                                 <TableHead >
                                   <TableRow className="header-row">
                                       <TableCell className="header-title" width="50%">
-                                        Product Name
+                                         Product Name                                     
                                       </TableCell>
                                       <TableCell className="header-title" align="center" width="20%">
-                                        Quantity
+                                        Quantity U/M
                                       </TableCell>
                                       <TableCell className="header-title" align="center" width="20%">
                                         Unit Price

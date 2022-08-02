@@ -146,10 +146,9 @@ export default function StorageRoom() {
             {
               dataStorageRoom?.length !== 0 ? 
                 <>
-                {dataStorageRoom?.map(
-                  (row, index) => (
-                    <TableBody component={Paper} className="body">
-                      <TableRow className="body-row">
+                <TableBody  component={Paper} className="body">
+                  {dataStorageRoom?.map( (row, index) => (                    
+                      <TableRow key={index} className="body-row">
                         <TableCell
                             onClick={()=>
                               row.type === "Products" ? 
@@ -221,10 +220,9 @@ export default function StorageRoom() {
                               setCheckMessage={setCheckMessage}                        
                           />
                         </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  )
-                )}
+                      </TableRow>                    
+                  ))}
+                </TableBody>
                 </>
               :
                 <>
@@ -260,14 +258,13 @@ export default function StorageRoom() {
                   <Pagination
                     page={pageShow}
                     component="div"
-                    hideNextButton="true"
-                    hidePrevButton="true"
+                    hideNextButton={true}
+                    hidePrevButton={true}
                     count={
                       data?.getStorageRoomWithPagination?.paginator?.totalPages
                     }
                     variant="outlined"
-                    color="primary" 
-                    shape="circle"
+                    color="primary"                     
                     onChange={(event) =>
                       setPage(parseInt(event?.target?.textContent))
                     }

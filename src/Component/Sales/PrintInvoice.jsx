@@ -87,7 +87,8 @@ const ComponentToPrint = () => {
                                             <Stack direction="row" justifyContent="center" spacing={1}>
                                                 <Typography variant="body2" sx={{fontWeight: "bold" }}>INVOICE NO.</Typography>
                                                 <Box sx={{flexGrow:1}}></Box>
-                                                <Typography variant="body2">CCI{moment(dataSale?.createdAt).format("YYYY")}-{dataSale?.invoiceNo?.padStart(4, '0')}</Typography>
+                                                {/* <Typography variant="body2">CCI{moment(dataSale?.createdAt).format("YYYY")}-{dataSale?.invoiceNo?.padStart(4, '0')}</Typography> */}
+                                                <Typography variant="body2">{dataSale?.invoiceNo}</Typography>
                                             </Stack>
                                             <Stack direction="row" justifyContent="center" spacing={1}>
                                                 <Typography variant="body2" sx={{fontWeight: "bold" }}>TIN</Typography>
@@ -129,17 +130,17 @@ const ComponentToPrint = () => {
 
                         {
                             dataSale?.items?.map( (item,index) => (
-                        <tr>
+                        <tr key={index}>
                             <th>
                                 <Stack direction="column" justifyContent="center" height="30px">
                                     <Typography variant="body2" className="text">
-                                        {item?.productId?.productId}
+                                        {item?.productId?.groupBy?.productId}
                                     </Typography>
                                 </Stack>
                             </th>
                             <th>
                                 <Typography variant="body2" className="text">
-                                    {item?.productId?.productName}
+                                    {item?.productId?.name}
                                 </Typography>
                             </th>
                             <th>

@@ -219,6 +219,10 @@
             
             .body-odd {
                 box-shadow: none;
+                :hover {
+                    // background-color: $background-table-modal;
+                    cursor: pointer;
+                }
 
                 .body-row {       
                     background-color: $background-table-modal;

@@ -89,7 +89,7 @@ export default function Chart({dataUserLogines}) {
     }
   }
  
-  console.log(dataRevenue , dataExpense , dataCategories );
+  // console.log(dataRevenue , dataExpense , dataCategories );
 
 
   return(

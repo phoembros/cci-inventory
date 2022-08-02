@@ -481,7 +481,7 @@ export default function UpdateProduct({
 
                                 </Box> 
 
-                                <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                                {/* <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
                                     <Typography className="header-title">Unit Price</Typography>
                                     <Box sx={{width:"300px"}}>
                                         <TextField               
@@ -502,7 +502,7 @@ export default function UpdateProduct({
                                             }}
                                         />
                                     </Box>              
-                                </Stack>
+                                </Stack> */}
 
 
                                 <Stack direction="column" spacing={1} sx={{mt:2}}>

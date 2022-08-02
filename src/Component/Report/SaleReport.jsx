@@ -585,7 +585,7 @@ export default function SaleReport({FromData , ToData}) {
                     trigger={() => (
                         <Stack direction="row" spacing={2} className="btn">           
                             <Button className="btn-add-style" startIcon={<LocalPrintshopOutlinedIcon />}>
-                                <Typography className="style-add"> Print invoice </Typography>
+                                <Typography className="style-add"> Print Report </Typography>
                             </Button>               
                         </Stack> 
                     )}

@@ -30,7 +30,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 export default function ProductCategories() {
 
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
-    console.log(dataUserLogin?.getuserLogin?.first_name)
+    // console.log(dataUserLogin?.getuserLogin?.first_name)
 
     //Dataview 
     const [PurchaseData, setPurchaseData] = React.useState([])
@@ -279,8 +279,8 @@ export default function ProductCategories() {
                         <Stack direction="column" justifyContent="center" >
                             <Pagination
                                 page={pageShow}
-                                hideNextButton="true"
-                                hidePrevButton="true"
+                                hideNextButton={true}
+                                hidePrevButton={true}
                                 variant="outlined"
                                 color="primary"
                                 count={data?.getPurchaseRawMaterialPagination?.paginator?.totalPages}

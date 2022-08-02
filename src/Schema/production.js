@@ -1,83 +1,132 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_PRODUCTION = gql`
-    mutation CreateProductions($newProductions: ProductionsInput) {
-        createProductions(newProductions: $newProductions) {
-        success
-        message  
-        data {
+mutation CreateProductions($newProductions: ProductionsInput) {
+  createProductions(newProductions: $newProductions) {
+    success
+    message
+    data {
+      _id
+      productionsId
+      startDate
+      dueDate
+      workOrders
+      customerId {
+        _id
+        cusId
+        name
+        phoneNumber
+        email
+        address
+      }
+      productionsBy {
+        _id
+        first_name
+        last_name
+        gender
+        email
+        password
+        phone_number
+        image_name
+        image_src
+        birthOfDate
+        create_at
+        update_at
+        status
+      }
+      approveOrRejectBy {
+        _id
+        first_name
+        last_name
+        gender
+        email
+        password
+        phone_number
+        image_name
+        image_src
+        birthOfDate
+        create_at
+        update_at
+        status
+      }
+      qualityCheck {
+        _id
+        first_name
+        last_name
+        gender
+        email
+        password
+        phone_number
+        image_name
+        image_src
+        birthOfDate
+        create_at
+        update_at
+        status
+      }
+      status
+      priority
+      progress
+      production {
+        productId {
           _id
-          productionsId
-          startDate
-          dueDate
-          workOrders
-          customerId {
+          productName
+          productId
+          category {
             _id
-            cusId
-            name
-            phoneNumber
+            categoryName
+            remark
           }
-          productionsBy {
-            _id
-            first_name
-            last_name
-            gender
-            email
-          }
-          approveOrRejectBy {
-            _id
-            first_name
-            last_name
-            gender
-          }
-          qualityCheck {
-            _id
-            first_name
-            last_name
-            gender
-          }
-          status
-          priority
-          progress
-          production {
-            productId {
-              _id
-              productName
-              productId
-              category {
-                _id
-                categoryName
-              }
-              unit
-              completedUnit
-              unitPrice
-              durationProduce
-              totalStockAmount
-              totalSoldAmount
-              remark
-            }
-            productName
-            qtyOnHand
-          }
-          qty
-          completedQtyUM
-          completedQtyVM
-          completedRemark
-          storageRoomId {
-            _id
-            name
-            address
-            type
-          }
-          comment
+          unit
+          completedUnit
+          unitPrice
+          durationProduce
+          totalStockAmount
+          totalSoldAmount
           remark
-          warning
-          remarkWarning
           updatedAt
           createdAt
-        }     
         }
+        productName
+        qtyOnHand
+      }
+      qty
+      completedQtyUM {
+        productGroupId {
+          _id
+          name
+          quantityPerStockUM
+          groupBy {
+            _id
+            productName
+            productId
+            unit
+            completedUnit
+            unitPrice
+            durationProduce
+          }
+          updatedAt
+        }
+        qtyOfUM      
+      }
+      completedRemark
+      storageRoomId {
+        _id
+        name
+        address
+        type
+        remark
+        updatedAt
+      }
+      comment
+      remark
+      warning
+      remarkWarning
+      updatedAt
+      createdAt
     }
+  }
+}
 `
 
 export const GET_PRODUCTION_WITH_PAGINATION =  gql`
@@ -108,10 +157,6 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
         image_name
         image_src
         birthOfDate
-        role_and_permission {
-          _id
-          role
-        }
         create_at
         update_at
         status
@@ -127,10 +172,6 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
         image_name
         image_src
         birthOfDate
-        role_and_permission {
-          _id
-          role
-        }
         create_at
         update_at
         status
@@ -146,10 +187,6 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
         image_name
         image_src
         birthOfDate
-        role_and_permission {
-          _id
-          role
-        }
         create_at
         update_at
         status
@@ -166,8 +203,6 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
             _id
             categoryName
             remark
-            updatedAt
-            createdAt
           }
           unit
           completedUnit
@@ -183,6 +218,7 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
               category {
                 _id
                 categoryName
+                remark
               }
               totalStockAmount
               usedStockAmount
@@ -204,8 +240,35 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
         qtyOnHand
       }
       qty
-      completedQtyUM
-      completedQtyVM
+      completedQtyUM {
+        productGroupId {
+          _id
+          name
+          quantityPerStockUM
+          groupBy {
+            _id
+            productName
+            productId
+            category {
+              _id
+              categoryName
+              remark
+            }
+            unit
+            completedUnit
+            unitPrice
+            durationProduce
+            totalStockAmount
+            totalSoldAmount
+          }
+          updatedAt
+          createdAt
+        }
+        qtyOfUM
+        unitQtyGroup
+        label
+        key
+      }
       completedRemark
       storageRoomId {
         _id
@@ -213,8 +276,6 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
         address
         type
         remark
-        updatedAt
-        createdAt
       }
       comment
       remark
@@ -240,46 +301,81 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
 `
 
 export const UPDATE_PRODUCTION = gql`
-  mutation UpdateProductions($id: ID!, $productionsEdit: ProductionsInput) {
-    updateProductions(_id: $id, ProductionsEdit: $productionsEdit) {
-      success
-      message
-      data {
+mutation UpdateProductions($id: ID!, $productionsEdit: ProductionsInput) {
+  updateProductions(_id: $id, ProductionsEdit: $productionsEdit) {
+    success
+    message
+    data {
+      _id
+      productionsId
+      startDate
+      dueDate
+      workOrders
+      customerId {
         _id
-        productionsId
-        startDate
-        dueDate
-        workOrders
-        customerId {
+        cusId
+        name
+        phoneNumber
+        email
+        address
+      }
+      productionsBy {
+        _id
+        first_name
+        last_name
+        gender
+      }
+      approveOrRejectBy {
+        _id
+        first_name
+        last_name
+        gender
+      }
+      qualityCheck {
+        _id
+        first_name
+        last_name
+        gender
+      }
+      status
+      priority
+      progress
+      production {
+        productId {
+          productName
+          productId
           _id
-          cusId
+          category {
+            _id
+            categoryName
+          }
+          unit
+          completedUnit
+          unitPrice
+          durationProduce
+          totalStockAmount
+          totalSoldAmount
+          ingredients {
+            rawName
+            rawMaterialId {
+              materialName
+              _id
+            }
+            amount
+            key
+            unitRawMaterial
+          }
+        }
+        productName
+        qtyOnHand
+      }
+      qty
+      completedQtyUM {
+        productGroupId {
+          _id
           name
-          phoneNumber
-        }
-        productionsBy {
-          _id
-          first_name
-          last_name
-          gender
-          email
-        }
-        approveOrRejectBy {
-          _id
-          first_name
-          last_name
-          gender
-        }
-        qualityCheck {
-          _id
-          first_name
-          last_name
-          gender
-        }
-        status
-        priority
-        progress
-        production {
-          productId {
+          quantityPerStockUM
+          groupBy {
             _id
             productName
             productId
@@ -290,33 +386,33 @@ export const UPDATE_PRODUCTION = gql`
             unit
             completedUnit
             unitPrice
-            durationProduce
-            totalStockAmount
-            totalSoldAmount
-            remark
           }
-          productName
-          qtyOnHand
+          updatedAt
+          createdAt
         }
-        qty
-        completedQtyUM
-        completedQtyVM
-        completedRemark
-        storageRoomId {
-          _id
-          name
-          address
-          type
-        }
-        comment
+        qtyOfUM
+        label
+        key
+        unitQtyGroup
+      }
+      completedRemark
+      storageRoomId {
+        _id
+        name
+        address
+        type
         remark
-        warning
-        remarkWarning
         updatedAt
-        createdAt
-      } 
+      }
+      comment
+      remark
+      warning
+      remarkWarning
+      updatedAt
+      createdAt
     }
   }
+}
 `
 
 export const DELETE_PRODUCTION = gql`

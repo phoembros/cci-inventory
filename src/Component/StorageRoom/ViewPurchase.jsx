@@ -72,7 +72,7 @@ export default function ViewProduct({
         })
     }
 
-    console.log(PurchaseData)
+    // console.log(PurchaseData)
 
 return (
 

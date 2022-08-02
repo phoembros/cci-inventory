@@ -20,7 +20,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 export default function ViewSale({handleCloseView, open , RowData}) {
   //format date
   const formatDate = Moment(RowData?.date).format('DD-MM-YYYY')
-    // console.log(RowData?.remark, 'view')
+  // console.log(RowData, 'view')
 
   return (
 
@@ -28,7 +28,7 @@ export default function ViewSale({handleCloseView, open , RowData}) {
         <DialogTitle id="alert-dialog-title">
               <Stack direction="row" spacing={5}>        
                   <Typography className='header-title' variant="h6" >
-                      Sales Details: CCI{Moment(RowData?.createdAt).format("YYYY")}-{RowData?.invoiceNo?.padStart(4, '0')}
+                      Sales Details: {RowData?.invoiceNo}
                   </Typography>
                   <Box sx={{flexGrow:1}}></Box>
                   <IconButton onClick={() => handleCloseView()}>
@@ -80,13 +80,13 @@ export default function ViewSale({handleCloseView, open , RowData}) {
                       <TableHead >
                         <TableRow className="header-row">
                             <TableCell className="header-title" width="30%">
-                              Product
+                              Product Name
                             </TableCell>
                             <TableCell className="header-title" align="center" width="20%">
-                              Qty
+                              Quantity
                             </TableCell>
                             <TableCell className="header-title" align="center" width="20%">
-                              Rate
+                              Unit Price
                             </TableCell>
                             <TableCell className="header-title" align="center" width="20%">
                               Amount
@@ -98,10 +98,10 @@ export default function ViewSale({handleCloseView, open , RowData}) {
                     {RowData?.items?.map((row, index)=>(         
                       <TableBody key={index} component={Paper} className="body" >                        
                         <TableRow  className="body-row">                                
-                            <TableCell className="body-title" component="th" scope="row">{row?.productId?.productName}</TableCell>
+                            <TableCell className="body-title" component="th" scope="row">{row?.productId?.name}</TableCell>
                             <TableCell className="body-title"  align="center" width="20%">{row?.qty}</TableCell>  
-                            <TableCell className="body-title"  align="center" width="20%" >{row?.productId?.unitPrice}</TableCell>
-                            <TableCell className="body-title"  align="center" width="20%">{row?.amount?.toFixed(2)}</TableCell> 
+                            <TableCell className="body-title"  align="center" width="20%" >${row?.productId?.unitPrice}</TableCell>
+                            <TableCell className="body-title"  align="center" width="20%">${row?.amount?.toFixed(2)}</TableCell> 
                             <TableCell className="body-title" ></TableCell>
                             <TableCell className="body-title" ></TableCell>                                                      
                         </TableRow>

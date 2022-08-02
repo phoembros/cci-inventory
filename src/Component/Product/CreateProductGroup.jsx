@@ -7,7 +7,7 @@ import { FormControl, Icon, IconButton, InputAdornment, InputLabel, MenuItem, Pa
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import * as Yup from "yup";
 import { useFormik, Form, FormikProvider } from "formik";
-import { CREATE_PRODUCT_GROUP , UPDATE_PRODUCT_CATEGORY } from "../../Schema/product";
+import { CREATE_PRODUCT_GROUP , UPDATE_PRODUCT_GROUP } from "../../Schema/product";
 import { useMutation } from '@apollo/client';
 
 import Dialog from '@mui/material/Dialog';
@@ -18,7 +18,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useLocation } from 'react-router-dom';
 
 
-export default function CreateProductGroup({
+export default function ModalProductGroup({
     handleClose,
     open,
     btnTitle,
@@ -28,6 +28,7 @@ export default function CreateProductGroup({
     setCheckMessage,
     setRefetch,
     checkStatus,
+    productUnit,
 }) {
 
     //get Storage Room ID by Url 
@@ -48,7 +49,8 @@ export default function CreateProductGroup({
                 setMessage(createProductGroup?.message)
                 setAlert(true);
                 handleClose();
-                // setRefetch();
+                setRefetch();
+                resetForm();
             } 
         },
         onError: (error) => {            
@@ -59,18 +61,19 @@ export default function CreateProductGroup({
 
     });
 
-    const [updateProductCategory] = useMutation(UPDATE_PRODUCT_CATEGORY , {
-        onCompleted: ({updateProductCategory}) => {         
-            // console.log(updateProductCategory) 
-            if(updateProductCategory?.success){
+    const [updateProductGroup] = useMutation(UPDATE_PRODUCT_GROUP , {
+        onCompleted: ({updateProductGroup}) => {         
+            // console.log(updateProductGroup) 
+            if(updateProductGroup?.success){
                 setCheckMessage("success")
-                setMessage(updateProductCategory?.message)
+                setMessage(updateProductGroup?.message)
                 setAlert(true);
                 handleClose();
                 setRefetch();
+                resetForm();
             } else {
                 setCheckMessage("error")
-                setMessage(updateProductCategory?.message)
+                setMessage(updateProductGroup?.message)
                 setAlert(true);
             } 
 
@@ -89,6 +92,7 @@ export default function CreateProductGroup({
     const CreateCategory = Yup.object().shape({
         name: Yup.string().required("Name is required!"),
         quantityPerStockUM: Yup.number(),
+        unitPrice: Yup.number().required("Unit Price is required!"),
         groupBy: Yup.string(),
     });
     
@@ -96,6 +100,7 @@ export default function CreateProductGroup({
         initialValues: {
             name: "",
             quantityPerStockUM: 0,
+            unitPrice: 0,
             groupBy: productId,
         },
     
@@ -103,28 +108,26 @@ export default function CreateProductGroup({
         onSubmit: async (values, { setSubmitting, resetForm }) => {        
             console.log(values)
 
-            // if(checkStatus === "create") {
-            //     createProductGroup({
-            //         variables: {
-            //             newProductGroup: {
-            //                 ...values,
-            //             }
-            //         }
-            //     })
-            // }            
+            if(checkStatus === "create") {
+                createProductGroup({
+                    variables: {
+                        newProductGroup: {
+                            ...values,
+                        }
+                    }
+                })
+            }            
 
-            // if(checkStatus === "update") {
-            //     updateProductCategory({
-            //         variables: {
-            //             id: editData?._id,
-            //             productCategoryEdit: {
-            //                 ...values,
-            //             }
-            //         }
-            //     })
-            // }
-
-            resetForm();
+            if(checkStatus === "update") {
+                updateProductGroup({
+                    variables: {
+                        id: editData?._id,
+                        productGroupEdit: {
+                            ...values,
+                        }
+                    }
+                })
+            }            
             
         },
 
@@ -135,6 +138,7 @@ export default function CreateProductGroup({
     React.useEffect( () => {
         if(editData){
             setFieldValue("name", editData?.name);
+            setFieldValue("unitPrice", editData?.unitPrice);
             setFieldValue("quantityPerStockUM" , editData?.quantityPerStockUM);
         }        
     },[editData])
@@ -194,12 +198,35 @@ export default function CreateProductGroup({
                                         InputProps={{                                  
                                             endAdornment: (
                                                 <InputAdornment position="end">                                             
-                                                    Liter                                         
+                                                    {productUnit}                                         
                                                 </InputAdornment>
                                             ),                                                                                           
                                         }}
                                     />            
                                 </Stack>
+
+                                <Stack direction="column" spacing={1} sx={{mt:2}}>
+                                    <Typography className='header-title'>
+                                        Unit Price
+                                    </Typography>
+                                    <TextField 
+                                        size='small' 
+                                        type="number"
+                                        fullWidth                                      
+                                        {...getFieldProps("unitPrice")}
+                                        error={Boolean(touched.unitPrice && errors.unitPrice)}
+                                        helperText={touched.unitPrice && errors.unitPrice}
+                                        InputProps={{                                  
+                                            startAdornment: (
+                                                <InputAdornment position="start">                                             
+                                                    $                                         
+                                                </InputAdornment>
+                                            ),   
+                                            inputProps: { min: 1 },                                                                                        
+                                        }}
+                                    />            
+                                </Stack>
+
                                 <Stack direction="column" spacing={1} sx={{mt:2}}>           
                                     <Button className="btn-update"  sx={{boxShadow: "none"}} type="submit" variant="contained">{btnTitle}</Button>
                                 </Stack>               

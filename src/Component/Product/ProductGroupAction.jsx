@@ -12,6 +12,8 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import ModalDeleteCategory from './ModalDeleteCategory';
 import CreateCategory from './CreateCategory';
+import CreateProductGroup from './CreateProductGroup';
+import ModalDeleteProductGroup from './ModalDeleteProductGroup';
 
 export default function ProductGroupAction({
     dataUserLogin,
@@ -20,6 +22,7 @@ export default function ProductGroupAction({
     setCheckMessage,
     setRefetch,
     editData,
+    productUnit,
 }) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -62,6 +65,16 @@ export default function ProductGroupAction({
                         <Typography>Edit</Typography>
                     </Stack> 
                 </MenuItem> 
+
+                <MenuItem  onClick={()=> {
+                    handleClose();
+                    handleOpenDelete();
+                }}>
+                    <Stack direction="row" spacing={1}>
+                        <DeleteIcon sx={{color:"red"}}/>
+                        <Typography>Delete</Typography>
+                    </Stack>    
+                </MenuItem>
             
 
             
@@ -70,7 +83,7 @@ export default function ProductGroupAction({
 
         
         {/* <Modal open={openEdit} > */}
-            <CreateCategory 
+            <CreateProductGroup 
                 handleClose={handleCloseEdit} 
                 open={openEdit}
                 btnTitle={"Update"} 
@@ -80,12 +93,13 @@ export default function ProductGroupAction({
                 setCheckMessage={setCheckMessage}    
                 setRefetch={setRefetch}
                 checkStatus={"update"} 
+                productUnit={productUnit}
             />
         {/* </Modal> */}
 
     
         {/* <Modal open={openDelete} > */}
-            <ModalDeleteCategory 
+            <ModalDeleteProductGroup 
                 editData={editData}
                 open={openDelete}
                 handleClose={handleCloseDelete} 
