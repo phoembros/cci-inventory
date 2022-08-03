@@ -214,7 +214,7 @@ export default function UpdateProduct({
         productName: Yup.string().required("Product's Name is required!"),
         productId: Yup.string().required("Product's ID is required!"),
         remark: Yup.string(),  
-        unitPrice: Yup.number().min(0.01 , "Unit Price can't under 0"),     
+        unitPrice: Yup.number(),     
         unit: Yup.string().required("Unit is required!"),  
         completedUnit : Yup.string(),
         durationProduce: Yup.number(),
