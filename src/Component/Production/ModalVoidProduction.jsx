@@ -36,6 +36,7 @@ export default function ModalVoidProduction({
                 setAlert(true);
                 handleClose();
                 setRefetch();
+                setLoading(false);
             } else {
                 setLoading(false)
                 setCheckMessage("error")

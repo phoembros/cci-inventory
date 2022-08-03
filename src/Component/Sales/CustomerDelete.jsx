@@ -23,7 +23,8 @@ function CustomerDelete({
     setCheckMessage,
 }) {
     
-       
+    const [loading,setLoading] = React.useState(false);
+    
     const [valueDel, setValueDel] = React.useState("");
 
     const [deleteCustomer] = useMutation(DELETE_SETUP_CUSTOMER, {

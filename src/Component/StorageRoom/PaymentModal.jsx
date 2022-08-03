@@ -40,8 +40,8 @@ export default function PaymentModal({
                 setCheckMessage('success')
                 setMessage(updatePurchaseRawMaterial?.message);
                 setAlert(true);
-                handleClose();
-                setRefetch();
+                handleClose();                
+                setLoading(false)
             } else {
                 setLoading(false)
                 setCheckMessage('error')        

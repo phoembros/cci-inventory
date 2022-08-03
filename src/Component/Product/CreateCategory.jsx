@@ -39,8 +39,13 @@ export default function CreateCategory({
                 setAlert(true);
                 handleClose();
                 setRefetch();
+                resetForm();
+                setLoading(false);
             } else {
                 setLoading(false);
+                setCheckMessage("error")
+                setMessage(createProductCategory?.message)
+                setAlert(true);
             }
         },
         onError: (error) => {    
@@ -61,6 +66,7 @@ export default function CreateCategory({
                 setAlert(true);
                 handleClose();
                 setRefetch();
+                setLoading(false)
             } else {
                 setLoading(false)
                 setCheckMessage("error")
@@ -118,7 +124,6 @@ export default function CreateCategory({
                 })
             }
 
-            resetForm();
             
         },
 

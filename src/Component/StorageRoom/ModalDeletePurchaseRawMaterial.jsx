@@ -57,6 +57,7 @@ export default function ModalDeletePurchaseRawMaterial({
                 setAlert(true)
                 setRefetch();
                 handleClose()
+                setLoading(false)
             } else {
                 setLoading(false);
                 setCheckMessage('error')

@@ -61,6 +61,7 @@ export default function PurchaseRawMaterialUpdate({
         setAlert(true);
         handleClose();
         setRefetch();
+        setLoading(false);
 
         var ListRawMaterils = "";
         updatePurchaseRawMaterial?.data?.productsItems?.map( i => (
@@ -71,7 +72,7 @@ export default function PurchaseRawMaterialUpdate({
 
 
       } else {
-        setLoading(false)
+        setLoading(false);
         setCheckMessage('error')        
         setMessage("Material & Supplier invalid value!");
         setAlert(true)

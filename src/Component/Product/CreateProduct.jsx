@@ -49,6 +49,7 @@ export default function CreateProduct({
                 setRefetch();
                 setItem([{ rawName: 'Material Name' , rawMaterialId: '' , amount: 1 , unitRawMaterial: "" ,  key: Date.now()}]) 
                 resetForm();
+                setLoading(false)
             } else {
                 setLoading(false)
                 setCheckMessage("error")

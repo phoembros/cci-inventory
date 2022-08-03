@@ -176,6 +176,7 @@ export default function ModalQualityCheck({
                 setAlert(true);
                 handleClose();
                 setRefetch();
+                setLoading(false);
             } else {
                 setLoading(false)
                 setCheckMessage("error")

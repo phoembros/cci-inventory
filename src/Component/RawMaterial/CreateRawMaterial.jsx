@@ -82,7 +82,7 @@ export default function CreateRawMaterials({
           handleClose();
           setRefetch();
           resetForm();
-
+          setLoading(false);
       } else {
           setLoading(false);
           setCheckMessage("error");
@@ -106,7 +106,7 @@ export default function CreateRawMaterials({
           handleClose();
           setRefetch();
           resetForm();
-
+          setLoading(false);
         } else {
           setLoading(false);
           setCheckMessage("error");

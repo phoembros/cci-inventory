@@ -283,7 +283,7 @@ export default function PurchaseRawMaterial({
           setAlert(true);
           handleClose();
           setRefetch();
-
+          setLoading(false)
           setItem([{ rawName: "Material Name" , rawMaterialId: "", newQty: 1 , unitPrice : 0.01 , suppliersName: '' , suppliersId: '' , key: Date.now() }])
           resetForm();
           // console.log(createPurchaseRawMaterial?.data)

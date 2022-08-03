@@ -41,6 +41,7 @@ export default function ModalCheckPurchase({
                 setAlert(true);
                 handleClose();
                 setRefetch();
+                setLoading(false)
             } else {
                 setLoading(false)
                 setCheckMessage('error')

@@ -36,8 +36,12 @@ export default function ModalDeleteCategoryMaterial({
                 setAlert(true);
                 handleClose();
                 setRefetch()
+                setLoading(false);
             } else {
-                setLoading(false)
+                setLoading(false);
+                setCheckMessage("error")
+                setMessage(deleteRawMaterialCategory?.message)
+                setAlert(true);
             }
         },
         onError: (error) => { 

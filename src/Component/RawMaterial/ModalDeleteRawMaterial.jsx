@@ -34,7 +34,8 @@ export default function ModalDeleteRawMaterial({
             setMessage(deleteRawMaterial?.message)
             setAlert(true)
             handleClose();
-            setRefetch()
+            setRefetch();
+            setLoading(false);
           } else {
             setLoading(false)
             setCheckMessage('error')

@@ -33,6 +33,7 @@ export default function ModalDeleteStorageRoom({
                 setMessage(deleteStorageRoom?.message)
                 setAlert(true)
                 setRefetch();
+                setLoading(false)
                 handleClose()
               } else {
                 setLoading(false)

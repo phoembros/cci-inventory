@@ -52,6 +52,7 @@ export default function ModalProductGroup({
                 handleClose();
                 setRefetch();
                 resetForm();
+                setLoading(false)
             } else {
                 setLoading(false)
                 setCheckMessage("error")
@@ -78,6 +79,7 @@ export default function ModalProductGroup({
                 handleClose();
                 setRefetch();
                 resetForm();
+                setLoading(false)
             } else {
                 setLoading(false)
                 setCheckMessage("error")

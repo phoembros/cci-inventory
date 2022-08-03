@@ -33,8 +33,12 @@ export default function ModalDeleteProductGroup({
                 setAlert(true);
                 handleClose();
                 setRefetch();
+                setLoading(false)
             }  else {
                 setLoading(false);
+                setCheckMessage("error")
+                setMessage(deleteProductGroup?.message);
+                setAlert(true);
             }
         },
         onError: (error) => {   

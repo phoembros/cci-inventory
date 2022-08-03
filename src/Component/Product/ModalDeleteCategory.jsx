@@ -33,6 +33,7 @@ export default function ModalDeleteCategory({
                 setAlert(true);
                 handleClose();
                 setRefetch();
+                setLoading(false)
             } else {
                 setLoading(false)
             }

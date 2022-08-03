@@ -39,7 +39,9 @@ export default function CreateCategoryMaterial({
                 setMessage(createRawMaterialCategory?.message)
                 setAlert(true);
                 handleClose();
-                setRefetch()
+                setRefetch();
+                setLoading(false);
+                resetForm();
             } else {
                 setLoading(false);
                 setCheckMessage("error")
@@ -65,7 +67,9 @@ export default function CreateCategoryMaterial({
                 setMessage(updateRawMaterialCategory?.message)
                 setAlert(true);
                 handleClose();
-                setRefetch()
+                setRefetch();
+                setLoading(false);
+                resetForm();
             } else {
                 setLoading(false);
                 setCheckMessage("error")
@@ -120,8 +124,7 @@ export default function CreateCategoryMaterial({
                     }                    
                 })
             }
-
-            resetForm();
+            
         },
 
     });  

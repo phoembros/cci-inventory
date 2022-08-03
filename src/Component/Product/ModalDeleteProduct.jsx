@@ -34,6 +34,7 @@ export default function ModalDeleteProduct({
                 setAlert(true);
                 handleClose();
                 setRefetch();
+                setLoading(false)
             } else {
                 setLoading(false)
             }

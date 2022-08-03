@@ -62,7 +62,9 @@ export default function ModalCreateStorageRoom({
         setMessage(createStorageRoom?.message)
         setAlert(true)
         handleClose()
-        setRefetch();        
+        setRefetch(); 
+        resetForm();    
+        setLoading(false)   
       } else {
         setLoading(false)
         setCheckMessage('error')
@@ -102,7 +104,8 @@ export default function ModalCreateStorageRoom({
         setCheckMessage('success')
         setMessage(updateStorageRoom?.message)
         handleClose()
-        setRefetch()
+        setRefetch()       
+        setLoading(false)
       } else {
         setLoading(false)        
         setCheckMessage('error')
@@ -128,10 +131,10 @@ export default function ModalCreateStorageRoom({
 
   const formik = useFormik({
     initialValues: {
-      remark: row?.remark,
-      name: row?.name,
-      address: row?.address,
-      type: row?.type,
+      remark: " ",
+      name: "",
+      address: "",
+      type: "",
     },
 
     validationSchema: CreateStorage,
@@ -164,13 +167,21 @@ export default function ModalCreateStorageRoom({
         })
       }
 
-      resetForm();
+     
 
       
     },
   });
   const { errors, touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm,} = formik;
   // End Formik
+
+  React.useEffect( () => {
+    setFieldValue("remark" , row?.remark)
+    setFieldValue("name" , row?.name)
+    setFieldValue("address" , row?.address )
+    setFieldValue("type" , row?.type )
+    console.log(row?.remark)
+  },[])
 
   return (
     <>
@@ -281,7 +292,9 @@ export default function ModalCreateStorageRoom({
                           size="small"
                           fullWidth
                           placeholder="remark"
-                          {...getFieldProps("remark")}                          
+                          {...getFieldProps("remark")}    
+                          error={Boolean(touched.remark && errors.remark)}
+                          helperText={touched.remark && errors.remark}                      
                         />
                       </Stack>
 
