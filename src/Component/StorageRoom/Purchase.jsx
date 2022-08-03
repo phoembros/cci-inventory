@@ -47,7 +47,7 @@ export default function ProductCategories() {
     }, [location.search]);
     // End get Id Storage Room
 
-
+    
     // Alert Message
     const [alert,setAlert] = React.useState(false);
     const [message,setMessage] = React.useState("");

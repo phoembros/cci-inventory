@@ -24,6 +24,9 @@ export default function EditCustomer({
   setMessage,
   setCheckMessage,
 }) {
+
+  const [loading,setLoading] = React.useState(false);
+
   // console.log(DataCustomer, 'da')
   const [updateCustomer] = useMutation(UPDATE_SETUP_CUSTOMER, {
     onCompleted: ({ updateCustomer }) => {
@@ -34,7 +37,9 @@ export default function EditCustomer({
         setAlert(true)
         setRefetch()
         handleClose()
+        setLoading(false)
     } else {
+        setLoading(false)
         setCheckMessage('error')
         setMessage(updateCustomer?.message)
         setAlert(true)
@@ -42,8 +47,12 @@ export default function EditCustomer({
       
     },
     onError: (error) => {
-      console.log(error?.message, "error");
+      setLoading(false)    
+      setCheckMessage('error')
+      setMessage(error?.message)
+      setAlert(true)
     },
+
   });
   const SetupAdd = Yup.object().shape({
     cusId: Yup.string().required("Customer ID is required!"),
@@ -65,6 +74,8 @@ export default function EditCustomer({
     validationSchema: SetupAdd,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       // console.log(values, 'test')
+      setLoading(true)
+
       updateCustomer({
         variables: {
           id: DataCustomer?._id,
@@ -182,9 +193,16 @@ export default function EditCustomer({
                       </Grid>
 
                       <Stack direction="row" spacing={2}>
-                        <Button className="btn-update" sx={{boxShadow: "none"}} variant="contained" fullWidth type="submit">
-                          Update
-                        </Button>
+                        {
+                          loading ?
+                            <Button className="btn-update" sx={{boxShadow: "none"}} variant="contained" fullWidth >
+                              Loading...
+                            </Button>
+                        :
+                            <Button className="btn-update" sx={{boxShadow: "none"}} variant="contained" fullWidth type="submit">
+                              Update
+                            </Button>
+                        }
                       </Stack>
                     </Stack>
                   

@@ -196,7 +196,10 @@ export default function ProductDetails() {
                                     </TableCell>  
                                     <TableCell className="header-title">
                                         Unit Price
-                                    </TableCell>                                    
+                                    </TableCell>    
+                                    <TableCell className="header-title">
+                                        Qty On Hand
+                                    </TableCell>                                 
                                     <TableCell className="header-title" align="right">
                                         Action
                                     </TableCell>
@@ -219,7 +222,10 @@ export default function ProductDetails() {
                                         </TableCell>  
                                         <TableCell className="body-title">
                                             <Typography variant="body1">${row?.unitPrice}</Typography>
-                                        </TableCell>                                      
+                                        </TableCell>     
+                                        <TableCell className="body-title">
+                                            <Typography variant="body1">{row?.totalStockAmount-row?.totalSold} - U/M</Typography>
+                                        </TableCell>                                 
                                         <TableCell className="body-title" align="right">
                                             <ProductGroupAction 
                                                 setAlert={setAlert}

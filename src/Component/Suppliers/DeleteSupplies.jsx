@@ -22,7 +22,9 @@ function DeleteSupplies({
     open,
 }) {
     
-  const [valueVoid, setValueVoid] = React.useState("");
+    const [loading,setLoading] = React.useState(false);
+
+    const [valueVoid, setValueVoid] = React.useState("");
 
     // console.log(newData?._id, 'data')
 
@@ -30,12 +32,14 @@ function DeleteSupplies({
         onCompleted:({deleteSupplier})=>{
             // console.log(deleteSupplier?.message)
            if(deleteSupplier?.success){
-                setAlert(true)
-                setCheckMessage('success')
-                setMessage(deleteSupplier?.message)
-                handleCloseDel()
+                setAlert(true);
+                setCheckMessage('success');
+                setMessage(deleteSupplier?.message);
+                handleCloseDel();
                 setRefetch();
+                setLoading(false);
            } else {
+                setLoading(false);
                 setAlert(true)
                 setCheckMessage('error')
                 setMessage(deleteSupplier?.message)
@@ -43,15 +47,18 @@ function DeleteSupplies({
 
         }, 
         onError:(error) =>{
-            console.log(error.message)
-            setAlert(true)
+            // console.log(error.message)
+            setLoading(false);
+            setAlert(true);
             setCheckMessage('error')
             setMessage(error.message)
         }
     })
 
     const handleDelete = () =>{
-        deleteSupplier({
+        setLoading(true);
+
+        deleteSupplier( {
             variables:{
                 id:newData?._id, 
             }
@@ -98,7 +105,11 @@ function DeleteSupplies({
                         
                         <Stack direction="row" spacing={5}>       
                             { valueVoid === "SUPPLIES" ?
-                                <Button sx={{":hover":{ backgroundColor:"red", border:"none"}}}  className="btn-void" variant="outlined" fullWidth onClick={handleDelete} > delete now </Button> 
+                                
+                                loading ?
+                                    <Button sx={{":hover":{ backgroundColor:"red", border:"none"}}}  className="btn-void" variant="outlined" fullWidth > Loading... </Button> 
+                                :
+                                    <Button sx={{":hover":{ backgroundColor:"red", border:"none"}}}  className="btn-void" variant="outlined" fullWidth onClick={handleDelete} > delete now </Button> 
                             :
                                 <Button variant="outlined" fullWidth > delete </Button>
                             }         

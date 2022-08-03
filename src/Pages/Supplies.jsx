@@ -191,8 +191,8 @@ export default function Supplies() {
                           <Stack direction="column" justifyContent="center">
                             <Pagination
                               page={pageShow}
-                              hideNextButton="true"
-                              hidePrevButton="true"
+                              hideNextButton={true}
+                              hidePrevButton={true}
                               variant="outlined"
                               color="primary"
                               count={data?.getSuppliersPagination?.paginator?.totalPages}

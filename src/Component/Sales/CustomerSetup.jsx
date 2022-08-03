@@ -24,6 +24,8 @@ export default function CustomerSetup({
   setCheckMessage,
 }) {
 
+  const [loading,setLoading] = React.useState(false);
+
   //useMutation 
     const [createCustomer] = useMutation(CREATE_SET_UP_CUSTOMER, {
     onCompleted: ({ createCustomer }) => {
@@ -33,8 +35,11 @@ export default function CustomerSetup({
           setMessage(createCustomer?.message);
           setAlert(true);          
           setRefetch();
-          handleClose();
+          setLoading(false)
+          handleClose();          
+          resetForm();     
       } else {
+          setLoading(false)
           setCheckMessage('error')
           setMessage(createCustomer?.message);
           setAlert(true);
@@ -42,6 +47,7 @@ export default function CustomerSetup({
      
     },
     onError: ({ error }) => {
+        setLoading(false)
         setMessage(error?.message)
         setAlert(true)
     },
@@ -68,6 +74,8 @@ export default function CustomerSetup({
     validationSchema: SetupAdd,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
         // console.log(values, "value");
+        setLoading(true)
+
         createCustomer({
           variables: {
             newCustomer: {
@@ -76,8 +84,6 @@ export default function CustomerSetup({
           },
         });
 
-        resetForm();
-        handleClose();
     },
   });
 
@@ -113,7 +119,7 @@ export default function CustomerSetup({
                     <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
                                         
                         <Stack direction="column" spacing={2}>
-                          <Grid xs={12} md={12}>
+                          <Grid item xs={12} md={12}>
                             <Typography className="field">ID</Typography>
                             <TextField                               
                                 required
@@ -126,7 +132,7 @@ export default function CustomerSetup({
                             />
                           </Grid>
 
-                          <Grid xs={12} md={12}>
+                          <Grid item xs={12} md={12}>
                             <Typography className="field"> Name</Typography>
                             <TextField
                                 id="name"
@@ -140,7 +146,7 @@ export default function CustomerSetup({
                             />
                           </Grid>
 
-                          <Grid xs={12} md={12}>
+                          <Grid item xs={12} md={12}>
                             <Typography className="field"> Email</Typography>
                             <TextField
                                 id="email"
@@ -154,7 +160,7 @@ export default function CustomerSetup({
                             />
                           </Grid>
 
-                          <Grid xs={12} md={12}>
+                          <Grid item xs={12} md={12}>
                             <Typography className="field"> Phone Number</Typography>
                             <TextField
                                 id="phone"
@@ -168,7 +174,7 @@ export default function CustomerSetup({
                             />
                           </Grid>
 
-                          <Grid xs={12} md={12}>
+                          <Grid item xs={12} md={12}>
                             <Typography className="field"> Address</Typography>
                             <TextField
                                 id="address"
@@ -183,9 +189,16 @@ export default function CustomerSetup({
                           </Grid>
 
                           <Stack direction="row" spacing={2}>
-                            <Button className="btn-create" sx={{boxShadow: "none"}} variant="contained" fullWidth type="submit">
-                              Add
-                            </Button>
+                            {
+                              loading ?
+                                <Button className="btn-create" sx={{boxShadow: "none"}} variant="contained" fullWidth >
+                                  Loading...
+                                </Button>
+                            :
+                                <Button className="btn-create" sx={{boxShadow: "none"}} variant="contained" fullWidth type="submit">
+                                  Add
+                                </Button>
+                            }
                           </Stack>
                         </Stack>
                       

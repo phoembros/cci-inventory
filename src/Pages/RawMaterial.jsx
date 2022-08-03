@@ -200,9 +200,9 @@ export default function RawMaterial() {
                               <TableRow className="header-row">
                                   <TableCell className="header-title">Name</TableCell>
                                   <TableCell className="header-title">Category</TableCell>                            
-                                  <TableCell className="header-title">Unit Price</TableCell>
+                                  <TableCell className="header-title">Unit Price</TableCell>                                  
+                                  <TableCell className="header-title">Qty On Hand</TableCell>
                                   <TableCell className="header-title">Unit</TableCell>
-                                  {/* <TableCell className="header-title">Qty On Hand</TableCell> */}
                                   <TableCell className="header-title">Remark</TableCell>
                                   <TableCell className="header-title"> </TableCell>
                               </TableRow>
@@ -249,6 +249,15 @@ export default function RawMaterial() {
                               >
                                 ${row?.unitPrice}
                               </TableCell>
+                              
+                              <TableCell
+                                onClick={()=>{handleOpenView(); setDataRow(row)}}
+                                className="body-title"
+                                align="left"
+                                width="12%"
+                              >
+                                {row?.totalStockAmount-row?.usedStockAmount}       
+                              </TableCell>
                               <TableCell
                                 onClick={()=>{handleOpenView(); setDataRow(row)}}
                                 className="body-title"
@@ -257,14 +266,6 @@ export default function RawMaterial() {
                               >
                                 {row?.unit}
                               </TableCell>
-                              {/* <TableCell
-                                onClick={()=>{handleOpenView(); setDataRow(row)}}
-                                className="body-title"
-                                align="center"
-                                width="12%"
-                              >
-                                ----
-                              </TableCell> */}
                               <TableCell
                                 onClick={()=>{handleOpenView(); setDataRow(row)}}
                                 className="body-title"

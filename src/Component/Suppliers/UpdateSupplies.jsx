@@ -23,6 +23,8 @@ export default function UpdateSupplies({
     setCheckMessage
   }) {
   
+    const [loading,setLoading] = React.useState(false);
+
     // console.log(newData, 'list')
     const [updateSupplier] = useMutation(UPDATE_SUPPLIES,{
         onCompleted:({updateSupplier})=>{
@@ -31,8 +33,10 @@ export default function UpdateSupplies({
             setMessage(updateSupplier?.message)
             handleClose();
             setRefetch();
+            setLoading(false)
         }, 
         onError(error){
+            setLoading(false)
             setCheckMessage('error')
             setMessage(error?.message)
             setAlert(true)
@@ -56,7 +60,8 @@ export default function UpdateSupplies({
     
         validationSchema: SuppliesUpdate,
         onSubmit: async (values, { setSubmitting, resetForm }) => {
-         console.log(values)
+        //  console.log(values)
+            setLoading(true);
           updateSupplier({
             variables:{
               id: newData?._id,
@@ -144,9 +149,16 @@ export default function UpdateSupplies({
                               </Grid>
                               
                               <Stack direction='row' spacing={2}>
-                                  <Button className="btn-create" sx={{boxShadow: "none"}}  variant='contained' fullWidth type='submit'>
-                                      Update    
-                                  </Button>
+                                  {
+                                    loading ?
+                                        <Button className="btn-create" sx={{boxShadow: "none"}}  variant='contained' fullWidth >
+                                            Loading...    
+                                        </Button>
+                                    :
+                                        <Button className="btn-create" sx={{boxShadow: "none"}}  variant='contained' fullWidth type='submit'>
+                                            Update    
+                                        </Button>
+                                  }
                               </Stack>
                         </Stack>
                        

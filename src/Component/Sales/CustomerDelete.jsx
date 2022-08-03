@@ -37,7 +37,9 @@ function CustomerDelete({
                 setAlert(true)
                 setRefetch()
                 handleCloseDel();
+                setLoading(false)
             } else {
+                setLoading(false)
                 setCheckMessage('error')
                 setMessage(deleteCustomer?.message)
                 setAlert(true)
@@ -45,20 +47,22 @@ function CustomerDelete({
            
           },
           onError: ({ error }) => {
-            setMessage(error?.message)
-              setAlert(true)
+                setLoading(false)
+                setMessage(error?.message)
+                setAlert(true)
           },
     })
 
     const handleDelete = () =>{
-            deleteCustomer({
-                variables:{
-                    id:DataCustomer?._id, 
-                }
-            })
+        setLoading(true)
+        deleteCustomer({
+            variables:{
+                id:DataCustomer?._id, 
+            }
+        })
     }
-  return (
 
+  return (
 
     <Dialog open={open} className="dialog-delete-sale">
         <DialogTitle id="alert-dialog-title">
@@ -100,15 +104,26 @@ function CustomerDelete({
                 
                 <Stack direction="row" spacing={5}>       
                     { valueDel ===  DataCustomer?.name ?
-                        <Button
-                            onClick={handleDelete}
-                            className="btn-void" 
-                            sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
-                            variant="outlined" 
-                            fullWidth 
-                        >
-                            Delete now
-                        </Button> 
+                        
+                        loading ?
+                            <Button                            
+                                className="btn-void" 
+                                sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
+                                variant="outlined" 
+                                fullWidth 
+                            >
+                            Loading...
+                            </Button> 
+                        :
+                            <Button
+                                onClick={handleDelete}
+                                className="btn-void" 
+                                sx={{":hover":{ backgroundColor:"red", border:"none"}}} 
+                                variant="outlined" 
+                                fullWidth 
+                            >
+                                Delete now
+                            </Button> 
                     :
                         <Button variant="outlined" fullWidth> Delete</Button>
                     }        

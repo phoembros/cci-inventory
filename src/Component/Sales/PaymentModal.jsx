@@ -22,6 +22,8 @@ export default function PaymentModal({
     DataSale,
 }) {
 
+    const [loading,setLoading] = React.useState(false);
+
     // 
     const [paidAmount,setPaidAmount] = React.useState(0);
     const [checkStatus,setCheckStatus] = React.useState(DataSale?.status);
@@ -38,9 +40,16 @@ export default function PaymentModal({
                 setAlert(true);
                 handleClose();
                 setRefetch();
-            } 
+                setLoading(false);
+            } else {
+                setLoading(false);
+                setCheckMessage("error")
+                setMessage(updateSale?.message)
+                setAlert(true);
+            }
         },
-        onError: (error) => {            
+        onError: (error) => {      
+            setLoading(false);      
             setCheckMessage("error")
             setMessage(error.message);
             
@@ -67,6 +76,7 @@ export default function PaymentModal({
 
 
     const handleUpdatePayment = () => {
+        setLoading(true);
         updateSale({
             variables: {
                 id: DataSale?._id,
@@ -179,17 +189,32 @@ export default function PaymentModal({
 
                     {
                         pay === true ?
-                            <Button
-                                sx={{ mt: 2 ,boxShadow: "none"}}
-                                className="btn-create"
-                                size="large"
-                                type="submit"
-                                variant="contained"
-                                fullWidth
-                                onClick={handleUpdatePayment}
-                            >
-                                payment
-                            </Button>
+                            
+                            loading ?
+                                <Button
+                                    sx={{ mt: 2 ,boxShadow: "none"}}
+                                    className="btn-create"
+                                    size="large"
+                                    type="submit"
+                                    variant="contained"
+                                    fullWidth                                 
+                                >
+                                    Loading...
+                                </Button>
+                            :
+                                <Button
+                                    sx={{ mt: 2 ,boxShadow: "none"}}
+                                    className="btn-create"
+                                    size="large"
+                                    type="submit"
+                                    variant="contained"
+                                    fullWidth
+                                    onClick={handleUpdatePayment}
+                                >
+                                    payment
+                                </Button>
+
+
                         :
                             <Button
                                 disabled

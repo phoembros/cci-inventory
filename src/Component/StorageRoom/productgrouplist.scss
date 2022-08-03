@@ -1,0 +1,43 @@
+@import "../../themes.scss";
+
+.product-group-list {
+    width: 100%;
+
+
+    .table {
+        width: 100%;
+        display: table;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-collapse: separate;
+        border-spacing: 0px 0px;  
+
+
+        .header-row {            
+            .header-title {
+                padding: 10px;
+                border: none;
+                font-size: $font-Size-Subtitle;
+
+                .title {
+                    font-weight: bold;
+                }
+                
+            }
+        }
+
+        .body-row {            
+            .body-title {
+                padding: 10px;
+                border: none;
+                font-size: $font-Size-Subtitle;
+
+                .title {
+                    padding-left: 8px ;
+                }
+                
+            }
+        }
+    }
+
+}

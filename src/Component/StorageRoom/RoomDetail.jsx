@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Box ,Paper, Button,Stack , IconButton,Typography, TextField, InputAdornment, Modal,} from "@mui/material";
+import { Box ,Paper, Button,Stack , IconButton,Typography, TextField, InputAdornment, Modal, Accordion, AccordionSummary, AccordionDetails,} from "@mui/material";
 import {Table,  TableBody,TableCell, TableContainer, TableHead , TableRow} from '@mui/material';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from '@mui/icons-material/Add';
-import './purchase.scss';
+import './roomdetail.scss';
 import { Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@mui/icons-material/Search';
@@ -18,6 +18,8 @@ import ViewRoomDetail from "./ViewRoomDetail";
 import { GET_USER_LOGIN } from "../../Schema/user";
 import PermissionContent from "../Permission/PermissionContent";
 import DescriptionIcon from '@mui/icons-material/Description';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ProductGroupList from "./ProductGroupList";
 
 export default function RoomDetail() {
 
@@ -56,7 +58,7 @@ export default function RoomDetail() {
 
     
     return(
-        <div className="purchases-page">
+        <div className="room-detail-page">
             <Stack direction="row" spacing={2}>
                 <Box className="slash" />
 
@@ -67,48 +69,14 @@ export default function RoomDetail() {
                         </Link>
                         <Typography className="color">/ {roomName}</Typography>
                     </Stack>                  
-                </Stack>
-                
+                </Stack>                                
                 <Stack direction="column" justifyContent="center" className="page-titles-mobile">
                     <Stack direction="row" spacing={1}>                       
                         <Typography className="color">{roomName}</Typography>
                     </Stack>                         
                 </Stack>
-
                 <Box sx={{flexGrow: 1}} />
-                <Stack direction="row" className="btn"  justifyContent="right" spacing={1}>  
-                     {/* <Box className="btn-text-field" >                       
-                        <TextField 
-                            className="text-field"
-                            fullWidth
-                            id="input-with-sx" 
-                            placeholder="Search Dashboard"                           
-                            size="small"                           
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <SearchIcon />
-                                    </InputAdornment>
-                                ),
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton disableRipple={true} size="small">
-                                            <TuneIcon />
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </Box>  */}
-                </Stack>
-                 {/* <Stack direction="row" className="stack-btn"  justifyContent="right" spacing={1}>                       
-                    <Button onClick={handleOpen} startIcon={<AddIcon/>} className="btn-add">
-                        <Typography className="btn-text"> Purchase</Typography>
-                    </Button>
-                    <Modal open={open}>
-                        <PurchaseRawMaterial handleClose={handleClose} btnTitle={"Create"}/>
-                    </Modal>       
-                </Stack>  */}
+                
             </Stack>
 
             {
@@ -116,7 +84,7 @@ export default function RoomDetail() {
 
                     <>
                         <Box className="container">
-                            <TableContainer >
+                            {/* <TableContainer >
                                 <Table className="table" aria-label="simple table">
                                     <TableHead >
                                         <TableRow className="header-row">
@@ -163,10 +131,69 @@ export default function RoomDetail() {
                                 }
                                     
                                 </Table>
+                            </TableContainer> */}
+
+                            <TableContainer >
+                                <Table className="table" aria-label="simple table">
+                                    
+                                {
+                                    data?.getProductByStorageRoomId?.length !== 0 ?
+                                        <>
+                                            { data?.getProductByStorageRoomId?.map((row , index) => (
+                                                <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
+                                                    <TableRow  className="body-row">
+                                                        <TableCell className="body-title" component="th" scope="row" colSpan={7} rowSpan={5}>
+                                                            <Accordion className="accordion-style">
+
+                                                                <AccordionSummary
+                                                                    expandIcon={<ExpandMoreIcon />}
+                                                                    aria-controls="panel1a-content"
+                                                                    id="panel1a-header"
+                                                                >   
+                                                                    <Stack direction="row" spacing={4}>
+                                                                        <Typography>{index+1} -</Typography>
+                                                                        <Typography>{row?.productName}</Typography>                                                                        
+                                                                    </Stack>
+                                                                    
+                                                                </AccordionSummary>
+
+                                                                <AccordionDetails>
+                                                                    <Box sx={{pl:5 , pr:5}}>
+                                                                        <ProductGroupList productId={row?._id} />
+                                                                    </Box>                                                                    
+                                                                </AccordionDetails>
+
+                                                            </Accordion>
+                                                        </TableCell>                                                                                                                                  
+                                                    </TableRow>                                                    
+                                                </TableBody> 
+                                            ))}
+                                        </>
+                                    :
+                                        <TableBody component={Paper} className="body-odd">                        
+                                            <TableRow  className="body-row">
+                                                <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
+                                                    <Stack direction="row" justifyContent="center">                                                
+                                                        <Stack direction="column" justifyContent="center" >
+                                                            <IconButton>
+                                                                <DescriptionIcon sx={{color: "white"}}/>
+                                                            </IconButton>
+                                                            <Typography variant="body2" sx={{color: "white" }}>No Data</Typography>
+                                                        </Stack>                                                
+                                                    </Stack>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                }
+                               
+                                    
+                                </Table>
                             </TableContainer>
+
                         </Box> 
                     </>
                 :
+                                
                     <PermissionContent />
             }
             

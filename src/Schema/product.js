@@ -169,6 +169,8 @@ export const GET_PRODUCT_GROUP_BYPRODUCT_ID = gql`
         totalSoldAmount
         remark
       }
+      totalSold
+      totalStockAmount
       updatedAt
       createdAt
     }

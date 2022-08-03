@@ -23,25 +23,32 @@ export default function SuppliesAdd({
     setRefetch,
 }) {
 
+  const [loading,setLoading] = React.useState(false);
+
   const [createSupplier] = useMutation(CREATE_NEW_SUPPLIES,{
     onCompleted: ({createSupplier}) =>{
         // console.log(createSupplier)
-        if(createSupplier?.success){
-          setAlert(true)
-          setCheckMessage('success');
-          setMessage(createSupplier?.message);
-          handleClose();   
-          setRefetch();
+        if(createSupplier?.success) {
+            setAlert(true)
+            setCheckMessage('success');
+            setMessage(createSupplier?.message);
+            handleClose();   
+            setRefetch();
+            setLoading(false);
+            resetForm();
         } else {
-          setAlert(true)
-          setCheckMessage('error');
-          setMessage(createSupplier?.message);
+            setLoading(false);
+            setAlert(true);
+            setCheckMessage('error');
+            setMessage(createSupplier?.message);
         }      
     }, 
     onError: (error) => {
       // console.log(error.message)
+      setLoading(false)
       setCheckMessage('error')
       setMessage(error.message)
+      setAlert(true)
     }
     
   })
@@ -62,7 +69,9 @@ export default function SuppliesAdd({
     
         validationSchema: AddSupplies,
         onSubmit: async (values, { setSubmitting, resetForm }) => {
-          console.log(values,'value')
+          // console.log(values,'value')
+          setLoading(true)
+
           createSupplier({
             variables:{
               newSupplier: {
@@ -149,9 +158,18 @@ export default function SuppliesAdd({
                               </Grid>
                               
                               <Stack direction='row' spacing={2}>
-                                  <Button className="btn-createsp" sx={{boxShadow: "none"}}  variant='contained' fullWidth type='submit'>
-                                      Add    
-                                  </Button>
+
+                                {
+                                  loading ?
+                                    <Button className="btn-createsp" sx={{boxShadow: "none"}}  variant='contained' fullWidth >
+                                        Loading...    
+                                    </Button>
+                                :
+                                    <Button className="btn-createsp" sx={{boxShadow: "none"}}  variant='contained' fullWidth type='submit'>
+                                        Add    
+                                    </Button>
+                                }
+                                  
                               </Stack>
                         </Stack>
                       

@@ -58,7 +58,7 @@ export default function User() {
             page: page,
             limit: limit,
             keyword: keyword,
-            pagination: true
+            pagination: true,
         },
         onCompleted: () => {
             setLoading(false)
@@ -68,8 +68,8 @@ export default function User() {
     });
 
     React.useEffect(()=>{
-        refetch()
-        setPageShow(page)
+        refetch();
+        setPageShow(page);
     }, [page,keyword])
 
     
@@ -141,8 +141,8 @@ export default function User() {
                                     </TableHead>
                                     
                                     {data?.getUsersPagination?.users?.map((row, index) => (
-                                        <TableBody className='body'>
-                                            <TableRow key={index} className='body-row'>
+                                        <TableBody  key={index} className='body'>
+                                            <TableRow className='body-row'>
                                                 <TableCell className='body-title' width="5%"> {index+1}- </TableCell>
                                                 <TableCell onClick={handleOpenView} className='body-title'>
                                                     <Stack direction="row"  spacing={2}> 
@@ -189,8 +189,7 @@ export default function User() {
                                             hidePrevButton={true}
                                             count={data?.getUsersPagination?.paginator?.totalPages}
                                             variant="outlined"
-                                            color="primary"
-                                            shape="circle"
+                                            color="primary"                                            
                                             onChange={(event)=> setPage(parseInt(event?.target?.textContent))}
                                         />
                                     </Stack>

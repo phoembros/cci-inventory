@@ -51,6 +51,7 @@ export default function SalesCreated({
   setRefetch,
 }) {
 
+    const [loading,setLoading] = React.useState(false)
     // Create 
     const [createSale] = useMutation(CREATE_SALE , {
         onCompleted: ({createSale}) => {
@@ -62,16 +63,19 @@ export default function SalesCreated({
                 handleClose();
                 setRefetch();
                 resetForm();
+                setLoading(false)
             } else {
+                setLoading(false)
                 setCheckMessage("error")
                 setMessage(createSale?.message)
                 setAlert(true);
             }
         },
-        onError: (error) => {            
+        onError: (error) => {   
+            setLoading(false)         
             setCheckMessage("error")
             setMessage(error.message);
-            
+            setAlert(true);
         }
 
     });
@@ -246,6 +250,8 @@ export default function SalesCreated({
     validationSchema: SalesAdd,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
                   
+          setLoading(true);
+
           const newValue = {     
               invoiceNo: values?.invoiceNo,   
               tin: values?.tin,
@@ -604,15 +610,27 @@ export default function SalesCreated({
                         </Stack>
                                 
 
-                        <Button           
-                          className="btn-create"
-                          size="large"
-                          type="submit"
-                          variant="contained"
-                          sx={{ mt: 2 ,boxShadow: "none"}}
-                        >
-                          Create
-                        </Button>
+                        {
+                          loading ?
+                            <Button           
+                              className="btn-create"
+                              size="large"                            
+                              variant="contained"
+                              sx={{ mt: 2 , boxShadow: "none" }}
+                            >
+                              Loading...
+                            </Button>
+                        :
+                            <Button           
+                              className="btn-create"
+                              size="large"
+                              type="submit"
+                              variant="contained"
+                              sx={{ mt: 2 , boxShadow: "none"}}
+                            >
+                              Create
+                            </Button>
+                        }
 
                       
                     </Form>
