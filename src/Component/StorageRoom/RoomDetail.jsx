@@ -20,11 +20,14 @@ import PermissionContent from "../Permission/PermissionContent";
 import DescriptionIcon from '@mui/icons-material/Description';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ProductGroupList from "./ProductGroupList";
+import LoadingPage from "../Permission/LoadingPage";
 
 export default function RoomDetail() {
 
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
     // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+
+    const [loading,setLoading] = React.useState(true);
 
     //get Storage Room ID by Url 
     const location = useLocation();
@@ -48,14 +51,26 @@ export default function RoomDetail() {
 
     const [dataView,setDateView] = React.useState([])
     
-    const {data} = useQuery(GET_PRODUCT_STORAGE_ROOM_BY, {
+    const { data } = useQuery(GET_PRODUCT_STORAGE_ROOM_BY, {
         variables: {
-            storageRoomId:roomId,
+            storageRoomId: roomId,
         },
+        onCompleted: ({getProductByStorageRoomId}) => {
+            // setDateView(getProductByStorageRoomId)
+            // console.log(getProductByStorageRoomId)            
+        }
     });
 
-    console.log(data?.getProductByStorageRoomId, 'storage')
+    React.useEffect( () => {
+        if(data?.getProductByStorageRoomId[0]?.category?.categoryName !== null ){
+            setDateView(data?.getProductByStorageRoomId)
+            setTimeout( () => {
+                setLoading(false)                
+            },2000)
+        }
+    },[data?.getProductByStorageRoomId])
 
+    // console.log(dataView, 'storage')
     
     return(
         <div className="room-detail-page">
@@ -83,63 +98,15 @@ export default function RoomDetail() {
                 dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getProductByStorageRoomId ?
 
                     <>
-                        <Box className="container">
-                            {/* <TableContainer >
-                                <Table className="table" aria-label="simple table">
-                                    <TableHead >
-                                        <TableRow className="header-row">
-                                            <TableCell className="header-title" colSpan={2}>Name</TableCell>
-                                            <TableCell className="header-title">Qty In Stock</TableCell>   
-                                            <TableCell className="header-title">Unit Price</TableCell>                             
-                                            <TableCell className="header-title">Total</TableCell>    
-                                            <TableCell className="header-title"></TableCell>                              
-                                        </TableRow>
-                                    </TableHead>
-                                {
-                                    data?.getProductByStorageRoomId?.length !== 0 ?
-                                        <>
-                                            {data?.getProductByStorageRoomId?.map((row , index) => (
-                                                <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
-                                                    <TableRow  className="body-row">
-                                                        <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" component="th" scope="row" width="3%" > {index+1}- </TableCell>
-                                                        <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" component="th" scope="row" width="25%"> {row?.productName} </TableCell>
-                                                        <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >{row?.totalQtyUM-row?.totalQtyUMSold} {row?.completedUnit}</TableCell>
-                                                        <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >${row?.unitPrice}</TableCell>
-                                                        <TableCell onClick={() => {handleOpenViewPurchase(); setDateView(row);}} className="body-title" >${(row?.totalQtyUM*row?.unitPrice-row?.totalQtyUMSold*row?.unitPrice).toFixed(2)}</TableCell>                                                                   
-                                                        <TableCell className="body-title" align="right">
-                                                            <RoomDetialAction />                        
-                                                        </TableCell>                                                                               
-                                                    </TableRow>                                                    
-                                                </TableBody>                        
-                                            ))}
-                                        </>
-                                    :
-                                        <TableBody component={Paper} className="body-odd">                        
-                                            <TableRow  className="body-row">
-                                                <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
-                                                    <Stack direction="row" justifyContent="center">                                                
-                                                        <Stack direction="column" justifyContent="center" >
-                                                            <IconButton>
-                                                                <DescriptionIcon sx={{color: "white"}}/>
-                                                            </IconButton>
-                                                            <Typography variant="body2" sx={{color: "white" }}>No Data</Typography>
-                                                        </Stack>                                                
-                                                    </Stack>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                }
-                                    
-                                </Table>
-                            </TableContainer> */}
+                        <Box className="container">                          
 
                             <TableContainer >
                                 <Table className="table" aria-label="simple table">
                                     
                                 {
-                                    data?.getProductByStorageRoomId?.length !== 0 ?
+                                    dataView?.length !== 0 ?
                                         <>
-                                            { data?.getProductByStorageRoomId?.map((row , index) => (
+                                            { dataView?.map((row , index) => (
                                                 <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
                                                     <TableRow  className="body-row">
                                                         <TableCell className="body-title" component="th" scope="row" colSpan={7} rowSpan={5}>
@@ -151,10 +118,12 @@ export default function RoomDetail() {
                                                                     id="panel1a-header"
                                                                 >   
                                                                     <Stack direction="row" spacing={4}>
-                                                                        <Typography>{index+1} -</Typography>
-                                                                        <Typography>{row?.productName}</Typography>                                                                        
-                                                                    </Stack>
-                                                                    
+                                                                        <Typography>{index+1} - </Typography>
+                                                                        <Box width="200px"> 
+                                                                            <Typography>{row?.productName}</Typography>       
+                                                                        </Box>                                                                           
+                                                                        <Typography>Category: {row?.category?.categoryName}</Typography>                                                                   
+                                                                    </Stack>                                                                    
                                                                 </AccordionSummary>
 
                                                                 <AccordionDetails>
@@ -193,13 +162,15 @@ export default function RoomDetail() {
                         </Box> 
                     </>
                 :
-                                
-                    <PermissionContent />
+                    loading ?
+                        <LoadingPage />
+                    :        
+                        <PermissionContent />
             }
             
 
             {/* <Modal open={openViewPurchase}> */}
-                <ViewRoomDetail open={openViewPurchase} handleClose={handleCloseViewPurchase} DataView={dataView} />
+                {/* <ViewRoomDetail open={openViewPurchase} handleClose={handleCloseViewPurchase} DataView={dataView} /> */}
             {/* </Modal> */}
             
         </div>

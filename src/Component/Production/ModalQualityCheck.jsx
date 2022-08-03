@@ -88,7 +88,7 @@ export default function ModalQualityCheck({
         var totalEsstimate = 0;
 
         items?.map(i => {         
-            console.log(i)    
+            // console.log(i)    
             if(i?.productGroupId === undefined ) {
                 totalEsstimate += 0; 
             } else {
@@ -162,7 +162,7 @@ export default function ModalQualityCheck({
         handleValueEsstimate(); 
     }
 
-    console.log(item)
+    // console.log(item)
     // End List ===============================================================================
 
    

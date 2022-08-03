@@ -11,9 +11,11 @@ import { GET_PRODUCT_BYID } from "../../Schema/product";
 import ProductGroupAction from "./ProductGroupAction";
 import { GET_PRODUCT_GROUP_BYPRODUCT_ID } from "../../Schema/product";
 import DurationImage from "../../Assets/clock.gif";
+import LoadingPage from "../Permission/LoadingPage";
 
 export default function ProductDetails() {
 
+    const [loading,setLoading] = React.useState(true)
     //Alert message
     const [alert, setAlert] = React.useState(false);
     const [message, setMessage] = React.useState('');
@@ -50,17 +52,27 @@ export default function ProductDetails() {
     },[data?.getProductById])
 
     // productDetails
+    const [productGroupData,setProductGroupData] = React.useState();
+
     const { data : productGroups , refetch: refetchProductGroup } = useQuery(GET_PRODUCT_GROUP_BYPRODUCT_ID,{
         variables: {
             productId: productId
+        },
+        onCompleted: ({getProductGroupByProductId}) => {
+            // setLoading(false);
         }
     })
    
-    React.useEffect( () => {       
-        refetch()         
-    },[productGroups?.getProductGroupByProductId])
+    React.useEffect( () => {      
+        if(productGroups?.getProductGroupByProductId[0]?.name !== null ) {
+            setProductGroupData(productGroups?.getProductGroupByProductId);
+            setTimeout( () => {
+                setLoading(false);
+            },500)
+        }                
+    },[productGroups?.getProductGroupByProductId , productId])
 
-    console.log(dataProduct)
+    // console.log(dataProduct)
 
     return (
         <div className="product-details-page">
@@ -209,36 +221,47 @@ export default function ProductDetails() {
 
                             <TableBody>
                             {
-                                productGroups?.getProductGroupByProductId?.map( (row,index) => (
-                                    <TableRow key={index} className="header-row">
-                                        <TableCell className="body-title">
-                                           <Typography variant="body1">{index+1} -</Typography>
-                                        </TableCell>
-                                        <TableCell className="body-title">
-                                            <Typography variant="body1">{row?.name}</Typography>
-                                        </TableCell>
-                                        <TableCell className="body-title">
-                                            <Typography variant="body1">{row?.quantityPerStockUM}</Typography>
-                                        </TableCell>  
-                                        <TableCell className="body-title">
-                                            <Typography variant="body1">${row?.unitPrice}</Typography>
-                                        </TableCell>     
-                                        <TableCell className="body-title">
-                                            <Typography variant="body1">{row?.totalStockAmount-row?.totalSold} - U/M</Typography>
-                                        </TableCell>                                 
-                                        <TableCell className="body-title" align="right">
-                                            <ProductGroupAction 
-                                                setAlert={setAlert}
-                                                setMessage={setMessage}
-                                                setCheckMessage={setCheckMessage}  
-                                                setRefetch={refetchProductGroup}
-                                                editData={row} 
-                                                productUnit={dataProduct?.unit}                                         
-                                            />
-                                        </TableCell>
-                                    </TableRow>     
-                                ))
-                            }                                  
+                                loading ?  
+                                <TableRow className="header-row">
+                                    <TableCell className="body-title" colSpan={6}>
+                                        <LoadingPage /> 
+                                    </TableCell>
+                                </TableRow>
+                            : 
+                                <>
+                                {
+                                    productGroupData?.map( (row,index) => (
+                                        <TableRow key={index} className="header-row">
+                                            <TableCell className="body-title">
+                                                <Typography variant="body1">{index+1} -</Typography>
+                                            </TableCell>
+                                            <TableCell className="body-title">
+                                                <Typography variant="body1">{row?.name}</Typography>
+                                            </TableCell>
+                                            <TableCell className="body-title">
+                                                <Typography variant="body1">{row?.quantityPerStockUM}</Typography>
+                                            </TableCell>  
+                                            <TableCell className="body-title">
+                                                <Typography variant="body1">${row?.unitPrice}</Typography>
+                                            </TableCell>     
+                                            <TableCell className="body-title">
+                                                <Typography variant="body1">{row?.totalStockAmount-row?.totalSold} - U/M</Typography>
+                                            </TableCell>                                 
+                                            <TableCell className="body-title" align="right">
+                                                <ProductGroupAction 
+                                                    setAlert={setAlert}
+                                                    setMessage={setMessage}
+                                                    setCheckMessage={setCheckMessage}  
+                                                    setRefetch={refetchProductGroup}
+                                                    editData={row} 
+                                                    productUnit={dataProduct?.unit}                                         
+                                                />
+                                            </TableCell>
+                                        </TableRow>     
+                                    ))
+                                } 
+                                </>       
+                            }                          
 
                             </TableBody>
                         </Table>

@@ -16,7 +16,7 @@ export default function ProductGroupList({productId}) {
         refetch()
     },[productId])
 
-    console.log(data?.getProductGroupByProductId)
+    // console.log(data?.getProductGroupByProductId)
 
     return (
         <Box className="product-group-list">  
@@ -37,7 +37,7 @@ export default function ProductGroupList({productId}) {
 
                         {
                             data?.getProductGroupByProductId?.map( (row,index) => (
-                                <TableRow className="body-row">
+                                <TableRow key={index} className="body-row">
                                     <TableCell className="body-title">
                                         <Typography className="title" >{row?.name} </Typography>
                                     </TableCell>                                      

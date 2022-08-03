@@ -129,7 +129,7 @@ export default function Production() {
         },
         fetchPolicy:'cache-and-network',
         onCompleted: ({getProductionsPagination}) => {          
-            console.log(getProductionsPagination?.productions)
+            // console.log(getProductionsPagination?.productions)
             setProductionData(getProductionsPagination?.productions);
             setLoading(false);
         },

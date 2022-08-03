@@ -150,7 +150,7 @@ export default function UpdateProduction({
 
     React.useEffect( () => {
         if(data?.getStorageRoomProducts){
-            console.log(data?.getStorageRoomProducts, "Storage Room")
+            // console.log(data?.getStorageRoomProducts, "Storage Room")
             let rows = [];
             data?.getStorageRoomProducts?.forEach((element) => {
                 const allrow = {
