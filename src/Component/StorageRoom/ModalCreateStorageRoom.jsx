@@ -180,7 +180,7 @@ export default function ModalCreateStorageRoom({
     setFieldValue("name" , row?.name)
     setFieldValue("address" , row?.address )
     setFieldValue("type" , row?.type )
-    console.log(row?.remark)
+    // console.log(row?.remark)
   },[])
 
   return (

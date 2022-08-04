@@ -324,3 +324,12 @@ export const COMPLETE_PURCHASE = gql`
     }
   }
 `
+
+export const ADJUST_QTY_RAW_MATERIAL = gql`
+  mutation AdjustQtyRawMaterial($rawMaterialId: ID!, $qtyAdjust: Float) {
+    adjustQtyRawMaterial(rawMaterialId: $rawMaterialId, qtyAdjust: $qtyAdjust) {
+      success
+      message    
+    }
+  }
+`

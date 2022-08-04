@@ -87,7 +87,7 @@ export default function Sales() {
       },
       onCompleted: ({getSaleWithPagination}) => {
           setLoading(false);
-          console.log(getSaleWithPagination);
+          // console.log(getSaleWithPagination);
       },
       onError: (error) => {
         console.log(error.message)

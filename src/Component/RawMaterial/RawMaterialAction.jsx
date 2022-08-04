@@ -12,6 +12,9 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import ModalDeleteRawMaterial from "./ModalDeleteRawMaterial";
 import CreateRawMaterial from './CreateRawMaterial';
+import AdjustQauntity from "./AdjustQauntity";
+import BuildIcon from '@mui/icons-material/Build';
+import TransformIcon from '@mui/icons-material/Transform';
 
 export default function RawMaterialAction({setRefetch , setAlert, setMessage, setCheckMessage, DataRow , dataUserLogin}) {
 
@@ -28,6 +31,10 @@ export default function RawMaterialAction({setRefetch , setAlert, setMessage, se
   const [openEdit ,setOpenEdit] = React.useState(false);
   const handleOpenEdit = () => setOpenEdit(true);
   const handleCloseEdit = () => setOpenEdit(false);
+
+  const [openAdjust ,setOpenAdjust] = React.useState(false);
+  const handleOpenAdjust = () => setOpenAdjust(true);
+  const handleCloseAdjust = () => setOpenAdjust(false);
 
   const [openDelete ,setOpenDelete] = React.useState(false);
   const handleOpenDelete = () => setOpenDelete(true);
@@ -72,6 +79,19 @@ export default function RawMaterialAction({setRefetch , setAlert, setMessage, se
                         null
                     }
 
+
+                        <MenuItem
+                            onClick={() => {
+                            handleClose();
+                            handleOpenAdjust();
+                          }}
+                        >
+                          <Stack direction="row" spacing={1}>
+                            <TransformIcon sx={{ color: "orange" }} />
+                            <Typography>Adjust Qty</Typography>
+                          </Stack>
+                        </MenuItem>
+
                       
                     {
                       dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteRawMaterial ?
@@ -91,7 +111,6 @@ export default function RawMaterialAction({setRefetch , setAlert, setMessage, se
                     }
 
                       
-
 
                 </Menu>
               </>
@@ -127,6 +146,17 @@ export default function RawMaterialAction({setRefetch , setAlert, setMessage, se
           setRefetch={setRefetch}
         />
       {/* </Modal> */}
+
+      <AdjustQauntity
+          open={openAdjust}
+          DataRow={DataRow}
+          setAlert={setAlert}
+          setMessage={setMessage}
+          setCheckMessage={setCheckMessage}
+          handleClose={handleCloseAdjust}
+          setRefetch={setRefetch}
+        />
+
     </div>
   );
 }

@@ -17,7 +17,8 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import CircularProgress from "@mui/material/CircularProgress";
 import TruncateMarkup from "react-truncate-markup";
 import DescriptionIcon from '@mui/icons-material/Description';
-import { GET_USER_LOGIN } from "../Schema/user"
+import { GET_USER_LOGIN } from "../Schema/user";
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 import PermissionContent from "../Component/Permission/PermissionContent";
 
@@ -26,7 +27,12 @@ export default function Product() {
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
         pollInterval: 10000,
     })
-//   console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+    //   console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+
+    // Filter
+    const [shortID,setShortID] = React.useState(-1);
+    const [shortName,setShortName] = React.useState(-1);   
+    const [valueShort,setValueShort] = React.useState({})    
 
     const navigate = useNavigate();
 
@@ -54,7 +60,7 @@ export default function Product() {
     const [page, setPage] = React.useState(1);
     const [limit, setLimit] = React.useState(8);
     const [keyword, setKeyword] = React.useState("");
-    const [loading,setLoading] = React.useState(true)
+    const [loading,setLoading] = React.useState(true);
 
     const { data , refetch , error } = useQuery(GET_PRODUCT_WITH_PAGINATION , {
         variables: {
@@ -62,12 +68,14 @@ export default function Product() {
             limit: limit,
             keyword: keyword,
             pagination: true,
+            sortField: [valueShort],
         },
         onCompleted: () => {
             setLoading(false);
         },
         pollInterval: 10000,
-    })
+    });
+
     // console.log(data?.getProductPagination?.products, 'p')
 
     React.useEffect( () => {
@@ -76,7 +84,7 @@ export default function Product() {
         if(data?.getProductPagination?.products){
             setProductData(data?.getProductPagination?.products);
         }
-    },[data?.getProductPagination?.products, page, keyword])
+    },[data?.getProductPagination?.products, page, keyword , valueShort ])
     // End Get
 
     return(
@@ -159,8 +167,42 @@ export default function Product() {
                                     <Table className="table" aria-label="simple table">
                                         <TableHead >
                                             <TableRow className="header-row">
-                                                <TableCell className="header-title">Product ID</TableCell>
-                                                <TableCell className="header-title">Name</TableCell>                                                
+                                                <TableCell className="header-title">
+                                                    <Stack direction="row" spacing={1}>
+                                                        <Stack direction="column" justifyContent="center">
+                                                            <Typography className="title">Product ID</Typography>
+                                                        </Stack>
+                                                        <IconButton  onClick={ () => {
+                                                            if(shortID === -1) {
+                                                                setShortID(1)
+                                                                setValueShort({ sortName : "productId" , sortValue: 1})
+                                                            } else {
+                                                                setShortID(-1) 
+                                                                setValueShort({ sortName : "productId" , sortValue: -1})
+                                                            } 
+                                                        }}>
+                                                            <FilterListIcon  className={shortID === 1 ? "icon-flip-back" : "icon-flip"}/>
+                                                        </IconButton> 
+                                                    </Stack>                                                   
+                                                </TableCell>
+                                                <TableCell className="header-title">
+                                                    <Stack direction="row" spacing={1}>
+                                                        <Stack direction="column" justifyContent="center">
+                                                            <Typography className="title">Name</Typography>
+                                                        </Stack>
+                                                        <IconButton onClick={ () => {
+                                                            if(shortName === -1) {
+                                                                setShortName(1)
+                                                                setValueShort({ sortName : "productName" , sortValue: 1})
+                                                            } else {
+                                                                setShortName(-1) 
+                                                                setValueShort({ sortName : "productName" , sortValue: -1})
+                                                            } 
+                                                        }}>
+                                                            <FilterListIcon className={ shortName === 1 ? "icon-flip-back" : "icon-flip"}/>
+                                                        </IconButton>
+                                                    </Stack> 
+                                                </TableCell>                                                
                                                 <TableCell className="header-title">Unit</TableCell>
                                                 {/* <TableCell className="header-title">Unit Price</TableCell> */}
                                                 <TableCell className="header-title">Category</TableCell>
@@ -176,7 +218,7 @@ export default function Product() {
                                         {productData?.map((row , index) => (
                                             <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
                                                 <TableRow  className="body-row">
-                                                    <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="12%" >{row?.productId}</TableCell>
+                                                    <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="15%" >{row?.productId}</TableCell>
                                                     <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="20%">{row?.productName}</TableCell>
                                                     <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" width="8%">{row?.unit}</TableCell>
                                                     {/* <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" width="10%">${row?.unitPrice}</TableCell> */}

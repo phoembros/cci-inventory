@@ -76,9 +76,11 @@
             text-transform: none;            
             border-radius: 6px;
             background-color: #fff; 
+
             .btn-link {
                 color: $primary-color;
             }
+
             .MuiButton-startIcon {
                 margin-right: 0px !important;
                 margin-left: 0px !important;
@@ -133,6 +135,19 @@
                     border: none;
                     font-size: $font-Size-Subtitle;
                     font-weight: bold;
+
+                    .title {
+                        font-weight: bold;
+                    }
+
+                    .icon-flip {
+                        direction: ltr;
+                        scale: 1;
+                    }
+                    .icon-flip-back {
+                        direction: ltr;
+                        scale: -1;
+                    }
                 }
             }
             

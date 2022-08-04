@@ -136,11 +136,8 @@ export const GET_PRODUCT_STORAGE_ROOM_BY = gql`
     getProductByStorageRoomId(storageRoomId: $storageRoomId) {
       _id
       category {
-        _id
         categoryName
         remark
-        updatedAt
-        createdAt
       }
       unit
       completedUnit

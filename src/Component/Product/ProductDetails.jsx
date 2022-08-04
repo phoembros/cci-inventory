@@ -64,7 +64,7 @@ export default function ProductDetails() {
     })
    
     React.useEffect( () => {      
-        if(productGroups?.getProductGroupByProductId[0]?.name !== null ) {
+        if(productGroups?.getProductGroupByProductId) {
             setProductGroupData(productGroups?.getProductGroupByProductId);
             setTimeout( () => {
                 setLoading(false);

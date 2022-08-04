@@ -271,7 +271,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     className="cell-item"
                                                     sx={{border: "none"   , padding: "8px"}}
                                                 > 
-                                                    <Typography variant="body2" className="text">CCI{moment(row?.date).format("YYYY")}-{row?.invoiceNumber?.padStart(4, '0')}</Typography>
+                                                    <Typography variant="body2" className="text">{row?.invoiceNumber}</Typography>
                                                 </TableCell>  
 
                                                 <TableCell 

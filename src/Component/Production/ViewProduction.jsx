@@ -230,7 +230,7 @@ export default function ViewProduction({
                                         <TableBody key={index} component={Paper} className="body">                        
                                             <TableRow  className="body-row">                                
                                                 <TableCell className="body-title" component="th" scope="row"> {row?.rawName} </TableCell>
-                                                <TableCell className="body-title" >{row?.amount*ViewData?.qty}{row?.rawMaterialId?.unit}</TableCell>    
+                                                <TableCell className="body-title" >{(row?.amount*ViewData?.qty)?.toFixed(2)} {row?.rawMaterialId?.unit}</TableCell>    
                                                 <TableCell className="body-title" ></TableCell>                                                   
                                             </TableRow>
                                         </TableBody>                        

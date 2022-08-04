@@ -158,7 +158,6 @@ export const GET_PRODUCT_GROUP_BYPRODUCT_ID = gql`
         productName
         productId
         category {
-          _id
           categoryName
         }
         unit
@@ -200,8 +199,8 @@ export const GET_PRODUCTION_UNIT =  gql`
 `
 
 export const GET_PRODUCT_WITH_PAGINATION = gql`
-query GetProductPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean) {
-  getProductPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination) {
+query GetProductPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean , $sortField: [SortField] ) {
+  getProductPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination , sortField: $sortField ) {
     products {
       _id
       productName
@@ -325,3 +324,11 @@ query GetProductById($productId: ID!) {
 }
 `
 
+export const ADJUST_QTY_PRODUCT = gql`
+  mutation AdjustQtyProductGroup($productId: ID!, $qtyAdjust: Float) {
+    adjustQtyProductGroup(productId: $productId, qtyAdjust: $qtyAdjust) {
+      success
+      message
+    }
+  }
+`

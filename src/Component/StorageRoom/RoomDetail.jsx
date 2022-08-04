@@ -51,24 +51,20 @@ export default function RoomDetail() {
 
     const [dataView,setDateView] = React.useState([])
     
-    const { data } = useQuery(GET_PRODUCT_STORAGE_ROOM_BY, {
+    const { data,refetch } = useQuery(GET_PRODUCT_STORAGE_ROOM_BY, {
         variables: {
             storageRoomId: roomId,
         },
         onCompleted: ({getProductByStorageRoomId}) => {
-            // setDateView(getProductByStorageRoomId)
-            // console.log(getProductByStorageRoomId)            
-        }
-    });
-
-    React.useEffect( () => {
-        if(data?.getProductByStorageRoomId[0]?.category?.categoryName !== null ){
-            setDateView(data?.getProductByStorageRoomId)
+            setDateView(getProductByStorageRoomId)
+            // console.log(getProductByStorageRoomId)  
             setTimeout( () => {
                 setLoading(false)                
-            },2000)
-        }
-    },[data?.getProductByStorageRoomId])
+            },2000)          
+        },
+        fetchPolicy:'cache-and-network'
+    });
+
 
     // console.log(dataView, 'storage')
     
@@ -96,7 +92,6 @@ export default function RoomDetail() {
 
             {
                 dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getProductByStorageRoomId ?
-
                     <>
                         <Box className="container">                          
 
@@ -120,7 +115,7 @@ export default function RoomDetail() {
                                                                     <Stack direction="row" spacing={4}>
                                                                         <Typography>{index+1} - </Typography>
                                                                         <Box width="200px"> 
-                                                                            <Typography>{row?.productName}</Typography>       
+                                                                            <Typography>Name: {row?.productName}</Typography>       
                                                                         </Box>                                                                           
                                                                         <Typography>Category: {row?.category?.categoryName}</Typography>                                                                   
                                                                     </Stack>                                                                    

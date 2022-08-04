@@ -14,6 +14,8 @@ import ModalDeleteCategory from './ModalDeleteCategory';
 import CreateCategory from './CreateCategory';
 import CreateProductGroup from './CreateProductGroup';
 import ModalDeleteProductGroup from './ModalDeleteProductGroup';
+import AdjustQauntity from './AdjustQauntity';
+import TransformIcon from '@mui/icons-material/Transform';
 
 export default function ProductGroupAction({
     dataUserLogin,
@@ -33,6 +35,10 @@ export default function ProductGroupAction({
   const [openEdit ,setOpenEdit] = React.useState(false);
   const handleOpenEdit = () => setOpenEdit(true);
   const handleCloseEdit = () => setOpenEdit(false);
+
+  const [openAdjust ,setOpenAdjust] = React.useState(false);
+  const handleOpenAdjust = () => setOpenAdjust(true);
+  const handleCloseAdjust = () => setOpenAdjust(false);
 
   const [openDelete ,setOpenDelete] = React.useState(false);
   const handleOpenDelete = () => setOpenDelete(true);
@@ -66,7 +72,18 @@ export default function ProductGroupAction({
                     </Stack> 
                 </MenuItem> 
 
-                <MenuItem  onClick={()=> {
+                <MenuItem onClick={()=> {
+                    handleClose();
+                    handleOpenAdjust();
+                }}>
+                    <Stack direction="row" spacing={1}>
+                        <TransformIcon sx={{color:"orange"}}/>
+                        <Typography>Adjust Qty</Typography>
+                    </Stack> 
+                </MenuItem>
+
+
+                {/* <MenuItem  onClick={()=> {
                     handleClose();
                     handleOpenDelete();
                 }}>
@@ -74,7 +91,7 @@ export default function ProductGroupAction({
                         <DeleteIcon sx={{color:"red"}}/>
                         <Typography>Delete</Typography>
                     </Stack>    
-                </MenuItem>
+                </MenuItem> */}
             
 
             
@@ -110,7 +127,15 @@ export default function ProductGroupAction({
             />
         {/* </Modal> */}
 
-
+        <AdjustQauntity 
+            editData={editData}
+            open={openAdjust}
+            handleClose={handleCloseAdjust} 
+            setAlert={setAlert}
+            setMessage={setMessage}
+            setCheckMessage={setCheckMessage}    
+            setRefetch={setRefetch}
+        />
 
     </div>
   );
