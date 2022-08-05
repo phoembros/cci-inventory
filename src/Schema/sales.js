@@ -53,8 +53,8 @@ export const CREATE_SALE = gql`
     }
 `
 export const GET_CUSTOMER_PAGINATION =  gql`
-    query Query($page: Int, $limit: Int, $keyword: String, $pagination: Boolean) {
-        getCustomerPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination) {
+    query Query($page: Int, $limit: Int, $keyword: String, $pagination: Boolean , $sortField: [SortField]) {
+        getCustomerPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination , sortField: $sortField ) {
         paginator {
             slNo
             prev

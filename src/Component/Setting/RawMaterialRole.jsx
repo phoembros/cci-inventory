@@ -6,14 +6,16 @@ import { useMutation } from "@apollo/client";
 
 export default function RawMaterialRole({dataRole , setRefetch}) {
 
-    const[getRawMaterialPagination,setGetRawMaterialPagination] = React.useState(dataRole?.permissions?.getRawMaterialPagination)
-    const[createRawMaterial,setCreateRawMaterial] = React.useState(dataRole?.permissions?.createRawMaterial)
-    const[updateRawMaterial,setUpdateRawMaterial] = React.useState(dataRole?.permissions?.updateRawMaterial)
-    const[deleteRawMaterial,setDeleteRawMaterial] = React.useState(dataRole?.permissions?.deleteRawMaterial)
-    const[getRawMaterialCategoryPagination,setGetRawMaterialCategoryPagination] = React.useState(dataRole?.permissions?.getRawMaterialCategoryPagination)
-    const[createRawMaterialCategory,setCreateRawMaterialCategory] = React.useState(dataRole?.permissions?.createRawMaterialCategory)
-    const[updateRawMaterialCategory,setUpdateRawMaterialCategory] = React.useState(dataRole?.permissions?.updateRawMaterialCategory)
-    const[deleteRawMaterialCategory,setDeleteRawMaterialCategory] = React.useState(dataRole?.permissions?.deleteRawMaterialCategory)
+  
+    const [getRawMaterialPagination,setGetRawMaterialPagination] = React.useState(dataRole?.permissions?.getRawMaterialPagination)
+    const [createRawMaterial,setCreateRawMaterial] = React.useState(dataRole?.permissions?.createRawMaterial)
+    const [updateRawMaterial,setUpdateRawMaterial] = React.useState(dataRole?.permissions?.updateRawMaterial)
+    const [deleteRawMaterial,setDeleteRawMaterial] = React.useState(dataRole?.permissions?.deleteRawMaterial)
+    const [getRawMaterialCategoryPagination,setGetRawMaterialCategoryPagination] = React.useState(dataRole?.permissions?.getRawMaterialCategoryPagination)
+    const [createRawMaterialCategory,setCreateRawMaterialCategory] = React.useState(dataRole?.permissions?.createRawMaterialCategory)
+    const [updateRawMaterialCategory,setUpdateRawMaterialCategory] = React.useState(dataRole?.permissions?.updateRawMaterialCategory)
+    const [deleteRawMaterialCategory,setDeleteRawMaterialCategory] = React.useState(dataRole?.permissions?.deleteRawMaterialCategory)
+    const [adjustQtyRawMaterial,setAdjustQtyRawMaterial] = React.useState(dataRole?.permissions?.adjustQtyRawMaterial)
 
     // Update Function
     const [updateRole, error] = useMutation(UPDATE_ROLE, {
@@ -74,6 +76,15 @@ export default function RawMaterialRole({dataRole , setRefetch}) {
                         updateProductCategory: dataRole?.permissions?.updateProductCategory,
                         deleteProductCategory: dataRole?.permissions?.deleteProductCategory,
 
+                        // Product Group
+                        getProductGroupById: dataRole?.permissions?.getProductGroupById,
+                        getProductGroupPagination: dataRole?.permissions?.getProductGroupPagination,
+                        getProductGroupByProductId: dataRole?.permissions?.getProductGroupByProductId,
+                        createProductGroup: dataRole?.permissions?.createProductGroup,
+                        updateProductGroup: dataRole?.permissions?.updateProductGroup,
+                        deleteProductGroup: dataRole?.permissions?.deleteProductGroup,
+                        adjustQtyProductGroup: dataRole?.permissions?.adjustQtyProductGroup,
+
                         // Production 
                         getProductionsPagination: dataRole?.permissions?.getProductionsPagination,
                         createProductions: dataRole?.permissions?.createProductions,
@@ -99,6 +110,7 @@ export default function RawMaterialRole({dataRole , setRefetch}) {
                         createRawMaterialCategory: createRawMaterialCategory,
                         updateRawMaterialCategory: updateRawMaterialCategory,
                         deleteRawMaterialCategory: deleteRawMaterialCategory,
+                        adjustQtyRawMaterial: adjustQtyRawMaterial,
 
                         // sale 
                         getSalePagination: dataRole?.permissions?.getSalePagination,
@@ -146,6 +158,7 @@ export default function RawMaterialRole({dataRole , setRefetch}) {
         createRawMaterialCategory,
         updateRawMaterialCategory,
         deleteRawMaterialCategory,
+        adjustQtyRawMaterial,
     ]);
 
 
@@ -255,6 +268,7 @@ export default function RawMaterialRole({dataRole , setRefetch}) {
                     />                                                
                 </TableCell>                                        
             </TableRow>
+
             <TableRow className="body-row">
                 <TableCell align="center" className="body-title">Delete Category Raw Materials</TableCell>
                 <TableCell align="center" className="body-title">                                                
@@ -269,6 +283,23 @@ export default function RawMaterialRole({dataRole , setRefetch}) {
                     />                                         
                 </TableCell>                                            
             </TableRow>
+
+            <TableRow className="body-row">
+                <TableCell align="center" className="body-title">Adjust Qauntity Raw Materials</TableCell>
+                <TableCell align="center" className="body-title">                                                
+                    <FormControlLabel
+                        control={
+                        <Switch
+                            checked={adjustQtyRawMaterial ? true : false}
+                            onChange={() => setAdjustQtyRawMaterial(!adjustQtyRawMaterial)}
+                        />
+                        }
+                        label={adjustQtyRawMaterial ? "On" : "Off"}
+                    />                                         
+                </TableCell>                                            
+            </TableRow>
+            
+
         </TableBody>
     );
 }

@@ -51,8 +51,8 @@ query GetRawMaterialCategoryPagination($page: Int, $limit: Int, $keyword: String
 `
 
 export const GET_RAW_MATERAIL_PAGINATION = gql`
-query GetRawMaterialPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean) {
-    getRawMaterialPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination) {
+query GetRawMaterialPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean ,$sortField: [SortField] ) {
+    getRawMaterialPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination , sortField: $sortField ) {
       rawMaterial {
         _id
         materialName

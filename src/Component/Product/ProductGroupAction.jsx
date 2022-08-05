@@ -25,6 +25,7 @@ export default function ProductGroupAction({
     setRefetch,
     editData,
     productUnit,
+    dataRole,
 }) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -51,6 +52,9 @@ export default function ProductGroupAction({
         <IconButton onClick={handleClick}>
             <MoreVertIcon sx={{color:"#3C64F6"}}/>   
         </IconButton>
+
+    {
+        dataRole?.updateProductGroup || dataRole?.adjustQtyProductGroup || dataRole?.deleteProductGroup ?
    
         <Menu
             id="basic-menu"
@@ -61,42 +65,59 @@ export default function ProductGroupAction({
                 'aria-labelledby': 'basic-button',
             }}
         >
-            
-                <MenuItem onClick={()=> {
-                    handleClose();
-                    handleOpenEdit();
-                }}>
-                    <Stack direction="row" spacing={1}>
-                        <EditIcon sx={{color:"blue"}}/>
-                        <Typography>Edit</Typography>
-                    </Stack> 
-                </MenuItem> 
-
-                <MenuItem onClick={()=> {
-                    handleClose();
-                    handleOpenAdjust();
-                }}>
-                    <Stack direction="row" spacing={1}>
-                        <TransformIcon sx={{color:"orange"}}/>
-                        <Typography>Adjust Qty</Typography>
-                    </Stack> 
-                </MenuItem>
 
 
-                {/* <MenuItem  onClick={()=> {
-                    handleClose();
-                    handleOpenDelete();
-                }}>
-                    <Stack direction="row" spacing={1}>
-                        <DeleteIcon sx={{color:"red"}}/>
-                        <Typography>Delete</Typography>
-                    </Stack>    
-                </MenuItem> */}
-            
+            {
+                dataRole?.updateProductGroup ?
+                    <MenuItem onClick={()=> {
+                        handleClose();
+                        handleOpenEdit();
+                    }}>
+                        <Stack direction="row" spacing={1}>
+                            <EditIcon sx={{color:"blue"}}/>
+                            <Typography>Edit</Typography>
+                        </Stack> 
+                    </MenuItem>
+                : null
+            }
 
-            
+            {
+                dataRole?.adjustQtyProductGroup ?
+                    <MenuItem onClick={()=> {
+                        handleClose();
+                        handleOpenAdjust();
+                    }}>
+                        <Stack direction="row" spacing={1}>
+                            <TransformIcon sx={{color:"orange"}}/>
+                            <Typography>Adjust Qty</Typography>
+                        </Stack> 
+                    </MenuItem>
+                :
+                    null
+            }
+                 
+
+            {/* {
+                dataRole?.deleteProductGroup ?
+                    <MenuItem  onClick={()=> {
+                        handleClose();
+                        handleOpenDelete();
+                    }}>
+                        <Stack direction="row" spacing={1}>
+                            <DeleteIcon sx={{color:"red"}}/>
+                            <Typography>Delete</Typography>
+                        </Stack>    
+                    </MenuItem>
+                : 
+                    null
+            } */}
+                
                 
         </Menu>
+
+        :
+            null
+    }    
 
         
         {/* <Modal open={openEdit} > */}

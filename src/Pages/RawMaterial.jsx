@@ -35,11 +35,19 @@ import { GET_USER_LOGIN } from "../Schema/user";
 import PermissionContent from "../Component/Permission/PermissionContent";
 import DescriptionIcon from '@mui/icons-material/Description';
 import LoadingPage from "../Component/Permission/LoadingPage";
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 export default function RawMaterial() {
 
   const [loading,setLoading] = React.useState(true);
   const [loadingData,setLoadingData] = React.useState(true);
+
+
+  // Filter  
+  const [shortUnitPrice,setShortUnitPrice] = React.useState(false);
+  const [shortName,setShortName] = React.useState(false);   
+  const [valueShort,setValueShort] = React.useState({})    
+
 
   const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
       pollInterval: 10000,
@@ -83,6 +91,7 @@ export default function RawMaterial() {
         limit: limit,
         keyword: keyword,
         pagination: true,
+        sortField: [valueShort]
       },  
       onCompleted: () =>  setLoadingData(false),  
       pollInterval: 10000,
@@ -94,7 +103,7 @@ export default function RawMaterial() {
     refetch();
     setLoadingData(true);
     setPageShow(page);
-  }, [page, keyword]);
+  }, [page, keyword , valueShort]);
 
   React.useEffect( () => {
     if(data?.getRawMaterialPagination?.rawMaterial){
@@ -198,9 +207,43 @@ export default function RawMaterial() {
                       <Table className="table" aria-label="simple table">
                           <TableHead>
                               <TableRow className="header-row">
-                                  <TableCell className="header-title">Name</TableCell>
-                                  <TableCell className="header-title">Category</TableCell>                            
-                                  <TableCell className="header-title">Unit Price</TableCell>                                  
+                                  <TableCell className="header-title">
+                                      <Stack direction="row" spacing={1}>
+                                          <Stack direction="column" justifyContent="center">
+                                              <Typography className="title">Name</Typography>
+                                          </Stack>
+                                          <IconButton  onClick={ () => {
+                                              if(shortName) {
+                                                  setShortName(false)
+                                                  setValueShort( {sortName : "materialName" , sortValue : -1 } )
+                                              } else {
+                                                  setShortName(true) 
+                                                  setValueShort( {sortName : "materialName" , sortValue : 1 } )
+                                              } 
+                                          }}>
+                                              <FilterListIcon  className={ shortName ? "icon-flip-back" : "icon-flip"}/>
+                                          </IconButton>
+                                      </Stack>
+                                  </TableCell>
+                                  <TableCell className="header-title">
+                                      <Stack direction="row" spacing={1} >
+                                          <Stack direction="column" justifyContent="center">
+                                              <Typography className="title">Unit Price</Typography>
+                                          </Stack>
+                                          <IconButton  onClick={ () => {
+                                              if(shortUnitPrice) {
+                                                  setShortUnitPrice(false)
+                                                  setValueShort({sortName : "unitPrice" , sortValue : -1 })
+                                              } else {
+                                                  setShortUnitPrice(true) 
+                                                  setValueShort({sortName : "unitPrice" , sortValue : 1 })
+                                              } 
+                                          }}>
+                                              <FilterListIcon  className={ shortUnitPrice ? "icon-flip-back" : "icon-flip"}/>
+                                          </IconButton>
+                                      </Stack>
+                                  </TableCell> 
+                                  <TableCell className="header-title">Category</TableCell>                           
                                   <TableCell className="header-title">Qty On Hand</TableCell>
                                   <TableCell className="header-title">Unit</TableCell>
                                   <TableCell className="header-title">Remark</TableCell>
@@ -226,6 +269,16 @@ export default function RawMaterial() {
                               >
                                 {row?.materialName}
                               </TableCell>
+
+                              <TableCell
+                                  onClick={()=>{handleOpenView(); setDataRow(row)}}
+                                  className="body-title"
+                                  align="left"
+                                  width="20%"
+                              >
+                                ${row?.unitPrice}
+                              </TableCell>
+                              
                               <TableCell
                                 onClick={()=>{handleOpenView(); setDataRow(row)}}
                                 className="body-title"
@@ -241,14 +294,7 @@ export default function RawMaterial() {
                                   Supplies A
                                 </TableCell> */}
 
-                              <TableCell
-                                  onClick={()=>{handleOpenView(); setDataRow(row)}}
-                                  className="body-title"
-                                  align="left"
-                                  width="20%"
-                              >
-                                ${row?.unitPrice}
-                              </TableCell>
+                              
                               
                               <TableCell
                                 onClick={()=>{handleOpenView(); setDataRow(row)}}
@@ -256,7 +302,7 @@ export default function RawMaterial() {
                                 align="left"
                                 width="12%"
                               >
-                                {row?.totalStockAmount-row?.usedStockAmount}       
+                                { (row?.totalStockAmount-row?.usedStockAmount).toFixed(2) }       
                               </TableCell>
                               <TableCell
                                 onClick={()=>{handleOpenView(); setDataRow(row)}}

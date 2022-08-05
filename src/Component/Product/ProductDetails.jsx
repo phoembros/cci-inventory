@@ -12,8 +12,15 @@ import ProductGroupAction from "./ProductGroupAction";
 import { GET_PRODUCT_GROUP_BYPRODUCT_ID } from "../../Schema/product";
 import DurationImage from "../../Assets/clock.gif";
 import LoadingPage from "../Permission/LoadingPage";
+import { GET_USER_LOGIN } from "../../Schema/user";
 
 export default function ProductDetails() {
+
+    const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
+        pollInterval: 10000,
+    })
+
+    // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
     const [loading,setLoading] = React.useState(true)
     //Alert message
@@ -92,10 +99,18 @@ export default function ProductDetails() {
                 </Stack>
 
                 <Box sx={{flexGrow: 1}} />
-                <Stack direction="row" className="stack-btn"  justifyContent="right" spacing={1}>  
-                    <Button onClick={handleOpen} startIcon={<AddIcon className="icon"/>} className="btn-add">
-                        <Typography className="btn-text"> Add </Typography>
-                    </Button>                
+                <Stack direction="row" className="stack-btn"  justifyContent="right" spacing={1}>
+                {
+                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createProductGroup ?
+                        <Button onClick={handleOpen} startIcon={<AddIcon className="icon"/>} className="btn-add">
+                            <Typography className="btn-text"> Add </Typography>
+                        </Button> 
+                    :
+                        null
+                }   
+
+                                   
+
                     {/* <Modal open={open}> */}
                         <CreateProductGroup 
                             handleClose={handleClose} 
@@ -254,7 +269,8 @@ export default function ProductDetails() {
                                                     setCheckMessage={setCheckMessage}  
                                                     setRefetch={refetchProductGroup}
                                                     editData={row} 
-                                                    productUnit={dataProduct?.unit}                                         
+                                                    productUnit={dataProduct?.unit} 
+                                                    dataRole= {dataUserLogin?.getuserLogin?.role_and_permission?.permissions}                                        
                                                 />
                                             </TableCell>
                                         </TableRow>     

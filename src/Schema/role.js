@@ -84,6 +84,14 @@ query GetRoleAndPermission {
       getSaleReport
       getProductionReport
       getInventoryStockReport
+      getProductGroupById
+      getProductGroupPagination
+      getProductGroupByProductId
+      createProductGroup
+      updateProductGroup
+      deleteProductGroup
+      adjustQtyProductGroup
+      adjustQtyRawMaterial
     }
     paths {
       user
@@ -179,6 +187,14 @@ query GetRoleAndPermissionById($id: ID!) {
       getSaleReport
       getProductionReport
       getInventoryStockReport
+      adjustQtyRawMaterial
+      getProductGroupById
+      getProductGroupPagination
+      getProductGroupByProductId
+      createProductGroup
+      updateProductGroup
+      deleteProductGroup
+      adjustQtyProductGroup
     }
     paths {
       user

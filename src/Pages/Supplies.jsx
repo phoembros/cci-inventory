@@ -17,6 +17,7 @@ import {GET_SUPPLIERS_BY_PAGINATION} from "../Schema/supplies";
 import {useQuery} from "@apollo/client";
 import { GET_USER_LOGIN } from "../Schema/user";
 import PermissionContent from "../Component/Permission/PermissionContent";
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 export default function Supplies() {
 
@@ -24,6 +25,10 @@ export default function Supplies() {
       pollInterval: 10000,
     })
     // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+
+    // Filter 
+    const [shortName,setShortName] = React.useState(false);
+    const [valueShort,setValueShort] = React.useState({})    
 
     const [loading,setLoading] = React.useState(true);
     // create
@@ -56,6 +61,7 @@ export default function Supplies() {
             limit:limit,
             keyword: keyword,
             pagination: true,
+            sortField : [valueShort],
         },
         onCompleted: () => {
             setLoading(false);
@@ -66,7 +72,7 @@ export default function Supplies() {
     React.useEffect( () => {
         refetch()
         setPageShow(page)
-    }, [keyword, page])
+    }, [keyword, page , valueShort])
 
     return (
       <div className="supplies-page">
@@ -122,7 +128,24 @@ export default function Supplies() {
                         <Table className="table" aria-label="simple table">
                           <TableHead>
                             <TableRow className="header-row">
-                              <TableCell className="header-title" colSpan={2}>Name</TableCell> 
+                              <TableCell className="header-title" colSpan={2}>
+                                  <Stack direction="row" spacing={1}>
+                                      <Stack direction="column" justifyContent="center">
+                                          <Typography className="title">Name</Typography>
+                                      </Stack>
+                                      <IconButton  onClick={ () => {
+                                          if(shortName) {
+                                              setShortName(false)
+                                              setValueShort({ sortName : "name" , sortValue: 1})
+                                          } else {
+                                              setShortName(true) 
+                                              setValueShort({ sortName : "name" , sortValue: -1})
+                                          } 
+                                      }}>
+                                          <FilterListIcon  className={ shortName ? "icon-flip-back" : "icon-flip"}/>
+                                      </IconButton> 
+                                  </Stack>  
+                              </TableCell> 
                               <TableCell className="header-title">Phone Number</TableCell>  
                               <TableCell className="header-title">Address</TableCell>                             
                               <TableCell className="header-title">Email</TableCell>

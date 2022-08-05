@@ -17,6 +17,15 @@ export default function ProductRole({dataRole , setRefetch}) {
     const[updateProductCategory,setUpdateProductCategory] = React.useState(dataRole?.permissions?.updateProductCategory)
     const[deleteProductCategory,setDeleteProductCategory] = React.useState(dataRole?.permissions?.deleteProductCategory)
 
+    const [getProductGroupById,setGetProductGroupById] = React.useState(dataRole?.permissions?.getProductGroupById)
+    const [getProductGroupPagination,setGetProductGroupPagination] = React.useState(dataRole?.permissions?.getProductGroupPagination)
+    const [getProductGroupByProductId,setGetProductGroupByProductId] = React.useState(dataRole?.permissions?.getProductGroupByProductId)
+    const [createProductGroup,setCreateProductGroup] = React.useState(dataRole?.permissions?.createProductGroup)
+    const [updateProductGroup,setUpdateProductGroup] = React.useState(dataRole?.permissions?.updateProductGroup)
+    const [deleteProductGroup,setDeleteProductGroup] = React.useState(dataRole?.permissions?.deleteProductGroup)
+    const [adjustQtyProductGroup,setAdjustQtyProductGroup] = React.useState(dataRole?.permissions?.adjustQtyProductGroup)
+
+
     // Update Function
     const [updateRole] = useMutation(UPDATE_ROLE , {
         onCompleted: ({ updateRole }) => {
@@ -67,9 +76,7 @@ export default function ProductRole({dataRole , setRefetch}) {
                         // Product
                         getProductPagination: getProductPagination,
                         getProductById: getProductById,
-
                         getProductByStorageRoomId: dataRole?.permissions?.getProductByStorageRoomId,
-
                         createProduct: createProduct,
                         updateProduct: updateProduct,
                         deleteProduct: deleteProduct,
@@ -77,6 +84,16 @@ export default function ProductRole({dataRole , setRefetch}) {
                         createProductCategory: createProductCategory,
                         updateProductCategory: updateProductCategory,
                         deleteProductCategory: deleteProductCategory,
+
+                        // Product Group
+                        getProductGroupById: getProductGroupById,
+                        getProductGroupPagination: getProductGroupPagination,
+                        getProductGroupByProductId: getProductGroupByProductId,
+                        createProductGroup: createProductGroup,
+                        updateProductGroup: updateProductGroup,
+                        deleteProductGroup: deleteProductGroup,
+                        adjustQtyProductGroup: adjustQtyProductGroup,
+
 
                         // Production 
                         getProductionsPagination: dataRole?.permissions?.getProductionsPagination,
@@ -103,6 +120,7 @@ export default function ProductRole({dataRole , setRefetch}) {
                         createRawMaterialCategory: dataRole?.permissions?.createRawMaterialCategory,
                         updateRawMaterialCategory: dataRole?.permissions?.updateRawMaterialCategory,
                         deleteRawMaterialCategory: dataRole?.permissions?.deleteRawMaterialCategory,
+                        adjustQtyRawMaterial: dataRole?.permissions?.adjustQtyRawMaterial,
 
                         // sale 
                         getSalePagination: dataRole?.permissions?.getSalePagination,
@@ -151,6 +169,13 @@ export default function ProductRole({dataRole , setRefetch}) {
         createProductCategory,
         updateProductCategory,
         deleteProductCategory,
+        getProductGroupById,
+        getProductGroupPagination,
+        getProductGroupByProductId,
+        createProductGroup,
+        updateProductGroup,
+        deleteProductGroup,
+        adjustQtyProductGroup,
     ]);
 
 
@@ -293,7 +318,86 @@ export default function ProductRole({dataRole , setRefetch}) {
                 </TableCell>                                            
             </TableRow>
 
-                        
+            {/* 
+            getProductGroupById
+            getProductGroupPagination
+            */}
+
+            <TableRow className="body-row">
+                <TableCell align="center" className="body-title">View Group Product</TableCell>
+                <TableCell align="center" className="body-title">                                                
+                    <FormControlLabel
+                        control={
+                        <Switch
+                            checked={getProductGroupByProductId ? true : false}
+                            onChange={() => setGetProductGroupByProductId(!getProductGroupByProductId) }
+                        />
+                        }
+                        label={getProductGroupByProductId ? "On" : "Off"}
+                    />                                               
+                </TableCell>                                            
+            </TableRow>
+
+            <TableRow className="body-row">
+                <TableCell align="center" className="body-title">Adjust Qauntity Group Product</TableCell>
+                <TableCell align="center" className="body-title">                                                
+                    <FormControlLabel
+                        control={
+                        <Switch
+                            checked={ adjustQtyProductGroup ? true : false}
+                            onChange={() =>  setAdjustQtyProductGroup(!adjustQtyProductGroup)}
+                        />
+                        }
+                        label={adjustQtyProductGroup ? "On" : "Off"}
+                    />                                               
+                </TableCell>                                            
+            </TableRow>
+
+            <TableRow className="body-row">
+                <TableCell align="center" className="body-title">Create Group Product</TableCell>
+                <TableCell align="center" className="body-title">                                                
+                    <FormControlLabel
+                        control={
+                        <Switch
+                            checked={createProductGroup ? true : false}
+                            onChange={() =>  setCreateProductGroup(!createProductGroup)}
+                        />
+                        }
+                        label={createProductGroup ? "On" : "Off"}
+                    />                                               
+                </TableCell>                                            
+            </TableRow>
+
+            <TableRow className="body-row">
+                <TableCell align="center" className="body-title">Update Group Product</TableCell>
+                <TableCell align="center" className="body-title">                                                
+                    <FormControlLabel
+                        control={
+                        <Switch
+                            checked={updateProductGroup ? true : false}
+                            onChange={() =>  setUpdateProductGroup(!updateProductGroup)}
+                        />
+                        }
+                        label={updateProductGroup ? "On" : "Off"}
+                    />                                               
+                </TableCell>                                            
+            </TableRow>
+
+            <TableRow className="body-row">
+                <TableCell align="center" className="body-title">Delete Group Product</TableCell>
+                <TableCell align="center" className="body-title">                                                
+                    <FormControlLabel
+                        control={
+                        <Switch
+                            checked={deleteProductGroup ? true : false}
+                            onChange={() =>  setDeleteProductGroup(!deleteProductGroup)}
+                        />
+                        }
+                        label={deleteProductGroup ? "On" : "Off"}
+                    />                                               
+                </TableCell>                                            
+            </TableRow>
+
 
             
         </TableBody>

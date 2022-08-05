@@ -38,8 +38,8 @@ export const DELETE_SUPPLIES = gql`
     }
 `
 export const GET_SUPPLIERS_BY_PAGINATION = gql`
-    query GetSuppliersPagination($keyword: String, $pagination: Boolean, $page: Int, $limit: Int) {
-        getSuppliersPagination(keyword: $keyword, pagination: $pagination, page: $page, limit: $limit) {
+    query GetSuppliersPagination($keyword: String, $pagination: Boolean, $page: Int, $limit: Int , $sortField: [SortField] ) {
+        getSuppliersPagination(keyword: $keyword, pagination: $pagination, page: $page, limit: $limit , sortField: $sortField) {
         suppliers {
             _id
             name

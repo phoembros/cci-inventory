@@ -71,6 +71,15 @@ export default function ProductionRole({dataRole , setRefetch}) {
                         updateProductCategory: dataRole?.permissions?.updateProductCategory,
                         deleteProductCategory: dataRole?.permissions?.deleteProductCategory,
 
+                        // Product Group
+                        getProductGroupById: dataRole?.permissions?.getProductGroupById,
+                        getProductGroupPagination: dataRole?.permissions?.getProductGroupPagination,
+                        getProductGroupByProductId: dataRole?.permissions?.getProductGroupByProductId,
+                        createProductGroup: dataRole?.permissions?.createProductGroup,
+                        updateProductGroup: dataRole?.permissions?.updateProductGroup,
+                        deleteProductGroup: dataRole?.permissions?.deleteProductGroup,
+                        adjustQtyProductGroup: dataRole?.permissions?.adjustQtyProductGroup,
+
                         // Production 
                         getProductionsPagination: getProductionsPagination,
                         createProductions: createProductions,
@@ -96,6 +105,7 @@ export default function ProductionRole({dataRole , setRefetch}) {
                         createRawMaterialCategory: dataRole?.permissions?.createRawMaterialCategory,
                         updateRawMaterialCategory: dataRole?.permissions?.updateRawMaterialCategory,
                         deleteRawMaterialCategory: dataRole?.permissions?.deleteRawMaterialCategory,
+                        adjustQtyRawMaterial: dataRole?.permissions?.adjustQtyRawMaterial,
 
                         // sale 
                         getSalePagination: dataRole?.permissions?.getSalePagination,

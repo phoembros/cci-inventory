@@ -50,7 +50,8 @@ export default function RawMaterialAction({setRefetch , setAlert, setMessage, se
 
       {
             dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateRawMaterial ||
-            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteRawMaterial ?
+            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteRawMaterial ||
+            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.adjustQtyRawMaterial ?
             
               <>
                 <Menu
@@ -80,6 +81,8 @@ export default function RawMaterialAction({setRefetch , setAlert, setMessage, se
                     }
 
 
+                    {
+                      dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.adjustQtyRawMaterial ?
                         <MenuItem
                             onClick={() => {
                             handleClose();
@@ -91,7 +94,9 @@ export default function RawMaterialAction({setRefetch , setAlert, setMessage, se
                             <Typography>Adjust Qty</Typography>
                           </Stack>
                         </MenuItem>
-
+                      : null
+                    }
+                        
                       
                     {
                       dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteRawMaterial ?

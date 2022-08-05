@@ -170,7 +170,7 @@ export default function Product() {
                                                 <TableCell className="header-title">
                                                     <Stack direction="row" spacing={1}>
                                                         <Stack direction="column" justifyContent="center">
-                                                            <Typography className="title">Product ID</Typography>
+                                                            <Typography className="title">ID</Typography>
                                                         </Stack>
                                                         <IconButton  onClick={ () => {
                                                             if(shortID === -1) {

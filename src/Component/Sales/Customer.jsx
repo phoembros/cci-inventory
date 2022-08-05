@@ -21,12 +21,17 @@ import CustomerOwe from "./CustomerOwe";
 import {GET_USER_LOGIN} from "../../Schema/user"
 import PermissionContent from "../Permission/PermissionContent";
 import DescriptionIcon from '@mui/icons-material/Description';
-
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 export default function Customer() {
 
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
-  // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+    // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+
+    const [shortID,setShortID] = React.useState(false);
+    const [shortName,setShortName] = React.useState(false);
+    const [shortOwe,setShortOwe] = React.useState(false);
+    const [valueShort,setValueShort] = React.useState({})  
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -56,6 +61,7 @@ export default function Customer() {
         limit: limit,
         keyword: keyword,
         pagination: true,
+        sortField: [valueShort],
       },
       onCompleted: () => {
         setLoading(false);
@@ -66,7 +72,7 @@ export default function Customer() {
     React.useEffect(()=>{
         refetch();
         setShowPage(page);
-    },[page, keyword])
+    },[page, keyword , valueShort])
 
     
     return (
@@ -146,8 +152,42 @@ export default function Customer() {
                             <Table className="table" aria-label="simple table">
                               <TableHead>
                                 <TableRow className="header-row">
-                                  <TableCell className="header-title">ID</TableCell>
-                                  <TableCell className="header-title">Name</TableCell>
+                                  <TableCell className="header-title">
+                                      <Stack direction="row" spacing={1} >
+                                          <Stack direction="column" justifyContent="center">
+                                              <Typography className="title">ID</Typography>
+                                          </Stack>
+                                          <IconButton  onClick={ () => {
+                                              if(shortID) {
+                                                  setShortID(false)
+                                                  setValueShort({ sortName : "cusId" , sortValue : -1 })
+                                              } else {
+                                                  setShortID(true) 
+                                                  setValueShort({ sortName : "cusId" , sortValue : 1 })
+                                              } 
+                                          }}>
+                                              <FilterListIcon  className={ shortID ? "icon-flip-back" : "icon-flip"}/>
+                                          </IconButton>
+                                      </Stack>
+                                  </TableCell>
+                                  <TableCell className="header-title">
+                                      <Stack direction="row" spacing={1} >
+                                          <Stack direction="column" justifyContent="center">
+                                              <Typography className="title">Name</Typography>
+                                          </Stack>
+                                          <IconButton  onClick={ () => {
+                                              if(shortName) {
+                                                  setShortName(false)
+                                                  setValueShort({ sortName : "name" , sortValue : -1 })
+                                              } else {
+                                                  setShortName(true) 
+                                                  setValueShort({ sortName : "name" , sortValue : 1 })
+                                              } 
+                                          }}>
+                                              <FilterListIcon  className={ shortName ? "icon-flip-back" : "icon-flip"}/>
+                                          </IconButton>
+                                      </Stack>
+                                  </TableCell>
                                   <TableCell className="header-title">Phone Number</TableCell>
                                   <TableCell className="header-title">Email</TableCell>
                                   <TableCell className="header-title">Address</TableCell>
@@ -155,7 +195,22 @@ export default function Customer() {
                                     {
                                       dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getOweCustomer ?
                                         <>
-                                            Owe
+                                          <Stack direction="row" spacing={1} >
+                                              <Stack direction="column" justifyContent="center">
+                                                  <Typography className="title">Owe</Typography>
+                                              </Stack>
+                                              {/* <IconButton  onClick={ () => {
+                                                  if(shortOwe) {
+                                                      setShortOwe(false)
+                                                      setValueShort({ sortName : "name" , sortValue : -1 })
+                                                  } else {
+                                                      setShortOwe(true) 
+                                                      setValueShort({ sortName : "name" , sortValue : 1 })
+                                                  } 
+                                              }}>
+                                                  <FilterListIcon  className={ shortOwe ? "icon-flip-back" : "icon-flip"}/>
+                                              </IconButton> */}
+                                          </Stack>
                                         </>
                                       :
                                         null
@@ -187,7 +242,7 @@ export default function Customer() {
                                         onClick={()=>{handleOpenView(); setDetailsData(row)}}
                                         className="body-title"
                                         component="th"
-                                        width="30%"
+                                        width="25%"
                                       >
                                         {row?.name}
                                       </TableCell>
@@ -212,7 +267,7 @@ export default function Customer() {
                                       <TableCell
                                         onClick={()=>{handleOpenView(); setDetailsData(row)}}
                                         className="body-title"
-                                        width="30%"
+                                        width="25%"
                                       >
                                         {row.address}
                                       </TableCell>
