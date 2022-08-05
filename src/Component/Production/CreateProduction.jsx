@@ -39,6 +39,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { sendMessage } from '../TelegrameClient/TelegrameClient';
 
+import { ESTIMATE_PRODUCTION } from '../../Schema/production';
 
 export default function CreateProduction({
     nameRequest,
@@ -51,9 +52,21 @@ export default function CreateProduction({
     setCheckMessage,
     setRefetch,
 }) {
-
    
     const [loading,setLoading] = React.useState(false);
+
+    const [estimateSuccess,setEstimateSuccess] = React.useState(false);
+    const [estimateUnit,setEstimateUnit] = React.useState(false);
+
+    const [estimateProduction , { data: dataEsstimate } ] = useMutation(ESTIMATE_PRODUCTION,{
+        onCompleted: ({estimateProduction}) => {
+            setEstimateSuccess(true);
+            // console.log(estimateProduction)
+        },
+        onError: (error) => {
+            console.log(error.message)
+        }
+    })
 
     const [createProductions] = useMutation(CREATE_PRODUCTION , {
         onCompleted: async ({createProductions}) => { 
@@ -103,12 +116,14 @@ export default function CreateProduction({
 
     React.useEffect( () => {
         if(dataProduct?.getProductPagination?.products){
+            // console.log(dataProduct?.getProductPagination?.products)
             let rows = [];
             dataProduct?.getProductPagination?.products?.forEach( (element) => {
                 const allrow = {
                     label: element?.productName,
                     qtyOnHand: element?.totalStockAmount,
                     _id: element?._id,
+                    unit: element?.unit,
                 };
                 rows.push(allrow);
             });
@@ -345,7 +360,9 @@ export default function CreateProduction({
                                                                 setFieldValue( "productId" , value?._id )
                                                                 setFieldValue( "productName" , value?.label)
                                                                 setFieldValue( "qtyOnHand" , value?.qtyOnHand )   
-                                                                getProductById({ variables: { productId: value?._id } })                 
+                                                                getProductById({ variables: { productId: value?._id } })  
+                                                                estimateProduction({ variables: {  productId: value?._id } }) 
+                                                                setEstimateUnit(value?.unit)           
                                                             }}
                                                             renderInput={(params) => <TextField {...params}
                                                                     placeholder="Product Name" size="small"
@@ -383,6 +400,23 @@ export default function CreateProduction({
                                         </Table>
                                     </TableContainer>
 
+                                {
+                                    estimateSuccess ?
+                                        <TableContainer >
+                                            <Table className="table-top" aria-label="simple table">
+                                                <TableHead >
+                                                    <TableRow className="header-row">
+                                                        <TableCell className="header-title-warning" colSpan={5}>
+                                                            You can produce this product only {dataEsstimate?.estimateProduction} {estimateUnit} !
+                                                        </TableCell> 
+                                                    </TableRow>
+                                                </TableHead>
+                                            </Table>
+                                        </TableContainer>
+                                    : null
+                                }
+                                    
+
                                     <TableContainer >
                                         <Table className="table" aria-label="simple table">
                                             <TableHead >
@@ -395,11 +429,11 @@ export default function CreateProduction({
                                         {
                                             values?.productId !== "" ?
                                                 <>
-                                                    {productById?.ingredients?.map((row , index) => (
+                                                    { productById?.ingredients?.map((row , index) => (
                                                         <TableBody key={index} component={Paper} className="body" >                        
                                                             <TableRow  className="body-row">                                
                                                                 <TableCell className="body-title" component="th" scope="row" > {row?.rawMaterialId?.materialName} </TableCell>
-                                                                <TableCell className="body-title" >{row?.amount*values?.qty}{row?.rawMaterialId?.unit}</TableCell>    
+                                                                <TableCell className="body-title" >{ (row?.amount*values?.qty)?.toFixed(2)} {row?.rawMaterialId?.unit}</TableCell>    
                                                                 <TableCell className="body-title" ></TableCell>                                                   
                                                             </TableRow>
                                                         </TableBody>                        

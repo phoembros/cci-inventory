@@ -1,251 +1,80 @@
 import { gql } from "@apollo/client";
 
-export const CREATE_PRODUCTION = gql`
-mutation CreateProductions($newProductions: ProductionsInput) {
-  createProductions(newProductions: $newProductions) {
-    success
-    message
-    data {
-      _id
-      productionsId
-      startDate
-      dueDate
-      workOrders
-      customerId {
-        _id
-        cusId
-        name
-        phoneNumber
-        email
-        address
-      }
-      productionsBy {
-        _id
-        first_name
-        last_name
-        gender
-        email
-        password
-        phone_number
-        image_name
-        image_src
-        birthOfDate
-        create_at
-        update_at
-        status
-      }
-      approveOrRejectBy {
-        _id
-        first_name
-        last_name
-        gender
-        email
-        password
-        phone_number
-        image_name
-        image_src
-        birthOfDate
-        create_at
-        update_at
-        status
-      }
-      qualityCheck {
-        _id
-        first_name
-        last_name
-        gender
-        email
-        password
-        phone_number
-        image_name
-        image_src
-        birthOfDate
-        create_at
-        update_at
-        status
-      }
-      status
-      priority
-      progress
-      production {
-        productId {
-          _id
-          productName
-          productId
-          category {
-            _id
-            categoryName
-            remark
-          }
-          unit
-          completedUnit
-          unitPrice
-          durationProduce
-          totalStockAmount
-          totalSoldAmount
-          remark
-          updatedAt
-          createdAt
-        }
-        productName
-        qtyOnHand
-      }
-      qty
-      completedQtyUM {
-        productGroupId {
-          _id
-          name
-          quantityPerStockUM
-          groupBy {
-            _id
-            productName
-            productId
-            unit
-            completedUnit
-            unitPrice
-            durationProduce
-          }
-          updatedAt
-        }
-        qtyOfUM      
-      }
-      completedRemark
-      storageRoomId {
-        _id
-        name
-        address
-        type
-        remark
-        updatedAt
-      }
-      comment
-      remark
-      warning
-      remarkWarning
-      updatedAt
-      createdAt
-    }
+export const ESTIMATE_PRODUCTION = gql`
+  mutation EstimateProduction($productId: ID!) {
+    estimateProduction(productId: $productId)
   }
-}
 `
 
-export const GET_PRODUCTION_WITH_PAGINATION =  gql`
-query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $productId: ID, $pagination: Boolean, $status: String, $priority: String, $progress: String) {
-  getProductionsPagination(page: $page, limit: $limit, keyword: $keyword, productId: $productId, pagination: $pagination, status: $status, priority: $priority, progress: $progress) {
-    productions {
-      _id
-      productionsId
-      startDate
-      dueDate
-      workOrders
-      customerId {
+export const CREATE_PRODUCTION = gql`
+  mutation CreateProductions($newProductions: ProductionsInput) {
+    createProductions(newProductions: $newProductions) {
+      success
+      message
+      data {
         _id
-        cusId
-        name
-        phoneNumber
-        email
-        address
-      }
-      productionsBy {
-        _id
-        first_name
-        last_name
-        gender
-        email
-        password
-        phone_number
-        image_name
-        image_src
-        birthOfDate
-        create_at
-        update_at
-        status
-      }
-      approveOrRejectBy {
-        _id
-        first_name
-        last_name
-        gender
-        email
-        password
-        phone_number
-        image_name
-        image_src
-        birthOfDate
-        create_at
-        update_at
-        status
-      }
-      qualityCheck {
-        _id
-        first_name
-        last_name
-        gender
-        email
-        password
-        phone_number
-        image_name
-        image_src
-        birthOfDate
-        create_at
-        update_at
-        status
-      }
-      status
-      priority
-      progress
-      production {
-        productId {
+        productionsId
+        startDate
+        dueDate
+        workOrders
+        customerId {
           _id
-          productName
-          productId
-          category {
-            _id
-            categoryName
-            remark
-          }
-          unit
-          completedUnit
-          unitPrice
-          durationProduce
-          totalStockAmount
-          totalSoldAmount
-          ingredients {
-            rawName
-            rawMaterialId {
-              _id
-              materialName
-              category {
-                _id
-                categoryName
-                remark
-              }
-              totalStockAmount
-              usedStockAmount
-              unit
-              unitPrice
-              remark
-              updatedAt
-              createdAt
-            }
-            amount
-            key
-            unitRawMaterial
-          }
-          remark
-          updatedAt
-          createdAt
-        }
-        productName
-        qtyOnHand
-      }
-      qty
-      completedQtyUM {
-        productGroupId {
-          _id
+          cusId
           name
-          quantityPerStockUM
-          groupBy {
+          phoneNumber
+          email
+          address
+        }
+        productionsBy {
+          _id
+          first_name
+          last_name
+          gender
+          email
+          password
+          phone_number
+          image_name
+          image_src
+          birthOfDate
+          create_at
+          update_at
+          status
+        }
+        approveOrRejectBy {
+          _id
+          first_name
+          last_name
+          gender
+          email
+          password
+          phone_number
+          image_name
+          image_src
+          birthOfDate
+          create_at
+          update_at
+          status
+        }
+        qualityCheck {
+          _id
+          first_name
+          last_name
+          gender
+          email
+          password
+          phone_number
+          image_name
+          image_src
+          birthOfDate
+          create_at
+          update_at
+          status
+        }
+        status
+        priority
+        progress
+        production {
+          productId {
             _id
             productName
             productId
@@ -260,44 +89,221 @@ query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $produ
             durationProduce
             totalStockAmount
             totalSoldAmount
+            remark
+            updatedAt
+            createdAt
           }
-          updatedAt
-          createdAt
+          productName
+          qtyOnHand
         }
-        qtyOfUM
-        unitQtyGroup
-        label
-        key
-      }
-      completedRemark
-      storageRoomId {
-        _id
-        name
-        address
-        type
+        qty
+        completedQtyUM {
+          productGroupId {
+            _id
+            name
+            quantityPerStockUM
+            groupBy {
+              _id
+              productName
+              productId
+              unit
+              completedUnit
+              unitPrice
+              durationProduce
+            }
+            updatedAt
+          }
+          qtyOfUM      
+        }
+        completedRemark
+        storageRoomId {
+          _id
+          name
+          address
+          type
+          remark
+          updatedAt
+        }
+        comment
         remark
+        warning
+        remarkWarning
+        updatedAt
+        createdAt
       }
-      comment
-      remark
-      warning
-      remarkWarning
-      updatedAt
-      createdAt
-    }
-    paginator {
-      slNo
-      prev
-      next
-      perPage
-      totalPosts
-      totalPages
-      currentPage
-      hasPrevPage
-      hasNextPage
-      totalDocs
     }
   }
-}
+`
+
+export const GET_PRODUCTION_WITH_PAGINATION =  gql`
+  query GetProductionsPagination($page: Int, $limit: Int, $keyword: String, $productId: ID, $pagination: Boolean, $status: String, $priority: String, $progress: String) {
+    getProductionsPagination(page: $page, limit: $limit, keyword: $keyword, productId: $productId, pagination: $pagination, status: $status, priority: $priority, progress: $progress) {
+      productions {
+        _id
+        productionsId
+        startDate
+        dueDate
+        workOrders
+        customerId {
+          _id
+          cusId
+          name
+          phoneNumber
+          email
+          address
+        }
+        productionsBy {
+          _id
+          first_name
+          last_name
+          gender
+          email
+          password
+          phone_number
+          image_name
+          image_src
+          birthOfDate
+          create_at
+          update_at
+          status
+        }
+        approveOrRejectBy {
+          _id
+          first_name
+          last_name
+          gender
+          email
+          password
+          phone_number
+          image_name
+          image_src
+          birthOfDate
+          create_at
+          update_at
+          status
+        }
+        qualityCheck {
+          _id
+          first_name
+          last_name
+          gender
+          email
+          password
+          phone_number
+          image_name
+          image_src
+          birthOfDate
+          create_at
+          update_at
+          status
+        }
+        status
+        priority
+        progress
+        production {
+          productId {
+            _id
+            productName
+            productId
+            category {
+              _id
+              categoryName
+              remark
+            }
+            unit
+            completedUnit
+            unitPrice
+            durationProduce
+            totalStockAmount
+            totalSoldAmount
+            ingredients {
+              rawName
+              rawMaterialId {
+                _id
+                materialName
+                category {
+                  _id
+                  categoryName
+                  remark
+                }
+                totalStockAmount
+                usedStockAmount
+                unit
+                unitPrice
+                remark
+                updatedAt
+                createdAt
+              }
+              amount
+              key
+              unitRawMaterial
+            }
+            remark
+            updatedAt
+            createdAt
+          }
+          productName
+          qtyOnHand
+        }
+        qty
+        completedQtyUM {
+          productGroupId {
+            _id
+            name
+            quantityPerStockUM
+            groupBy {
+              _id
+              productName
+              productId
+              category {
+                _id
+                categoryName
+                remark
+              }
+              unit
+              completedUnit
+              unitPrice
+              durationProduce
+              totalStockAmount
+              totalSoldAmount
+            }
+            updatedAt
+            createdAt
+          }
+          qtyOfUM
+          unitQtyGroup
+          label
+          key
+        }
+        completedRemark
+        storageRoomId {
+          _id
+          name
+          address
+          type
+          remark
+        }
+        comment
+        remark
+        warning
+        remarkWarning
+        updatedAt
+        createdAt
+      }
+      paginator {
+        slNo
+        prev
+        next
+        perPage
+        totalPosts
+        totalPages
+        currentPage
+        hasPrevPage
+        hasNextPage
+        totalDocs
+      }
+    }
+  }
 `
 
 export const UPDATE_PRODUCTION = gql`

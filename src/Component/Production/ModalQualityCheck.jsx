@@ -177,6 +177,9 @@ export default function ModalQualityCheck({
                 handleClose();
                 setRefetch();
                 setLoading(false);
+
+                setItem([{ productGroupId: '' , label: "" , unitQtyGroup: 0 , qtyOfUM: 0 , key: ""}])
+
             } else {
                 setLoading(false)
                 setCheckMessage("error")
