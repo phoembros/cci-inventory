@@ -147,8 +147,6 @@ export default function CreateProduction({
             // setDataIngredientView(productById?.ingredients)
         }
     },[dataProductById?.getProductById])   
-
-       
    
     React.useEffect( () => {
         setProductById({})
@@ -202,7 +200,6 @@ export default function CreateProduction({
             setCustomer(rows);
         }
     },[dataCustomer?.getCustomerPagination?.customers]) 
-
     
    
     // Formik
@@ -362,7 +359,10 @@ export default function CreateProduction({
                                                                 setFieldValue( "qtyOnHand" , value?.qtyOnHand )   
                                                                 getProductById({ variables: { productId: value?._id } })  
                                                                 estimateProduction({ variables: {  productId: value?._id } }) 
-                                                                setEstimateUnit(value?.unit)           
+                                                                setEstimateUnit(value?.unit)  
+                                                                if(value?.label === undefined){
+                                                                    setEstimateSuccess(false);
+                                                                }         
                                                             }}
                                                             renderInput={(params) => <TextField {...params}
                                                                     placeholder="Product Name" size="small"
@@ -407,7 +407,7 @@ export default function CreateProduction({
                                                 <TableHead >
                                                     <TableRow className="header-row">
                                                         <TableCell className="header-title-warning" colSpan={5}>
-                                                            You can produce this product only {dataEsstimate?.estimateProduction} {estimateUnit} !
+                                                            You can produce this product only {dataEsstimate?.estimateProduction} {estimateUnit}, Base on raw materail.
                                                         </TableCell> 
                                                     </TableRow>
                                                 </TableHead>
