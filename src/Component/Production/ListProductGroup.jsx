@@ -38,6 +38,9 @@ function ListProductGroup(props) {
     // console.log(data?.getProductGroupByProductId)
     // End Get Product Group
 
+    React.useEffect( () => {
+        refetch()
+    },[])
 
     // Placeholder Select
     const usePlaceholderStyles = makeStyles((theme) => ({
@@ -82,12 +85,12 @@ function ListProductGroup(props) {
                                     }                                    
                                 </Select>
                             </FormControl> */}
-                            <Autocomplete
+                            <Autocomplete                                
                                 disablePortal   
                                 value={{ label : item?.label , _id: item?.productGroupId }}                            
                                 options={productGroup}  
                                 getOptionSelected={(option, value) => option?._id === value?._id } 
-                                getOptionLabel={ (option) => option.label ? option.label : " " }                              
+                                getOptionLabel={ (option) => option.label ? option.label : "Name" }                              
                                 onChange={(e, value) => {
                                     props.setProductGroupId( value?._id , value?.unitQtyGroup , item?.key)   
                                     props?.setProductGroupLabel(value?.label,item.key) 
