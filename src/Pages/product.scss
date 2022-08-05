@@ -141,12 +141,14 @@
                     }
 
                     .icon-flip {
-                        direction: ltr;
-                        scale: 1;
+                        direction: ltr !important;
+                        transition: all .3s ease-in-out;
+                        transform: rotate(180deg)  !important;
                     }
                     .icon-flip-back {
-                        direction: ltr;
-                        scale: -1;
+                        direction: ltr !important;
+                        transition: all .3s ease-in-out;
+                        transform: rotate(0deg) !important;
                     }
                 }
             }
