@@ -26,27 +26,30 @@ export default function ProductGroupList({productId}) {
                         <TableRow className="header-row">
                             <TableCell className="header-title">
                                 <Typography className="title">Name </Typography>
-                            </TableCell>                               
-                            <TableCell className="header-title">
-                                <Typography className="title">Unit Price </Typography>
-                            </TableCell>                            
+                            </TableCell>       
                             <TableCell className="header-title">
                                 <Typography className="title">Qty On Hand</Typography>
-                            </TableCell>
+                            </TableCell>                        
+                            <TableCell className="header-title">
+                                <Typography className="title">Unit Price </Typography>
+                            </TableCell>                           
                         </TableRow>
 
                         {
                             data?.getProductGroupByProductId?.map( (row,index) => (
                                 <TableRow key={index} className="body-row">
+                                    
                                     <TableCell className="body-title">
                                         <Typography className="title" >{row?.name} </Typography>
-                                    </TableCell>                                      
-                                    <TableCell className="body-title">
-                                        <Typography className="title" >${row?.unitPrice} </Typography>
-                                    </TableCell>
+                                    </TableCell>                                     
+                                    
                                     <TableCell className="body-title">
                                         <Typography className="title" > {row?.totalStockAmount-row?.totalSold} - U/M</Typography>
-                                    </TableCell>                                                                  
+                                    </TableCell> 
+
+                                    <TableCell className="body-title">
+                                        <Typography className="title" >${row?.unitPrice} </Typography>
+                                    </TableCell>                                                                
                                                                 
                                 </TableRow>
                             ))

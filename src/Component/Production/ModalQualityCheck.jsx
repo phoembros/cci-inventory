@@ -40,12 +40,14 @@ export default function ModalQualityCheck({
     });
 
     // Handle Message Error TextField
-    const [errorMessage, setErrorMessage] = React.useState(["Over than remain" , "Input invalid value"]);
+    const [errorMessage, setErrorMessage] = React.useState(["Over than remain" , "Input invalid value" , "is required!"]);
     const [errorAlert,setErrorAlert] = React.useState(false);
     const [valueOver,setValueOver] = React.useState(false);
     const [touched, setTouched] = React.useState(false);
     const handleTouch = () =>  setTouched(true);
     
+
+    const [create,setCreate] = React.useState(false);
 
     // ProductGroup List ===============================================================================
     const [currentItem, setCurrentItem] = React.useState({ productGroupId: '' , label: "" , unitQtyGroup: 0 , qtyOfUM: 0 , key: ""})
@@ -100,7 +102,7 @@ export default function ModalQualityCheck({
             setShowValueEsstimate(valueEsstimate-totalEsstimate);
             setErrorAlert(false);
         } else {
-            setErrorAlert(true);
+            setErrorAlert(true);   
         }      
             
     }
@@ -151,20 +153,18 @@ export default function ModalQualityCheck({
         var newShowValueEsstimate = showValueEsstimate;
         items.map(i=>{      
           if(i.key===key){
-            i.qtyOfUM= parseFloat(qtyOfUM);   
-            setValueOver(false)         
+                i.qtyOfUM= parseFloat(qtyOfUM);   
+                setValueOver(false);   
           }
           if(parseFloat(qtyOfUM) > newShowValueEsstimate/i.unitQtyGroup){
-            setValueOver(true)
+                setValueOver(true)
           }
         })       
         setItem([...items]) 
         handleValueEsstimate(); 
     }
 
-    // console.log(item)
-    // End List ===============================================================================
-
+    // End List ==============================================================================
    
 
     // Update Status Production
@@ -177,8 +177,7 @@ export default function ModalQualityCheck({
                 handleClose();
                 setRefetch();
                 setLoading(false);
-
-                setItem([{ productGroupId: '' , label: "" , unitQtyGroup: 0 , qtyOfUM: 0 , key: ""}])
+                setItem([{ productGroupId: '' , label: "" , unitQtyGroup: 0 , qtyOfUM: 0 , key: "" }])
 
             } else {
                 setLoading(false)
@@ -200,20 +199,42 @@ export default function ModalQualityCheck({
     const [completedQty,setCompletedQty] = React.useState(1);
     const [completedRemark,setCompletedRemark] = React.useState("")
     
+    
     const handleUpdateProgress = () => { 
         setLoading(true)  
-        // console.log("clikc")     
-        completeProduction({
-            variables: {
-                id: editDataProduction?._id,
-                completedInput: {
-                    progress: "completed",
-                    completedQtyUM: item,
-                    completedRemark: completedRemark,
-                    qualityCheck: userId,
-                }
-            }
-        })
+        // console.log("clikc")    
+        
+        if(item?.length !== 0) {
+            const items = item;
+            items.map( i => {  
+                console.log(i)
+                if( i.qtyOfUM !== 0 && !isNaN(i?.qtyOfUM) && i.label !== undefined && i.label !== "" ) {
+                    setCreate(false); 
+                    completeProduction({
+                        variables: {
+                            id: editDataProduction?._id,
+                            completedInput: {
+                                progress: "completed",
+                                completedQtyUM: item,
+                                completedRemark: completedRemark,
+                                qualityCheck: userId,
+                            }
+                        }
+                    })    
+
+                } else {
+                    setLoading(false)
+                    setCreate(true)
+                }    
+                                 
+            })
+
+        } else {
+            setLoading(false)
+            setCreate(true)
+        }
+
+              
     }
 
 
@@ -315,6 +336,8 @@ export default function ModalQualityCheck({
                                 errorAlert={errorAlert}
                                 touched={touched}  
                                 handleTouch={handleTouch}    
+                                create={create}      
+                                setCreate={setCreate}                         
                                 valueOver={valueOver}  
                             />
                         </Table>
@@ -417,14 +440,17 @@ export default function ModalQualityCheck({
                         <Box sx={{flexGrow:1}}></Box>
                         <Button variant="contained" color="error" onClick={handleClose}>Cancel</Button> 
                         {
-                            completedQty > editDataProduction?.qty || completedQty < 0.01 ?
-                                <Button variant="contained">Ok</Button>
-                            :
+                            // completedQty > editDataProduction?.qty || completedQty < 0.01 ?
+                            //     <Button variant="contained">Ok</Button>
+                            // :
                                 loading ?
-                                <Button variant="contained"  >Loading...</Button>
-                                :
-                                <Button variant="contained" onClick={handleUpdateProgress}>Ok</Button>
-                        }
+                                    <Button variant="contained">Loading...</Button>
+                                :             
+                                    create ?
+                                        <Button variant="contained">Ok</Button>
+                                    :
+                                        <Button variant="contained" onClick={handleUpdateProgress}>Ok</Button>
+                        }   
                         
                     </Stack> 
 

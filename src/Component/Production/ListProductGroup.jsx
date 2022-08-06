@@ -57,7 +57,7 @@ function ListProductGroup(props) {
 
     
     // Handle Message Error TextField
-    const [errorMessage, setErrorMessage] = React.useState(["Can't input 0" , "Invalid Value" , "Material is required!"]);
+    const [errorMessage, setErrorMessage] = React.useState(["Can't input 0" , "Invalid Value" , "Field is required!"]);
     const [touched, setTouched] = React.useState(false);
     const handleTouch = () =>  setTouched(true);
 
@@ -90,18 +90,26 @@ function ListProductGroup(props) {
                                 value={{ label : item?.label , _id: item?.productGroupId }}                            
                                 options={productGroup}  
                                 getOptionSelected={(option, value) => option?._id === value?._id } 
-                                getOptionLabel={ (option) => option.label ? option.label : "Name" }                              
+                                getOptionLabel={ (option) => option.label ? option.label : " " }                              
                                 onChange={(e, value) => {
                                     props.setProductGroupId( value?._id , value?.unitQtyGroup , item?.key)   
-                                    props?.setProductGroupLabel(value?.label,item.key) 
+                                    props?.setProductGroupLabel(value?.label,item.key)    
+                                    props.setCreate(false)                                 
                                 }}
                                 renderInput={(params) => 
                                     <TextField 
                                         {...params} size="small" className='text-field' fullWidth
                                         placeholder='Name'
-                                        // onFocus={handleTouch}
-                                        // error={ touched && props.errorAlert && item?.rawName === undefined }
-                                        // helperText={ item?.rawName === undefined && errorMessage[2] }   
+                                        onFocus={props.handleTouch}
+                                        error={ 
+                                            props.touched && props.errorAlert && item?.label === undefined ||
+                                            props.create && item?.label === "" ||
+                                            props.touched && item?.label === undefined
+                                        }
+                                        helperText={ 
+                                            props.touched && item?.label === undefined && errorMessage[2] ||
+                                            props.create && item?.label === "" && errorMessage[2] 
+                                        }   
                                     />
                                 }
                             />
@@ -115,7 +123,10 @@ function ListProductGroup(props) {
                                 id={item?.key} 
                                 size='small' 
                                 value={item?.qtyOfUM}
-                                onChange={(e) => props.setQtyOfUM(e.target.value, item.key)}
+                                onChange={(e) => {
+                                    props.setQtyOfUM(e.target.value, item.key)
+                                    props.setCreate(false) 
+                                }}
                                 InputProps={{                                  
                                     endAdornment: (
                                         <InputAdornment position="end">                                             
@@ -127,11 +138,14 @@ function ListProductGroup(props) {
                                 onFocus={props.handleTouch}
                                 error={ 
                                     props.touched && props.errorAlert && props.valueOver || 
-                                    props.touched && props.errorAlert && isNaN(item?.qtyOfUM) 
+                                    props.touched && props.errorAlert && isNaN(item?.qtyOfUM) ||
+                                    props.create && item?.qtyOfUM === 0
                                 }
                                 helperText={ 
                                     props.valueOver && props.errorAlert && props.errorMessage[0] || 
-                                    isNaN(item?.qtyOfUM) && props.errorAlert && props.errorMessage[1] 
+                                    isNaN(item?.qtyOfUM) && props.errorAlert && props.errorMessage[1] ||
+                                    isNaN(item?.qtyOfUM) && item?.qtyOfUM === 0 && props.errorMessage[2] ||
+                                    props.create && item?.qtyOfUM === 0 && props.errorMessage[2]                              
                                 }  
                             />
 

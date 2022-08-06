@@ -67,15 +67,16 @@ export default function ProductDetails() {
         },
         onCompleted: ({getProductGroupByProductId}) => {
             // setLoading(false);
+            console.log(getProductGroupByProductId)
+            setTimeout( () => {
+                setLoading(false);
+            },500)
         }
     })
    
     React.useEffect( () => {      
         if(productGroups?.getProductGroupByProductId) {
-            setProductGroupData(productGroups?.getProductGroupByProductId);
-            setTimeout( () => {
-                setLoading(false);
-            },500)
+            setProductGroupData(productGroups?.getProductGroupByProductId);            
         }                
     },[productGroups?.getProductGroupByProductId , productId])
 
