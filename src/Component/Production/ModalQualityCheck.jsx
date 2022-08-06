@@ -209,31 +209,33 @@ export default function ModalQualityCheck({
             items.map( i => {  
                 console.log(i)
                 if( i.qtyOfUM !== 0 && !isNaN(i?.qtyOfUM) && i.label !== undefined && i.label !== "" ) {
-                    setCreate(false); 
-                    completeProduction({
-                        variables: {
-                            id: editDataProduction?._id,
-                            completedInput: {
-                                progress: "completed",
-                                completedQtyUM: item,
-                                completedRemark: completedRemark,
-                                qualityCheck: userId,
-                            }
-                        }
-                    })    
-
+                    setCreate(false);
                 } else {
                     setLoading(false)
                     setCreate(true)
-                }    
-                                 
+                    return
+                }                  
             })
 
         } else {
             setLoading(false)
             setCreate(true)
+            return
         }
 
+        if(!create) {
+            completeProduction({
+                variables: {
+                    id: editDataProduction?._id,
+                    completedInput: {
+                        progress: "completed",
+                        completedQtyUM: item,
+                        completedRemark: completedRemark,
+                        qualityCheck: userId,
+                    }
+                }
+            })  
+        }
               
     }
 

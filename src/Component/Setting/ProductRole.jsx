@@ -319,9 +319,24 @@ export default function ProductRole({dataRole , setRefetch}) {
             </TableRow>
 
             {/* 
-            getProductGroupById
-            getProductGroupPagination
+                getProductGroupById           
             */}
+            
+            <TableRow className="body-row">
+                <TableCell align="center" className="body-title">View ALL Group Product</TableCell>
+                <TableCell align="center" className="body-title">                                                
+                    <FormControlLabel
+                        control={
+                        <Switch
+                            checked={getProductGroupPagination ? true : false}
+                            onChange={() => setGetProductGroupPagination(!getProductGroupPagination) }
+                        />
+                        }
+                        label={getProductGroupPagination ? "On" : "Off"}
+                    />                                               
+                </TableCell>                                            
+            </TableRow>
+
 
             <TableRow className="body-row">
                 <TableCell align="center" className="body-title">View Group Product</TableCell>

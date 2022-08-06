@@ -238,7 +238,35 @@ export default function ViewProduction({
                                 </Table>
                             </TableContainer>
 
+                        {
+                            ViewData?.completedQtyUM ?
+                                <TableContainer >
+                                    <Table className="table" aria-label="simple table">
+                                        <TableHead >
+                                            <TableRow className="header-row">
+                                                <TableCell className="header-title-complete">Completed Stock U/M</TableCell>                            
+                                                <TableCell className="header-title-complete">Stock U/M</TableCell> 
+                                                                                                
+                                            </TableRow>
+                                        </TableHead>
+                                        {ViewData?.completedQtyUM?.map( (row , index) => (
+                                            <TableBody key={index} component={Paper} className="body">                        
+                                                <TableRow  className="body-row">                                
+                                                    <TableCell className="body-title" component="th" scope="row" width="50%"> {row?.label} </TableCell>
+                                                    <TableCell className="body-title" >{(row?.qtyOfUM)} - U/M</TableCell>    
+                                                                                                    
+                                                </TableRow>
+                                            </TableBody>                        
+                                        ))}
+                                    </Table>
+                                </TableContainer>
+                            :
+                                null
+                        }                
                             
+                            
+
+
                             <TableContainer >
                                 <Table className="table-buttom" aria-label="simple table">
                                     <TableHead >

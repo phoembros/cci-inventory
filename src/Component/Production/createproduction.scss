@@ -82,6 +82,7 @@
                     // font-weight: bold;
                     color: orange;
                 }
+               
             }
             
             .body {
@@ -127,6 +128,14 @@
                     border: none;
                     font-size: $font-Size-Subtitle;
                     font-weight: bold;
+                }
+
+                .header-title-complete {
+                    padding: 10px 0px 10px 10px;
+                    border: none;
+                    font-size: $font-Size-Subtitle;
+                    font-weight: bold;
+                    color: #007654;                   
                 }
             }
             
