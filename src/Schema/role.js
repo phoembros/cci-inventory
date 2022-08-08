@@ -92,6 +92,7 @@ query GetRoleAndPermission {
       deleteProductGroup
       adjustQtyProductGroup
       adjustQtyRawMaterial
+      getRawMaterialReport
     }
     paths {
       user
@@ -195,6 +196,7 @@ query GetRoleAndPermissionById($id: ID!) {
       updateProductGroup
       deleteProductGroup
       adjustQtyProductGroup
+      getRawMaterialReport
     }
     paths {
       user

@@ -125,6 +125,7 @@ query GetUsersPagination($page: Int, $limit: Int, $keyword: String, $pagination:
           updateProductGroup
           deleteProductGroup
           adjustQtyProductGroup
+          getRawMaterialReport
         }
         paths {
           user
@@ -281,6 +282,7 @@ query GetuserLogin {
         updateProductGroup
         deleteProductGroup
         adjustQtyProductGroup
+        getRawMaterialReport
       }
       paths {
         user

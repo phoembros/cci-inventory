@@ -10,7 +10,7 @@ export default function ReportRole({dataRole, setRefetch}) {
     const [getSaleReport, setGetSaleReport] = React.useState(dataRole?.permissions?.getSaleReport)
     const [getProductionReport, setGetProductionReport] = React.useState(dataRole?.permissions?.getProductionReport)
     const [getInventoryStockReport, setGetInventoryStockReport] = React.useState(dataRole?.permissions?.getInventoryStockReport)
-   
+    const [getRawMaterialReport,setGetRawMaterialReport] = React.useState(dataRole?.permissions?.getRawMaterialReport)
 
     // Update Function
     const [updateRole, error] = useMutation(UPDATE_ROLE, {
@@ -134,6 +134,7 @@ export default function ReportRole({dataRole, setRefetch}) {
                         getSaleReport: getSaleReport,
                         getProductionReport: getProductionReport,
                         getInventoryStockReport:getInventoryStockReport ,
+                        getRawMaterialReport: getRawMaterialReport,
 
                     },
                 },
@@ -146,7 +147,8 @@ export default function ReportRole({dataRole, setRefetch}) {
     }, [
         getSaleReport,
         getProductionReport,
-        getInventoryStockReport
+        getInventoryStockReport,
+        getRawMaterialReport,
     ])
     
 
@@ -171,6 +173,23 @@ export default function ReportRole({dataRole, setRefetch}) {
             </TableRow>            
         </TableBody>
 
+        <TableBody>
+            <TableRow className="body-row">
+                <TableCell align="center" className="body-title">View Raw Material Report</TableCell>
+                <TableCell align="center" className="body-title">                                                
+                        <FormControlLabel
+                            control={
+                            <Switch
+                                checked={getRawMaterialReport ? true : false}
+                                onChange={() => setGetRawMaterialReport(!getRawMaterialReport)}
+                            />
+                            }
+                            label={getRawMaterialReport ? "On" : "Off"}
+                        />                                                 
+                </TableCell>                                            
+            </TableRow>            
+        </TableBody>
+
 
         <TableBody>
             <TableRow className="body-row">
@@ -186,8 +205,7 @@ export default function ReportRole({dataRole, setRefetch}) {
                             label={getProductionReport ? "On" : "Off"}
                         />                                                        
                 </TableCell>                                            
-            </TableRow>
-            
+            </TableRow>            
         </TableBody>
 
         <TableBody>

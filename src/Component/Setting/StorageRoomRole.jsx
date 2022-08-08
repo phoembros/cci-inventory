@@ -155,6 +155,7 @@ export default function StorageRoomRole({ dataRole , setRefetch }) {
                         getSaleReport: dataRole?.permissions?.getSaleReport,
                         getProductionReport: dataRole?.permissions?.getProductionReport,
                         getInventoryStockReport: dataRole?.permissions?.getInventoryStockReport,
+                        getRawMaterialReport: dataRole?.permissions?.getRawMaterialReport,
 
                     },
                 },
