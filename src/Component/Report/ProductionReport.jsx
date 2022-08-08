@@ -23,9 +23,12 @@ const ComponentToPrint = ({FromData , ToData}) => {
             toDate: ToData,
         },
         onCompleted: ({getProductionReport}) => {
-            // console.log(getProductionReport)
+            console.log(getProductionReport)
             setDataReport(getProductionReport)
         },
+        onError: (error) => {
+            console.log(error.message)
+        }
     })
 
 

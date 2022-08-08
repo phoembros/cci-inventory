@@ -112,8 +112,8 @@ export default function RoomDetail() {
                                                                     aria-controls="panel1a-content"
                                                                     id="panel1a-header"
                                                                 >   
-                                                                    <Stack direction="row" spacing={4}>
-                                                                        <Typography>{index+1} - </Typography>
+                                                                    <Stack direction="row" spacing={4}>                                                                        
+                                                                        <Typography>{index+1} - </Typography>                                                                        
                                                                         <Box width="200px"> 
                                                                             <Typography>Name: {row?.productName}</Typography>       
                                                                         </Box>                                                                           

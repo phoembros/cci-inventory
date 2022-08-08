@@ -205,6 +205,7 @@ export default function CreateProduction({
     // Formik
     const createProduction = Yup.object().shape({        
         storageRoomId: Yup.string().required("Storage Room is required!"),
+        customerId: Yup.string().required("Customer is required!"),
         startDate: Yup.date(),
         dueDate: Yup.date(),
         priority: Yup.string(),
@@ -219,7 +220,8 @@ export default function CreateProduction({
     
     const formik = useFormik({
         initialValues: {            
-            storageRoomId: "",            
+            storageRoomId: "",  
+            customerId: "",
             startDate: new Date(),
             dueDate: new Date(),
             priority: "urgent",
@@ -242,8 +244,8 @@ export default function CreateProduction({
                 startDate: values?.startDate,
                 dueDate: values?.dueDate,
                 productionsBy: userId,
-                customerId: customerId,
-                workOrders: customerId !== null ? true : false,
+                customerId: values?.customerId,
+                workOrders: values?.customerId !== null ? true : false,
                 // approveBy: "",                
                 status: "pending",
                 // progress: values?.progress,
@@ -325,9 +327,12 @@ export default function CreateProduction({
                                             disablePortal
                                             id="combo-box-demo"
                                             options={customer}                        
-                                            onChange={(e, value) => setCustomerId(value?._id)}
+                                            onChange={ (e, value) => setFieldValue("customerId",value?._id) }
                                             renderInput={(params) => 
-                                                <TextField fullWidth  {...params}  size="small"  label="Customer" />
+                                                <TextField fullWidth  {...params}  size="small"  label="Customer" 
+                                                    error={Boolean(touched.customerId && errors.customerId)}
+                                                    helperText={touched.customerId && errors.customerId}
+                                                />
                                             }
                                         />                    
                                     </Box>

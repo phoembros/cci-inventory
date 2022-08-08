@@ -1,18 +1,32 @@
 import { gql } from "@apollo/client";
 
 export const GET_INVENTORY_REPORT = gql`
-    query GetInventoryStockReport($fromDate: Date!, $toDate: Date!) {
-        getInventoryStockReport(fromDate: $fromDate, toDate: $toDate) {
-        _id
-        itemId
+  query GetInventoryStockReport($fromDate: Date!, $toDate: Date!) {
+    getInventoryStockReport(fromDate: $fromDate, toDate: $toDate) {
+      itemId
+      itemDescription
+      unit
+      productGroup {
         itemDescription
-        qtyOnHand
         unitCost
-        unit
-        completedUnit
+        qtyStockIn
         qtySold
-        }
+        quantityPerStockUM
+      }
     }
+  }
+`
+
+export const GET_RAWMATERIAL_REPORT = gql`
+query GetRawMaterialReport($fromDate: Date!, $toDate: Date!) {
+  getRawMaterialReport(fromDate: $fromDate, toDate: $toDate) {
+    materialName
+    unit
+    unitPrice
+    qtyStockIn
+    qtyStockOut
+  }
+}
 `
 
 export const GET_PRODUCTION_REPORT = gql`

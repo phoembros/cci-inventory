@@ -7,7 +7,7 @@ import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlin
 import ReactToPrint from "react-to-print";
 import logo from "../../Assets/CCI_invoice.png";
 import { GET_SALE_BYID } from "../../Schema/sales";
-import { GET_INVENTORY_REPORT } from "../../Schema/report";
+import { GET_RAWMATERIAL_REPORT } from "../../Schema/report";
 import { useQuery } from "@apollo/client";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
@@ -17,14 +17,14 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
     // get Data
     const [dataReport,setDataReport] = React.useState([]);
 
-    const { data , error } = useQuery(GET_INVENTORY_REPORT , {
+    const { data , error } = useQuery(GET_RAWMATERIAL_REPORT , {
         variables: {
             fromDate:  FromData,
             toDate: ToData,
         },
-        onCompleted: ({getInventoryStockReport}) => {
-            // console.log(getInventoryStockReport)
-            setDataReport(getInventoryStockReport)
+        onCompleted: ({getRawMaterialReport}) => {
+            // console.log(getRawMaterialReport)
+            setDataReport(getRawMaterialReport)
         },
         onError: (error) => {
             console.log(error.message)
@@ -49,7 +49,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                         <Typography variant="body1" sx={{fontWeight: "bold"}}>CCS CAMBODIA</Typography>
                                     </Stack>
                                     <Stack direction="row" justifyContent="center">
-                                        <Typography variant="body1" sx={{fontWeight: "bold"}}>Inventory Report Summary</Typography>
+                                        <Typography variant="body1" sx={{fontWeight: "bold"}}>Raw Material Report Summary</Typography>
                                     </Stack>
                                     <Stack direction="row" justifyContent="center">
                                         <Typography variant="body1" sx={{fontWeight: "bold"}}>
@@ -75,17 +75,24 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                 className="cell-item" width="7%"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
-                                                <Typography variant="body2" className="text">Item ID</Typography>
+                                                <Typography variant="body2" className="text">Item Description</Typography>
                                             </TableCell>
                                             <TableCell 
-                                                className="cell-item" width="15%"
+                                                className="cell-item" width="15%" align="center"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
-                                                <Typography variant="body2" className="text">Item Description</Typography>
-                                            </TableCell>         
+                                                <Typography variant="body2" className="text">Qauntity Stock In</Typography>
+                                            </TableCell>     
 
                                             <TableCell 
-                                                align="center" width="8%"
+                                                className="cell-item" width="15%" align="center"
+                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                            >
+                                                <Typography variant="body2" className="text">Qauntity Stock Out</Typography>
+                                            </TableCell>
+                                               
+                                            <TableCell 
+                                                align="center" width="8%" 
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             > 
@@ -93,152 +100,82 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                             </TableCell>  
 
                                             <TableCell 
-                                                align="center" width="8%"
+                                                align="center" width="10%"
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  ,   padding: "8px"}}
                                             >
-                                                <Typography variant="body2" className="text">Unit Price</Typography>
+                                                <Typography variant="body2" className="text">Unit</Typography>
                                             </TableCell>   
-                                            {/* <TableCell 
-                                                align="center" width="8%"
-                                                className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
-                                            >
-                                                <Typography variant="body2" className="text">Stocking U/M</Typography>
-                                            </TableCell>       */}
                                             <TableCell 
-                                                align="center" width="10%"
+                                                align="center" width="15%"
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
-                                                <Typography variant="body2" className="text">
-                                                        Units Sold                                                         
-                                                </Typography>
-                                                {/* <Typography variant="body2" className="text">                                                        
-                                                        {moment(FromData).format("MM/DD/YY")}-{moment(ToData).format("MM/DD/YY")}
-                                                </Typography> */}
-                                            </TableCell> 
+                                                <Typography variant="body2" className="text">Unit Price</Typography>
+                                            </TableCell>      
+                                             
                                                                                              
                                         </TableRow>                                                                  
                                     </TableBody>                      
                                 </Table>
                             </TableContainer>
 
-                                        
                         {
-                            dataReport?.map( (item,index) => (    
-    
-                            <>
+                            dataReport?.map( (item,index) => (
                                 <TableContainer key={index} className="table">
                                     <Table sx={{ width:"100%" }}>
-                                        <TableBody  className='body'>
-                                            <TableRow  className="body-row">
+                                        <TableBody className='body'>
+                                            <TableRow className="body-row">
                                                 <TableCell  
                                                     className="cell-item" width="7%"
                                                     sx={{border: "none" , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.itemId}</Typography>
+                                                    <Typography variant="body2" className="text">{item?.materialName}</Typography>
                                                 </TableCell>
                                                 <TableCell 
-                                                    className="cell-item" width="15%"
+                                                    className="cell-item" width="15%" align="center"
                                                     sx={{border: "none" , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.itemDescription}</Typography>
-                                                </TableCell>         
-
-                                                <TableCell 
-                                                    align="center" width="8%"
-                                                    className="cell-item"
-                                                    sx={{border: "none" , padding: "8px"}}
-                                                > 
-                                                    <Typography variant="body2" className="text"></Typography>
+                                                    <Typography variant="body2" className="text">{item?.qtyStockIn}</Typography>
                                                 </TableCell>  
 
                                                 <TableCell 
-                                                    align="center" width="8%"
-                                                    className="cell-item"
-                                                    sx={{border: "none" ,   padding: "8px"}}
-                                                >
-                                                    <Typography variant="body2" className="text"></Typography>
-                                                </TableCell>   
-                                                <TableCell 
-                                                    align="center" width="8%"
-                                                    className="cell-item"
+                                                    className="cell-item" width="15%" align="center"
                                                     sx={{border: "none" , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.completedUnit}</Typography>
-                                                </TableCell>      
+                                                    <Typography variant="body2" className="text">{item?.qtyStockOut}</Typography>
+                                                </TableCell>       
+
+                                                <TableCell 
+                                                    align="center" width="8%" 
+                                                    className="cell-item"
+                                                    sx={{border: "none" , padding: "8px"}}
+                                                > 
+                                                    <Typography variant="body2" className="text">{(item?.qtyStockIn-item?.qtyStockOut).toFixed(2)}</Typography>
+                                                </TableCell>  
+
                                                 <TableCell 
                                                     align="center" width="10%"
                                                     className="cell-item"
+                                                    sx={{border: "none" ,   padding: "8px"}}
+                                                >
+                                                    <Typography variant="body2" className="text">{item?.unit}</Typography>
+                                                </TableCell>   
+
+                                                <TableCell 
+                                                    align="center" width="15%"
+                                                    className="cell-item"
                                                     sx={{border: "none" , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.qtySold?.toFixed(2)}</Typography>
-                                                </TableCell>                                                                                                      
+                                                    <Typography variant="body2" className="text">$ {item?.unitPrice}</Typography>
+                                                </TableCell>      
+                                                                                                                                                     
                                             </TableRow>                                                                  
-                                        </TableBody>
+                                        </TableBody>                      
                                     </Table>
                                 </TableContainer>
-
-                                {
-                                    item?.productGroup?.map( (row,index) => (
-                                        <TableContainer key={index} className="table">
-                                            <Table sx={{ width:"100%" }}>
-                                                <TableBody  className='body'>
-                                                    <TableRow  className="body-row">
-                                                        <TableCell  
-                                                            className="cell-item" width="7%"
-                                                            sx={{border: "none" , padding: "8px"}}
-                                                        >
-                                                            {/* <Typography variant="body2" className="text">{item?.itemId}</Typography> */}
-                                                        </TableCell>
-                                                        <TableCell 
-                                                            className="cell-item" width="15%"
-                                                            sx={{border: "none" , padding: "8px"}}
-                                                        >
-                                                            <Typography variant="body2" className="text">{row?.itemDescription}</Typography>
-                                                        </TableCell>         
-
-                                                        <TableCell 
-                                                            align="center" width="8%"
-                                                            className="cell-item"
-                                                            sx={{border: "none" , padding: "8px"}}
-                                                        > 
-                                                            <Typography variant="body2" className="text">{(row?.qtyStockIn-row?.qtySold)?.toFixed(2)} - U/M</Typography>
-                                                        </TableCell>  
-
-                                                        <TableCell 
-                                                            align="center" width="8%"
-                                                            className="cell-item"
-                                                            sx={{border: "none" ,   padding: "8px"}}
-                                                        >
-                                                            <Typography variant="body2" className="text">${row?.unitCost?.toFixed(2)}</Typography>
-                                                        </TableCell>   
-                                                        {/* <TableCell 
-                                                            align="center" width="8%"
-                                                            className="cell-item"
-                                                            sx={{border: "none" , padding: "8px"}}
-                                                        >
-                                                            <Typography variant="body2" className="text">{row?.quantityPerStockUM} per U/M</Typography>
-                                                        </TableCell>       */}
-                                                        <TableCell 
-                                                            align="center" width="10%"
-                                                            className="cell-item"
-                                                            sx={{border: "none" , padding: "8px"}}
-                                                        >
-                                                            <Typography variant="body2" className="text">{row?.qtySold?.toFixed(2)}</Typography>
-                                                        </TableCell>                                                                                                      
-                                                    </TableRow>                                                                  
-                                                </TableBody>
-                                            </Table>
-                                        </TableContainer>
-                                    ))
-                                }
-                            </>
                             ))
                         }   
-                                                          
-                                
                                  
                             
                         </Box>              
@@ -268,7 +205,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
     )
 }
 
-export default function InventoryReport({ FromData , ToData }) {
+export default function RawMaterialReport({ FromData , ToData }) {
 
     const componentRef = React.useRef(null);
     

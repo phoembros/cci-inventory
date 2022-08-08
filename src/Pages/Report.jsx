@@ -8,6 +8,7 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import InventoryReport from "../Component/Report/InventoryReport";
 import ProductionReport from "../Component/Report/ProductionReport";
+import RawMaterialReport from "../Component/Report/RawMaterialReport";
 import SaleReport from "../Component/Report/SaleReport";
 
 export default function Report() {
@@ -47,7 +48,8 @@ export default function Report() {
                             <MenuItem value="default">Choose Type</MenuItem>
                             <MenuItem value="sale_report">Sale Report</MenuItem>
                             <MenuItem value="inventory_report">Inventory Report</MenuItem>
-                            <MenuItem value="production_report">Production Report</MenuItem>                            
+                            <MenuItem value="production_report">Production Report</MenuItem>    
+                            <MenuItem value="raw_material_report">Raw Material Report</MenuItem>                          
                         </Select>
                     </FormControl>
                 </Stack>
@@ -162,6 +164,15 @@ export default function Report() {
             }
 
 
+            {
+                typeReport === "raw_material_report" ?
+                    <RawMaterialReport 
+                        FromData={fromDate}
+                        ToData={toDate}
+                    />
+                :
+                    null  
+            }
 
             
             

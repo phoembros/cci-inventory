@@ -19,15 +19,21 @@ import TruncateMarkup from "react-truncate-markup";
 import DescriptionIcon from '@mui/icons-material/Description';
 import { GET_USER_LOGIN } from "../Schema/user";
 import FilterListIcon from '@mui/icons-material/FilterList';
+import LoadingPage from "../Component/Permission/LoadingPage";
 
 import PermissionContent from "../Component/Permission/PermissionContent";
 
 export default function Product() {
 
+    const [loadingPage,setLoadingPage] = React.useState(true);
+
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
+        onCompleted: () => setLoadingPage(false),
         pollInterval: 10000,
     })
     //   console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
+
+    
 
     // Filter
     const [shortID,setShortID] = React.useState(-1);
@@ -154,9 +160,7 @@ export default function Product() {
 
         {
             loading ?
-                <Box  sx={{ display: "flex", flexDirection: "column", alignItems: "center" , mt:10}} >
-                    <CircularProgress />
-                </Box>
+                <LoadingPage />
             :
                 <>
                 {
@@ -293,7 +297,10 @@ export default function Product() {
 
                         </>
                     :
-                        <PermissionContent /> 
+                        loadingPage ?
+                            <LoadingPage />
+                        :
+                            <PermissionContent />  
                 }
                  
                 </>

@@ -206,7 +206,8 @@ export default function UpdateProduction({
        
     // Formik
     const createProduction = Yup.object().shape({        
-        storageRoomId: Yup.string(),
+        storageRoomId: Yup.string().required("Storage Room is required!"),
+        customerId: Yup.string().required("Customer is required!"),
         startDate: Yup.date(),
         dueDate: Yup.date(),
         priority: Yup.string(),
@@ -223,6 +224,7 @@ export default function UpdateProduction({
     const formik = useFormik({
         initialValues: {            
             storageRoomId: editDataProduction?.storageRoomId?._id,
+            customerId: editDataProduction?.customerId?._id,
             startDate: editDataProduction?.startDate,
             dueDate: editDataProduction?.dueDate,
             priority: editDataProduction?.priority,
@@ -245,8 +247,8 @@ export default function UpdateProduction({
                 startDate: values?.startDate,
                 dueDate: values?.dueDate,
                 productionsBy: userId,
-                customerId: customerId,
-                workOrders: customerId !== null ? true : false,
+                customerId: values?.customerId,
+                workOrders: values?.customerId !== null ? true : false,
                 // approveBy: "",
                 status: "pending",
                 progress: "not started",
@@ -344,11 +346,14 @@ export default function UpdateProduction({
                                                     getOptionSelected={ (option , value) => option._id === value._id } 
                                                     getOptionLabel={(option) => option.label ? option.label : "" }                 
                                                     onChange={(e, value) => {
-                                                        setCustomerId(value?._id)
+                                                        setFieldValue("customerId" ,value?._id)
                                                         setCustomerSelected(value);
                                                     }}
                                                     renderInput={(params) => 
-                                                        <TextField   {...params}  size="small"  label="Customer" />
+                                                        <TextField   {...params}  size="small"  label="Customer" 
+                                                            error={Boolean(touched.customerId && errors.customerId)}
+                                                            helperText={touched.customerId && errors.customerId}
+                                                        />
                                                     }
                                                 />                    
                                             </Box>
