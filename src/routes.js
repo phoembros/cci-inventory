@@ -18,80 +18,81 @@ import Report from "./Pages/Report";
 import Supplies from "./Pages/Supplies";
 import Sales from "./Pages/Sales";
 import Production from "./Pages/Production";
-import ProductCategories from "./Component/Product/ProductCategories"
+import ProductCategories from "./Component/Product/ProductCategories";
 import RawMaterialCategory from "./Component/RawMaterial/RawMaterialCategory";
-import Purchase from './Component/StorageRoom/Purchase';
-import RoomDetail from './Component/StorageRoom/RoomDetail';
-import Customer from './Component/Sales/Customer';
+import Purchase from "./Component/StorageRoom/Purchase";
+import RoomDetail from "./Component/StorageRoom/RoomDetail";
+import Customer from "./Component/Sales/Customer";
 import Login from "./Pages/Login";
 import Page404 from "./Pages/Page404";
-import ForgotPasswork from "./Pages/ForgotPasswork"
-import { AuthContext } from './context/AuthContext'
+import ForgotPasswork from "./Pages/ForgotPasswork";
+import { AuthContext } from "./context/AuthContext";
 import { useContext } from "react";
 import PrintInvoice from "./Component/Sales/PrintInvoice";
 import ProductDetails from "./Component/Product/ProductDetails";
 import Role from "./Component/Setting/Role";
 
-export default function Router({prefersDarkMode,setPrefersDarkMode}) {
+export default function Router({ prefersDarkMode, setPrefersDarkMode }) {
+  //Apollo
+  const { state } = useContext(AuthContext);
+  const { user } = state;
 
-    //Apollo
-    const { state } = useContext(AuthContext);
-    const { user } = state;
+  // console.log(state,'state')
 
-    // console.log(state,'state')
+  // const [systemSettingPath, setSystemSettingPath] = React.useState('')
+  // const [reportPath, setreportPath] = React.useState('')
 
-    // const [systemSettingPath, setSystemSettingPath] = React.useState('')
-    // const [reportPath, setreportPath] = React.useState('')
+  const LoginPage = useRoutes([
+    { path: "", element: <Login /> },
+    { path: "login", element: <Login /> },
+    { path: "forgotpassword", element: <ForgotPasswork /> },
+    // { path: "*" , element: <Page404 /> },
+  ]);
 
-    const LoginPage = useRoutes([ 
-        { path: "", element: <Login /> }, 
-        { path: "login", element: <Login /> },
-        { path: "forgotpassword", element: <ForgotPasswork /> },
-        // { path: "*" , element: <Page404 /> },   
-    ]);
+  const Content = useRoutes([
+    {
+      path: "/",
+      element: (
+        <Layout
+          to="/dashboard"
+          prefersDarkMode={prefersDarkMode}
+          setPrefersDarkMode={setPrefersDarkMode}
+        />
+      ),
+      children: [
+        { path: "/", element: <Navigate to="/dashboard" /> },
+        { path: "dashboard", element: <Dashboard /> },
 
-    const Content = useRoutes([
-        {
-            path: "/",
-            element: <Layout to="/dashboard" prefersDarkMode={prefersDarkMode} setPrefersDarkMode={setPrefersDarkMode}/>,
-            children: [
-                { path: "/", element: <Navigate to="/dashboard" /> },
-                { path: "dashboard", element: <Dashboard /> },  
+        { path: "storage-room", element: <StorageRoom /> },
+        { path: "storage-room/roomdetail", element: <RoomDetail /> },
+        { path: "storage-room/purchase", element: <Purchase /> },
 
-                { path: "storage-room", element: <StorageRoom /> },
-                { path: "storage-room/roomdetail", element:  <RoomDetail /> },
-                { path: "storage-room/purchase", element: <Purchase /> },
+        { path: "raw-material", element: <RawMaterial /> },
+        { path: "raw-material/categories", element: <RawMaterialCategory /> },
 
-                { path: "raw-material", element: <RawMaterial /> },                    
-                { path: "raw-material/categories", element: <RawMaterialCategory /> },
+        { path: "product", element: <Product /> },
+        { path: "product/categories", element: <ProductCategories /> },
+        { path: "product/details", element: <ProductDetails /> },
 
-                { path: "product", element: <Product /> },
-                { path: "product/categories", element: <ProductCategories /> },
-                { path: "product/details", element: <ProductDetails /> },
-                
-                { path: "sales", element: <Sales /> },                
-                { path: "sales/print", element: <PrintInvoice /> },
+        { path: "sales", element: <Sales /> },
+        { path: "sales/print", element: <PrintInvoice /> },
 
-                { path: "customer", element: <Customer /> },
-                { path: "production", element: <Production /> },          
-                { path: "supplies", element: <Supplies /> },
-                { path: "user", element: <User /> },  
-                { path: "report", element: <Report /> }, 
-                { path: "system-setting", element: <SystemSetting /> },  
-                { path: "system-setting/role", element: <Role /> }, 
-                
-                { path: "*" , element: <Page404 /> }    
-            ],
-        },        
-        
-    ]);
+        { path: "customer", element: <Customer /> },
+        { path: "production", element: <Production /> },
+        { path: "supplies", element: <Supplies /> },
+        { path: "user", element: <User /> },
+        { path: "report", element: <Report /> },
+        { path: "system-setting", element: <SystemSetting /> },
+        { path: "system-setting/role", element: <Role /> },
 
+        { path: "*", element: <Page404 /> },
+      ],
+    },
+  ]);
 
-    if(user) {
-        return Content;
-    } else {
-        return LoginPage;
-    }
-    
-
+  if (user) {
+    return Content;
+  } else {
+    return LoginPage;
+  }
 }
