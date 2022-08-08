@@ -136,14 +136,14 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                     className="cell-item" width="15%" align="center"
                                                     sx={{border: "none" , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.qtyStockIn}</Typography>
+                                                    <Typography variant="body2" className="text">{item?.qtyStockIn?.toFixed(2)}</Typography>
                                                 </TableCell>  
 
                                                 <TableCell 
                                                     className="cell-item" width="15%" align="center"
                                                     sx={{border: "none" , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.qtyStockOut}</Typography>
+                                                    <Typography variant="body2" className="text">{item?.qtyStockOut?.toFixed(2)}</Typography>
                                                 </TableCell>       
 
                                                 <TableCell 
@@ -151,7 +151,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                     className="cell-item"
                                                     sx={{border: "none" , padding: "8px"}}
                                                 > 
-                                                    <Typography variant="body2" className="text">{(item?.qtyStockIn-item?.qtyStockOut).toFixed(2)}</Typography>
+                                                    <Typography variant="body2" className="text">{ (item?.qtyStockIn-item?.qtyStockOut).toFixed(2)}</Typography>
                                                 </TableCell>  
 
                                                 <TableCell 
