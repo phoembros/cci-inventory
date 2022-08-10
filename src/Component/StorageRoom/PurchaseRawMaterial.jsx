@@ -292,7 +292,7 @@ export default function PurchaseRawMaterial({
             ListRawMaterils+= `\n👉 ${i?.rawMaterialId?.materialName} (x${i?.newQty} ${i?.rawMaterialId?.unit})` 
           ))
 
-          // await sendMessage({content: `<b>[Request Purchase RawMaterial]</b>\n👩‍🚀 <i>${nameRequest}</i>\n${ListRawMaterils}\n\n🗓 Date:${moment(createPurchaseRawMaterial?.data?.purchaseDate).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+          await sendMessage({content: `<b>[Request Purchase RawMaterial]</b>\n👩‍🚀 <i>${nameRequest}</i>\n${ListRawMaterils}\n\n🗓 Date:${moment(createPurchaseRawMaterial?.data?.purchaseDate).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
 
         } else {
           setLoading(false)
@@ -357,7 +357,6 @@ export default function PurchaseRawMaterial({
     
     const { errors,  touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm } = formik;
 
-    
 
     return (
         <Dialog open={open} className="dialog-create-purchase">
