@@ -3,14 +3,14 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './purchaserawmaterial.scss';
-import { FormControl, Icon, IconButton, InputLabel, MenuItem, Autocomplete, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, InputAdornment } from '@mui/material';
+import { FormControl, Icon, IconButton, InputLabel, MenuItem, Autocomplete, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, InputAdornment, Tooltip } from '@mui/material';
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import ListRawMaterialUpdate from './ListRawMaterialUpdate';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
-import { useQuery , useMutation } from '@apollo/client';
+import { useQuery , useMutation, useLazyQuery } from '@apollo/client';
 import { useFormik, Form, FormikProvider } from "formik";
 import * as Yup from "yup";
-import { UPDATE_PURCHASE_RAW_MATERIAL } from "../../Schema/rawmaterial";
+import { GET_PO_NUMBER, GET_PO_NUMBER_CHANGE, UPDATE_PURCHASE_RAW_MATERIAL } from "../../Schema/rawmaterial";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { GET_USER_LOGIN } from '../../Schema/user';
@@ -50,6 +50,23 @@ export default function PurchaseRawMaterialUpdate({
 }) {
 
   const [loading,setLoading] = React.useState(false);
+  const [openWarning,setOpenWarning]  = React.useState(false);
+
+
+  // Get PO NUmber ======================================================================================================
+  const { data: poNumber } = useQuery(GET_PO_NUMBER,{
+    onCompleted: ({getPOId}) => {
+        // console.log(getPOId)
+    }
+  });
+  
+  const [checkExistingPoId, {data: poNumberChange}] = useLazyQuery(GET_PO_NUMBER_CHANGE,{
+    onCompleted: ({checkExistingPoId}) => {
+        console.log(checkExistingPoId)
+    }
+  });
+  // Get PO NUmber ======================================================================================================
+
 
   // Update
   const [updatePurchaseRawMaterial] = useMutation(UPDATE_PURCHASE_RAW_MATERIAL,{
@@ -327,6 +344,7 @@ export default function PurchaseRawMaterialUpdate({
         priority: Yup.string().required(),
         remark: Yup.string(),
         supplierID: Yup.string().required(),
+        purchaseId: Yup.string().required(),
     });
     
     const formik = useFormik({
@@ -335,12 +353,14 @@ export default function PurchaseRawMaterialUpdate({
           priority: editData?.priority,
           remark: editData?.remark,
           supplierID: editData?.supplierID?._id,
+          purchaseId: editData?.purchaseId,
       },
 
       validationSchema: SalesAdd,
       onSubmit: async (values, { setSubmitting, resetForm }) => {          
           setLoading(true)
           const newValue = {
+              purchaseId: values?.purchaseId,
               purchaseDate: values?.purchaseDate,              
               purchaseBy: userId,
               approveBy: null,
@@ -371,8 +391,20 @@ export default function PurchaseRawMaterialUpdate({
       setFieldValue("supplierID" , editData?.supplierID?._id)
     },[editData])
 
-    return (
+    React.useEffect( () => {
+      if(values.purchaseId){
+        // console.log("onChange")
+        setOpenWarning(true)
+        checkExistingPoId({
+            variables: {
+                poId : values.purchaseId,
+            }
+        })
+      }      
+    },[values.purchaseId])
 
+    
+    return (
       <Dialog open={open} className="dialog-create-purchase">
           <DialogTitle id="alert-dialog-title">
                 <Stack direction="row" spacing={5}>
@@ -397,41 +429,55 @@ export default function PurchaseRawMaterialUpdate({
                       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                         
                           <Stack direction="row" spacing={1} sx={{mt:2}}>
-                            <Stack direction="column" justifyContent="center">
+                            <Stack direction="column" justifyContent="center" width="65px"> 
                                 <Typography className="sub-header-title">
-                                  Priority:
+                                  PO ID:
                                 </Typography>
-                            </Stack>               
+                            </Stack>
                             <Box sx={{width:"170px"}}>
-                                <FormControl fullWidth size="small" >
-                                  <Select                   
-                                    {...getFieldProps("priority")}
-                                    error={Boolean(touched.priority && errors.priority)}
-                                    helperText={touched.priority && errors.priority}
-                                  >                    
-                                    <MenuItem value="urgent">
-                                        <Stack direction="row" spacing={1}>
-                                            <NotificationsActiveIcon sx={{color:"red", width:"17px"}} />
-                                            <Typography>Urgent</Typography>
-                                        </Stack>
-                                    </MenuItem>
-                                    <MenuItem value="medium">
-                                        <Stack direction="row" spacing={1}>
-                                            <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />
-                                            <Typography>Medium</Typography>
-                                        </Stack>
-                                    </MenuItem>
-                                    <MenuItem value="low">
-                                        <Stack direction="row" spacing={1}>
-                                            <ArrowDownwardIcon sx={{color:"blue", width:"17px"}} />
-                                            <Typography>Low</Typography>
-                                        </Stack>
-                                    </MenuItem>
-                                  </Select>
-                                </FormControl>
+                                <Tooltip  
+                                    open={ openWarning ? true : false}  
+                                    onOpen={ () => {
+                                      setTimeout( () => {
+                                        setOpenWarning(false)
+                                      },20000)
+                                    }}   
+                                    arrow                                                             
+                                    title={poNumberChange?.checkExistingPoId}                               
+                                    PopperProps={{                                 
+                                      modifiers: [
+                                            {
+                                                name: "offset",
+                                                options: {
+                                                    offset: [25, -10],
+                                                },
+                                            },
+                                        ],
+                                    }}
+                                    componentsProps={{                                  
+                                      tooltip: {
+                                        sx: {
+                                          bgcolor: 'orange',          
+                                          '& .MuiTooltip-arrow': {
+                                            color: 'orange',
+                                          },                                   
+                                        },
+                                      },
+                                    }}
+                                >
+                                    <TextField                             
+                                      size="small"
+                                      fullWidth                                
+                                      placeholder="PO Number"
+                                      {...getFieldProps("purchaseId")}
+                                      error={Boolean(touched.purchaseId && errors.purchaseId)}
+                                      helperText={touched.purchaseId && errors.purchaseId}
+                                    />
+                                </Tooltip>
                             </Box>
-                            
+                                                        
                             <Box sx={{ flexGrow: 1 }}></Box>
+
                             <Stack direction="column" justifyContent="center" className='date-select'>
                                 <Typography className="sub-header-title">
                                   Date:
@@ -511,8 +557,80 @@ export default function PurchaseRawMaterialUpdate({
                                             />
                                         }
                                     />
-                              </Box>              
+                              </Box>   
+                              <Box sx={{ flexGrow: 1 }}></Box>
+                              <Stack direction="column" justifyContent="center" width="65px" className='priority'> 
+                                  <Typography className="sub-header-title">
+                                    Priority:
+                                  </Typography>
+                              </Stack>
+                              <Box sx={{width:"170px"}} className='priority'>
+                                  <FormControl fullWidth size="small" >
+                                    <Select                   
+                                      {...getFieldProps("priority")}
+                                      error={ Boolean(touched.priority && errors.priority)}
+                                      helperText={touched.priority && errors.priority}
+                                    >                    
+                                      <MenuItem value="urgent">
+                                          <Stack direction="row" spacing={1}>
+                                              <NotificationsActiveIcon sx={{color:"red", width:"17px"}} />
+                                              <Typography>Urgent</Typography>
+                                          </Stack>
+                                      </MenuItem>
+                                      <MenuItem value="medium">
+                                          <Stack direction="row" spacing={1}>
+                                              <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />
+                                              <Typography>Medium</Typography>
+                                          </Stack>
+                                      </MenuItem>
+                                      <MenuItem value="low">
+                                          <Stack direction="row" spacing={1}>
+                                              <ArrowDownwardIcon sx={{color:"blue", width:"17px"}} />
+                                              <Typography>Low</Typography>
+                                          </Stack>
+                                      </MenuItem>
+                                    </Select>
+                                  </FormControl>
+                              </Box>           
                           </Stack>
+
+                          {/* Responsive _================================================================= */}
+                          <Stack direction="row" spacing={1} sx={{mt:2}} className='priority-mobile'>                       
+                              <Stack direction="column" justifyContent="center" width="65px"> 
+                                  <Typography className="sub-header-title">
+                                    Priority:
+                                  </Typography>
+                              </Stack>
+                              <Box sx={{width:"170px"}}>
+                                  <FormControl fullWidth size="small" >
+                                    <Select                   
+                                      {...getFieldProps("priority")}
+                                      error={ Boolean(touched.priority && errors.priority)}
+                                      helperText={touched.priority && errors.priority}
+                                    >                    
+                                      <MenuItem value="urgent">
+                                          <Stack direction="row" spacing={1}>
+                                              <NotificationsActiveIcon sx={{color:"red", width:"17px"}} />
+                                              <Typography>Urgent</Typography>
+                                          </Stack>
+                                      </MenuItem>
+                                      <MenuItem value="medium">
+                                          <Stack direction="row" spacing={1}>
+                                              <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />
+                                              <Typography>Medium</Typography>
+                                          </Stack>
+                                      </MenuItem>
+                                      <MenuItem value="low">
+                                          <Stack direction="row" spacing={1}>
+                                              <ArrowDownwardIcon sx={{color:"blue", width:"17px"}} />
+                                              <Typography>Low</Typography>
+                                          </Stack>
+                                      </MenuItem>
+                                    </Select>
+                                  </FormControl>
+                              </Box>
+                          </Stack>
+                            {/* Responsive _================================================================= */} 
 
 
                           <Box className="container">

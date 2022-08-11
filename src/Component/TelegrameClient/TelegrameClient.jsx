@@ -19,7 +19,7 @@ export const sendMessage = async ({content}) => {
             allow_sending_without_reply: true,
         });
 
-        console.log("response:", response);
+        // console.log("response:", response);
     } catch (error) {
         console.log("error:", error);
     }

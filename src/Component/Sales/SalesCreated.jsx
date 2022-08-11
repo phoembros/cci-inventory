@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Stack, Box, Grid, Paper, Button, TextField, Autocomplete, InputAdornment, IconButton, Table, TableBody,TableHead, TableCell, TableRow ,TableContainer,} from "@mui/material";
+import { Typography, Stack, Box, Grid, Paper, Button, TextField, Autocomplete, InputAdornment, IconButton, Table, TableBody,TableHead, TableCell, TableRow ,TableContainer, Tooltip,} from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { useFormik, Form, FormikProvider } from "formik";
 import { useState, useEffect } from "react";
@@ -31,9 +31,8 @@ import ListCreateSales from '../../Component/Sales/ListCreateSales';
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 // Schema
 import { CREATE_SALE } from "../../Schema/sales";
-import { empty, useMutation, useQuery } from "@apollo/client";
-import { GET_INVOICE_NO } from '../../Schema/sales';
-
+import { empty, useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { GET_INVOICE_NO , GET_INVOICE_NO_CHANGE } from '../../Schema/sales';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -51,6 +50,11 @@ export default function SalesCreated({
   setRefetch,
 }) {
 
+    const [openWarning,setOpenWarning] = React.useState(false);
+
+    const [currentItem, setCurrentItem] = React.useState({ itemName: '' , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: 0 ,})
+    const [item, setItem] = React.useState([])
+
     const [loading,setLoading] = React.useState(false)
     // Create 
     const [createSale] = useMutation(CREATE_SALE , {
@@ -62,6 +66,7 @@ export default function SalesCreated({
                 setAlert(true);
                 handleClose();
                 setRefetch();
+                setItem([{ itemName: 'product' , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: Date.now() }])
                 resetForm();
                 setLoading(false)
             } else {
@@ -83,7 +88,8 @@ export default function SalesCreated({
 
     //
     const { data: InvoiceNo } = useQuery(GET_INVOICE_NO);
-
+   
+    const [checkExistingInvoiceId, { called , data : dataChangeInvoiceNo }] = useLazyQuery(GET_INVOICE_NO_CHANGE);
 
     //Get Customer 
     const [getSetupCustomer, setSetupCustomer] = React.useState([])
@@ -110,9 +116,7 @@ export default function SalesCreated({
     }, [data]);
     // End get  Customer
 
-    // List Product to Sell
-    const [currentItem, setCurrentItem] = React.useState({ itemName: '' , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: 0 ,})
-    const [item, setItem] = React.useState([])
+    // List Product to Sell =========================================================================================
 
     const addItem = () => {     
         const newItem = currentItem;
@@ -277,9 +281,7 @@ export default function SalesCreated({
                   }
               }
           })
-
-         
-        
+                 
       },
     });
 
@@ -289,6 +291,16 @@ export default function SalesCreated({
         setFieldValue("invoiceNo" , InvoiceNo?.getInvoiceId)
     },[InvoiceNo])
 
+    React.useEffect( () => {
+      setOpenWarning(true)
+      checkExistingInvoiceId({
+        variables: {
+          invoiceId: values?.invoiceNo,
+        }  
+      })
+    },[values?.invoiceNo])
+
+    
   return (
     <Dialog open={open} className="dialog-create-sales">
         <DialogTitle id="alert-dialog-title">
@@ -396,13 +408,44 @@ export default function SalesCreated({
                                 <Stack direction="column" justifyContent="center" sx={{width:"60px"}}>
                                     <Typography className="type-field"> In No: </Typography>
                                 </Stack>
-                                <Box sx={{width:"160px"}}>
-                                      <TextField 
+                                <Box sx={{width:"160px"}} className="tooltip-style">                                  
+                                  <Tooltip   
+                                      open={ openWarning ? true : false}  
+                                      onOpen={ () => {
+                                        setTimeout( () => {
+                                          setOpenWarning(false)
+                                        },25000)
+                                      }}                                               
+                                      arrow                            
+                                      title={dataChangeInvoiceNo?.checkExistingInvoiceId}
+                                      PopperProps={{                                 
+                                        modifiers: [
+                                              {
+                                                  name: "offset",
+                                                  options: {
+                                                      offset: [20,-5],
+                                                  },
+                                              },
+                                          ],
+                                      }}
+                                      componentsProps={{                                  
+                                        tooltip: {
+                                          sx: {
+                                            bgcolor: 'orange',          
+                                            '& .MuiTooltip-arrow': {
+                                              color: 'orange',
+                                            },                                   
+                                          },
+                                        },
+                                      }}
+                                  >
+                                      <TextField                                           
                                           size='small' fullWidth className='text-field'
                                           {...getFieldProps("invoiceNo")}
                                           error={Boolean(touched.invoiceNo && errors.invoiceNo)}
                                           helperText={touched.invoiceNo && errors.invoiceNo}
                                       />
+                                  </Tooltip>                                    
                                 </Box>                                
                                 <Box sx={{flexGrow:1}}></Box>
                                 <Stack direction="column" justifyContent="center" sx={{width:"60px"}} className="tin-sale">

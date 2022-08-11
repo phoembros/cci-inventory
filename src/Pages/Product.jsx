@@ -25,10 +25,10 @@ import PermissionContent from "../Component/Permission/PermissionContent";
 
 export default function Product() {
 
-    const [loadingPage,setLoadingPage] = React.useState(true);
+    const [loadingPages,setLoadingPages] = React.useState(true);
 
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
-        onCompleted: () => setLoadingPage(false),
+        onCompleted: () => setLoadingPages(false),
         pollInterval: 10000,
     })
     //   console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
@@ -297,7 +297,7 @@ export default function Product() {
 
                         </>
                     :
-                        loadingPage ?
+                        loadingPages ?
                             <LoadingPage />
                         :
                             <PermissionContent />  

@@ -49,6 +49,9 @@ export default function ProductDetails() {
     const { data , refetch} = useQuery(GET_PRODUCT_BYID,{
         variables: {
             productId: params.get("id"),
+        },
+        onCompleted: ({getProductById}) => {
+            console.log(getProductById);
         }
     })
 
@@ -67,7 +70,7 @@ export default function ProductDetails() {
         },
         onCompleted: ({getProductGroupByProductId}) => {
             // setLoading(false);
-            console.log(getProductGroupByProductId)
+            // console.log(getProductGroupByProductId)
             setTimeout( () => {
                 setLoading(false);
             },500)
@@ -99,33 +102,7 @@ export default function ProductDetails() {
                     <Typography className="color">Details</Typography>
                 </Stack>
 
-                <Box sx={{flexGrow: 1}} />
-                <Stack direction="row" className="stack-btn"  justifyContent="right" spacing={1}>
-                {
-                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createProductGroup ?
-                        <Button onClick={handleOpen} startIcon={<AddIcon className="icon"/>} className="btn-add">
-                            <Typography className="btn-text"> Add </Typography>
-                        </Button> 
-                    :
-                        null
-                }   
-
-                                   
-
-                    {/* <Modal open={open}> */}
-                        <CreateProductGroup 
-                            handleClose={handleClose} 
-                            open={open}
-                            setAlert={setAlert}
-                            setMessage={setMessage}
-                            setCheckMessage={setCheckMessage}
-                            btnTitle="Create"
-                            checkStatus="create"
-                            setRefetch={refetchProductGroup}
-                            productUnit={dataProduct?.unit}
-                        />
-                    {/* </Modal> */}
-                </Stack>
+                <Box sx={{flexGrow: 1}} />                
             </Stack>
 
    
@@ -176,36 +153,92 @@ export default function ProductDetails() {
                                         <Typography variant="body1">{dataProduct?.unit}</Typography>
                                     </Stack>
                                 </Box> 
-                            </Stack>
-
-                            {/* <Stack direction='row' justifyContent="center" sx={{mt:2}}>
-                                <Box className="left">
-                                    <Typography className="header-title">Unit Price</Typography>
-                                </Box> 
-                                <Box className="right">
-                                    <Stack direction="row" justifyContent="center">
-                                        <Typography variant="body1">${dataProduct?.unitPrice}</Typography>
-                                    </Stack>
-                                </Box> 
-                            </Stack>  */}
-                            
+                            </Stack>                       
+                            <Stack direction='row' justifyContent="center" sx={{mt:6}}>
+                                <Stack direction="column" justifyContent="center"> 
+                                    <Avatar src={DurationImage} sx={{width: 180 , height: 180}}/>
+                                    <Typography sx={{mt:1}}>Duration to produce {dataProduct?.durationProduce}min.</Typography>
+                                </Stack>
+                            </Stack>                             
                         </Box>
                     </Grid>
 
-                    <Grid item xs={12} sm={12} md={6} lg={6} >
-                        <Stack direction="row" justifyContent="center" height="100%">
-                            <Stack direction="column" justifyContent="center"> 
-                                <Avatar src={DurationImage} sx={{width: 180 , height: 180}}/>
-                                <Typography sx={{mt:1}}>Duration to produce {dataProduct?.durationProduce}min.</Typography>
-                            </Stack>
-                        </Stack>
+                    <Grid item xs={12} sm={12} md={6} lg={6} className="content-right">
+                        <Box width="100%">                                
+                            <Stack direction='row' justifyContent="center" sx={{mt:2}}> 
+                                <Box className="right-content">
+                                    <Stack direction="row" justifyContent="center">
+                                        <Typography variant="body1" sx={{fontWeight:"bold"}}>Ingredients</Typography>
+                                    </Stack>                                
+                                </Box>                                 
+                            </Stack> 
+                            {
+                                dataProduct?.ingredients?.map( (row,index) => (         
+                                    <Stack direction='column' className="top" justifyContent="center" sx={{mt:2}}>                         
+                                        <Stack direction='row' justifyContent="center">
+                                            <Box sx={{width:"10%"}}>                                           
+                                                <Typography className="header-title">
+                                                    {index+1}-
+                                                </Typography>
+                                            </Box> 
+                                            <Box sx={{width:"40%"}}>
+                                                <Stack direction="row" spacing={2}>
+                                                    <Typography variant="body1" sx={{fontWeight:"bold"}}>
+                                                        Material:
+                                                    </Typography>
+                                                    <Typography variant="body1">
+                                                        {row?.rawName}
+                                                    </Typography>
+                                                </Stack>  
+                                            </Box> 
+
+                                            <Box sx={{flexGrow:1}}></Box> 
+                                            <Stack direction="row" spacing={2} width="120px">                                 
+                                                <Typography variant="body1" sx={{fontWeight:"bold"}}>
+                                                    Need:
+                                                </Typography> 
+                                                <Box sx={{flexGrow:1}}></Box>
+                                                <Typography variant="body1">
+                                                    {row?.percentage} %
+                                                </Typography>
+                                            </Stack>                                                                                                                    
+                                        </Stack> 
+                                    </Stack>                                     
+                                ))
+                            }   
+                        </Box>
                     </Grid>
-
-
                 </Grid>
 
-                <Box sx={{mt:5}}> 
-                    <Typography variant="h6" sx={{fontWeight: "bold"}}>Group Product</Typography>
+                <Box sx={{mt:5}}>   
+                    <Stack direction="row" justifyContent="center">
+                        <Typography variant="h6" sx={{fontWeight: "bold"}}>Group Product</Typography>
+                        <Box sx={{flexGrow:1}}></Box>
+                        <Stack direction="row" className="stack-btn"  justifyContent="right" spacing={1}>
+                            {
+                                dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createProductGroup ?
+                                    <Button onClick={handleOpen} startIcon={<AddIcon className="icon"/>} className="btn-add">
+                                        <Typography className="btn-text"> Add </Typography>
+                                    </Button> 
+                                :
+                                    null
+                            }   
+            
+                            {/* <Modal open={open}> */}
+                                <CreateProductGroup 
+                                    handleClose={handleClose} 
+                                    open={open}
+                                    setAlert={setAlert}
+                                    setMessage={setMessage}
+                                    setCheckMessage={setCheckMessage}
+                                    btnTitle="Create"
+                                    checkStatus="create"
+                                    setRefetch={refetchProductGroup}
+                                    productUnit={dataProduct?.unit}
+                                />
+                            {/* </Modal> */}
+                        </Stack>
+                    </Stack>
                 </Box>
 
                 <Box className="list-product-group">                    

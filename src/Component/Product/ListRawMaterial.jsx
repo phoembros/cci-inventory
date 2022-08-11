@@ -39,7 +39,7 @@ function ListRawMaterial(props) {
 
     
     // Handle Message Error TextField
-    const [errorMessage, setErrorMessage] = React.useState(["Can't input 0" , "Invalid Value" , "Material is required!"]);
+    const [errorMessage, setErrorMessage] = React.useState(["Can't input 0" , "Invalid Value" , "Material is required!" , "Over Percentage!"]);
     const [touched, setTouched] = React.useState(false);
     const handleTouch = () =>  setTouched(true);
 
@@ -77,19 +77,30 @@ function ListRawMaterial(props) {
                                 type="number" 
                                 id={item?.key} 
                                 size='small' 
-                                value={item?.amount} 
-                                onChange={(e) => props.setUpdateQty(e.target.value, item.key)}
+                                value={item?.percentage} 
+                                onChange={ (e) => {
+                                    props.setUpdateQty(e.target.value/100, item.key)
+                                    props.setUpdatePercent(e.target.value, item.key)                                    
+                                }}
                                 InputProps={{                                  
                                     endAdornment: (
                                         <InputAdornment position="end">                                             
-                                            {item?.unitRawMaterial}                                           
+                                            %                                       
                                         </InputAdornment>
                                     ),
                                     inputProps: { min: 1 },
                                 }}
                                 onFocus={handleTouch}
-                                error={ touched && item?.amount < 0 || touched && isNaN(item?.amount) }
-                                helperText={ item?.amount < 0 && errorMessage[0] || isNaN(item?.amount) && errorMessage[1] }     
+                                error={ 
+                                    touched && item?.amount < 0 || 
+                                    touched && isNaN(item?.amount) ||
+                                    touched && props.checkPercent
+                                }
+                                helperText={ 
+                                    item?.amount < 0 && errorMessage[0] || 
+                                    isNaN(item?.amount) && errorMessage[1] ||
+                                    props.checkPercent && errorMessage[3]
+                                }     
                             />
                         </TableCell>  
                          

@@ -105,6 +105,45 @@
             }
 
         }
+
+        .content-right {
+            display: flex;
+            justify-content: left;
+            width: 100%;
+
+            .top {                                
+                width: 100%;                
+                background-color: #fff;
+                border-radius: 10px;               
+                height: 45px;
+                padding-left: 20px;
+                padding-right: 20px;
+
+                .text-content {
+                    display: flex;
+                    // justify-content: center;
+                } 
+
+            }
+            
+
+            .right-content {             
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                background-color: #fff;
+                height: 45px;
+                border-radius: 10px;
+
+                .text-content {
+                    display: flex;
+                    justify-content: center;
+                }   
+                             
+            }
+
+        }
                 
 
         .list-product-group {

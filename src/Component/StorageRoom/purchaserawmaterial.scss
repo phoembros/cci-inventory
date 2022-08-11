@@ -6,6 +6,41 @@
         // width: 450px !important;
     }
 
+    .tooltip-override-style {
+        margin-top: -200px !important;
+    }
+
+    .priority {
+        @include mobile-small {
+            display: none;
+        }
+
+        @include mobile {
+            display: none;
+        }
+
+        @include mobile-large {
+            display: none;
+        }
+    }
+
+    .priority-mobile {
+        display: none;
+        
+        @include mobile-small {
+            display: flex;
+        }
+
+        @include mobile {
+            display: flex;
+        }
+
+        @include mobile-large {
+            display: flex;
+        }
+    }
+
+
     .date-select {
         @include mobile-small {
             display: none;

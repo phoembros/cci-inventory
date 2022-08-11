@@ -15,11 +15,16 @@ export default function Report() {
 
     const [value, setValue] = React.useState([null, null]);      
     
-    const [typeReport,setTypeReport] = React.useState("default");
-    const [fromDate,setFromDate] = React.useState(null);
-    const [toDate,setToDate] = React.useState(null);
+    const [typeReport,setTypeReport] = React.useState("sale_report");
 
-    console.log(fromDate, toDate);
+    const now = new Date();
+    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);    
+
+    const [fromDate,setFromDate] = React.useState(new Date(now.getFullYear(), now.getMonth(), 1));
+    const [toDate,setToDate] = React.useState(new Date(now.getFullYear(), now.getMonth() + 1, 0));
+
+    // console.log(fromDate, toDate);
 
     return(
         <div className="report-page">
@@ -42,10 +47,10 @@ export default function Report() {
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"  
-                            defaultValue={"default"}     
-                            onChange={(e) => setTypeReport(e.target.value)}  
+                            defaultValue={"sale_report"}     
+                            onChange={ (e) => setTypeReport(e.target.value) }  
                         >
-                            <MenuItem value="default">Choose Type</MenuItem>
+                            {/* <MenuItem value="default">Choose Type</MenuItem> */}
                             <MenuItem value="sale_report">Sale Report</MenuItem>
                             <MenuItem value="inventory_report">Inventory Report</MenuItem>
                             <MenuItem value="production_report">Production Report</MenuItem>    
@@ -54,7 +59,6 @@ export default function Report() {
                     </FormControl>
                 </Stack>
                 <Stack direction="row" spacing={2} width="350px" ml={4}>
-
                     <LocalizationProvider  className="date-controll" dateAdapter={AdapterMoment} >
                         <MobileDatePicker
                             inputFormat="DD/MM/yyyy"

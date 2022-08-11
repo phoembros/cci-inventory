@@ -324,3 +324,144 @@ query GetUserById($id: ID!) {
   }
 }
 `
+
+export const GET_USER_ACTION = gql`
+query GetUserActionWithPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean , $sortField: [SortField] , $dateFilter: Date ) {
+  getUserActionWithPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination, sortField: $sortField , dateFilter: $dateFilter ) {
+    userAction {
+      _id
+      createdBy {
+        _id
+        first_name
+        last_name
+        gender
+        email
+        password
+        phone_number
+        image_name
+        image_src
+        birthOfDate
+        role_and_permission {
+          _id
+          role
+          permissions {
+            getTopRawMaterial
+            getInvoiceOweAndUnpaid
+            getBarChart
+            getUsersPagination
+            createUser
+            deleteUser
+            disableUser
+            updateUser
+            getCustomerPagination
+            getOweCustomer
+            createCustomer
+            updateCustomer
+            deleteCustomer
+            getProductPagination
+            getProductById
+            getProductByStorageRoomId
+            createProduct
+            updateProduct
+            deleteProduct
+            getProductCategoryPagination
+            createProductCategory
+            updateProductCategory
+            deleteProductCategory
+            getProductGroupById
+            getProductGroupPagination
+            getProductGroupByProductId
+            createProductGroup
+            updateProductGroup
+            deleteProductGroup
+            adjustQtyProductGroup
+            getProductionsPagination
+            createProductions
+            updateProductions
+            deleteProductions
+            approveProductions
+            completeProduction
+            getPurchaseRawMaterialPagination
+            createPurchaseRawMaterial
+            updatePurchaseRawMaterial
+            deletePurchaseRawMaterial
+            approvePurchaseRawMaterial
+            completePurchaseRawMaterial
+            getRawMaterialPagination
+            createRawMaterial
+            updateRawMaterial
+            deleteRawMaterial
+            adjustQtyRawMaterial
+            getRawMaterialCategoryPagination
+            createRawMaterialCategory
+            updateRawMaterialCategory
+            deleteRawMaterialCategory
+            getSalePagination
+            getSaleById
+            getSale
+            createSale
+            updateSale
+            deleteSale
+            voidInvoice
+            getStorageRoomWithPagination
+            getStorageRoomRawMaterials
+            getStorageRoomProducts
+            createStorageRoom
+            updateStorageRoom
+            deleteStorageRoom
+            getSuppliersPagination
+            getOweSupplier
+            createSupplier
+            updateSupplier
+            deleteSupplier
+            getRoleAndPermission
+            getRoleAndPermissionById
+            createRole
+            updateRole
+            deleteRole
+            getSaleReport
+            getProductionReport
+            getInventoryStockReport
+            getRawMaterialReport
+          }
+          paths {
+            user
+            storageRoom
+            storageRoom_purhcase
+            rawMaterial
+            rawMaterial_categories
+            product
+            product_categories
+            sales
+            sales_customer
+            production
+            supplies
+            report
+            system_setting
+          }
+        }
+        status
+        update_at
+        create_at
+      }
+      action
+      actionType
+      actionOn
+      updatedAt
+      createdAt
+    }
+    paginator {
+      slNo
+      prev
+      next
+      perPage
+      totalPosts
+      totalPages
+      currentPage
+      hasPrevPage
+      hasNextPage
+      totalDocs
+    }
+  }
+}
+`

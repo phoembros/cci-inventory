@@ -21,7 +21,7 @@ function ListRawMaterial(props) {
 
     React.useEffect(() => {
         if (rawmaterialData) {    
-            console.log(rawmaterialData?.getRawMaterialPagination?.rawMaterial)        
+            // console.log(rawmaterialData?.getRawMaterialPagination?.rawMaterial)        
             let rows = [];            
             rawmaterialData?.getRawMaterialPagination?.rawMaterial?.forEach((element) => {
                 const allrow = { 

@@ -66,7 +66,7 @@ function ListCreateSales(props) {
         }
     },[productGroupData?.getProductGroupPagination?.productGroups]);
 
-    console.log("productGroup ::" , productGroup)
+    // console.log("productGroup ::" , productGroup)
 
 
 

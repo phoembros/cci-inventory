@@ -136,6 +136,19 @@ export const DELETE_RAW_MATERAIL = gql`
     }
 `
 
+export const GET_PO_NUMBER = gql`
+  query Query {
+    getPOId
+  }
+`
+
+export const GET_PO_NUMBER_CHANGE = gql`
+  query Query($poId: String!) {
+    checkExistingPoId(PoId: $poId)
+  }
+`
+
+
 export const CREATE_PURCHASE_RAW_MATERIAL = gql`
   mutation CreatePurchaseRawMaterial($newPurchaseRawMaterial: PurchaseRawMaterialInput) {
     createPurchaseRawMaterial(newPurchaseRawMaterial: $newPurchaseRawMaterial) {

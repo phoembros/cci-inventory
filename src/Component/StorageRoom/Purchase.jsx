@@ -197,7 +197,7 @@ export default function ProductCategories() {
                                                     {
                                                         row?.purchaseId ? 
                                                             <>
-                                                                { moment(row?.createdAt).format('YYMM')}-{row?.purchaseId.padStart(2, '0') }
+                                                                {row?.purchaseId}
                                                             </>
                                                         :
                                                             null

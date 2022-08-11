@@ -125,6 +125,7 @@ query CompletedQtyUM($page: Int, $limit: Int, $keyword: String, $pagination: Boo
           amount
           key
           unitRawMaterial
+          percentage
         }
         remark
       }
@@ -156,10 +157,7 @@ export const GET_PRODUCT_GROUP_BYPRODUCT_ID = gql`
       groupBy {
         _id
         productName
-        productId
-        category {
-          categoryName
-        }
+        productId        
         unit
         completedUnit
         unitPrice
@@ -241,6 +239,7 @@ query GetProductPagination($page: Int, $limit: Int, $keyword: String, $paginatio
         amount
         key
         unitRawMaterial
+        percentage
       }
       remark
       updatedAt
@@ -316,6 +315,7 @@ query GetProductById($productId: ID!) {
       amount
       key
       unitRawMaterial
+      percentage
     }
     remark
     updatedAt

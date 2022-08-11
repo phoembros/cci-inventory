@@ -34,6 +34,7 @@ export default function UpdateProduct({
 }) {
 
     const [loading,setLoading] = React.useState(false);
+    const [checkPercent,setCheckPercent] = React.useState(false);
 
     //Create Production
     const [updateProduct] = useMutation(UPDATE_PRODUCT , {
@@ -106,7 +107,7 @@ export default function UpdateProduct({
     
 
     // Setup ingrideian
-    const [currentItem, setCurrentItem] = React.useState({ rawName:'' , rawMaterialId: '', amount: 1 , unitRawMaterial: "" , key: 0 })
+    const [currentItem, setCurrentItem] = React.useState({ rawName:'' , rawMaterialId: '', amount: 1 , percentage: 0, unitRawMaterial: "" , key: 0 })
     const [item, setItem] = React.useState([])
 
     React.useMemo( async () => {
@@ -119,6 +120,7 @@ export default function UpdateProduct({
                     amount: element?.amount,
                     key: element?.key,
                     unitRawMaterial: element?.unitRawMaterial,
+                    percentage: element?.percentage,
                 };
                 rows.push(allrow);
             });
@@ -139,13 +141,13 @@ export default function UpdateProduct({
             ];
             setItem([... items])
             setCurrentItem({
-                rawName:'' , rawMaterialId:'' , amount: 1, unitRawMaterial: "" , key: 0
+                rawName:'' , rawMaterialId:'' , amount: 1, percentage: 0, unitRawMaterial: "" , key: 0
             })
         }
     }
 
     const handleAddMaterail = () => {
-        setCurrentItem({ rawName:'Material Name' ,  rawMaterialId: '' , amount: 1 , unitRawMaterial: "" , key: Date.now() });
+        setCurrentItem({ rawName:'Material Name' ,  rawMaterialId: '' , amount: 1 , percentage: 0 ,  unitRawMaterial: "" , key: Date.now() });
     }
 
     React.useEffect(() => {
@@ -155,6 +157,26 @@ export default function UpdateProduct({
     }, [currentItem])
 
    
+    const checkPercenteage = () => {
+        const items = item;
+        let newPercent = 0;
+        items.map( i => {             
+          newPercent += i.percentage;         
+        })
+
+        console.log(newPercent)
+
+        if(newPercent > 100) {
+            setCheckPercent(true);           
+        }
+    }
+
+    React.useEffect( () => {
+        setCheckPercent(false)
+        checkPercenteage();
+    },[item])
+
+
     const deleteItem = (key) => {
         const filteredItems = item?.filter(t => t.key !== key);
         setItem(filteredItems)
@@ -180,6 +202,18 @@ export default function UpdateProduct({
           }
         })
         setItem([...items]) 
+    }
+
+    const setUpdatePercent = (percentage,key) => {
+        const items = item;
+        setCheckPercent(false)
+        items.map( i => {      
+          if(i.key===key) {           
+            i.percentage= parseFloat(percentage);
+          }
+        })
+        setItem([...items]);
+        checkPercenteage();
     }
 
     const setUpdateRawName = (rawName,key) => {
@@ -264,8 +298,7 @@ export default function UpdateProduct({
     const { errors, touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm } = formik;
     // End Formik
 
-    React.useEffect( () => {
-        
+    React.useEffect( () => {        
         setFieldValue("productName" , editData?.productName)
         setFieldValue("productId" , editData?.productId)
         setFieldValue("remark" , editData?.remark)
@@ -273,13 +306,11 @@ export default function UpdateProduct({
         setFieldValue("unit" ,  editData?.unit)
         setFieldValue("completedUnit" , editData?.completedUnit)
         setFieldValue("category" , editData?.category?._id)
-        setFieldValue("durationProduce" , editData?.durationProduce)       
-            
+        setFieldValue("durationProduce" , editData?.durationProduce)      
     },[editData])
-   
+
+      
     return (
-
-
         <Dialog open={open} className="dialog-product-create">
             <DialogTitle id="alert-dialog-title">
                     <Stack direction="row" spacing={5}>        
@@ -452,7 +483,7 @@ export default function UpdateProduct({
                                                 <TableRow className="header-row">
                                                     <TableCell className="header-title">Raw Materail</TableCell>  
                                                                             
-                                                    <TableCell className="header-title" align='center'>QTY</TableCell>  
+                                                    <TableCell className="header-title" align='center'>Quantity</TableCell>  
                                                     
                                                     <TableCell className="header-title" align='right'>
                                                         <IconButton onClick={handleAddMaterail}> 
@@ -479,6 +510,8 @@ export default function UpdateProduct({
                                                 setUpdateQty={setUpdateQty}
                                                 setUpdateRawName={setUpdateRawName}
                                                 setUpdateUnitRawMaterial={setUpdateUnitRawMaterial}
+                                                setUpdatePercent={setUpdatePercent}
+                                                checkPercent={checkPercent}
                                             />
 
                                         </Table>
@@ -530,7 +563,10 @@ export default function UpdateProduct({
                                     loading ?
                                         <Button className="btn-update" sx={{boxShadow: "none"}} variant="contained">Loading...</Button>
                                     :
-                                        <Button className="btn-update" sx={{boxShadow: "none"}} type='submit' variant="contained">{btnTitle}</Button>
+                                        checkPercent ?
+                                            <Button className="btn-update" sx={{boxShadow: "none"}} variant="contained">{btnTitle}</Button>
+                                        :    
+                                            <Button className="btn-update" sx={{boxShadow: "none"}} type='submit' variant="contained">{btnTitle}</Button>
                                 } 
                                    
                                 </Stack>

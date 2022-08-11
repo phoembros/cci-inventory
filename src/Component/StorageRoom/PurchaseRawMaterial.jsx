@@ -3,14 +3,14 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './purchaserawmaterial.scss';
-import { FormControl, Icon, IconButton, InputLabel, MenuItem, Autocomplete, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, InputAdornment } from '@mui/material';
+import { FormControl, Icon, IconButton, InputLabel, MenuItem, Autocomplete, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, InputAdornment, Tooltip } from '@mui/material';
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import ListRawMaterial from './ListRawMaterial';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
-import { useQuery , useMutation } from '@apollo/client';
+import { useQuery , useMutation, useLazyQuery } from '@apollo/client';
 import { useFormik, Form, FormikProvider } from "formik";
 import * as Yup from "yup";
-import { CREATE_PURCHASE_RAW_MATERIAL } from "../../Schema/rawmaterial";
+import { CREATE_PURCHASE_RAW_MATERIAL, GET_PO_NUMBER_CHANGE } from "../../Schema/rawmaterial";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { GET_USER_LOGIN } from '../../Schema/user';
@@ -33,6 +33,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { GET_SUPPLIERS_BY_PAGINATION } from '../../Schema/supplies';
 import { sendMessage } from '../TelegrameClient/TelegrameClient';
+import { GET_PO_NUMBER } from '../../Schema/rawmaterial';
 
 import moment from "moment";
 
@@ -48,12 +49,11 @@ export default function PurchaseRawMaterial({
 
 }) {
 
-  const [totalAmount,setTotalAmount] = React.useState(0);
-  
+  const [totalAmount,setTotalAmount] = React.useState(0);  
   const [loading,setLoading] = React.useState(false);
-
   const [btnCheckSubmit,setBtnCheckSubmit] = React.useState(true);
-       
+  const [openWarning,setOpenWarning] = React.useState(false);       
+
   //get Storage Room ID by Url 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -63,7 +63,7 @@ export default function PurchaseRawMaterial({
   }, [location.search]);
    
 
-  //End Get Supplies
+  // Get Supplies ===========================================================================================
   const [supplierAutoComplete,setSupplierAutoComplete] = React.useState({
       label: "",
       _id: "",
@@ -88,7 +88,24 @@ export default function PurchaseRawMaterial({
           setSuppliers(rows);
       }
   }, [suppliesData]);
-  //End Get Supplies
+  //End Get Supplies=====================================================================================================
+
+
+  // Get PO NUmber ======================================================================================================
+  const { data: poNumber } = useQuery(GET_PO_NUMBER,{
+    onCompleted: ({getPOId}) => {
+        // console.log(getPOId)
+    }
+  });
+
+  
+  const [checkExistingPoId, {data: poNumberChange}] = useLazyQuery(GET_PO_NUMBER_CHANGE,{
+    onCompleted: ({checkExistingPoId}) => {
+        console.log(checkExistingPoId)
+    }
+  });
+  // Get PO NUmber ======================================================================================================
+
 
 
   // Get User ID  
@@ -318,6 +335,7 @@ export default function PurchaseRawMaterial({
         priority: Yup.string().required("priority is required!"),
         remark: Yup.string(),
         supplierID: Yup.string().required("Suppier is required!"),
+        purchaseId: Yup.string().required("PO ID is required!"),
     });
     
     const formik = useFormik({
@@ -326,11 +344,13 @@ export default function PurchaseRawMaterial({
           supplierID: "",
           priority: "",
           remark: "",
+          purchaseId: poNumber?.getPOId,
       },
 
       validationSchema: SalesAdd,
       onSubmit: async (values, { setSubmitting, resetForm }) => {          
           const newValue = {
+              purchaseId: values?.purchaseId,
               purchaseDate: values?.purchaseDate,    
               supplierID: values?.supplierID,         
               purchaseBy: userId,
@@ -357,6 +377,23 @@ export default function PurchaseRawMaterial({
     
     const { errors,  touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm } = formik;
 
+    React.useEffect( () => {
+      if(values.purchaseId){
+        // console.log("onChange")
+        setOpenWarning(true)
+        checkExistingPoId({
+            variables: {
+                poId : values.purchaseId,
+            }
+        })
+      }      
+    },[values.purchaseId])
+
+
+    React.useMemo( () => {
+        setFieldValue("purchaseId" , poNumber?.getPOId)
+    },[poNumber?.getPOId,open])
+
 
     return (
         <Dialog open={open} className="dialog-create-purchase">
@@ -382,41 +419,56 @@ export default function PurchaseRawMaterial({
                   <FormikProvider value={formik}>
                     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                       
-                      <Stack direction="row" spacing={1} sx={{mt:2}}>
+                      <Stack direction="row" spacing={1} sx={{mt:2}}>                        
                         <Stack direction="column" justifyContent="center" width="65px"> 
                             <Typography className="sub-header-title">
-                              Priority:
+                              PO ID:
                             </Typography>
                         </Stack>
                         <Box sx={{width:"170px"}}>
-                            <FormControl fullWidth size="small" >
-                              <Select                   
-                                {...getFieldProps("priority")}
-                                error={ Boolean(touched.priority && errors.priority)}
-                                helperText={touched.priority && errors.priority}
-                              >                    
-                                <MenuItem value="urgent">
-                                    <Stack direction="row" spacing={1}>
-                                        <NotificationsActiveIcon sx={{color:"red", width:"17px"}} />
-                                        <Typography>Urgent</Typography>
-                                    </Stack>
-                                </MenuItem>
-                                <MenuItem value="medium">
-                                    <Stack direction="row" spacing={1}>
-                                        <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />
-                                        <Typography>Medium</Typography>
-                                    </Stack>
-                                </MenuItem>
-                                <MenuItem value="low">
-                                    <Stack direction="row" spacing={1}>
-                                        <ArrowDownwardIcon sx={{color:"blue", width:"17px"}} />
-                                        <Typography>Low</Typography>
-                                    </Stack>
-                                </MenuItem>
-                              </Select>
-                            </FormControl>
+                            <Tooltip  
+                                open={ openWarning ? true : false}  
+                                onOpen={ () => {
+                                  setTimeout( () => {
+                                    setOpenWarning(false)
+                                  },20000)
+                                }}   
+                                arrow                                                             
+                                title={poNumberChange?.checkExistingPoId}                               
+                                PopperProps={{                                 
+                                  modifiers: [
+                                        {
+                                            name: "offset",
+                                            options: {
+                                                offset: [25, -10],
+                                            },
+                                        },
+                                    ],
+                                }}
+                                componentsProps={{                                  
+                                  tooltip: {
+                                    sx: {
+                                      bgcolor: 'orange',          
+                                      '& .MuiTooltip-arrow': {
+                                        color: 'orange',
+                                      },                                   
+                                    },
+                                  },
+                                }}
+                            >
+                                <TextField                             
+                                  size="small"
+                                  fullWidth                                
+                                  placeholder="PO Number"
+                                  {...getFieldProps("purchaseId")}
+                                  error={Boolean(touched.purchaseId && errors.purchaseId)}
+                                  helperText={touched.purchaseId && errors.purchaseId}
+                                />
+                            </Tooltip>
                         </Box>
+
                         <Box sx={{ flexGrow: 1 }}></Box>
+
                         <Stack direction="column" justifyContent="center" className='date-select'>
                             <Typography className="sub-header-title">
                               Date:
@@ -494,8 +546,80 @@ export default function PurchaseRawMaterial({
                                         />
                                     }
                                 />
-                          </Box>              
+                          </Box>   
+                          <Box sx={{ flexGrow: 1 }}></Box>
+                          <Stack direction="column" justifyContent="center" width="65px" className='priority'> 
+                              <Typography className="sub-header-title">
+                                Priority:
+                              </Typography>
+                          </Stack>
+                          <Box sx={{width:"170px"}} className='priority'>
+                              <FormControl fullWidth size="small" >
+                                <Select                   
+                                  {...getFieldProps("priority")}
+                                  error={ Boolean(touched.priority && errors.priority)}
+                                  helperText={touched.priority && errors.priority}
+                                >                    
+                                  <MenuItem value="urgent">
+                                      <Stack direction="row" spacing={1}>
+                                          <NotificationsActiveIcon sx={{color:"red", width:"17px"}} />
+                                          <Typography>Urgent</Typography>
+                                      </Stack>
+                                  </MenuItem>
+                                  <MenuItem value="medium">
+                                      <Stack direction="row" spacing={1}>
+                                          <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />
+                                          <Typography>Medium</Typography>
+                                      </Stack>
+                                  </MenuItem>
+                                  <MenuItem value="low">
+                                      <Stack direction="row" spacing={1}>
+                                          <ArrowDownwardIcon sx={{color:"blue", width:"17px"}} />
+                                          <Typography>Low</Typography>
+                                      </Stack>
+                                  </MenuItem>
+                                </Select>
+                              </FormControl>
+                          </Box>
                       </Stack>
+
+                      {/* Responsive _================================================================= */}
+                      <Stack direction="row" spacing={1} sx={{mt:2}} className='priority-mobile'>                       
+                          <Stack direction="column" justifyContent="center" width="65px"> 
+                              <Typography className="sub-header-title">
+                                Priority:
+                              </Typography>
+                          </Stack>
+                          <Box sx={{width:"170px"}}>
+                              <FormControl fullWidth size="small" >
+                                <Select                   
+                                  {...getFieldProps("priority")}
+                                  error={ Boolean(touched.priority && errors.priority)}
+                                  helperText={touched.priority && errors.priority}
+                                >                    
+                                  <MenuItem value="urgent">
+                                      <Stack direction="row" spacing={1}>
+                                          <NotificationsActiveIcon sx={{color:"red", width:"17px"}} />
+                                          <Typography>Urgent</Typography>
+                                      </Stack>
+                                  </MenuItem>
+                                  <MenuItem value="medium">
+                                      <Stack direction="row" spacing={1}>
+                                          <FiberManualRecordIcon sx={{color:"green", width:"17px"}} />
+                                          <Typography>Medium</Typography>
+                                      </Stack>
+                                  </MenuItem>
+                                  <MenuItem value="low">
+                                      <Stack direction="row" spacing={1}>
+                                          <ArrowDownwardIcon sx={{color:"blue", width:"17px"}} />
+                                          <Typography>Low</Typography>
+                                      </Stack>
+                                  </MenuItem>
+                                </Select>
+                              </FormControl>
+                          </Box>
+                      </Stack>
+                            {/* Responsive _================================================================= */}   
 
                     
                       <Box className="container">

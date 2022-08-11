@@ -32,9 +32,10 @@ export default function CreateProduct({
     checkStatus,
 }) {
 
-    const [loading,setLoading] = React.useState(false)
+    const [loading,setLoading] = React.useState(false);
+    const [checkPercent,setCheckPercent] = React.useState(false);
 
-    const [currentItem, setCurrentItem] = React.useState({ rawName: '' , rawMaterialId: '', amount: 1 , unitRawMaterial: "" , key: ""})
+    const [currentItem, setCurrentItem] = React.useState({ rawName: '' , rawMaterialId: '', amount: 1 , percentage: 0, unitRawMaterial: "" , key: ""})
     const [item, setItem] = React.useState([])
 
      
@@ -47,7 +48,7 @@ export default function CreateProduct({
                 setAlert(true);
                 handleClose();
                 setRefetch();
-                setItem([{ rawName: 'Material Name' , rawMaterialId: '' , amount: 1 , unitRawMaterial: "" ,  key: Date.now()}]) 
+                setItem([{ rawName: 'Material Name' , rawMaterialId: '' , amount: 1 , percentage: 0 , unitRawMaterial: "" ,  key: Date.now()}]) 
                 resetForm();
                 setLoading(false)
             } else {
@@ -126,13 +127,13 @@ export default function CreateProduct({
             ];
             setItem([... items])
             setCurrentItem({
-                rawName: '' , rawMaterialId:'' , amount: 1 , unitRawMaterial: "" , key: "",
+                rawName: '' , rawMaterialId:'' , amount: 1 , percentage: 0 , unitRawMaterial: "" , percentage: 0 , key: "",
             })
         }
     }
 
     const handleAddMaterail = () => {
-        setCurrentItem({ rawName: 'Material Name' , rawMaterialId: '' , amount: 0.01 , unitRawMaterial: "" ,  key: Date.now() });
+        setCurrentItem({ rawName: 'Material Name' , rawMaterialId: '' , amount: 0.01 , percentage: 0 , unitRawMaterial: "" ,  key: Date.now() });
     }
 
     React.useEffect(() => {
@@ -150,6 +151,25 @@ export default function CreateProduct({
         const filteredItems = item?.filter(t => t.key !== key);
         setItem(filteredItems)
     }
+
+  
+    const checkPercenteage = () => {
+        const items = item;
+        let newPercent = 0;
+        items.map( i => {             
+          newPercent += i.percentage;         
+        })
+
+        if(newPercent > 100) {
+            setCheckPercent(true)
+        }
+    }
+
+    React.useEffect( () => {
+      setCheckPercent(false)
+      checkPercenteage();
+    },[item])
+
 
     const setUpdateText = (rawMaterialId,key) => {
         const items = item;
@@ -179,6 +199,18 @@ export default function CreateProduct({
           }
         })
         setItem([...items]) 
+    }
+
+    const setUpdatePercent = (percentage,key) => {
+        const items = item;
+        setCheckPercent(false)
+        items.map( i => {      
+          if(i.key===key) {           
+            i.percentage= parseFloat(percentage);
+          }
+        })
+        setItem([...items]) 
+        checkPercenteage();
     }
 
     const setUpdateUnitRawMaterial = (unitRawMaterial,key) => {
@@ -220,7 +252,7 @@ export default function CreateProduct({
         validationSchema: CreateProductes,
         onSubmit: async (values, { setSubmitting, resetForm }) => {    
           
-            setLoading(true);
+            // setLoading(true);
             const newValue = {
                 productName: values?.productName,
                 productId: values?.productId,
@@ -468,12 +500,14 @@ export default function CreateProduct({
                                           ))} */}
 
                                 <ListRawMaterial
-                                  items={item}
-                                  deleteItem={deleteItem}
-                                  setUpdateText={setUpdateText}
-                                  setUpdateQty={setUpdateQty}
-                                  setUpdateRawName={setUpdateRawName}
-                                  setUpdateUnitRawMaterial={setUpdateUnitRawMaterial}
+                                    items={item}
+                                    deleteItem={deleteItem}
+                                    setUpdateText={setUpdateText}
+                                    setUpdateQty={setUpdateQty}
+                                    setUpdateRawName={setUpdateRawName}
+                                    setUpdateUnitRawMaterial={setUpdateUnitRawMaterial}
+                                    setUpdatePercent={setUpdatePercent}
+                                    checkPercent={checkPercent}                                    
                                 />
                               </Table>
                             </TableContainer>
@@ -523,7 +557,10 @@ export default function CreateProduct({
                                 loading ?
                                     <Button className="btn-update" sx={{boxShadow: "none"}} disabled variant="contained">Loading...</Button>
                                 :
-                                    <Button className="btn-update" sx={{boxShadow: "none"}} type='submit' variant="contained">{btnTitle}</Button>
+                                    checkPercent ?
+                                      <Button className="btn-update" sx={{boxShadow: "none"}} variant="contained">{btnTitle}</Button>
+                                    :
+                                      <Button className="btn-update" sx={{boxShadow: "none"}} type='submit' variant="contained">{btnTitle}</Button>
                               }
                               
                           </Stack>

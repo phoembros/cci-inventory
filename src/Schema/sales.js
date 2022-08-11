@@ -9,6 +9,12 @@ export const CREATE_SET_UP_CUSTOMER = gql`
     }
 `
 
+export const GET_INVOICE_NO_CHANGE = gql`
+  query Query($invoiceId: String!) {
+    checkExistingInvoiceId(invoiceId: $invoiceId)
+  }
+`
+
 export const GET_INVOICE_NO = gql`
   query Query {
     getInvoiceId

@@ -1,0 +1,240 @@
+@import '../themes.scss';
+
+.user-action-page{
+    
+    .text-field {
+        
+        .MuiOutlinedInput-input {
+            color: black !important;
+        }   
+        .MuiInputLabel-root {
+            color: black !important;
+        }        
+        .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }        
+        :hover .MuiOutlinedInput-input {
+            color: #fff;
+        }        
+        :hover .MuiInputLabel-root {
+            color: black;
+        }        
+        :hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input {
+            color: black;
+        }        
+        .MuiInputLabel-root.Mui-focused {
+            color: black;
+        }        
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+
+    }
+    
+    .slash {
+        width: 4px;
+        height: 45px;
+        background-color: $primary-color;
+    }
+    .color {
+        color: $primary-color;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .stack-btn {             
+       
+        .btn-add {
+            text-transform: none;            
+            border-radius: 6px;
+            background-color: #fff; 
+
+            .MuiButton-startIcon {
+                margin-right: 0px !important;
+                margin-left: 0px !important;
+            }
+
+            .btn-text {
+                color: $primary-color;
+                font-weight: bold;
+                margin: 0px 5px 0px 5px;
+            }
+        }
+    }
+
+    .btn {
+
+        .btn-text-field {
+            display: flex;
+            align-items: center;
+            width:300px;
+            background-color: #fff;
+            border-radius:10px;
+
+            @include mobile-small {
+                display: none;
+            }    
+            @include mobile {
+                display: none;
+            }    
+            @include mobile-large {
+                display: none;
+            }
+
+        }
+
+        .btn-add-style {
+            border-radius: 5px;
+            background-color: white;
+            text-transform: none;
+                       
+            .style-add {
+                color:  $primary-color;
+                font-size: $font-Size-Subtitle;
+                font-weight: bold;
+            }
+        }
+
+    }
+
+    .select-date-filter {
+        background-color: #fff;
+        width: 150px;
+        border-radius: 10px;
+    }
+
+    .container {
+        margin-top: 20px;    
+           
+        @include mobile-small {
+            width: 320px !important;
+        }
+
+        @include mobile {
+            width: 370px !important;
+        }
+
+        @include mobile-large {
+            width: 400px !important;
+        }
+    
+        .table-head {
+            width: 100%;
+            display: table;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-collapse: separate;
+            border-spacing: 0px 8px;  
+
+        
+            .table-row {
+
+                .header-title {
+                    padding: 10px;
+                    border: none;
+                    font-size: $font-Size-Subtitle;
+                    font-weight: bold;                        
+                }
+
+                .title {
+                    font-weight: bold;
+                }
+
+                .icon-flip {
+                    direction: ltr !important;
+                    transition: all .3s ease-in-out;
+                    transform: rotate(180deg)  !important;
+                }
+                .icon-flip-back {
+                    direction: ltr !important;
+                    transition: all .3s ease-in-out;
+                    transform: rotate(0deg) !important;
+                }
+                
+            }
+
+            .body {
+                background-color: white !important;
+                box-shadow: none;                          
+
+                .body-row { 
+            
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;    
+                        
+                        
+                        .style-approve {
+                            color: green;
+                            font-weight: bold;
+                        }
+
+                        .style-update {
+                            color: orange;
+                            font-weight: bold;
+                        }
+
+                        .style-create {
+                            color: green;
+                            font-weight: bold;
+                        }
+
+                        .style-delete {
+                            color: red;
+                            font-weight: bold;
+                        }
+
+                        .style-void {
+                            color: red;
+                            font-weight: bold;
+                        }
+
+                        .style-complete {
+                            color: green;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .body-title-shadow {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle; 
+                        // color: rgb(28, 150, 249);
+
+                        box-shadow: 4px 0px 0px rgb(201, 228, 249);
+                        background: linear-gradient(90deg, rgba(255,255,255,1) 50%, rgba(221,233,243,1) 100%);
+                        // box-shadow: 2px 0px 0px rgb(78, 170, 245);
+                        // -moz-box-shadow: 5px 0px 0px rgb(78, 170, 245);
+                        // -webkit-box-shadow: 5px 0px 0px rgb(78, 170, 245);
+                        
+                    }
+                }
+            }
+            
+            .body-odd {
+                box-shadow: none;
+
+                .body-row {       
+                    background-color: $background-table-modal;
+        
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                    }
+                }
+            }
+
+        
+        
+        } 
+
+    }
+
+    
+}

@@ -141,7 +141,7 @@ export default function ModalQualityCheck({
             if(i.key===key){                
                 i.productGroupId= productGroupId;                 
                 i.unitQtyGroup = unitQtyGroup;                
-                i.qtyOfUM = parseInt(newShowValueEsstimate/unitQtyGroup); 
+                i.qtyOfUM = parseFloat(newShowValueEsstimate/unitQtyGroup); 
             }
         })        
         setItem([...items]) 
@@ -308,7 +308,7 @@ export default function ModalQualityCheck({
                                 fullWidth 
                                 size="small" 
                                 type="number"
-                                value={ showValueEsstimate ? (showValueEsstimate)?.toFixed(2) : 0 }
+                                value={ showValueEsstimate ? showValueEsstimate : 0 }
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">                                             

@@ -13,6 +13,7 @@ import StorageRoom from "./Pages/StorageRoom";
 import RawMaterial from "./Pages/RawMaterial";
 import Product from "./Pages/Product";
 import User from "./Pages/User";
+import UserActions from "./Pages/UserActions"
 import SystemSetting from "./Pages/SystemSetting";
 import Report from "./Pages/Report";
 import Supplies from "./Pages/Supplies";
@@ -81,6 +82,7 @@ export default function Router({ prefersDarkMode, setPrefersDarkMode }) {
         { path: "production", element: <Production /> },
         { path: "supplies", element: <Supplies /> },
         { path: "user", element: <User /> },
+        { path: "action", element: <UserActions /> },
         { path: "report", element: <Report /> },
         { path: "system-setting", element: <SystemSetting /> },
         { path: "system-setting/role", element: <Role /> },

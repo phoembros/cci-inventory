@@ -37,7 +37,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
         },
     })
 
-    console.log(dataSale , "dataSale")    
+    // console.log(dataSale , "dataSale")    
 
     return (
         <Box  width="100%"  display="flex" height="fit-content" flexDirection="column" justifyContent="center" sx={{backgroundColor:'#fff', padding: 3}}>
@@ -94,7 +94,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                             </TableCell>         
 
                                             <TableCell 
-                                                align="center" width="10%"
+                                                width="10%"
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             > 
@@ -102,14 +102,14 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                             </TableCell>  
 
                                             <TableCell 
-                                                align="center" width="10%"
+                                                width="10%"
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  ,   padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Date</Typography>
                                             </TableCell>   
                                             <TableCell 
-                                                align="center" width="10%"
+                                                width="10%"
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
@@ -173,32 +173,32 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     className="cell-item" width="8%"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.customerId}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight: "bold"}} className="text">{item?.customerId}</Typography>
                                                 </TableCell>
                                                 <TableCell 
                                                     className="cell-item" width="10%"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.name}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight: "bold"}} className="text">{item?.name}</Typography>
                                                 </TableCell>         
 
                                                 <TableCell 
-                                                    align="center" width="10%"
+                                                    width="10%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 > 
-                                                    <Typography variant="body2" className="text"> </Typography>
+                                                    <Typography variant="body2" sx={{fontWeight: "bold"}} className="text"> </Typography>
                                                 </TableCell>  
 
                                                 <TableCell 
-                                                    align="center" width="10%"
+                                                    width="10%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  ,   padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text"> </Typography>
                                                 </TableCell>   
                                                 <TableCell 
-                                                    align="center" width="10%"
+                                                    width="10%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
@@ -267,7 +267,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                 </TableCell>         
 
                                                 <TableCell 
-                                                    align="center" width="10%"
+                                                    width="10%"
                                                     className="cell-item"
                                                     sx={{border: "none"   , padding: "8px"}}
                                                 > 
@@ -275,14 +275,14 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                 </TableCell>  
 
                                                 <TableCell 
-                                                    align="center" width="10%"
+                                                    width="10%"
                                                     className="cell-item"
                                                     sx={{border: "none"   ,   padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text">{moment(row?.date).format("DD/MMM/YYYY")}</Typography>
                                                 </TableCell>   
                                                 <TableCell 
-                                                    align="center" width="10%"
+                                                    width="10%"
                                                     className="cell-item"
                                                     sx={{border: "none"   , padding: "8px"}}
                                                 >
@@ -385,42 +385,42 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.totalQty?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight: "bold"}} className="text">{item?.totalQty?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
                                                     align="center" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.totalSalePrice?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight: "bold"}} className="text">{item?.totalSalePrice?.toFixed(2)}</Typography>
                                                 </TableCell>
                                                 <TableCell 
                                                     align="center" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.totalAmout?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight: "bold"}} className="text">{item?.totalAmout?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
                                                     align="center" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.totalCostOfSales?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight: "bold"}} className="text">{item?.totalCostOfSales?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
                                                     align="center" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.totalGrossProfit?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight: "bold"}} className="text">{item?.totalGrossProfit?.toFixed(2)}</Typography>
                                                 </TableCell>  
                                                 <TableCell 
                                                     align="center" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{item?.totalGrossMargin?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight: "bold"}} className="text">{item?.totalGrossMargin?.toFixed(2)}</Typography>
                                                 </TableCell>   
 
                                             </TableRow> 
@@ -448,7 +448,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     className="cell-item" width="8%"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">Report Totals</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight:"bold"}} className="text">Report Totals</Typography>
                                                 </TableCell>
                                                 <TableCell 
                                                     className="cell-item" width="10%"
@@ -484,42 +484,42 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{dataSale?.reportTotal?.totalQty?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight:"bold"}} className="text">{dataSale?.reportTotal?.totalQty?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
                                                     align="center" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{dataSale?.reportTotal?.totalSalePrice?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight:"bold"}} className="text">{dataSale?.reportTotal?.totalSalePrice?.toFixed(2)}</Typography>
                                                 </TableCell>
                                                 <TableCell 
                                                     align="center" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{dataSale?.reportTotal?.totalAmount?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight:"bold"}} className="text">{dataSale?.reportTotal?.totalAmount?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
                                                     align="center" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{dataSale?.reportTotal?.totalCostOfSales?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight:"bold"}} className="text">{dataSale?.reportTotal?.totalCostOfSales?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
                                                     align="center" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{dataSale?.reportTotal?.totalGrossProfit?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight:"bold"}} className="text">{dataSale?.reportTotal?.totalGrossProfit?.toFixed(2)}</Typography>
                                                 </TableCell>  
                                                 <TableCell 
                                                     align="center" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text">{dataSale?.reportTotal?.totalGrossMargin?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight:"bold"}} className="text">{dataSale?.reportTotal?.totalGrossMargin?.toFixed(2)}</Typography>
                                                 </TableCell>  
 
                                             </TableRow> 

@@ -19,6 +19,7 @@ import AddShoppingCartSharpIcon from '@mui/icons-material/AddShoppingCartSharp';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import LayersIcon from '@mui/icons-material/Layers';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import DeviceHubIcon from '@mui/icons-material/DeviceHub';
@@ -269,6 +270,21 @@ export default function MenuNavbarMobile({open , handleDrawerClose}) {
                             <ListItemText 
                                 className={location.pathname === "/report" ? "list-item-text-active" : "list-item-text"}
                                 primary={"Report"} />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
+                {/* Item */}
+
+                {/* Item */}                   
+                <ListItem className={theme.palette.mode === 'dark' && location.pathname === "/action" ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}>
+                    <Link to="/action" style={{ textDecoration: 'none' }}>
+                        <ListItemButton className='list-item-button' sx={{ px: 2.5 , }} >
+                            <ListItemIcon className={location.pathname === "/action" ? "list-item-icon-active" : "list-item-icon"} >
+                                <LayersIcon />
+                            </ListItemIcon>
+                            <ListItemText 
+                                className={location.pathname === "/action" ? "list-item-text-active" : "list-item-text"}
+                                primary={"User Action"} />
                         </ListItemButton>
                     </Link>
                 </ListItem>

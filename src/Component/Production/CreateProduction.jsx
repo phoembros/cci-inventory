@@ -438,7 +438,7 @@ export default function CreateProduction({
                                                         <TableBody key={index} component={Paper} className="body" >                        
                                                             <TableRow  className="body-row">                                
                                                                 <TableCell className="body-title" component="th" scope="row" > {row?.rawMaterialId?.materialName} </TableCell>
-                                                                <TableCell className="body-title" >{ (row?.amount*values?.qty)?.toFixed(2)} {row?.rawMaterialId?.unit}</TableCell>    
+                                                                <TableCell className="body-title" >{ (row?.amount*values?.qty)?.toFixed(4)} {row?.rawMaterialId?.unit}</TableCell>    
                                                                 <TableCell className="body-title" ></TableCell>                                                   
                                                             </TableRow>
                                                         </TableBody>                        
