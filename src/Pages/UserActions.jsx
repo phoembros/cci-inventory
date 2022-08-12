@@ -41,7 +41,7 @@ export default function UserActions() {
     const [toDate,setToDate] = React.useState(null);
 
     // Filter Data Table
-    const [valueShort,setValueShort] = React.useState({});    
+    const [valueShort,setValueShort] = React.useState({sortName : "createdAt" , sortValue : -1 });    
     const [shortDate,setShortDate] = React.useState(false);   
     const [shortName,setShortName] = React.useState(false);  
 
@@ -197,7 +197,7 @@ export default function UserActions() {
                                         setValueShort( {sortName : "createdAt" , sortValue : 1 } )
                                     } 
                                 }}>
-                                    <FilterListIcon  className={ shortDate ? "icon-flip-back" : "icon-flip"}/>
+                                    <FilterListIcon  className={ shortDate ? "icon-flip" : "icon-flip-back" }/>
                                 </IconButton>  
                             </Stack>                        
                         </TableCell>
