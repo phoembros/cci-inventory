@@ -11,6 +11,7 @@ import Layout from "./Layout/Layout";
 import Dashboard from "./Pages/Dashboard";
 import StorageRoom from "./Pages/StorageRoom";
 import RawMaterial from "./Pages/RawMaterial";
+import RawMaterialRoom from "./Component/StorageRoom/RawMaterialRoom";
 import Product from "./Pages/Product";
 import User from "./Pages/User";
 import UserActions from "./Pages/UserActions"
@@ -32,6 +33,7 @@ import { useContext } from "react";
 import PrintInvoice from "./Component/Sales/PrintInvoice";
 import ProductDetails from "./Component/Product/ProductDetails";
 import Role from "./Component/Setting/Role";
+import PurchaseMaterial from "./Component/PurchaseRawMaterial/PurchaseMaterial";
 
 export default function Router({ prefersDarkMode, setPrefersDarkMode }) {
   //Apollo
@@ -67,6 +69,10 @@ export default function Router({ prefersDarkMode, setPrefersDarkMode }) {
         { path: "storage-room", element: <StorageRoom /> },
         { path: "storage-room/roomdetail", element: <RoomDetail /> },
         { path: "storage-room/purchase", element: <Purchase /> },
+        { path: "storage-room/raw-material", element: <RawMaterialRoom /> },
+       
+        
+        { path: "purchase-material", element: <PurchaseMaterial />},
 
         { path: "raw-material", element: <RawMaterial /> },
         { path: "raw-material/categories", element: <RawMaterialCategory /> },

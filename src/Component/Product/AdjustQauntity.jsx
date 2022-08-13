@@ -3,7 +3,7 @@ import * as React from "react";
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import './modaldeleteproduct.scss';
 import { ADJUST_QTY_RAW_MATERIAL } from '../../Schema/rawmaterial';
-import { ADJUST_QTY_PRODUCT } from "../../Schema/product";
+import { ADJUST_QTY_PRODUCT_GROUP } from "../../Schema/product";
 import { useMutation } from "@apollo/client";
 
 
@@ -15,20 +15,22 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 
 export default function AdjustQauntity({
+  storageRoomId,
   handleClose,
   open,
   setAlert,
   setMessage,
   setCheckMessage,
   editData,
-  setRefetch,
+  setRefetch,  
+  setLoadingQty,
 }) {
 
   const [loading,setLoading] = React.useState(false);
-
+  const [remark,setRemark] = React.useState("");
   const [qtyAdjust,setQtyAdjust] = React.useState(0);
  
-  const [adjustQtyProductGroup] = useMutation( ADJUST_QTY_PRODUCT , {
+  const [adjustQtyProductGroup] = useMutation(ADJUST_QTY_PRODUCT_GROUP , {
     onCompleted:({adjustQtyProductGroup})=> {
         // console.log(adjustQtyProductGroup?.message, '')
           if(adjustQtyProductGroup?.success){
@@ -36,8 +38,9 @@ export default function AdjustQauntity({
             setMessage(adjustQtyProductGroup?.message)
             setAlert(true)
             handleClose();
-            setRefetch();
+            setRefetch();          
             setLoading(false);
+            setLoadingQty(true)
           } else {
             setLoading(false)
             setCheckMessage('error')
@@ -59,8 +62,10 @@ export default function AdjustQauntity({
         setLoading(true)        
         adjustQtyProductGroup({
             variables: {              
-                productId: editData?._id ,
+                storageRoomId: storageRoomId,
+                productGroupId: editData?._id ,
                 qtyAdjust: parseFloat(qtyAdjust),
+                remark: remark,
             }
         })
     }
@@ -70,9 +75,9 @@ export default function AdjustQauntity({
 
       <Dialog open={open} className="dialog-delete-raw-material">
             <DialogTitle id="alert-dialog-title">
-                <Stack direction="row" spacing={5}>
+                <Stack direction="row">
                     <Typography className="header-title" variant="h6">
-                      Adjust Qty On Hand
+                        Adjust Qty On Hand
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}></Box>
                     <IconButton onClick={() => handleClose()}>
@@ -83,7 +88,7 @@ export default function AdjustQauntity({
             <DialogContent>
                 <DialogContentText id="alert-dialog-description"> 
 
-                    <Stack direction="row" spacing={5} width="100%">
+                    <Stack direction="row" width="100%" >
                       <Typography variant="subtitle1">
                         Qunatity On Hand of Product.
                       </Typography>
@@ -94,7 +99,7 @@ export default function AdjustQauntity({
                       direction="row"                     
                       spacing={1}
                       width="100%"
-                      sx={{ mb: 4 , mt: 4}}
+                      sx={{ mb:2 , mt: 2}}
                     >
                       <Stack direction="column" justifyContent="center">
                         <Typography variant="subtitle1"  className="header-title">
@@ -115,7 +120,7 @@ export default function AdjustQauntity({
                       justifyContent="center"
                       spacing={1}
                       width="100%"
-                      sx={{ mb: 4 }}
+                      sx={{ mb: 2 }}
                     >
                       <Stack direction="column" justifyContent="center">
                         <Typography variant="subtitle1" className="header-title">
@@ -144,8 +149,28 @@ export default function AdjustQauntity({
                       </Box>
                     </Stack>
 
-
-
+                    <Stack
+                      direction="row"
+                      justifyContent="center"
+                      spacing={1}
+                      width="100%"
+                      sx={{ mb: 2 }}
+                    >
+                      <Stack direction="column" justifyContent="center">
+                        <Typography variant="subtitle1" className="header-title">
+                          Remark:
+                        </Typography>
+                      </Stack>
+                      <Box sx={{flexGrow:1}}></Box>
+                      <Box sx={{width:"70%"}}>
+                        <TextField
+                          multiline
+                          size="small"                       
+                          fullWidth
+                          onChange={ (e) => setRemark(e.target.value) }                          
+                        />
+                      </Box>
+                    </Stack>
 
 
                     <Stack direction="row" spacing={5}>

@@ -27,7 +27,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
     // get Sale Details
     const [ dataSale , setDataSale ] = React.useState([]);
 
-    const { data , error } = useQuery(GET_SALE_REPORT , {
+    const { data , error , refetch } = useQuery(GET_SALE_REPORT , {
         variables: {
             fromDate: FromData,
             toDate:ToData,
@@ -38,6 +38,9 @@ const ComponentToPrint = ({FromData , ToData}) => {
     })
 
     // console.log(dataSale , "dataSale")    
+    React.useEffect( () => {
+        refetch()
+    },[])
 
     return (
         <Box  width="100%"  display="flex" height="fit-content" flexDirection="column" justifyContent="center" sx={{backgroundColor:'#fff', padding: 3}}>
@@ -578,7 +581,7 @@ export default function SaleReport({FromData , ToData}) {
                 </Box>  
                               
             </Box>
-            <Stack direction="row" >
+            <Stack direction="row" sx={{mt:2}}>
                 <Box sx={{flexGrow:1}}></Box>
                 <ReactToPrint  
                     content={() => componentRef.current}         

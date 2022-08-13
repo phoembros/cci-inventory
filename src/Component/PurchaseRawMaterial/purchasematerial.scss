@@ -1,0 +1,283 @@
+@import '../../themes.scss';
+
+.purchases-raw-page {
+
+    .text-field {
+        
+        .MuiOutlinedInput-input {
+            color: black !important;
+        }   
+        .MuiInputLabel-root {
+            color: black !important;
+        }        
+        .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }        
+        :hover .MuiOutlinedInput-input {
+            color: #fff;
+        }        
+        :hover .MuiInputLabel-root {
+            color: black;
+        }        
+        :hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input {
+            color: black;
+        }        
+        .MuiInputLabel-root.Mui-focused {
+            color: black;
+        }        
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+
+    }
+
+    
+    .slash {
+        width: 4px;
+        height: 45px;
+        background-color: $primary-color;
+    }
+    .color {
+        color: $primary-color;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .page-titles {        
+
+        @include mobile-small {
+            display: none;
+        }
+
+        @include mobile {
+            display: none;
+        }
+
+        @include mobile-large {
+            display: none;
+        }
+
+    }
+
+    .page-titles-mobile {
+        display: none;
+
+        @include mobile-small {
+            display: flex;
+        }
+
+        @include mobile {
+            display: flex;
+        }
+
+        @include mobile-large {
+            display: flex;
+        }
+
+    }
+
+    .btn {             
+        border-radius:10px;
+        background-color: #fff;
+        
+        .btn-text-field {
+
+            @include mobile-small {
+                display: none;
+            }
+    
+            @include mobile {
+                display: none;
+            }
+    
+            @include mobile-large {
+                display: none;
+            }
+            
+            display: flex;
+            align-items: center;
+            width:300px;
+            background-color: #fff;
+            border-radius:10px;
+        }
+    }
+    .stack-btn {             
+              
+        .btn-add {
+            text-transform: none;            
+            border-radius: 6px;
+            background-color: #fff; 
+
+            .MuiButton-startIcon {
+                margin-right: 0px !important;
+                margin-left: 0px !important;
+            }
+
+            .btn-text {
+                font-weight: bold;
+                margin: 0px 5px 0px 5px;
+                color: $primary-color;
+            }
+        }
+    }
+
+
+    .container {
+        margin-top: 20px;
+
+        @include mobile-small {
+            width: 320px !important;
+        }
+
+        @include mobile {
+            width: 370px !important;
+        }
+
+        @include mobile-large {
+            width: 400px !important;
+        }
+
+        .table {
+            width: 100%;
+            display: table;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-collapse: separate;
+            border-spacing: 0px 8px;  
+
+
+            .header-row {            
+                .header-title {
+                    padding: 10px;
+                    border: none;
+                    font-size: $font-Size-Subtitle;
+                    font-weight: bold;
+                }
+            }
+            
+            .body {
+                box-shadow: none;
+
+                :hover {
+                    background-color: $background-table-modal;
+                    cursor: pointer;
+                }
+
+                .body-row {       
+                    // background-color: #fff;
+        
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status-pending {
+                            font-weight: bold;      
+                            color: orange;           
+                        }
+
+                        .status-reject {
+                            font-weight: bold;      
+                            color: red;                    
+                        }
+                        .status-approved {
+                            font-weight: bold;      
+                            color: #20D819;                      
+                        }  
+
+                        .status-voided {
+                            font-weight: bold;      
+                            color: red;                      
+                        }
+                        .status-completed {
+                            font-weight: bold;      
+                            color: green;                      
+                        } 
+
+
+                        .status-paid{
+                            color:#20D819;
+                            font-weight: bold;
+                        }
+                        .status-unpaid{
+                            color:red;
+                            font-weight: bold;
+                        }
+                        .status-owe{
+                            color: orange;
+                            font-weight: bold;
+                        }
+
+                        
+                    }
+                }
+            }
+
+            
+            .body-odd {
+                box-shadow: none;
+                :hover {
+                    // background-color: $background-table-modal;
+                    cursor: pointer;
+                }
+
+                .body-row {       
+                    background-color: $background-table-modal;
+        
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
+
+                        .status-pending {
+                            font-weight: bold;      
+                            color: orange;           
+                        }
+
+                        .status-reject {
+                            font-weight: bold;      
+                            color: red;                    
+                        }
+                        .status-approved {
+                            font-weight: bold;      
+                            color: #20D819;                      
+                        }           
+                        .status-voided {
+                            font-weight: bold;      
+                            color: red;                      
+                        }      
+                        
+                        .status-completed {
+                            font-weight: bold;      
+                            color: green;                      
+                        } 
+
+                        .status-paid{
+                            color:#20D819;
+                            font-weight: bold;
+                        }
+                        .status-unpaid{
+                            color:red;
+                            font-weight: bold;
+                        }
+                        .status-owe{
+                            color: orange;
+                            font-weight: bold;
+                        }
+
+                    }
+                }
+            }
+
+            
+
+        }
+        
+
+    }
+
+    
+}

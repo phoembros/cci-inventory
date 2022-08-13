@@ -1,0 +1,51 @@
+@import '../../themes.scss';
+
+.body-list-materiales {
+    box-shadow: none !important;
+
+    .text-field {
+        .MuiOutlinedInput-input {
+            color: black !important;
+        }   
+        .MuiInputLabel-root {
+            color: black !important;
+        }        
+        .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }        
+        :hover .MuiOutlinedInput-input {
+            color: #fff;
+        }        
+        :hover .MuiInputLabel-root {
+            color: black;
+        }        
+        :hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input {
+            color: black;
+        }        
+        .MuiInputLabel-root.Mui-focused {
+            color: black;
+        }        
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+            border-color: #fff;
+        }
+    }
+
+    
+    .body-row {       
+        background-color: $background-table-modal;
+
+        .body-title {
+            padding: 4px;
+            border: none;
+            font-size: $font-Size-Subtitle;
+
+            .status {
+                font-weight: bold;      
+                color: $primary-color;                      
+            }
+        }
+    }
+}

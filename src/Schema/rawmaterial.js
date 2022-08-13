@@ -6,6 +6,24 @@ export const GET_RAW_MATERIAL_UNIT = gql`
   }
 `
 
+export const GET_QUANTITY_ON_HAND = gql`
+  query Query($storageRoomId: ID!, $rawMaterialId: ID!) {
+    qtyOnHandRawMaterialByStorageRoom(storageRoomId: $storageRoomId, rawMaterialId: $rawMaterialId)
+  }
+`
+
+export const GET_ADJUST_RAW_MATERIAL = gql`
+  query GetAdjustRawMaterialById($rawMaterialId: ID!, $limit: Int!) {
+    getAdjustRawMaterialById(rawMaterialId: $rawMaterialId, limit: $limit) {
+      fistName
+      lastName
+      oldQtyValue
+      newQtyValue
+      remark
+      createdAt
+    }
+  }
+`
 
 export const CREATE_RAW_CATEGORY = gql`
     mutation CreateRawMaterialCategory($newRawMaterialCategory: RawMaterialCategoryInput) {
@@ -51,8 +69,8 @@ query GetRawMaterialCategoryPagination($page: Int, $limit: Int, $keyword: String
 `
 
 export const GET_RAW_MATERAIL_PAGINATION = gql`
-query GetRawMaterialPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean ,$sortField: [SortField] ) {
-    getRawMaterialPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination , sortField: $sortField ) {
+query GetRawMaterialPagination($storageId: ID, $page: Int, $limit: Int, $keyword: String, $pagination: Boolean ,$sortField: [SortField] ) {
+    getRawMaterialPagination(storageId: $storageId, page: $page, limit: $limit, keyword: $keyword, pagination: $pagination , sortField: $sortField ) {
       rawMaterial {
         _id
         materialName
@@ -339,10 +357,98 @@ export const COMPLETE_PURCHASE = gql`
 `
 
 export const ADJUST_QTY_RAW_MATERIAL = gql`
-  mutation AdjustQtyRawMaterial($rawMaterialId: ID!, $qtyAdjust: Float) {
-    adjustQtyRawMaterial(rawMaterialId: $rawMaterialId, qtyAdjust: $qtyAdjust) {
+  mutation AdjustQtyRawMaterial($rawMaterialId: ID!, $qtyAdjust: Float , $remark: String , $storageRoomId: ID!) {
+    adjustQtyRawMaterial(rawMaterialId: $rawMaterialId, qtyAdjust: $qtyAdjust , remark: $remark, storageRoomId: $storageRoomId) {
       success
       message    
+    }
+  }
+`
+
+export const GET_PURCHASE_RAW_MATERIAL_PAGINATION = gql`
+  query GetPurchaseRawMaterialPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean, $priority: String, $status: String, $paymentStatus: [String]) {
+    getPurchaseRawMaterialPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination, priority: $priority, status: $status, paymentStatus: $paymentStatus) {
+      purchaseRawMaterial {
+        _id
+        purchaseId
+        PurchaseProduct
+        purchaseDate
+        purchaseBy {
+          _id
+          first_name
+          last_name
+        }
+        approveBy {
+          _id
+          first_name
+          last_name
+        }
+        completedBy {
+          _id
+          first_name
+          last_name
+        }
+        status
+        priority
+        storageRoom {
+          _id
+          name
+          address
+          type
+          remark
+        }
+        supplierID {
+          _id
+          name
+          email
+          phoneNumber
+        }
+        productsItems {
+          rawMaterialId {
+            _id
+            materialName
+            category {
+              _id
+              categoryName
+            }
+            totalStockAmount
+            usedStockAmount
+            unit
+            unitPrice
+            remark
+          }
+          newQty
+          unitPrice
+          rawName
+          suppliersId {
+            _id
+            name
+            email
+            phoneNumber
+            address
+          }
+          suppliersName
+          key
+        }
+        totalPayment
+        paymentStatus
+        paidAmount
+        remark
+        updatedAt
+        createdAt
+      }
+      paginator {
+        slNo
+        prev
+        next
+        perPage
+        totalPosts
+        totalPages
+        currentPage
+        hasPrevPage
+        hasNextPage
+        totalDocs
+      }
     }
   }
 `

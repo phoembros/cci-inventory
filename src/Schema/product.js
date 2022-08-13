@@ -1,5 +1,12 @@
 import {gql} from "@apollo/client";
 
+
+export const GET_QUATITY_ON_HAND_PRODUCT = gql`
+  query Query($storageRoomId: ID!, $productGroupId: ID!) {
+    qtyOnHandProductByStorageRoom(storageRoomId: $storageRoomId, productGroupId: $productGroupId)
+  }
+`
+
 export const GET_PRODUCT_CATEGORY = gql`
   query GetProductCategoryPagination($page: Int, $limit: Int, $keyword: String, $pagination: Boolean) {
     getProductCategoryPagination(page: $page, limit: $limit, keyword: $keyword, pagination: $pagination) {
@@ -153,19 +160,7 @@ export const GET_PRODUCT_GROUP_BYPRODUCT_ID = gql`
       _id
       quantityPerStockUM
       unitPrice
-      name
-      groupBy {
-        _id
-        productName
-        productId        
-        unit
-        completedUnit
-        unitPrice
-        durationProduce
-        totalStockAmount
-        totalSoldAmount
-        remark
-      }
+      name      
       totalSold
       totalStockAmount
       updatedAt
@@ -279,56 +274,70 @@ export const DELETE_PRODUCT = gql`
   }
 `
 
+
 export const GET_PRODUCT_BYID = gql`
-query GetProductById($productId: ID!) {
-  getProductById(ProductId: $productId) {
-    _id
-    productName
-    productId
-    category {
+  query GetProductById($productId: ID!) {
+    getProductById(ProductId: $productId) {
       _id
-      categoryName
-      remark
-    }
-    unit
-    completedUnit
-    unitPrice
-    durationProduce
-    totalStockAmount
-    totalSoldAmount
-    ingredients {
-      rawName
-      rawMaterialId {
-        category {
-          _id
-          categoryName
-          remark
-        }
+      productName
+      productId
+      category {
         _id
-        materialName
-        totalStockAmount
-        usedStockAmount
-        unit
-        unitPrice
+        categoryName
         remark
       }
-      amount
-      key
-      unitRawMaterial
-      percentage
+      unit
+      completedUnit
+      unitPrice
+      durationProduce
+      totalStockAmount
+      totalSoldAmount
+      ingredients {
+        rawName
+        rawMaterialId {
+          category {
+            _id
+            categoryName
+            remark
+          }
+          _id
+          materialName
+          totalStockAmount
+          usedStockAmount
+          unit
+          unitPrice
+          remark
+        }
+        amount
+        key
+        unitRawMaterial
+        percentage
+      }
+      remark
+      updatedAt
+      createdAt
     }
-    remark
-    updatedAt
-    createdAt
   }
-}
 `
 
-export const ADJUST_QTY_PRODUCT = gql`
-  mutation AdjustQtyProductGroup($productId: ID!, $qtyAdjust: Float) {
-    adjustQtyProductGroup(productId: $productId, qtyAdjust: $qtyAdjust) {
+export const ADJUST_QTY_PRODUCT_GROUP = gql`
+  mutation AdjustQtyProductGroup($productGroupId: ID!, $qtyAdjust: Float, $remark: String , $storageRoomId: ID!) {
+    adjustQtyProductGroup(productGroupId: $productGroupId, qtyAdjust: $qtyAdjust, remark: $remark , storageRoomId: $storageRoomId) {
       success
       message
+    }
+  }
+`
+
+export const GET_ADJUST_PRODUCT_GROUP = gql`
+  query GetAdjustProductGroupById($productGroupId: ID!, $limit: Int!) {
+    getAdjustProductGroupById(productGroupId: $productGroupId, limit: $limit) {
+      fistName
+      lastName
+      oldQtyValue
+      newQtyValue
+      remark
+      createdAt
     }
   }
 `

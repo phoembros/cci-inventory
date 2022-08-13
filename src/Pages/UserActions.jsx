@@ -220,7 +220,7 @@ export default function UserActions() {
                         <TableRow className='body-row'>                       
                             <TableCell className='body-title-shadow'>
                                 <Stack direction="row" spacing={3}>
-                                    <Avatar alt="Remy Sharp" src={row?.createdBy?.gender === "Male" ? MaleSticker : FemalSticker} />
+                                    <Avatar alt="Remy Sharp" src={row?.createdBy?.gender === "male" ? MaleSticker : FemalSticker} />
                                     <Stack direction="column" justifyContent="center">
                                             <Typography variant="body1">
                                                 { row?.createdBy?.first_name+" "+row?.createdBy?.last_name}

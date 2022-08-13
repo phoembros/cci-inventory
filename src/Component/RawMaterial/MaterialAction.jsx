@@ -16,8 +16,7 @@ import AdjustQauntity from "./AdjustQauntity";
 import BuildIcon from '@mui/icons-material/Build';
 import TransformIcon from '@mui/icons-material/Transform';
 
-export default function RawMaterialAction({setRefetch , setAlert, setMessage, setCheckMessage, DataRow , dataUserLogin}) {
-
+export default function MaterialAction({setRefetchQty , setRefetch , setAlert, setMessage, setCheckMessage, DataRow , dataUserLogin, storageRoomId}) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -44,86 +43,49 @@ export default function RawMaterialAction({setRefetch , setAlert, setMessage, se
   return (
     <div>
 
-      <IconButton onClick={handleClick}>
-        <MoreVertIcon sx={{ color: "#3C64F6" }} />
-      </IconButton>
+        <IconButton onClick={handleClick}>
+            <MoreVertIcon sx={{color:"#3C64F6"}}/>   
+        </IconButton>
 
-      {
-            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateRawMaterial ||
-            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteRawMaterial ||
+        {
             dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.adjustQtyRawMaterial ?
-            
-              <>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    "aria-labelledby": "basic-button",
-                  }}
-                > 
-                    {
-                      dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateRawMaterial ?
-                        <MenuItem
-                          onClick={() => {
-                            handleClose();
-                            handleOpenEdit();
-                          }}
-                        >
-                          <Stack direction="row" spacing={1}>
-                            <EditIcon sx={{ color: "blue" }} />
-                            <Typography> Edit </Typography>
-                          </Stack>
-                        </MenuItem>
-                      :
-                        null
-                    }
+    
+            <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                }}
+            >
 
 
-                    {/* {
-                      dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.adjustQtyRawMaterial ?
-                        <MenuItem
-                            onClick={() => {
+                {
+                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.adjustQtyRawMaterial ?
+                        <MenuItem onClick={()=> {
                             handleClose();
                             handleOpenAdjust();
-                          }}
-                        >
-                          <Stack direction="row" spacing={1}>
-                            <TransformIcon sx={{ color: "orange" }} />
-                            <Typography>Adjust Qty</Typography>
-                          </Stack>
+                        }}>
+                            <Stack direction="row" spacing={1}>
+                                <TransformIcon sx={{ color: "orange" }} />
+                                <Typography>Adjust Qty</Typography>
+                            </Stack> 
                         </MenuItem>
-                      : null
-                    } */}
-                        
-                      
-                    {
-                      dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteRawMaterial ?
-                        <MenuItem
-                            onClick={() => {
-                            handleClose();
-                            handleOpenDelete();
-                          }}
-                        >
-                          <Stack direction="row" spacing={1}>
-                            <DeleteIcon sx={{ color: "red" }} />
-                            <Typography>Delete</Typography>
-                          </Stack>
-                        </MenuItem>
-                      :
-                        null
-                    }
+                    : null
+                }
 
-                      
+                
+                    
+            </Menu>
 
-                </Menu>
-              </>
-          :
-              null
-      } 
+            :
+                null
+        }    
 
-      
+
+        
+
 
       {/* <Modal open={openEdit}> */}
         <CreateRawMaterial
@@ -160,6 +122,8 @@ export default function RawMaterialAction({setRefetch , setAlert, setMessage, se
           setCheckMessage={setCheckMessage}
           handleClose={handleCloseAdjust}
           setRefetch={setRefetch}
+          storageRoomId={storageRoomId}
+          setRefetchQty={setRefetchQty}
         />
 
     </div>

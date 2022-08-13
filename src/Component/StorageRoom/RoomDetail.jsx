@@ -51,7 +51,7 @@ export default function RoomDetail() {
 
     const [dataView,setDateView] = React.useState([])
     
-    const { data,refetch } = useQuery(GET_PRODUCT_STORAGE_ROOM_BY, {
+    const { data, refetch } = useQuery(GET_PRODUCT_STORAGE_ROOM_BY, {
         variables: {
             storageRoomId: roomId,
         },
@@ -123,7 +123,11 @@ export default function RoomDetail() {
 
                                                                 <AccordionDetails>
                                                                     <Box sx={{pl:5 , pr:5}}>
-                                                                        <ProductGroupList productId={row?._id} />
+                                                                        <ProductGroupList 
+                                                                            productId={row?._id} 
+                                                                            storageRoomId={roomId}
+                                                                            dataUserLogin={dataUserLogin}
+                                                                        />
                                                                     </Box>                                                                    
                                                                 </AccordionDetails>
 

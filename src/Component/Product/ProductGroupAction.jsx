@@ -81,7 +81,7 @@ export default function ProductGroupAction({
                 : null
             }
 
-            {
+            {/* {
                 dataRole?.adjustQtyProductGroup ?
                     <MenuItem onClick={()=> {
                         handleClose();
@@ -94,7 +94,7 @@ export default function ProductGroupAction({
                     </MenuItem>
                 :
                     null
-            }
+            } */}
                  
 
             {/* {

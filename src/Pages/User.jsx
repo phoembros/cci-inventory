@@ -152,7 +152,7 @@ export default function User() {
                                                         </Stack>                    
                                                     </Stack>
                                                 </TableCell>
-                                                <TableCell onClick={()=>{ handleOpenView(row) }} className='body-title' width="20%">{row?.gender}</TableCell>
+                                                <TableCell onClick={()=>{ handleOpenView(row) }} className='body-title' width="20%">{ row?.gender === "male" ? "Male" : "Female" }</TableCell>
                                                 <TableCell onClick={()=>{ handleOpenView(row) }} className='body-title' width="20%">{moment(row?.birthOfDate).format('DD/MM/YYYY')}</TableCell>
                                                 <TableCell onClick={()=>{ handleOpenView(row) }} className='body-title' width="20%">{row?.email}</TableCell>
                                                 <TableCell onClick={()=>{ handleOpenView(row) }} className='body-title' width="30%">{row?.phone_umber}</TableCell>

@@ -18,30 +18,43 @@ import {
   Pagination,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import "./rawmaterial.scss";
+import "./rawmaterialroom.scss";
 import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
-import CreateRawMaterial from "../Component/RawMaterial/CreateRawMaterial";
-import RawMaterialAction from "../Component/RawMaterial/RawMaterialAction";
-import { useNavigate } from "react-router-dom";
-import ViewRawMaterialDetials from "../Component/RawMaterial/ViewRawMaterialDetials";
-import AlertMessage from "../Component/AlertMessage/AlertMessage";
-import { GET_RAW_MATERAIL_PAGINATION } from "../Schema/rawmaterial" ;
+import MaterialAction from "../RawMaterial/MaterialAction";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import ViewRawMaterial from "../RawMaterial/ViewRawMaterial";
+import AlertMessage from "../AlertMessage/AlertMessage";
+import { GET_RAW_MATERAIL_PAGINATION } from "../../Schema/rawmaterial" ;
 import { useQuery, useMutation } from "@apollo/client";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import CircularProgress from "@mui/material/CircularProgress";
-import { GET_USER_LOGIN } from "../Schema/user";
-import PermissionContent from "../Component/Permission/PermissionContent";
+import { GET_USER_LOGIN } from "../../Schema/user";
+import PermissionContent from "../Permission/PermissionContent";
 import DescriptionIcon from '@mui/icons-material/Description';
-import LoadingPage from "../Component/Permission/LoadingPage";
+import LoadingPage from "../Permission/LoadingPage";
+import QtyOnHand from "../RawMaterial/QtyOnHand";
 import FilterListIcon from '@mui/icons-material/FilterList';
 
-export default function RawMaterial() {
+export default function RawMaterialRoom() {
 
   const [loading,setLoading] = React.useState(true);
   const [loadingData,setLoadingData] = React.useState(true);
 
+  //get Storage Room ID by Url 
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const [roomId, setRoomId] = React.useState(params.get("storageId"));
+  const [roomName, setRoomName] = React.useState(params.get("name"));
+
+  React.useEffect( () => {
+      setRoomId(params.get("storageId"));       
+      setRoomName(params.get("name")); 
+  }, [location.search]);
+  // ENd get ID
+
+  const [refetchQty,setRefetchQty] = React.useState(true);
 
   // Filter  
   const [shortUnitPrice,setShortUnitPrice] = React.useState(false);
@@ -87,6 +100,7 @@ export default function RawMaterial() {
   //Query
   const { data, refetch } = useQuery(GET_RAW_MATERAIL_PAGINATION, {
       variables: {
+        storageId: roomId,
         page: page,
         limit: limit,
         keyword: keyword,
@@ -112,14 +126,22 @@ export default function RawMaterial() {
   },[data?.getRawMaterialPagination?.rawMaterial])
 
 
- 
-
   return (
-    <div className="rawmaterial-page">
+    <div className="rawmaterial-room-page">
       <Stack direction="row" spacing={2}>
         <Box className="slash" />
-        <Stack direction="column" justifyContent="center">
-          <Typography className="color">Materials</Typography>
+        <Stack direction="column" justifyContent="center" className="page-titles">
+            <Stack direction="row" spacing={1}>
+                <Link to="/storage-room" style={{textDecoration: "none"}}>
+                    <Typography className="color">Storage Room</Typography>
+                </Link>
+                <Typography className="color">/ {roomName}</Typography>
+            </Stack>                  
+        </Stack>                                
+        <Stack direction="column" justifyContent="center" className="page-titles-mobile">
+            <Stack direction="row" spacing={1}>                       
+                <Typography className="color">{roomName}</Typography>
+            </Stack>                         
         </Stack>
         <Box sx={{ flexGrow: 1 }} />
 
@@ -142,55 +164,6 @@ export default function RawMaterial() {
               }}
             />
           </Box>
-        </Stack>
-
-        <Stack direction="row" spacing={2} className="btn">
-
-          {
-            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createRawMaterialCategory ? 
-              <>
-                <Button
-                  onClick={() => navigate("/raw-material/categories")}
-                  className="btn-add"
-                  startIcon={<AddIcon />}
-                >
-                  <Typography className="style-add">Category</Typography>
-                </Button>
-              </>
-            :
-              null
-          }
-
-          {/* Create Raw Material =========-----------------------*/}
-          {
-            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createRawMaterial ? 
-              <>
-                <Button
-                  onClick={handleOpenRawMaterial}
-                  className="btn-add"
-                  startIcon={<AddIcon />}
-                >
-                  <Typography className="style-add">Add</Typography>
-                </Button>
-              </>
-            :
-              null
-          }          
-
-          {/* <Modal open={openAddRawMaterial} onClose={handleCloseRawMaterial}> */}
-            <CreateRawMaterial
-                open={openAddRawMaterial}
-                handleClose={handleCloseRawMaterial}
-                setAlert={setAlert}
-                setMessage={setMessage}
-                setCheckMessage={setCheckMessage}
-                checkStatus={"create"}
-                btnTitle={"Create"}
-                setRefetch={refetch}
-            />
-          {/* </Modal> */}
-
-          {/* Create Raw Material ==============================================*/}
         </Stack>
 
       </Stack>
@@ -244,9 +217,8 @@ export default function RawMaterial() {
                                       </Stack>
                                   </TableCell> 
                                   <TableCell className="header-title">Category</TableCell>                           
-                                  {/* <TableCell className="header-title">Qty On Hand</TableCell> */}
-                                  <TableCell className="header-title">Unit</TableCell>
-                                  <TableCell className="header-title">Remark</TableCell>
+                                  <TableCell className="header-title" align="center" >Qty On Hand</TableCell>
+                                                                    
                                   <TableCell className="header-title"> </TableCell>
                               </TableRow>
                           </TableHead>
@@ -286,50 +258,29 @@ export default function RawMaterial() {
                               >
                                 {row?.category?.categoryName}
                               </TableCell>
-                              {/* <TableCell
-                              
-                                  className="body-title"
-                                  width="20%"
-                                >
-                                  Supplies A
-                                </TableCell> */}
-
-                              
-                              
-                              {/* <TableCell
-                                onClick={()=>{handleOpenView(); setDataRow(row)}}
-                                className="body-title"
-                                align="left"
-                                width="12%"
-                              >
-                                { (row?.totalStockAmount-row?.usedStockAmount).toFixed(2) }  
-                                
-                              </TableCell> */}
-
+                            
                               <TableCell
                                 onClick={()=>{handleOpenView(); setDataRow(row)}}
                                 className="body-title"
-                                align="left"
-                                width="10%"
+                                align="center"
+                                width="20%"
                               >
-                                {row?.unit}
+                                  
+                                <QtyOnHand setRefetchQty={setRefetchQty} refetchQty={refetchQty} storageRoomId={roomId} rawMaterialId={row?._id} unit={row?.unit}/>
+                               
                               </TableCell>
-                              <TableCell
-                                onClick={()=>{handleOpenView(); setDataRow(row)}}
-                                className="body-title"
-                                align="left"
-                                width="30%"
-                              >
-                                {row?.remark}
-                              </TableCell>
+                              
+                              
                               <TableCell className="body-title" align="right">
-                                <RawMaterialAction
-                                  dataUserLogin={dataUserLogin}
-                                  DataRow={row}
-                                  setAlert={setAlert}
-                                  setMessage={setMessage}
-                                  setCheckMessage={setCheckMessage}
-                                  setRefetch={refetch}
+                                <MaterialAction
+                                    dataUserLogin={dataUserLogin}
+                                    DataRow={row}
+                                    setAlert={setAlert}
+                                    setMessage={setMessage}
+                                    setCheckMessage={setCheckMessage}
+                                    setRefetch={refetch}
+                                    storageRoomId={roomId}
+                                    setRefetchQty={setRefetchQty}
                                 />
                               </TableCell>
                             </TableRow>
@@ -403,17 +354,25 @@ export default function RawMaterial() {
       
     }
   
-        {/* <Modal open={openView}> */}
-          <ViewRawMaterialDetials open={openView} handleClose={handleCloseView} DataRow={DataRow} />
-        {/* </Modal> */}
+    
 
-        <AlertMessage
-          alert={alert}
-          checkMessage={checkMessage}
-          message={message}
-          setAlert={setAlert}
+      {/* <Modal open={openView}> */}
+        <ViewRawMaterial 
+          open={openView} 
+          handleClose={handleCloseView} 
+          DataRow={DataRow}
+          setRefetchQty={setRefetchQty} 
+          refetchQty={refetchQty}
+          storageRoomId={roomId}
         />
+      {/* </Modal> */}
 
+      <AlertMessage
+        alert={alert}
+        checkMessage={checkMessage}
+        message={message}
+        setAlert={setAlert}
+      />
     </div>
   );
 }

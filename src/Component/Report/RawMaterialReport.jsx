@@ -17,7 +17,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
     // get Data
     const [dataReport,setDataReport] = React.useState([]);
 
-    const { data , error } = useQuery(GET_RAWMATERIAL_REPORT , {
+    const { data , error , refetch } = useQuery(GET_RAWMATERIAL_REPORT , {
         variables: {
             fromDate:  FromData,
             toDate: ToData,
@@ -32,7 +32,9 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
     })
 
     // console.log(dataReport)
-
+    React.useEffect( () => {
+        refetch()
+    },[])
     
     return (
         <Box  width="100%" height="fit-content" display="flex" flexDirection="column" justifyContent="center" sx={{backgroundColor:'#fff', padding: 3}}>
@@ -233,7 +235,7 @@ export default function RawMaterialReport({ FromData , ToData }) {
                               
             </Box>
             
-            <Stack direction="row" >
+            <Stack direction="row" sx={{mt:2}}>
                 <Box sx={{flexGrow:1}}></Box>
                 <ReactToPrint  
                     content={() => componentRef.current}         

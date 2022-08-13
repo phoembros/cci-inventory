@@ -83,7 +83,7 @@ export default function Layout({prefersDarkMode, setPrefersDarkMode }) {
     <Box sx={{ display: 'flex' }}>
 
       {
-          width > 1024 ?
+          width > 1300 ?
 
         <>
             <AppBar  sx={{boxShadow: "none"}}  position="fixed"  open={open} >                            

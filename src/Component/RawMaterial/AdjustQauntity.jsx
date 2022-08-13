@@ -11,9 +11,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import QtyOnHand from "./QtyOnHand";
 
 
 export default function AdjustQauntity({
+  setRefetchQty,
   handleClose,
   open,
   setAlert,
@@ -21,14 +23,16 @@ export default function AdjustQauntity({
   setCheckMessage,
   DataRow,
   setRefetch,
+  storageRoomId,
 }) {
 
   const [loading,setLoading] = React.useState(false);
 
+  const [remarkAdjust,setRemarkAdjust] = React.useState("");
   const [qtyAdjust,setQtyAdjust] = React.useState(0);
  
-  const [adjustQtyRawMaterial] = useMutation( ADJUST_QTY_RAW_MATERIAL ,{
-    onCompleted:({adjustQtyRawMaterial})=>{
+  const [adjustQtyRawMaterial] = useMutation(ADJUST_QTY_RAW_MATERIAL ,{
+    onCompleted:({adjustQtyRawMaterial}) => {
         // console.log(adjustQtyRawMaterial?.message, '')
           if(adjustQtyRawMaterial?.success){
             setCheckMessage('success')
@@ -36,6 +40,7 @@ export default function AdjustQauntity({
             setAlert(true)
             handleClose();
             setRefetch();
+            setRefetchQty(true)
             setLoading(false);
           } else {
             setLoading(false)
@@ -52,15 +57,16 @@ export default function AdjustQauntity({
         }
     })
 
-    console.log(DataRow)
+    // console.log(DataRow)
 
     const handleUpdateQty = () =>{
-        setLoading(true)
-        
+        setLoading(true);        
         adjustQtyRawMaterial({
             variables: {              
+                storageRoomId: storageRoomId,
                 rawMaterialId: DataRow?._id ,
                 qtyAdjust: parseFloat(qtyAdjust),
+                remark: remarkAdjust,
             }
         })
     }
@@ -72,11 +78,11 @@ export default function AdjustQauntity({
             <DialogTitle id="alert-dialog-title">
                 <Stack direction="row" spacing={5}>
                     <Typography className="header-title" variant="h6">
-                      Adjust Qty On Hand
+                        Adjust Qty On Hand
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}></Box>
                     <IconButton onClick={() => handleClose()}>
-                      <DoDisturbOnOutlinedIcon sx={{ color: "red" }} />
+                        <DoDisturbOnOutlinedIcon sx={{ color: "red" }} />
                     </IconButton>
                 </Stack>
             </DialogTitle>
@@ -94,7 +100,7 @@ export default function AdjustQauntity({
                       direction="row"                     
                       spacing={1}
                       width="100%"
-                      sx={{ mb: 4 , mt: 4}}
+                      sx={{ mb: 2 , mt: 4}}
                     >
                       <Stack direction="column" justifyContent="center">
                         <Typography variant="subtitle1"  className="header-title">
@@ -104,7 +110,7 @@ export default function AdjustQauntity({
                       <Box sx={{flexGrow:1}}></Box>
                       <Box sx={{width:"70%"}}>
                           <Typography variant="subtitle1">
-                            {DataRow?.totalStockAmount-DataRow?.usedStockAmount} - {DataRow?.unit}
+                              <QtyOnHand setRefetchQty={setRefetchQty}  storageRoomId={storageRoomId} rawMaterialId={DataRow?._id} unit={DataRow?.unit} />
                           </Typography>     
                       </Box>            
                     </Stack>
@@ -115,7 +121,7 @@ export default function AdjustQauntity({
                       justifyContent="center"
                       spacing={1}
                       width="100%"
-                      sx={{ mb: 4 }}
+                      sx={{ mb: 2 }}
                     >
                       <Stack direction="column" justifyContent="center">
                         <Typography variant="subtitle1" className="header-title">
@@ -144,8 +150,28 @@ export default function AdjustQauntity({
                       </Box>
                     </Stack>
 
-
-
+                    <Stack
+                      direction="row"
+                      justifyContent="center"
+                      spacing={1}
+                      width="100%"
+                      sx={{ mb: 4 }}
+                    >
+                      <Stack direction="column" justifyContent="center">
+                        <Typography variant="subtitle1" className="header-title">
+                          Remark:
+                        </Typography>
+                      </Stack>
+                      <Box sx={{flexGrow:1}}></Box>
+                      <Box sx={{width:"70%"}}>
+                        <TextField
+                          multiline
+                          size="small"                          
+                          fullWidth
+                          onChange={ (e) => setRemarkAdjust(e.target.value)}                         
+                        />
+                      </Box>
+                    </Stack>
 
 
                     <Stack direction="row" spacing={5}>

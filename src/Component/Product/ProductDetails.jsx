@@ -13,6 +13,7 @@ import { GET_PRODUCT_GROUP_BYPRODUCT_ID } from "../../Schema/product";
 import DurationImage from "../../Assets/clock.gif";
 import LoadingPage from "../Permission/LoadingPage";
 import { GET_USER_LOGIN } from "../../Schema/user";
+import ViewAdjustProductGroup from "./ViewAdjustProductGroup";
 
 export default function ProductDetails() {
 
@@ -33,6 +34,15 @@ export default function ProductDetails() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    // Open View 
+    const [productGroupView,setProductGroupView] = React.useState(null)
+    const [openView,setOpenView] = React.useState(false);
+    const handleOpenView = (e) => {
+        setProductGroupView(e);
+        setOpenView(true);
+    }
+    const handleCloseView = () => setOpenView(false);
+
     const [dataProduct,setDataProduct] = React.useState(null);
 
     //get Storage Room ID by Url 
@@ -51,7 +61,7 @@ export default function ProductDetails() {
             productId: params.get("id"),
         },
         onCompleted: ({getProductById}) => {
-            console.log(getProductById);
+            // console.log(getProductById);
         }
     })
 
@@ -174,7 +184,7 @@ export default function ProductDetails() {
                             </Stack> 
                             {
                                 dataProduct?.ingredients?.map( (row,index) => (         
-                                    <Stack direction='column' className="top" justifyContent="center" sx={{mt:2}}>                         
+                                    <Stack key={index} direction='column' className="top" justifyContent="center" sx={{mt:2}}>                         
                                         <Stack direction='row' justifyContent="center">
                                             <Box sx={{width:"10%"}}>                                           
                                                 <Typography className="header-title">
@@ -183,7 +193,7 @@ export default function ProductDetails() {
                                             </Box> 
                                             <Box sx={{width:"40%"}}>
                                                 <Stack direction="row" spacing={2}>
-                                                    <Typography variant="body1" sx={{fontWeight:"bold"}}>
+                                                    <Typography variant="body1">
                                                         Material:
                                                     </Typography>
                                                     <Typography variant="body1">
@@ -194,7 +204,7 @@ export default function ProductDetails() {
 
                                             <Box sx={{flexGrow:1}}></Box> 
                                             <Stack direction="row" spacing={2} width="120px">                                 
-                                                <Typography variant="body1" sx={{fontWeight:"bold"}}>
+                                                <Typography variant="body1">
                                                     Need:
                                                 </Typography> 
                                                 <Box sx={{flexGrow:1}}></Box>
@@ -258,9 +268,9 @@ export default function ProductDetails() {
                                     <TableCell className="header-title">
                                         Unit Price
                                     </TableCell>    
-                                    <TableCell className="header-title">
+                                    {/* <TableCell className="header-title">
                                         Qty On Hand
-                                    </TableCell>                                 
+                                    </TableCell>                                  */}
                                     <TableCell className="header-title" align="right">
                                         Action
                                     </TableCell>
@@ -280,22 +290,22 @@ export default function ProductDetails() {
                                 <>
                                 {
                                     productGroupData?.map( (row,index) => (
-                                        <TableRow key={index} className="header-row">
-                                            <TableCell className="body-title">
+                                        <TableRow key={index} className="header-row" >
+                                            <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
                                                 <Typography variant="body1">{index+1} -</Typography>
                                             </TableCell>
-                                            <TableCell className="body-title">
+                                            <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
                                                 <Typography variant="body1">{row?.name}</Typography>
                                             </TableCell>
-                                            <TableCell className="body-title">
+                                            <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
                                                 <Typography variant="body1">{row?.quantityPerStockUM}</Typography>
                                             </TableCell>  
-                                            <TableCell className="body-title">
+                                            <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
                                                 <Typography variant="body1">${row?.unitPrice}</Typography>
                                             </TableCell>     
-                                            <TableCell className="body-title">
+                                            {/* <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
                                                 <Typography variant="body1">{row?.totalStockAmount-row?.totalSold} - U/M</Typography>
-                                            </TableCell>                                 
+                                            </TableCell>                                  */}
                                             <TableCell className="body-title" align="right">
                                                 <ProductGroupAction 
                                                     setAlert={setAlert}
@@ -320,7 +330,7 @@ export default function ProductDetails() {
 
             </Box>
                        
-       
+        {/* <ViewAdjustProductGroup handleClose={handleCloseView} open={openView} productGroupView={productGroupView}/> */}
 
         <AlertMessage alert={alert} setAlert={setAlert} message={message} setMessage={setMessage} checkMessage={checkMessage} />
     

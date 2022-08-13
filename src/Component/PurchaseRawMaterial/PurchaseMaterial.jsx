@@ -3,7 +3,7 @@ import { Box ,Paper, Button, Stack , IconButton,Typography, TextField, InputAdor
 import {Table,  TableBody,TableCell, TableContainer, TableHead , TableRow, Pagination} from '@mui/material';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from '@mui/icons-material/Add';
-import './purchase.scss';
+import './purchasematerial.scss';
 import {  Link , useLocation } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,7 +11,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import PurchaseRawMaterial from './PurchaseRawMaterial';
 import PurchaseRawMaterialAction from './PurchaseRawMaterialAction';
 import ViewPurchase from './ViewPurchase';
-import { GET_PURCHASE_RAW_MATERAIL_PAGINATION } from '../../Schema/starageroom';
+import { GET_PURCHASE_RAW_MATERIAL_PAGINATION } from '../../Schema/rawmaterial';
 import {useQuery} from '@apollo/client';
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -26,10 +26,15 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { GET_USER_LOGIN } from "../../Schema/user";
 import PermissionContent from "../Permission/PermissionContent";
 import DescriptionIcon from '@mui/icons-material/Description';
+import LoadingPage from "../Permission/LoadingPage";
 
-export default function ProductCategories() {
+export default function PurchaseMaterial() {
 
-    const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
+    const [loading,setLoading] = React.useState(true);
+    const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
+        onCompleted: () => setLoading(false),
+        pollInterval: 10000,
+    })
     // console.log(dataUserLogin?.getuserLogin?.first_name)
 
     //Dataview 
@@ -70,9 +75,8 @@ export default function ProductCategories() {
 
     const [dataPurchaseRawMaterial,setDataPurchaseRawMaterial] = React.useState([]);
 
-    const { data , refetch } = useQuery(GET_PURCHASE_RAW_MATERAIL_PAGINATION, {
-        variables: {
-            storageId: roomId,
+    const { data , refetch } = useQuery(GET_PURCHASE_RAW_MATERIAL_PAGINATION, {
+        variables: {           
             page: page,
             limit:limit,
             keyword: keyword,
@@ -82,7 +86,7 @@ export default function ProductCategories() {
             paymentStatus: [],        
         },
         onCompleted: ({getPurchaseRawMaterialPagination}) => {
-            console.log(getPurchaseRawMaterialPagination?.purchaseRawMaterial,"data");    
+            // console.log(getPurchaseRawMaterialPagination?.purchaseRawMaterial,"data");    
             setDataPurchaseRawMaterial(getPurchaseRawMaterialPagination?.purchaseRawMaterial)        
         },
         onError: (error) => {
@@ -95,26 +99,25 @@ export default function ProductCategories() {
         setPageShow(page)
     }, [ page, keyword , priority , status ])
 
-    // console.log(keyword, "keyword")
-  
+    // console.log(keyword, "keyword")  
     
     return(
-        <div className="purchases-page">
+        <div className="purchases-raw-page">
             <Stack direction="row" spacing={2}>
                 <Box className="slash" />
-                <Stack direction="column" justifyContent="center" className="page-titles">
+                <Stack direction="column" justifyContent="center">
                     <Stack direction="row" spacing={1}>
-                        <Link to="/storage-room" style={{textDecoration: "none"}}>
-                            <Typography className="color">Storage Room</Typography>
-                        </Link>
-                        <Typography className="color">/ {roomName}</Typography>
+                        {/* <Link to="/storage-room" style={{textDecoration: "none"}}> */}
+                            <Typography className="color">Purchase Material</Typography>
+                        {/* </Link> */}
+                        {/* <Typography className="color">/ {roomName}</Typography> */}
                     </Stack>                         
                 </Stack>
-                <Stack direction="column" justifyContent="center" className="page-titles-mobile">
+                {/* <Stack direction="column" justifyContent="center" className="page-titles-mobile">
                     <Stack direction="row" spacing={1}>                       
                         <Typography className="color">{roomName}</Typography>
                     </Stack>                         
-                </Stack>
+                </Stack> */}
                 <Box sx={{flexGrow: 1}} />
                 <Stack direction="row" className="btn"  justifyContent="right" spacing={1}>  
                      <Box className="btn-text-field" >                       
@@ -296,7 +299,7 @@ export default function ProductCategories() {
                         </Stack>
                     </>
                 :
-                    <PermissionContent />
+                    loading ? <LoadingPage /> : <PermissionContent />
             }     
             
 

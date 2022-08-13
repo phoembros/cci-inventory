@@ -28,6 +28,7 @@
         }
     }
 
+
     .page-title-mobile {
         display: none;
         
@@ -67,6 +68,8 @@
             }
         }
     }
+
+    
 
     .container {
         margin-top: 20px;  
@@ -172,19 +175,23 @@
                 @include mobile-large {
                     width: 476px !important;
                 }
-    
-    
-                .header-row {    
-                            
+                
+                .group-hover {
+                    cursor: pointer;
+                }
+                
+                .header-row {                             
+
                     .header-title {
                         // padding: 5px;
                         font-size: $font-Size-Subtitle;
                         font-weight: bold;
                         border: none;
                     }
+
                     .body-title {
                         // padding: 5px;
-                        border: none;
+                        border: none;                        
                     }
                 }
                 

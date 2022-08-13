@@ -65,10 +65,10 @@ export default function ViewProduction({
 
     const { data , refetch } = useQuery(GET_PRODUCT_BYID , {
         variables: {
-            productId: ViewData?.production?.productId?._id,
+            productId: ViewData?.production?.productId?._id ? ViewData?.production?.productId?._id : "",
         },        
         onError: (error) => {
-            console.log(error.message);
+            // console.log(error.message);
         }
     })
     

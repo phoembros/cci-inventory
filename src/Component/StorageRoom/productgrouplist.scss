@@ -26,7 +26,10 @@
             }
         }
 
-        .body-row {            
+        .body-row {       
+            
+            cursor: pointer;
+            
             .body-title {
                 padding: 10px;
                 border: none;

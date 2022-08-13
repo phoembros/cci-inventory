@@ -17,7 +17,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
     // get Data
     const [dataReport,setDataReport] = React.useState([]);
 
-    const { data , error } = useQuery(GET_PRODUCTION_REPORT , {
+    const { data , error ,refetch } = useQuery(GET_PRODUCTION_REPORT , {
         variables: {
             fromDate:  FromData,
             toDate: ToData,
@@ -31,6 +31,9 @@ const ComponentToPrint = ({FromData , ToData}) => {
         }
     })
 
+    React.useEffect( () => {
+        refetch()
+    },[])
 
     return (
         <Box  width="100%" height="fit-content" display="flex" flexDirection="column" justifyContent="center" sx={{backgroundColor:'#fff', padding: 3}}>
@@ -403,7 +406,7 @@ export default function ProductionReport({FromData , ToData}) {
                 </Box>  
                               
             </Box>
-            <Stack direction="row" >
+            <Stack direction="row" sx={{mt:2}}>
                 <Box sx={{flexGrow:1}}></Box>
                 <ReactToPrint  
                     content={() => componentRef.current}         

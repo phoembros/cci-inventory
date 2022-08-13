@@ -25,6 +25,7 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import DeviceHubIcon from '@mui/icons-material/DeviceHub';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useNavigate } from "react-router-dom";
+import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 
 const drawerWidth = 260;
 
@@ -121,16 +122,17 @@ export default function MenuNavbar({open , handleDrawerClose}) {
                 <ListItem className={
                         theme.palette.mode === 'dark' && location.pathname === "/storage-room" ||
                         theme.palette.mode === 'dark' && location.pathname === "/storage-room/purchase" ||
-                        theme.palette.mode === 'dark' && location.pathname === "/storage-room/roomdetail"
+                        theme.palette.mode === 'dark' && location.pathname === "/storage-room/roomdetail" ||
+                        theme.palette.mode === 'dark' && location.pathname === "/storage-room/raw-material"
                     ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}
                 >
                     <Link to="/storage-room" style={{ textDecoration: 'none' }}>
                         <ListItemButton className='list-item-button'sx={{ px: 2.5, }} >
-                            <ListItemIcon className={location.pathname === "/storage-room" || location.pathname === "/storage-room/purchase" || location.pathname === "/storage-room/roomdetail" ? "list-item-icon-active" : "list-item-icon"} >
+                            <ListItemIcon className={location.pathname === "/storage-room" || location.pathname === "/storage-room/purchase" || location.pathname === "/storage-room/roomdetail" || location.pathname === "/storage-room/raw-material" ? "list-item-icon-active" : "list-item-icon"} >
                                 <FormatListBulletedOutlinedIcon />
                             </ListItemIcon>
                             <ListItemText 
-                                className={location.pathname === "/storage-room" || location.pathname === "/storage-room/purchase" || location.pathname === "/storage-room/roomdetail" ? "list-item-text-active" : "list-item-text"}
+                                className={location.pathname === "/storage-room" || location.pathname === "/storage-room/purchase" || location.pathname === "/storage-room/roomdetail" || location.pathname === "/storage-room/raw-material" ? "list-item-text-active" : "list-item-text"}
                                 primary={"Storage Room"}                                
                             />
                         </ListItemButton>
@@ -156,6 +158,25 @@ export default function MenuNavbar({open , handleDrawerClose}) {
                     </Link>
                 </ListItem>
                 {/* Item */}
+
+                {/* Item */}                   
+                <ListItem className={
+                    theme.palette.mode === 'dark' && location.pathname === "/purchase-material" 
+                    ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}
+                >
+                    <Link to="/purchase-material" style={{ textDecoration: 'none' }}>
+                        <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
+                            <ListItemIcon className={location.pathname === "/purchase-material" ? "list-item-icon-active" : "list-item-icon"} >
+                                <ShoppingBasketOutlinedIcon />
+                            </ListItemIcon>
+                            <ListItemText 
+                                className={location.pathname === "/purchase-material" ? "list-item-text-active" : "list-item-text"}
+                                primary={"Purchase Material"} />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
+                {/* Item */}
+
 
                 {/* Item */}                   
                 <ListItem className={
