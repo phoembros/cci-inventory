@@ -216,7 +216,7 @@ export default function RawMaterialRoom() {
                                           </IconButton>
                                       </Stack>
                                   </TableCell> 
-                                  <TableCell className="header-title">Category</TableCell>                           
+                                  {/* <TableCell className="header-title">Category</TableCell>                            */}
                                   <TableCell className="header-title" align="center" >Qty On Hand</TableCell>
                                                                     
                                   <TableCell className="header-title"> </TableCell>
@@ -242,6 +242,8 @@ export default function RawMaterialRoom() {
                                 {row?.materialName}
                               </TableCell>
 
+                              
+
                               <TableCell
                                   onClick={()=>{handleOpenView(); setDataRow(row)}}
                                   className="body-title"
@@ -251,13 +253,13 @@ export default function RawMaterialRoom() {
                                 ${row?.unitPrice}
                               </TableCell>
                               
-                              <TableCell
+                              {/* <TableCell
                                 onClick={()=>{handleOpenView(); setDataRow(row)}}
                                 className="body-title"
                                 width="15%"
                               >
                                 {row?.category?.categoryName}
-                              </TableCell>
+                              </TableCell> */}
                             
                               <TableCell
                                 onClick={()=>{handleOpenView(); setDataRow(row)}}
