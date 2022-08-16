@@ -135,9 +135,10 @@ function TableRawMaterail({dataUserLogines}) {
                                     className="body-title"
                                     align="right"
                                     width="15%"
-                                  >
+                                  > 
                                     <Button className="btn-unpaid" 
-                                        onClick={ () => navigate(`/storage-room/purchase?storageId=${row?.storageRoom?._id}&name=${row?.storageRoom?.name}`)}
+                                        // onClick={ () => navigate(`/storage-room/purchase?storageId=${row?.storageRoom?._id}&name=${row?.storageRoom?.name}`)}
+                                        onClick={ () => navigate(`/purchase-material`) }
                                     >
                                         <Stack direction="row" justifyContent="center" spacing={1}>
                                             <Stack direction="column" justifyContent="center">
