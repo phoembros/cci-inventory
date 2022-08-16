@@ -131,7 +131,10 @@ function TableRawMaterail({dataUserLogines}) {
                                     </Button>
                                   </TableCell>     
 
-                                  <TableCell  className="body-title"  align="right"  width="15%"> 
+                              {
+                                dataUserLogines?.getuserLogin?.role_and_permission?.permissions?.updatePurchaseRawMaterial ?
+                              
+                                  <TableCell  className="body-title"  align="right"  width="15%">
                                       <Button className="btn-unpaid" 
                                           // onClick={ () => navigate(`/storage-room/purchase?storageId=${row?.storageRoom?._id}&name=${row?.storageRoom?.name}`)}
                                           onClick={() => navigate(`/purchase-material?id=${row?._id}`)}
@@ -145,7 +148,9 @@ function TableRawMaterail({dataUserLogines}) {
                                           </Stack>
                                       </Button>
                                   </TableCell>
-
+                                  
+                                : null
+                              }
 
                                 </TableRow>
                               </TableBody>
