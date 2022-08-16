@@ -13,7 +13,7 @@ export default function Chart({dataUserLogines}) {
 
   const [loading,setLoading] = React.useState(true);
 
-  const { data : dataBar } = useQuery(GET_BAR_CHART)
+  const { data : dataBar } = useQuery(GET_BAR_CHART);
 
   React.useEffect( () => {
       if(dataUserLogines?.getuserLogin?.role_and_permission?.permissions) {

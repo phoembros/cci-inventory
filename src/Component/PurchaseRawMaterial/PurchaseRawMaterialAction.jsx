@@ -24,6 +24,7 @@ export default function RawMaterialAction({
     setMessage,
     setCheckMessage,
     setRefetch,
+    purchaseIdView,
 }) {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -45,12 +46,19 @@ export default function RawMaterialAction({
 
     const [openPayment,setOpenPayment] = React.useState(false);
     const handleOpenPayment = () => setOpenPayment(true);
-    const handleClosePayment = () => setOpenPayment(false);
+    const handleClosePayment = () => {
+        setOpenPayment(false);
+        window.history.replaceState(null, "", "/purchase-material")
+    }
 
+    React.useEffect( () => {
+        if(purchaseIdView !== null && purchaseIdView === editData?._id) {
+            handleOpenPayment();
+        }
+    },[purchaseIdView])
     
   return (
-    <div>
-        
+    <div>        
         <IconButton onClick={handleClick}>
             <MoreVertIcon sx={{color:"#3C64F6"}}/>   
         </IconButton>

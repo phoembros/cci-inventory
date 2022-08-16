@@ -43,15 +43,12 @@ export default function PurchaseMaterial() {
     //get Storage Room ID by Url 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
-    const [roomId, setRoomId] = React.useState(params.get("storageId"));
-    const [roomName, setRoomName] = React.useState(params.get("name"));
+    const [purchaseIdView, setPurchaseIdView] = React.useState(params.get("id")); 
 
     React.useEffect( () => {
-        setRoomId(params.get("storageId"));  
-        setRoomName(params.get("name"));      
+        setPurchaseIdView(params.get("id"));             
     }, [location.search]);
     // End get Id Storage Room
-
     
     // Alert Message
     const [alert,setAlert] = React.useState(false);
@@ -85,8 +82,7 @@ export default function PurchaseMaterial() {
             status: status,
             paymentStatus: [],        
         },
-        onCompleted: ({getPurchaseRawMaterialPagination}) => {
-            // console.log(getPurchaseRawMaterialPagination?.purchaseRawMaterial,"data");    
+        onCompleted: ({getPurchaseRawMaterialPagination}) => {                
             setDataPurchaseRawMaterial(getPurchaseRawMaterialPagination?.purchaseRawMaterial)        
         },
         onError: (error) => {
@@ -100,7 +96,9 @@ export default function PurchaseMaterial() {
     }, [ page, keyword , priority , status ])
 
     // console.log(keyword, "keyword")  
+
     
+
     return(
         <div className="purchases-raw-page">
             <Stack direction="row" spacing={2}>
@@ -167,7 +165,7 @@ export default function PurchaseMaterial() {
                             setCheckMessage={setCheckMessage}
                             setRefetch={refetch}
                         />
-                    {/* </Modal>        */}
+                    {/* </Modal> */}
                 </Stack>
             </Stack>
 
@@ -246,6 +244,7 @@ export default function PurchaseMaterial() {
                                                         setMessage={setMessage}
                                                         setCheckMessage={setCheckMessage}
                                                         setRefetch={refetch}
+                                                        purchaseIdView={purchaseIdView}
                                                     />                                        
                                                 </TableCell>                            
                                             </TableRow>
