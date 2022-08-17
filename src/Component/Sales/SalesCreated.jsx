@@ -295,7 +295,7 @@ export default function SalesCreated({
 
     React.useEffect( () => {
         setFieldValue("invoiceNo" , InvoiceNo?.getInvoiceId)
-    },[InvoiceNo])
+    },[InvoiceNo,open])
 
     React.useEffect( () => {
       setOpenWarning(true)
@@ -308,6 +308,7 @@ export default function SalesCreated({
 
     
     const handleBeforeCloseModal = () => {
+      console.log(values?.billToName)
         if(
             values?.billToName !== "" &&  values?.billToName !== undefined ||
             values?.invoiceNo !== InvoiceNo?.getInvoiceId ||
@@ -704,7 +705,7 @@ export default function SalesCreated({
         </DialogContent>       
     </Dialog>  
 
-    <ModalAlert resetForm={()=> {}} handleClose={handleCloseFormAlert} handleCloseModalCreate={handleClose} open={openFormAlert} modalTitle="Production" />
+    <ModalAlert resetForm={resetForm} handleClose={handleCloseFormAlert} handleCloseModalCreate={handleClose} open={openFormAlert} modalTitle="Production" />
     </>
   );
 }
