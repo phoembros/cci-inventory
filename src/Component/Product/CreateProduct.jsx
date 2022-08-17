@@ -19,6 +19,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import ModalAlert from '../Permission/ModalAlert';
 
 
 export default function CreateProduct({
@@ -31,6 +32,12 @@ export default function CreateProduct({
     setRefetch,
     checkStatus,
 }) {
+
+    // Alert Message before close form
+    const [openFormAlert,setOpenFormAlert] = React.useState(false);
+    const handleOpenFormAlert = () => setOpenFormAlert(true);
+    const handleCloseFormAlert = () => setOpenFormAlert(false);
+
 
     const [loading,setLoading] = React.useState(false);
     const [checkPercent,setCheckPercent] = React.useState(false);
@@ -282,8 +289,24 @@ export default function CreateProduct({
     // End Formik
    
 
-    return (
+    const handleBeforeCloseModal = () => {
+        if(
+            values?.productName !== "" ||
+            values?.productId !== "" ||            
+            values?.category !== "" ||
+            values?.unit !== "" ||
+            values?.durationProduce !== 0 
+        ) 
+        {            
+            handleOpenFormAlert();
+        } else {
+            handleClose();
+        }
+    }
 
+
+    return (
+      <>
       <Dialog open={open} className="dialog-product-create">
             <DialogTitle id="alert-dialog-title">
                   <Stack direction="row" spacing={5}>
@@ -291,7 +314,7 @@ export default function CreateProduct({
                           Create Product
                       </Typography>
                       <Box sx={{ flexGrow: 1 }}></Box>
-                      <IconButton onClick={() => handleClose()}>
+                      <IconButton onClick={() => handleBeforeCloseModal()}>
                           <DoDisturbOnOutlinedIcon sx={{ color: "red" }} />
                       </IconButton>
                   </Stack>
@@ -571,5 +594,8 @@ export default function CreateProduct({
               </DialogContentText>
         </DialogContent>       
     </Dialog> 
+
+    <ModalAlert resetForm={resetForm} handleClose={handleCloseFormAlert} handleCloseModalCreate={handleClose} open={openFormAlert} modalTitle="Product" />
+    </>
     );
 }

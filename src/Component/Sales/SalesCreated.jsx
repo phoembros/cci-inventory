@@ -39,6 +39,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import ModalAlert from '../Permission/ModalAlert';
 
 
 export default function SalesCreated({
@@ -49,6 +50,11 @@ export default function SalesCreated({
   setCheckMessage,
   setRefetch,
 }) {
+
+    // Alert Message before close form
+    const [openFormAlert,setOpenFormAlert] = React.useState(false);
+    const handleOpenFormAlert = () => setOpenFormAlert(true);
+    const handleCloseFormAlert = () => setOpenFormAlert(false);
 
     const [openWarning,setOpenWarning] = React.useState(false);
 
@@ -301,7 +307,22 @@ export default function SalesCreated({
     },[values?.invoiceNo])
 
     
+    const handleBeforeCloseModal = () => {
+        if(
+            values?.billToName !== "" &&  values?.billToName !== undefined ||
+            values?.invoiceNo !== InvoiceNo?.getInvoiceId ||
+            values?.tin !== "" ||
+            item?.length !== 0 && item[0]?.productId !== ""
+        ) 
+        {            
+            handleOpenFormAlert();
+        } else {
+            handleClose();
+        }
+    }
+
   return (
+    <>
     <Dialog open={open} className="dialog-create-sales">
         <DialogTitle id="alert-dialog-title">
               <Stack direction="row" spacing={5}>        
@@ -309,7 +330,7 @@ export default function SalesCreated({
                     Invoice
                   </Typography>
                   <Box sx={{flexGrow:1}}></Box>
-                  <IconButton onClick={() => handleClose()}>
+                  <IconButton onClick={() => handleBeforeCloseModal()}>
                       <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
                   </IconButton>    
               </Stack>  
@@ -682,5 +703,8 @@ export default function SalesCreated({
             </DialogContentText>
         </DialogContent>       
     </Dialog>  
+
+    <ModalAlert resetForm={()=> {}} handleClose={handleCloseFormAlert} handleCloseModalCreate={handleClose} open={openFormAlert} modalTitle="Production" />
+    </>
   );
 }

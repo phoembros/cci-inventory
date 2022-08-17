@@ -206,7 +206,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                             className="cell-item"
                                                             sx={{border: "none" , padding: "8px"}}
                                                         > 
-                                                            <Typography variant="body2" className="text">{(row?.qtyStockIn-row?.qtySold)?.toFixed(2)}</Typography>
+                                                            <Typography variant="body2" className="text">{(row?.qtyStockIn-row?.qtySold)?.toFixed(4)}</Typography>
                                                         </TableCell>  
 
                                                         <TableCell 

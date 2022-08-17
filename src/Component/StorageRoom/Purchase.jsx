@@ -82,7 +82,7 @@ export default function ProductCategories() {
             paymentStatus: [],        
         },
         onCompleted: ({getPurchaseRawMaterialPagination}) => {
-            console.log(getPurchaseRawMaterialPagination?.purchaseRawMaterial,"data");    
+            // console.log(getPurchaseRawMaterialPagination?.purchaseRawMaterial,"data");    
             setDataPurchaseRawMaterial(getPurchaseRawMaterialPagination?.purchaseRawMaterial)        
         },
         onError: (error) => {

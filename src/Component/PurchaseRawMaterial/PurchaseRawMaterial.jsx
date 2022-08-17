@@ -37,6 +37,7 @@ import { GET_PO_NUMBER } from '../../Schema/rawmaterial';
 
 import moment from "moment";
 import { GET_STORAGE_ROOM_PAGINATION, GET_STORAGE_ROOM_PRODUCT } from '../../Schema/starageroom';
+import ModalAlert from '../Permission/ModalAlert';
 
 export default function PurchaseRawMaterial({
   nameRequest,
@@ -49,6 +50,12 @@ export default function PurchaseRawMaterial({
   setRefetch,
 
 }) {
+
+  // Alert Message before close form
+  const [openFormAlert,setOpenFormAlert] = React.useState(false);
+  const handleOpenFormAlert = () => setOpenFormAlert(true);
+  const handleCloseFormAlert = () => setOpenFormAlert(false);
+
 
   const [totalAmount,setTotalAmount] = React.useState(0);  
   const [loading,setLoading] = React.useState(false);
@@ -340,7 +347,7 @@ export default function PurchaseRawMaterial({
             ListRawMaterils+= `\n👉 ${i?.rawMaterialId?.materialName} (x${i?.newQty} ${i?.rawMaterialId?.unit})` 
           ))
 
-          // await sendMessage({content: `<b>[Request Purchase RawMaterial]</b>\n👩‍🚀 <i>${nameRequest}</i>\n${ListRawMaterils}\n\n🗓 Date:${moment(createPurchaseRawMaterial?.data?.purchaseDate).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+          await sendMessage({content: `<b>[Request Purchase RawMaterial]</b>\n👩‍🚀 <i>${nameRequest}</i>\n${ListRawMaterils}\n\n🗓 Date:${moment(createPurchaseRawMaterial?.data?.purchaseDate).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
 
         } else {
           setLoading(false)
@@ -428,7 +435,22 @@ export default function PurchaseRawMaterial({
     },[poNumber?.getPOId,open])
 
 
+    const handleBeforeCloseModal = () => {      
+        if(
+            values?.storageRoom !== "" ||           
+            values?.supplierID !== "" ||
+            values?.priority !== "" ||            
+            item?.length !== 0 && item[0]?.rawMaterialId !== ""
+        ) 
+        {            
+            handleOpenFormAlert();
+        } else {
+            handleClose();
+        }
+    }
+
     return (
+      <>
         <Dialog open={open} className="dialog-create-purchase">
             <DialogTitle id="alert-dialog-title">
                   <Stack direction="row" spacing={5}>
@@ -436,7 +458,7 @@ export default function PurchaseRawMaterial({
                         Purchase Raw Material
                       </Typography>
                       <Box sx={{ flexGrow: 1 }}></Box>
-                      <IconButton onClick={() => handleClose()}>
+                      <IconButton onClick={() => handleBeforeCloseModal()}>
                         <DoDisturbOnOutlinedIcon sx={{ color: "red" }} />
                       </IconButton>
                   </Stack>
@@ -771,6 +793,7 @@ export default function PurchaseRawMaterial({
             </DialogContent>       
         </Dialog>
 
-      
+        <ModalAlert resetForm={resetForm} handleClose={handleCloseFormAlert} handleCloseModalCreate={handleClose} open={openFormAlert} modalTitle="Production" /> 
+      </>
     );
 }

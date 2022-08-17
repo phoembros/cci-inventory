@@ -30,6 +30,7 @@ import { GET_USER_LOGIN } from '../../Schema/user';
 import { GET_STORAGE_ROOM_PRODUCT } from '../../Schema/starageroom';
 import { GET_CUSTOMER_PAGINATION } from "../../Schema/sales";
 import { colorChannel } from '@mui/system';
+import ModalAlert from "../Permission/ModalAlert";
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -52,6 +53,12 @@ export default function UpdateProduction({
     setRefetch,
 }) {
 
+
+    // Alert Message before close form
+    const [openFormAlert,setOpenFormAlert] = React.useState(false);
+    const handleOpenFormAlert = () => setOpenFormAlert(true);
+    const handleCloseFormAlert = () => setOpenFormAlert(false);
+
     const [loading,setLoading] = React.useState(false);
 
     const [updateProductions] = useMutation(UPDATE_PRODUCTION , {
@@ -64,7 +71,7 @@ export default function UpdateProduction({
                 setRefetch();
                 setLoading(false)
                 
-                // await sendMessage({content: `<b>[Request Create Production]</b>\n👩‍🚀 <i>${nameRequest}</i>\n\n${updateProductions?.data?.production?.productId?.productName} (x${updateProductions?.data?.qty} ${updateProductions?.data?.production?.productId?.unit})\n\n🗓 Date:${moment(updateProductions?.data?.createdAt).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+                await sendMessage({content: `<b>[Request Create Production]</b>\n👩‍🚀 <i>${nameRequest}</i>\n\n${updateProductions?.data?.production?.productId?.productName} (x${updateProductions?.data?.qty} ${updateProductions?.data?.production?.productId?.unit})\n\n🗓 Date:${moment(updateProductions?.data?.createdAt).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
 
             } else {
                 setLoading(false)
@@ -281,10 +288,40 @@ export default function UpdateProduction({
     const { errors, touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm } = formik;
     // End Formik
 
+    // React.useEffect( () => {
+    //     if(editDataProduction){
+    //         setFieldValue("storageRoomId" , editDataProduction?.storageRoomId?._id );
+    //         setFieldValue("customerId" , editDataProduction?.customerId?._id );
+    //         setFieldValue("startDate" , editDataProduction?.startDate);
+    //         setFieldValue("dueDate" , editDataProduction?.dueDate);
+    //         setFieldValue("priority" , editDataProduction?.priority );
+    //         setFieldValue("qty" , editDataProduction?.qty);
+    //         setFieldValue("productId" , editDataProduction?.production?.productId?._id);
+    //         setFieldValue("productName" , editDataProduction?.production?.productId?.productName);
+    //         setFieldValue("qtyOnHand" , editDataProduction?.production?.qtyOnHand);
+    //         setFieldValue("progress" , "not started");
+    //         setFieldValue("comment" , editDataProduction?.comment);
+    //         setFieldValue("remark" , editDataProduction?.remark);           
+    //     }
+    // },[editDataProduction])
+
+
+    const handleBeforeCloseModal = () => {
+        if(
+            values?.storageRoomId !== editDataProduction?.storageRoomId?._id ||
+            values?.customerId !== editDataProduction?.customerId?._id ||
+            values?.productName !== editDataProduction?.production?.productId?.productName ||
+            values?.qty !==  editDataProduction?.qty 
+        ) 
+        {            
+            handleOpenFormAlert();
+        } else {
+            handleClose();
+        }
+    }
     
   return (
-
-
+    <>
     <Dialog open={open} className="dialog-production-create">
             <DialogTitle id="alert-dialog-title">
                     <Stack direction="row" spacing={5}>             
@@ -292,7 +329,7 @@ export default function UpdateProduction({
                             Production
                         </Typography>            
                         <Box sx={{flexGrow:1}}></Box>
-                        <IconButton onClick={() => handleClose()}>
+                        <IconButton onClick={() => handleBeforeCloseModal()}>
                             <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
                         </IconButton>    
                     </Stack>   
@@ -622,5 +659,9 @@ export default function UpdateProduction({
             </DialogContentText>
         </DialogContent>       
     </Dialog>  
+
+    <ModalAlert resetForm={resetForm} handleClose={handleCloseFormAlert} handleCloseModalCreate={handleClose} open={openFormAlert} modalTitle="Production" />
+    </>
+    
   );
 }

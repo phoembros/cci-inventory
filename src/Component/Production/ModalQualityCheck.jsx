@@ -14,6 +14,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import ModalAlert from "../Permission/ModalAlert";
 
 export default function ModalQualityCheck({
     handleClose,
@@ -24,6 +25,11 @@ export default function ModalQualityCheck({
     setCheckMessage,
     setRefetch,
 }) {
+
+    // Alert Message before close form
+    const [openFormAlert,setOpenFormAlert] = React.useState(false);
+    const handleOpenFormAlert = () => setOpenFormAlert(true);
+    const handleCloseFormAlert = () => setOpenFormAlert(false);
 
     const [loading,setLoading] = React.useState(false);
 
@@ -199,15 +205,17 @@ export default function ModalQualityCheck({
     const [completedQty,setCompletedQty] = React.useState(1);
     const [completedRemark,setCompletedRemark] = React.useState("")
     
-    
+    const resetForm = () => {
+
+    }
+
     const handleUpdateProgress = () => { 
         setLoading(true)  
         // console.log("clikc")    
         
         if(item?.length !== 0) {
             const items = item;
-            items.map( i => {  
-                console.log(i)
+            items.map( i => {                  
                 if( i.qtyOfUM !== 0 && !isNaN(i?.qtyOfUM) && i.label !== undefined && i.label !== "" ) {
                     setCreate(false);
                 } else {
@@ -239,8 +247,27 @@ export default function ModalQualityCheck({
               
     }
 
+    const handleBeforeCloseModal = () => {
+
+        if(item?.length !== 0) {
+            const items = item;
+            items.map( i => {                  
+                if( i.qtyOfUM !== 0 || !isNaN(i?.qtyOfUM) || i.label !== undefined || i.label !== "" ) {
+                    handleOpenFormAlert();
+                } else {
+                    handleClose();  
+                }                  
+            })
+
+        } else {
+            handleClose();            
+        }                   
+  
+    }
+
 
     return (
+    <>
     <Dialog open={open} className="dialog-qaulity-check">
             <DialogTitle id="alert-dialog-title">
                 <Stack direction="row" spacing={5}>                 
@@ -248,7 +275,7 @@ export default function ModalQualityCheck({
                         Check Quantity Production
                     </Typography>             
                     <Box sx={{flexGrow:1}}></Box>
-                    <IconButton onClick={() => handleClose()}>
+                    <IconButton onClick={() => handleBeforeCloseModal()}>
                         <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
                     </IconButton>    
                 </Stack> 
@@ -459,5 +486,8 @@ export default function ModalQualityCheck({
             </DialogContentText>
         </DialogContent>       
     </Dialog>
-    )
+
+    <ModalAlert resetForm={resetForm}  handleClose={handleCloseFormAlert} handleCloseModalCreate={handleClose} open={openFormAlert} modalTitle="Production" />
+    </>
+    );
 }

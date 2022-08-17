@@ -1,0 +1,87 @@
+@import '../../themes.scss';
+
+.dialog-alert {
+
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        // width: 500px !important;
+    }
+    
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+
+    .body-title {
+        font-weight: bold;
+        color: $primary-color;
+    }
+
+    .table {
+        width: 100%;
+        display: table;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-collapse: separate;
+        border-spacing: 0px 8px;
+
+
+
+        .header-row {            
+            .header-title {
+                padding: 5px;
+                border: none;
+                font-size: $font-Size-Subtitle;
+                font-weight: bold;
+            }
+        }
+        
+        .body {
+            box-shadow: none;
+
+            .body-row {       
+                background-color: $background-table-modal;
+    
+                .body-title {
+                    padding: 10px;
+                    border: none;
+                    font-size: $font-Size-Subtitle;
+
+                    .status {
+                        font-weight: bold;      
+                        color: $primary-color;                      
+                    }
+                }
+            }
+        }
+
+    }
+
+}
+
+
+.qaulity-check {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 560px;    
+    background-color: #fff;
+    box-shadow: 30px;
+    border-radius: 10px;
+    padding: 20px;
+
+
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+
+    .body-title {
+        font-weight: bold;
+        color: $primary-color;
+    }
+
+}
+

@@ -19,6 +19,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import ModalAlert from '../Permission/ModalAlert';
 
 
 export default function UpdateProduct({
@@ -32,6 +33,12 @@ export default function UpdateProduct({
     setRefetch,
     checkStatus,
 }) {
+
+    // Alert Message before close form
+    const [openFormAlert,setOpenFormAlert] = React.useState(false);
+    const handleOpenFormAlert = () => setOpenFormAlert(true);
+    const handleCloseFormAlert = () => setOpenFormAlert(false);
+
 
     const [loading,setLoading] = React.useState(false);
     const [checkPercent,setCheckPercent] = React.useState(false);
@@ -309,8 +316,24 @@ export default function UpdateProduct({
         setFieldValue("durationProduce" , editData?.durationProduce)      
     },[editData])
 
+
+    const handleBeforeCloseModal = () => {
+        if(
+            values?.productName !== editData?.productName ||
+            values?.productId !== editData?.productId ||           
+            values?.category !== editData?.category?._id ||
+            values?.unit !== editData?.unit ||
+            values?.durationProduce !== editData?.durationProduce 
+        ) 
+        {            
+            handleOpenFormAlert();
+        } else {
+            handleClose();
+        }
+    }
       
     return (
+        <>
         <Dialog open={open} className="dialog-product-create">
             <DialogTitle id="alert-dialog-title">
                     <Stack direction="row" spacing={5}>        
@@ -318,7 +341,7 @@ export default function UpdateProduct({
                             Update Product
                         </Typography>
                         <Box sx={{flexGrow:1}}></Box>
-                        <IconButton onClick={() => handleClose()}>
+                        <IconButton onClick={() => handleBeforeCloseModal()}>
                             <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
                         </IconButton>    
                     </Stack>   
@@ -578,5 +601,8 @@ export default function UpdateProduct({
             </DialogContentText>
         </DialogContent>       
     </Dialog>   
+
+    <ModalAlert resetForm={resetForm} handleClose={handleCloseFormAlert} handleCloseModalCreate={handleClose} open={openFormAlert} modalTitle="Product" />
+    </>
   );
 }

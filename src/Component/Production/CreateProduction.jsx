@@ -29,6 +29,7 @@ import { CREATE_PRODUCTION } from '../../Schema/production';
 import { GET_USER_LOGIN } from '../../Schema/user';
 import { GET_STORAGE_ROOM_PRODUCT } from '../../Schema/starageroom';
 import { GET_CUSTOMER_PAGINATION } from "../../Schema/sales";
+import ModalAlert from "../Permission/ModalAlert";
 
 import moment from "moment"
 
@@ -55,6 +56,12 @@ export default function CreateProduction({
    
     const [loading,setLoading] = React.useState(false);
 
+    // Alert Message before close form
+    const [openFormAlert,setOpenFormAlert] = React.useState(false);
+    const handleOpenFormAlert = () => setOpenFormAlert(true);
+    const handleCloseFormAlert = () => setOpenFormAlert(false);
+    
+
     const [estimateSuccess,setEstimateSuccess] = React.useState(false);
     const [estimateUnit,setEstimateUnit] = React.useState(false);
 
@@ -80,7 +87,7 @@ export default function CreateProduction({
                 resetForm();
                 setLoading(false)
                 
-                // await sendMessage({content: `<b>[Request Create Production]</b>\n👩‍🚀 <i>${nameRequest}</i>\n\n${createProductions?.data?.production?.productId?.productName} (x${createProductions?.data?.qty} ${createProductions?.data?.production?.productId?.unit})\n\n🗓 Date:${moment(createProductions?.data?.createdAt).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+                await sendMessage({content: `<b>[Request Create Production]</b>\n👩‍🚀 <i>${nameRequest}</i>\n\n${createProductions?.data?.production?.productId?.productName} (x${createProductions?.data?.qty} ${createProductions?.data?.production?.productId?.unit})\n\n🗓 Date:${moment(createProductions?.data?.createdAt).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
 
             } else {
                 setLoading(false)
@@ -225,7 +232,7 @@ export default function CreateProduction({
             startDate: new Date(),
             dueDate: new Date(),
             priority: "urgent",
-            qty: 1,
+            qty: 0,
             productId: "",
             productName: "",
             qtyOnHand: 0,
@@ -279,8 +286,22 @@ export default function CreateProduction({
     const { errors, touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm } = formik;
     // End Formik
 
+    const handleBeforeCloseModal = () => {
+        if(
+            values?.storageRoomId !== "" ||
+            values?.customerId !== "" ||
+            values?.productName !== "" ||
+            values?.qty !== 0 
+        ) 
+        {            
+            handleOpenFormAlert();
+        } else {
+            handleClose();
+        }
+    }
        
   return (
+    <>
         <Dialog open={open} className="dialog-production-create">
             <DialogTitle id="alert-dialog-title">
                     <Stack direction="row" spacing={5}>             
@@ -288,7 +309,7 @@ export default function CreateProduction({
                             Production
                         </Typography>            
                         <Box sx={{flexGrow:1}}></Box>
-                        <IconButton onClick={() => handleClose()}>
+                        <IconButton onClick={() => handleBeforeCloseModal()}>
                             <DoDisturbOnOutlinedIcon sx={{color:"red"}}/>
                         </IconButton>    
                     </Stack>   
@@ -621,5 +642,7 @@ export default function CreateProduction({
         </DialogContent>       
     </Dialog>  
 
+    <ModalAlert resetForm={resetForm} handleClose={handleCloseFormAlert} handleCloseModalCreate={handleClose} open={openFormAlert} modalTitle="Production" />
+    </>
   );
 }

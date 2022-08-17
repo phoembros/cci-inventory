@@ -33,8 +33,13 @@ function TableRawMaterail({dataUserLogines}) {
           paymentStatus: paymentStatus,        
       },
       onCompleted: ({getPurchaseRawMaterialPagination}) => {
-          console.log(getPurchaseRawMaterialPagination?.purchaseRawMaterial,"data");    
-          setDataPurchaseRawMaterial(getPurchaseRawMaterialPagination?.purchaseRawMaterial)        
+          let rows = [];
+          getPurchaseRawMaterialPagination?.purchaseRawMaterial?.forEach( element => {
+              if(element?.status !== "voided") {
+                rows.push(element);
+              }
+          })
+          setDataPurchaseRawMaterial(rows);        
       },
       onError: (error) => {
           console.log(error.message)            

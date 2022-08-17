@@ -316,7 +316,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     sx={{border: "none" ,  padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text">
-                                                        {row?.qtyOfUM}
+                                                        {(row?.qtyOfUM)?.toFixed(4)}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell 

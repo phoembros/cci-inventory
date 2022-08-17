@@ -26,7 +26,7 @@ export default function QtyOnHandProduct({ storageRoomId, productGroupId, alert}
 
     return (
         <>
-            <Typography>{dataQtyOnHand?.qtyOnHandProductByStorageRoom ? dataQtyOnHand?.qtyOnHandProductByStorageRoom : 0 } - U/M </Typography>
+            <Typography>{ dataQtyOnHand?.qtyOnHandProductByStorageRoom ? (dataQtyOnHand?.qtyOnHandProductByStorageRoom)?.toFixed(4) : 0 } - U/M </Typography>
         </>
     )
 }

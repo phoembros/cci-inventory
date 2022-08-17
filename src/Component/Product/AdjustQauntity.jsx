@@ -26,9 +26,15 @@ export default function AdjustQauntity({
   setLoadingQty,
 }) {
 
+  // Handle Message Error TextField
+  const [errorMessage, setErrorMessage] = React.useState(["Can't input 0" , "Invalid Value" , "Field is required!"]);
+  const [touched, setTouched] = React.useState(false);
+  const handleTouch = () =>  setTouched(true);
+
+
   const [loading,setLoading] = React.useState(false);
   const [remark,setRemark] = React.useState("");
-  const [qtyAdjust,setQtyAdjust] = React.useState(0);
+  const [qtyAdjust,setQtyAdjust] = React.useState("");
  
   const [adjustQtyProductGroup] = useMutation(ADJUST_QTY_PRODUCT_GROUP , {
     onCompleted:({adjustQtyProductGroup})=> {
@@ -132,7 +138,8 @@ export default function AdjustQauntity({
                         <TextField
                           size="small"
                           type="number"
-                          fullWidth
+                          fullWidth         
+                          value={qtyAdjust}                 
                           onChange={ (e) => setQtyAdjust(e.target.value)}
                           InputProps={{
                             endAdornment: (
@@ -143,8 +150,13 @@ export default function AdjustQauntity({
                             inputProps: {
                               min: 1
                             }                            
-                        }}
-
+                          }}
+                          onFocus={handleTouch}
+                          error={ touched && isNaN(qtyAdjust) || touched && qtyAdjust < 0 }
+                          helperText={ 
+                            touched && isNaN(qtyAdjust) && errorMessage[1] ||                            
+                            touched && qtyAdjust < 0 && errorMessage[1]     
+                          } 
                         />
                       </Box>
                     </Stack>
@@ -184,14 +196,23 @@ export default function AdjustQauntity({
                                 loading...
                             </Button>
                           :
-                            <Button
-                              onClick={handleUpdateQty}                             
-                              className='btn-create'
-                              variant="outlined"
-                              fullWidth
-                            >                             
-                                Update
-                            </Button>                      
+                            touched && !isNaN(qtyAdjust) && qtyAdjust >= 0 ?
+                                <Button
+                                  onClick={handleUpdateQty}                             
+                                  className='btn-create'
+                                  variant="outlined"
+                                  fullWidth
+                                >                             
+                                    Adjust
+                                </Button>  
+                            :
+                                <Button                                                          
+                                  className='btn-create'
+                                  variant="outlined"
+                                  fullWidth
+                                >                             
+                                    Adjust
+                                </Button>                     
                       }
                     </Stack>
               
