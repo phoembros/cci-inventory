@@ -421,7 +421,7 @@ export default function Production() {
                                     hideNextButton={true}
                                     hidePrevButton={true}
                                     variant="outlined"
-                                    color="primary"
+                                    // color="primary"
                                     count={data?.getProductionsPagination?.paginator?.totalPages}
                                     onChange={(event)=>setPage(parseInt(event?.target?.textContent))}
                                 />

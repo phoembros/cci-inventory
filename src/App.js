@@ -52,7 +52,7 @@ function App() {
         () =>
         createTheme({
             palette: {
-                mode: prefersDarkMode ,
+                mode: prefersDarkMode ,              
                 background: {
                     default: prefersDarkMode === 'dark' ? '#121212' : "#F8F8F8",
                 },
