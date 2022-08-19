@@ -45,16 +45,16 @@ function App() {
     });
 
     
-    const [prefersDarkMode,setPrefersDarkMode] = React.useState("light");
+    const [prefersDarkMode,setPrefersDarkMode] = React.useState( window.localStorage.getItem("prefersDarkMode") );
     // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');    
 
     const theme = React.useMemo(
         () =>
         createTheme({
             palette: {
-                mode: prefersDarkMode ,              
+                mode: prefersDarkMode !== undefined && prefersDarkMode !== "light"  ? "dark" : "light" ,              
                 background: {
-                    default: prefersDarkMode === 'dark' ? '#121212' : "#F8F8F8",
+                    default: prefersDarkMode !== undefined && prefersDarkMode !== "light" ?   '#121212' : "#F8F8F8" ,
                 },
             },
         }),
@@ -62,12 +62,9 @@ function App() {
     );
 
     React.useEffect( () => {        
-      if(prefersDarkMode === undefined) {
-        window.localStorage.setItem("prefersDarkMode", "light")
-      } else {
+     
         window.localStorage.setItem("prefersDarkMode",prefersDarkMode)
-      }
-      
+    
     },[prefersDarkMode])
 
     return (    
