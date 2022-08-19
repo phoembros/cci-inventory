@@ -62,7 +62,12 @@ function App() {
     );
 
     React.useEffect( () => {        
-      window.localStorage.setItem("prefersDarkMode",prefersDarkMode)
+      if(prefersDarkMode === undefined) {
+        window.localStorage.setItem("prefersDarkMode", "light")
+      } else {
+        window.localStorage.setItem("prefersDarkMode",prefersDarkMode)
+      }
+      
     },[prefersDarkMode])
 
     return (    
