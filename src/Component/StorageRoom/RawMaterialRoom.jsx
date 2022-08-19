@@ -36,8 +36,12 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import LoadingPage from "../Permission/LoadingPage";
 import QtyOnHand from "../RawMaterial/QtyOnHand";
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { useTheme } from '@mui/material/styles';
+ 
 
 export default function RawMaterialRoom() {
+
+  const theme = useTheme();
 
   const [loading,setLoading] = React.useState(true);
   const [loadingData,setLoadingData] = React.useState(true);
@@ -129,18 +133,18 @@ export default function RawMaterialRoom() {
   return (
     <div className="rawmaterial-room-page">
       <Stack direction="row" spacing={2}>
-        <Box className="slash" />
+        <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
         <Stack direction="column" justifyContent="center" className="page-titles">
             <Stack direction="row" spacing={1}>
                 <Link to="/storage-room" style={{textDecoration: "none"}}>
-                    <Typography className="color">Storage Room</Typography>
+                    <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >Storage Room</Typography>
                 </Link>
-                <Typography className="color">/ {roomName}</Typography>
+                <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >/ {roomName}</Typography>
             </Stack>                  
         </Stack>                                
         <Stack direction="column" justifyContent="center" className="page-titles-mobile">
             <Stack direction="row" spacing={1}>                       
-                <Typography className="color">{roomName}</Typography>
+                <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >{roomName}</Typography>
             </Stack>                         
         </Stack>
         <Box sx={{ flexGrow: 1 }} />
@@ -158,7 +162,7 @@ export default function RawMaterialRoom() {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon />
+                    <SearchIcon  sx={{color: "gray"}}/>
                   </InputAdornment>
                 ),               
               }}
@@ -229,7 +233,7 @@ export default function RawMaterialRoom() {
                             <TableBody
                                 key={index}
                                 component={Paper}
-                                className={index % 2 === 0 ? "body" : "body-odd"}
+                                className={index % 2 === 0 || theme.palette.mode === 'dark' ? "body" : "body-odd"}
                               >
                             <TableRow className="body-row">                                
                               <TableCell
@@ -295,7 +299,7 @@ export default function RawMaterialRoom() {
                         loading ?                          
                             <LoadingPage />                           
                         :                           
-                            <TableBody component={Paper} className="body-odd">                        
+                            <TableBody component={Paper} className={ theme.palette.mode === 'dark' ? "body" : "body-odd" }>                        
                                 <TableRow  className="body-row">
                                     <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
                                         <Stack direction="row" justifyContent="center">                                                

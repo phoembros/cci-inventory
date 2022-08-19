@@ -70,12 +70,24 @@
         height: 45px;
         background-color: $primary-color;
     }
+
+    .slash-dark {
+        width: 4px;
+        height: 45px;
+        background-color: #fff;
+    }
+
     .color {
         color: $primary-color;
         font-size: 18px;
         font-weight: bold;
-
     }
+
+    .color-dark {
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+    } 
     
     .make{
         align-items: center;
@@ -132,14 +144,20 @@
       
     }
 
-    .center{   
+    .center {   
 
-        .text-inline{
-            // flex-direction:row ;
+        .text-inline{            
             text-align: left;
             justify-content: flex-start;
             font-weight: bold;
         }
+        .text-inline-dark{
+            color: $primary-color;
+            text-align: left;
+            justify-content: flex-start;
+            font-weight: bold;
+        }
+
         .sub-color{
             color: #e0e0e0;
             font-size: small;

@@ -36,8 +36,11 @@ import PermissionContent from "../Component/Permission/PermissionContent";
 import DescriptionIcon from '@mui/icons-material/Description';
 import LoadingPage from "../Component/Permission/LoadingPage";
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { useTheme } from '@mui/material/styles';
 
 export default function RawMaterial() {
+
+  const theme = useTheme();
 
   const [loading,setLoading] = React.useState(true);
   const [loadingData,setLoadingData] = React.useState(true);
@@ -117,9 +120,9 @@ export default function RawMaterial() {
   return (
     <div className="rawmaterial-page">
       <Stack direction="row" spacing={2}>
-        <Box className="slash" />
+        <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
         <Stack direction="column" justifyContent="center">
-          <Typography className="color">Materials</Typography>
+          <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }>Materials</Typography>
         </Stack>
         <Box sx={{ flexGrow: 1 }} />
 
@@ -136,7 +139,7 @@ export default function RawMaterial() {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon />
+                    <SearchIcon sx={{color:"gray"}} />
                   </InputAdornment>
                 ),               
               }}
@@ -257,7 +260,7 @@ export default function RawMaterial() {
                             <TableBody
                                 key={index}
                                 component={Paper}
-                                className={index % 2 === 0 ? "body" : "body-odd"}
+                                className={index % 2 === 0 || theme.palette.mode === 'dark' ? "body" : "body-odd"}
                               >
                             <TableRow className="body-row">                                
                               <TableCell
@@ -342,7 +345,7 @@ export default function RawMaterial() {
                         loading ?                          
                             <LoadingPage />                           
                         :                           
-                            <TableBody component={Paper} className="body-odd">                        
+                            <TableBody component={Paper} className={theme.palette.mode === 'dark' ? "body" : "body-odd" } >                        
                                 <TableRow  className="body-row">
                                     <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
                                         <Stack direction="row" justifyContent="center">                                                

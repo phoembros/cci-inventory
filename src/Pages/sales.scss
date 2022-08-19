@@ -34,6 +34,16 @@
 
     }
 
+    .slash-dark {
+        width: 4px;
+        height: 45px;
+        background-color: #fff;
+    }
+    .color-dark {
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+    } 
     
     .slash {
         width: 4px;
@@ -57,13 +67,15 @@
     }
     
      .btn {
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 5px;
 
         .btn-text-field {
             display: flex;
             align-items: center;
             width:300px;
-            background-color: #fff;
-            border-radius:10px;
+            
 
             @include mobile-small {
                 display: none;
@@ -79,19 +91,21 @@
 
         }
 
-        .btn-add-style {
-            border-radius: 5px;
-            background-color: white;
-            text-transform: none;
-                       
-            .style-add {
-                color:  $primary-color;
-                font-size: $font-Size-Subtitle;
-                font-weight: bold;
-            }
-        }
 
     }
+
+    .btn-add-style {
+        border-radius: 5px;
+        background-color: white !important;
+        text-transform: none;
+                   
+        .style-add {
+            color:  $primary-color;
+            font-size: $font-Size-Subtitle;
+            font-weight: bold;
+        }
+    }
+
 
 
     .container {

@@ -37,10 +37,12 @@ import { auth } from "../firebase";
 import { GET_USER_LOGIN } from "../Schema/user";
 import PermissionContent from "../Component/Permission/PermissionContent";
 import LoadingPage from "../Component/Permission/LoadingPage";
+import { useTheme } from '@mui/material/styles';
 
 export default function StorageRoom() {
 
-  
+  const theme = useTheme();
+
   const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
     pollInterval: 10000,
   })
@@ -99,9 +101,9 @@ export default function StorageRoom() {
   return (
     <div className="storageroom-page">
       <Stack direction="row" spacing={2}>
-        <Box className="slash" />
+        <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
         <Stack direction="column" justifyContent="center">
-          <Typography className="color"> Storage Room </Typography>
+          <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }> Storage Room </Typography>
         </Stack>
         <Box sx={{ flexGrow: 1 }} />
         <Stack direction="row" spacing={5} className="btn-add">
@@ -231,7 +233,7 @@ export default function StorageRoom() {
                 </>
               :
                 <>
-                <TableBody component={Paper} className="body-odd">                        
+                <TableBody component={Paper} className={theme.palette.mode === 'dark' ? "body" : "body-odd" }>                        
                     <TableRow  className="body-row">
                         <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
                             <Stack direction="row" justifyContent="center">                                                

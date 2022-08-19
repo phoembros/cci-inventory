@@ -57,7 +57,7 @@ export default function Filter ({ setStatus , setPriority , setProgress }) {
     return(
         <>
             <IconButton size="small" onClick={handleClick}>
-                <TuneIcon />
+                <TuneIcon sx={{color: "gray"}}/>
             </IconButton>
           
             <Menu

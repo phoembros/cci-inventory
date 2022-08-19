@@ -19,8 +19,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { GET_USER_LOGIN } from "../../Schema/user";
 import PermissionContent from "../Permission/PermissionContent";
 import DescriptionIcon from '@mui/icons-material/Description';
+import { useTheme } from '@mui/material/styles';
 
 export default function ProductCategories() {
+
+    const theme = useTheme();
 
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
     // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
@@ -63,18 +66,18 @@ export default function ProductCategories() {
     return(
         <div className="product-categories-page">
             <Stack direction="row" spacing={2}>
-                <Box className="slash" />
+                <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"}  />
                 <Stack direction="column" justifyContent="center" className="page-title">
                     <Stack direction="row" spacing={1}>
                         <Link to="/product" style={{textDecoration: "none"}}>
-                            <Typography className="color">Product</Typography>
+                            <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >Product</Typography>
                         </Link>
-                        <Typography className="color">/ Categories</Typography>
+                        <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >/ Categories</Typography>
                     </Stack>                  
                 </Stack>
                 <Stack direction="column" justifyContent="center" className="page-title-mobile">
                     <Stack direction="row" spacing={1}>                         
-                        <Typography className="color">Categories</Typography>
+                        <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >Categories</Typography>
                     </Stack>                  
                 </Stack>
 
@@ -94,7 +97,7 @@ export default function ProductCategories() {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <SearchIcon />
+                                        <SearchIcon  sx={{color: "gray"}}/>
                                     </InputAdornment>
                                 ),
                                 // endAdornment: (
@@ -106,25 +109,25 @@ export default function ProductCategories() {
                                 // ),
                             }}
                         />
-                    </Box> 
-
-                    <Button onClick={handleOpen} startIcon={<AddIcon/>} className="btn-add">
-                        <Typography className="btn-text">Add</Typography>
-                    </Button>
-                    {/* <Modal open={open}> */}
-                        <CreateCategory 
-                            handleClose={handleClose} 
-                            open={open}
-                            btnTitle={"Create"}
-                            setAlert={setAlert}
-                            setMessage={setMessage}
-                            setCheckMessage={setCheckMessage}    
-                            setRefetch={refetch}    
-                            checkStatus={"create"}                    
-                        />
-                    {/* </Modal> */}
-                            
+                    </Box>                             
                 </Stack>
+
+                <Button onClick={handleOpen} startIcon={<AddIcon/>} className="btn-add">
+                    <Typography className="btn-text">Add</Typography>
+                </Button>
+                {/* <Modal open={open}> */}
+                    <CreateCategory 
+                        handleClose={handleClose} 
+                        open={open}
+                        btnTitle={"Create"}
+                        setAlert={setAlert}
+                        setMessage={setMessage}
+                        setCheckMessage={setCheckMessage}    
+                        setRefetch={refetch}    
+                        checkStatus={"create"}                    
+                    />
+                {/* </Modal> */}
+
             </Stack>
 
         {
@@ -153,7 +156,11 @@ export default function ProductCategories() {
                             {   data?.getProductCategoryPagination?.ProductCategory?.length !== 0 ?
                                 <>
                                 {data?.getProductCategoryPagination?.ProductCategory?.map((row , index) => (
-                                    <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
+                                    <TableBody 
+                                        key={index} 
+                                        component={Paper} 
+                                        className={index % 2 === 0 || theme.palette.mode === 'dark' ? "body" : "body-odd" }
+                                    >                        
                                         <TableRow  className="body-row">
                                             <TableCell className="body-title" component="th" scope="row" width="5%" > {index+1}- </TableCell>
                                             <TableCell className="body-title" component="th" scope="row" width="25%"> {row?.categoryName} </TableCell>                                                                      
@@ -174,7 +181,7 @@ export default function ProductCategories() {
                                 </>
                             :
                                 <>
-                                    <TableBody component={Paper} className="body-odd">                        
+                                    <TableBody component={Paper} className={theme.palette.mode === 'dark' ? "body" : "body-odd"}>                        
                                         <TableRow  className="body-row">
                                             <TableCell className="body-title" align="center" colSpan={8} rowSpan={5}>
                                                 <Stack direction="row" justifyContent="center">                                                

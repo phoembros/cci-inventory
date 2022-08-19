@@ -35,6 +35,17 @@
     }
 
     
+    .slash-dark {
+        width: 4px;
+        height: 45px;
+        background-color: #fff;
+    }
+    .color-dark {
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+    } 
+    
     .slash {
         width: 4px;
         height: 45px;
@@ -80,8 +91,9 @@
     }
 
     .btn {             
-        border-radius:10px;
+        border-radius: 5px;
         background-color: #fff;
+        padding: 5px;
         
         .btn-text-field {
 
@@ -104,12 +116,13 @@
             border-radius:10px;
         }
     }
-    .stack-btn {             
+
+    .stack-btn {            
               
         .btn-add {
             text-transform: none;            
             border-radius: 6px;
-            background-color: #fff; 
+            background-color: #fff !important; 
 
             .MuiButton-startIcon {
                 margin-right: 0px !important;

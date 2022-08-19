@@ -21,8 +21,12 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ProductGroupList from "./ProductGroupList";
 import LoadingPage from "../Permission/LoadingPage";
+import { useTheme } from '@mui/material/styles';
+  
 
 export default function RoomDetail() {
+
+    const theme = useTheme();
 
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
     // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
@@ -71,19 +75,19 @@ export default function RoomDetail() {
     return(
         <div className="room-detail-page">
             <Stack direction="row" spacing={2}>
-                <Box className="slash" />
+                <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
 
                 <Stack direction="column" justifyContent="center" className="page-titles">
                     <Stack direction="row" spacing={1}>
                         <Link to="/storage-room" style={{textDecoration: "none"}}>
-                            <Typography className="color">Storage Room</Typography>
+                            <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }>Storage Room</Typography>
                         </Link>
-                        <Typography className="color">/ {roomName}</Typography>
+                        <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }>/ {roomName}</Typography>
                     </Stack>                  
                 </Stack>                                
                 <Stack direction="column" justifyContent="center" className="page-titles-mobile">
                     <Stack direction="row" spacing={1}>                       
-                        <Typography className="color">{roomName}</Typography>
+                        <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }>{roomName}</Typography>
                     </Stack>                         
                 </Stack>
                 <Box sx={{flexGrow: 1}} />
@@ -102,7 +106,7 @@ export default function RoomDetail() {
                                     dataView?.length !== 0 ?
                                         <>
                                             { dataView?.map((row , index) => (
-                                                <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
+                                                <TableBody key={index} component={Paper} className={index % 2 === 0  || theme.palette.mode === 'dark' ? "body" : "body-odd" }>                        
                                                     <TableRow  className="body-row">
                                                         <TableCell className="body-title" component="th" scope="row" colSpan={7} rowSpan={5}>
                                                             <Accordion className="accordion-style">
@@ -138,7 +142,7 @@ export default function RoomDetail() {
                                             ))}
                                         </>
                                     :
-                                        <TableBody component={Paper} className="body-odd">                        
+                                        <TableBody component={Paper} className={ theme.palette.mode === 'dark' ? "body" : "body-odd" } >                        
                                             <TableRow  className="body-row">
                                                 <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
                                                     <Stack direction="row" justifyContent="center">                                                

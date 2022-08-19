@@ -23,11 +23,13 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";   
 import PermissionContent from "../Component/Permission/PermissionContent";
 import { GET_USER_LOGIN } from "../Schema/user"
-
+import { useTheme } from '@mui/material/styles';
 import DescriptionIcon from '@mui/icons-material/Description';
   
 export default function Sales() {
 
+  const theme = useTheme();
+  
   const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
       pollInterval: 10000,
   })
@@ -106,9 +108,9 @@ export default function Sales() {
     return (
       <div className="sales-pages">
         <Stack direction="row" spacing={2}>
-          <Box className="slash" />
+          <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
           <Stack direction="column" justifyContent="center">
-            <Typography className="color">Sales</Typography>
+            <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }>Sales</Typography>
           </Stack>
 
           <Box sx={{ flexGrow: 1 }} />
@@ -124,7 +126,7 @@ export default function Sales() {
                         InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
-                                <SearchIcon />
+                                <SearchIcon  sx={{color: "gray"}}/>
                               </InputAdornment>
                             ),
                             endAdornment: (
@@ -139,29 +141,30 @@ export default function Sales() {
               {/* <Button onClick={()=> navigate("/sales/customer")} className="btn-add-style" startIcon={<AddIcon />}>
                 <Typography className="style-add"> Customer Setup </Typography>
               </Button> */}
-                      
-              {/* Create Sale */}
-              {
-                  dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createSale ?
-                      <Button startIcon={<AddIcon />} onClick={handleOpen} className="btn-add-style">
-                        <Typography className="style-add"> Create </Typography>
-                      </Button>
-                  : null
-              }
-              
-
-              {/* <Modal open={open}>                 */}
-                  <SalesCreated 
-                      handleClose={handleClose} 
-                      open={open}
-                      setAlert={setAlert}
-                      setMessage={setMessage}
-                      setCheckMessage={setCheckMessage}
-                      setRefetch={refetch}
-                  />                 
-              {/* </Modal> */}
-              {/* End Sale */}
+                  
           </Stack>
+          {/* Create Sale */}
+          {
+              dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createSale ?
+                  <Button startIcon={<AddIcon />} onClick={handleOpen} className="btn-add-style">
+                    <Typography className="style-add"> Create </Typography>
+                  </Button>
+              : null
+          }
+          
+
+          {/* <Modal open={open}>                 */}
+              <SalesCreated 
+                  handleClose={handleClose} 
+                  open={open}
+                  setAlert={setAlert}
+                  setMessage={setMessage}
+                  setCheckMessage={setCheckMessage}
+                  setRefetch={refetch}
+              />                 
+          {/* </Modal> */}
+          {/* End Sale */}
+
           
         </Stack>
         
@@ -229,7 +232,7 @@ export default function Sales() {
                               </>
                             :
                               <>
-                              <TableBody component={Paper} className="body-odd">                        
+                              <TableBody component={Paper} className={theme.palette.mode === 'dark' ? "body" : "body-odd" }>                        
                                 <TableRow  className="body-row">
                                     <TableCell className="body-title" align="center" colSpan={8} rowSpan={5}>
                                         <Stack direction="row" justifyContent="center">                                                

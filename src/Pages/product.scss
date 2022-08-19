@@ -34,7 +34,17 @@
 
     }
 
-    
+    .slash-dark {
+        width: 4px;
+        height: 45px;
+        background-color: #fff;
+    }
+    .color-dark {
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+    } 
+
     .slash {
         width: 4px;
         height: 45px;
@@ -47,6 +57,9 @@
     }
 
     .btn-search {            
+       padding: 5px;
+       background-color: #fff;
+       border-radius: 5px;
        
         @include mobile-small {
             display: none;
@@ -65,7 +78,7 @@
             align-items: center;
             width:300px;
             background-color: #fff;
-            border-radius:10px;
+            
             
         }
     }

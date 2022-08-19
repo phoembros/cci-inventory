@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, IconButton, Pagination, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Avatar, Box, Button, IconButton, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import * as React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import "./user.scss";
@@ -15,13 +15,15 @@ import { useQuery } from "@apollo/client";
 import { GET_USER_LOGIN, GET_USER_PAGINATION } from "../Schema/user";
 import PermissionContent from "../Component/Permission/PermissionContent";
 import UserAction from "../Component/User/UserAction";
-
 import moment from "moment";
 import ViewUser from "../Component/User/ViewUser";
+import { useTheme } from '@mui/material/styles';
+
 
 export default function User() {    
 
-
+    const theme = useTheme();
+    
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
         pollInterval: 10000,
     })
@@ -78,9 +80,9 @@ export default function User() {
     <div className="user-page">
         <Stack direction="row" spacing={2}>
             
-            <Box className="slash" />
+            <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
             <Stack direction="column" justifyContent="center">
-                <Typography className="color"> User </Typography>
+                <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }> User </Typography>
             </Stack>
 
             <Box sx={{flexGrow: 1}} />
@@ -141,7 +143,7 @@ export default function User() {
                                     </TableHead>
                                     
                                     {data?.getUsersPagination?.users?.map((row, index) => (
-                                        <TableBody  key={index} className='body'>
+                                        <TableBody  key={index} component={Paper}  className={index % 2 === 0 || theme.palette.mode === 'dark' ? "body" : "body-odd"} >
                                             <TableRow className='body-row'>
                                                 <TableCell className='body-title' width="5%"> {index+1}- </TableCell>
                                                 <TableCell onClick={handleOpenView} className='body-title'>

@@ -13,6 +13,17 @@
         font-weight: bold;
     }
 
+    .slash-dark {
+        width: 4px;
+        height: 45px;
+        background-color: #fff;
+    }
+    .color-dark {
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+    } 
+    
     .stack-btn {             
        
         .btn-add {
@@ -69,21 +80,39 @@
             }
 
             .body {
-                background-color: white !important;
                 box-shadow: none;
+
                 :hover {
-                    background-color: $background-table-modal !important;
+                    background-color: $background-table-hover;
                     cursor: pointer;
                 }
-            
 
-                .body-row { 
-            
+                .body-row {       
+                    // background-color: #fff;
+        
                     .body-title {
                         padding: 10px;
                         border: none;
-                        font-size: $font-Size-Subtitle;                   
+                        font-size: $font-Size-Subtitle;                      
+                        
+                    }
+                }
+            }
 
+            .body-odd {
+                box-shadow: none;
+                :hover {
+                    // background-color: $background-table-hover;
+                    cursor: pointer;
+                }
+
+                .body-row {      
+                    background-color: $background-table-modal;
+                
+                    .body-title {
+                        padding: 10px;
+                        border: none;
+                        font-size: $font-Size-Subtitle;
                     }
                 }
             }

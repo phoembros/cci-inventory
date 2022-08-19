@@ -42,9 +42,11 @@ import { GET_PRODUCT_WITH_PAGINATION } from "../Schema/product";
 import { GET_SAL_UNPAITOWE } from "../Schema/dasboard";
 import PermissionContent from "../Component/Permission/PermissionContent";
 import LoadingPage from "../Component/Permission/LoadingPage";
-
+import { useTheme } from '@mui/material/styles';
 
 export default function Dashboard() {
+
+  const theme = useTheme();
 
   const [loading,setLoading] = React.useState(true);
 
@@ -99,9 +101,9 @@ export default function Dashboard() {
     <div className="dashboard-page">
       {/*  Top */}
       <Stack direction="row" spacing={2}>
-        <Box className="slash" />
+        <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"}/>
         <Stack direction="column" justifyContent="center">
-          <Typography className="color">Dashboard</Typography>
+          <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }>Dashboard</Typography>
         </Stack>
 
         <Box sx={{ flexGrow: 1 }} />
@@ -150,7 +152,7 @@ export default function Dashboard() {
                     <CircleIcon className="success" />
                   </Stack>
                   <Stack direction="column" justifyContent="center">
-                      <Typography className="text-inline">Raw Material</Typography>
+                      <Typography className={theme.palette.mode === 'dark' ? "text-inline-dark" : "text-inline" } >Raw Material</Typography>
                       <Typography className="sub-color">Total Raw Material</Typography>
                   </Stack>
                   <Box sx={{ flexGrow: 1 }}></Box>
@@ -173,7 +175,7 @@ export default function Dashboard() {
                   <CircleIcon className="success" />
                 </Stack>
                 <Stack direction="column" justifyContent="center">
-                  <Typography className="text-inline">Product</Typography>
+                  <Typography className={theme.palette.mode === 'dark' ? "text-inline-dark" : "text-inline" }>Product</Typography>
                   <Typography className="sub-color">Total Product</Typography>
                 </Stack>
                 <Box sx={{ flexGrow: 1 }}></Box>
@@ -196,7 +198,7 @@ export default function Dashboard() {
                     <CircleIcon className="success" />
                   </Stack>
                   <Stack direction="column" justifyContent="center">
-                    <Typography className="text-inline">Sale Invoice</Typography>
+                    <Typography className={theme.palette.mode === 'dark' ? "text-inline-dark" : "text-inline" } >Sale Invoice</Typography>
                     <Typography className="sub-color">Upaid & Owe</Typography>
                   </Stack>
                   <Box sx={{ flexGrow: 1 }}></Box>
@@ -211,7 +213,6 @@ export default function Dashboard() {
             </Box>
         </Grid>
 
-        
         
         <Grid item xs={12} md={12} lg={12} xl={6}>
           <Box  sx={{  padding: 2 ,  borderRadius: 3 ,  width: "100%", height: "100%", backgroundColor: "#fff",  display: "flex", justifyContent: "center", flexDirection: "column",}}>

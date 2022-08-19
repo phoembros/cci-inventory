@@ -12,9 +12,11 @@ import InventoryReport from "../Component/Report/InventoryReport";
 import ProductionReport from "../Component/Report/ProductionReport";
 import RawMaterialReport from "../Component/Report/RawMaterialReport";
 import SaleReport from "../Component/Report/SaleReport";
+import { useTheme } from '@mui/material/styles';
 
 export default function Report() {
 
+    const theme = useTheme();
     const [value, setValue] = React.useState([null, null]);      
     
     const [typeReport,setTypeReport] = React.useState("sale_report");
@@ -32,9 +34,9 @@ export default function Report() {
         <div className="report-page">
 
             <Stack direction="row" spacing={2}>
-                <Box className="slash" />
+                <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
                 <Stack direction="column" justifyContent="center">
-                    <Typography className="color">Report</Typography>
+                    <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }>Report</Typography>
                 </Stack>
                 <Box sx={{flexGrow: 1}} />                
             </Stack>

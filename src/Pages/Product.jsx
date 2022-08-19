@@ -20,10 +20,12 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import { GET_USER_LOGIN } from "../Schema/user";
 import FilterListIcon from '@mui/icons-material/FilterList';
 import LoadingPage from "../Component/Permission/LoadingPage";
-
+import { useTheme } from '@mui/material/styles';
 import PermissionContent from "../Component/Permission/PermissionContent";
 
 export default function Product() {
+
+    const theme = useTheme();
 
     const [loadingPages,setLoadingPages] = React.useState(true);
 
@@ -96,9 +98,9 @@ export default function Product() {
     return(
         <div className="product-page">
             <Stack direction="row" spacing={2}>
-                <Box className="slash" />
+                <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
                 <Stack direction="column" justifyContent="center">
-                    <Typography className="color">Product</Typography>
+                    <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }>Product</Typography>
                 </Stack>
                 <Box sx={{flexGrow: 1}} />
                 <Stack direction="row" className="btn-search"  justifyContent="right" spacing={1}> 
@@ -113,14 +115,14 @@ export default function Product() {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <SearchIcon />
+                                        <SearchIcon sx={{color: "gray"}}/>
                                     </InputAdornment>
                                 ),                               
                             }}
                         />
                     </Box>  
                 </Stack>
-                <Stack direction="row" className="btn-group"  justifyContent="right" spacing={1}>     
+                <Stack direction="row" className="btn-group"  justifyContent="right" spacing={2}>     
 
                 {
                     dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createProductCategory ?
@@ -220,7 +222,7 @@ export default function Product() {
                                     productData?.length !== 0 ?
                                         <>
                                         {productData?.map((row , index) => (
-                                            <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
+                                            <TableBody key={index} component={Paper} className={index % 2 === 0 || theme.palette.mode === 'dark' ? "body" : "body-odd" }>                        
                                                 <TableRow  className="body-row">
                                                     <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="15%" >{row?.productId}</TableCell>
                                                     <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="20%">{row?.productName}</TableCell>
@@ -250,7 +252,7 @@ export default function Product() {
                                         </>
                                     :
                                         <>
-                                            <TableBody component={Paper} className="body-odd">                        
+                                            <TableBody component={Paper} className={theme.palette.mode === 'dark' ? "body" : "body-odd" }>                        
                                                 <TableRow  className="body-row">
                                                     <TableCell className="body-title" align="center" colSpan={9} rowSpan={5}>
                                                         <Stack direction="row" justifyContent="center">                                                

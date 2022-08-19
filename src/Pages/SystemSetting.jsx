@@ -9,7 +9,6 @@ import { GET_USER_LOGIN } from "../Schema/user";
 import { useQuery } from "@apollo/client";
 
 
-
 export default function SystemSetting() {
 
     const theme = useTheme();
@@ -27,9 +26,9 @@ export default function SystemSetting() {
     return(
         <div className="system-page">
             <Stack direction="row" spacing={2}>
-                <Box className="slash" />
+                <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
                 <Stack direction="column" justifyContent="center">
-                    <Typography className="color">System Setting</Typography>
+                    <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }>System Setting</Typography>
                 </Stack>
                 <Box sx={{flexGrow: 1}} />                
             </Stack>

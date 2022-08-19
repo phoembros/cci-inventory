@@ -48,7 +48,7 @@ export default function Filter ({ setStatus }) {
     return(
         <>
             <IconButton size="small" onClick={handleClick}>
-                <TuneIcon />
+                <TuneIcon sx={{color: "gray"}}/>
             </IconButton>
           
             <Menu

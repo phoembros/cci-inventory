@@ -8,6 +8,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
 import logo from "../../Assets/CCI.svg";
+import logoWhite from "../../Assets/CCI_White.svg";
 import { Box } from "@mui/system";
 import { useLocation } from "react-router-dom";
 import './menunavbar.scss';
@@ -92,11 +93,12 @@ export default function MenuNavbarMobile({open , handleDrawerClose}) {
         
         <Drawer  variant="permanent" open={open} className={theme.palette.mode === 'dark' ? "drawer-menu-dark" : "drawer-menu" } >
             <DrawerHeader sx={{mt:3 , mb:3}} >
-                <Button className='drawerheader' onClick={() => {
+                <Button className={theme.palette.mode === 'dark' ? null : 'drawerheader' }
+                onClick={() => {
                     navigate("/dashboard")
                     handleDrawerClose()
                 }}>
-                   <img src={logo} alt="logo" width="70%"/>
+                   <img src={ theme.palette.mode === 'dark' ? logoWhite : logo } alt="logo" width="70%"/>
                 </Button>        
             </DrawerHeader>
 

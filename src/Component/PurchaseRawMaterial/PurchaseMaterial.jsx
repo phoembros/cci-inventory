@@ -27,9 +27,13 @@ import { GET_USER_LOGIN } from "../../Schema/user";
 import PermissionContent from "../Permission/PermissionContent";
 import DescriptionIcon from '@mui/icons-material/Description';
 import LoadingPage from "../Permission/LoadingPage";
+import { useTheme } from '@mui/material/styles';
+
 
 export default function PurchaseMaterial() {
 
+    const theme = useTheme();
+    
     const [loading,setLoading] = React.useState(true);
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
         onCompleted: () => setLoading(false),
@@ -102,11 +106,11 @@ export default function PurchaseMaterial() {
     return(
         <div className="purchases-raw-page">
             <Stack direction="row" spacing={2}>
-                <Box className="slash" />
+                <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
                 <Stack direction="column" justifyContent="center">
                     <Stack direction="row" spacing={1}>
                         {/* <Link to="/storage-room" style={{textDecoration: "none"}}> */}
-                            <Typography className="color">Purchase Material</Typography>
+                            <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }>Purchase Material</Typography>
                         {/* </Link> */}
                         {/* <Typography className="color">/ {roomName}</Typography> */}
                     </Stack>                         
@@ -132,12 +136,12 @@ export default function PurchaseMaterial() {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <SearchIcon />
+                                        <SearchIcon sx={{color: "gray"}}/>
                                     </InputAdornment>
                                 ),
                                 endAdornment: (
                                     <InputAdornment position="end">
-                                        <Filter setPriority={setPriority} setStatus={setStatus}/>
+                                        <Filter  setPriority={setPriority} setStatus={setStatus}/>
                                     </InputAdornment>
                                 ),
                             }}
@@ -192,7 +196,11 @@ export default function PurchaseMaterial() {
                                     dataPurchaseRawMaterial?.length !== 0 ?
                                     <>
                                     {dataPurchaseRawMaterial?.map((row , index) => (
-                                        <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" }>                        
+                                        <TableBody 
+                                            key={index} 
+                                            component={Paper} 
+                                            className={ index % 2 === 0 || theme.palette.mode === 'dark'  ? "body" : "body-odd" }
+                                        >                        
                                             <TableRow  className="body-row">
                                                 <TableCell onClick={()=>{handleOpenViewPurchase(); setPurchaseData(row)}} className="body-title" component="th" scope="row" width="15%" > 
                                                     {
@@ -252,7 +260,7 @@ export default function PurchaseMaterial() {
                                     ))}
                                     </>
                                 :
-                                    <TableBody component={Paper} className="body-odd">                        
+                                    <TableBody component={Paper} className={theme.palette.mode === 'dark' ? "body" : "body-odd" }>                        
                                         <TableRow  className="body-row">
                                             <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
                                                 <Stack direction="row" justifyContent="center">                                                

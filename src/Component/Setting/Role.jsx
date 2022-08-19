@@ -20,8 +20,12 @@ import CreateRole from "./CreateRole";
 import { GET_ROLE_BYID, GET_ROLE_PERMISSION } from "../../Schema/role";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import DashboardRole from "./DashboardRole";
+import { useTheme } from '@mui/material/styles';
+
  
 export default function Role () {
+
+    const theme = useTheme();
 
     const [menuRole,setMenuRole] = React.useState("");
     const [activateButton,setActivateButton] = React.useState(false)
@@ -64,18 +68,18 @@ export default function Role () {
     return(
         <div className="system-page-role">
             <Stack direction="row" spacing={2}>
-                <Box className="slash" />
+                <Box  className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
                 <Stack direction="column" justifyContent="center" className="page-title">
                     <Link to="/system-setting" style={{ textDecoration: "none"}}>
-                        <Typography className="color">System Setting</Typography>
+                        <Typography  className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >System Setting</Typography>
                     </Link>
                 </Stack>
                 <Stack direction="column" justifyContent="center" className="page-title">
-                    <Typography className="color">/ Role</Typography>
+                    <Typography  className={theme.palette.mode === 'dark' ? "color-dark" : "color" }  >/ Role</Typography>
                 </Stack>
 
                 <Stack direction="column" justifyContent="center" className="page-title-mobile">
-                    <Typography className="color">Role</Typography>
+                    <Typography  className={theme.palette.mode === 'dark' ? "color-dark" : "color" }  >Role</Typography>
                 </Stack>
 
                 <Box sx={{flexGrow: 1}} />  
@@ -203,19 +207,18 @@ export default function Role () {
                                 Role & Permission
                             </Button> */}
 
-
                         </Stack>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={9} xl={9}>
                             <TableContainer className="table-container">
-                                <Table className="table" aria-label="simple table">
+                                <Table component={Paper} className="table" aria-label="simple table">
                                     <TableHead sx={{width: "100%"}}>
                                         <TableRow className="head-row">
                                             <TableCell width="50%" align="center" className="header-title">ACTION</TableCell>
                                             <TableCell width="50%" align="center" className="header-title">PERMISSION</TableCell>                                            
                                         </TableRow>
                                     </TableHead>
-
+                                    
                                     { menuRole === "dashboard" ? <DashboardRole setRefetch={refetch}  dataRole={dataRolePermission}  /> : null  }
                                     { menuRole === "storageRoom" ? <StorageRoomRole setRefetch={refetch}  dataRole={dataRolePermission}  /> : null  }
                                     { menuRole === "rawMaterils" ? <RawMaterialRole setRefetch={refetch}    dataRole={dataRolePermission} /> : null  }

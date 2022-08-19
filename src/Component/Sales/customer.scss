@@ -34,6 +34,16 @@
 
     }
 
+    .slash-dark {
+        width: 4px;
+        height: 45px;
+        background-color: #fff;
+    }
+    .color-dark {
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+    } 
     
     .slash {
         width: 4px;
@@ -47,13 +57,15 @@
     }
 
     .stack-btn {             
-       
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 5px;
+
         .btn-text-field {
             display: flex;
             align-items: center;
             width:300px;
-            background-color: #fff;
-            border-radius:10px;
+            
 
             @include mobile-small {
                 display: none;
@@ -67,22 +79,23 @@
                 display: none;
             }
 
-        }
+        }        
         
-        .btn-add {
-            text-transform: none;            
-            border-radius: 6px;
-            background-color: #fff; 
+    }
 
-            .MuiButton-startIcon {
-                margin-right: 0px !important;
-                margin-left: 0px !important;
-            }
+    .btn-add {
+        text-transform: none;            
+        border-radius: 5px;
+        background-color: #fff !important; 
 
-            .btn-text {
-                font-weight: bold;
-                margin: 0px 5px 0px 5px;
-            }
+        .MuiButton-startIcon {
+            margin-right: 0px !important;
+            margin-left: 0px !important;
+        }
+
+        .btn-text {
+            font-weight: bold;
+            margin: 0px 5px 0px 5px;
         }
     }
 

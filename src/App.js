@@ -45,20 +45,25 @@ function App() {
     });
 
     
-    const [prefersDarkMode,setPrefersDarkMode] = React.useState(false);
+    const [prefersDarkMode,setPrefersDarkMode] = React.useState(window.localStorage.getItem("prefersDarkMode"));
     // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');    
+
     const theme = React.useMemo(
         () =>
         createTheme({
             palette: {
-                mode: prefersDarkMode ? 'dark' : 'light',
+                mode: prefersDarkMode ,
                 background: {
-                    default: prefersDarkMode ? '#121212' : "#F8F8F8",
+                    default: prefersDarkMode === 'dark' ? '#121212' : "#F8F8F8",
                 },
             },
         }),
         [prefersDarkMode],
     );
+
+    React.useEffect( () => {        
+      window.localStorage.setItem("prefersDarkMode",prefersDarkMode)
+    },[prefersDarkMode])
 
     return (    
         <>

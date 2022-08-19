@@ -35,9 +35,13 @@ import { GET_PRODUCT_WITH_PAGINATION } from "../Schema/product";
 import { useLocation } from "react-router-dom";
 import { GET_USER_LOGIN } from "../Schema/user";
 import DescriptionIcon from '@mui/icons-material/Description';
+import { useTheme } from '@mui/material/styles';
+    
 
 export default function Production() {
 
+    const theme = useTheme();
+    
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
         pollInterval: 10000,
     })
@@ -147,9 +151,9 @@ export default function Production() {
     return(
         <div className="production-page">
             <Stack direction="row" spacing={2}>
-                <Box className="slash" />
+                <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
                 <Stack direction="column" justifyContent="center">
-                    <Typography className="color">Production</Typography>
+                    <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }>Production</Typography>
                 </Stack>
                 <Box sx={{flexGrow: 1}} />
                 <Stack direction="row" spacing={1} className="btn-filter">                    
@@ -176,7 +180,7 @@ export default function Production() {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <SearchIcon />
+                                        <SearchIcon  sx={{color: "gray"}}/>
                                     </InputAdornment>
                                 ),  
                                 endAdornment: (
@@ -190,33 +194,31 @@ export default function Production() {
                                 ),                              
                             }}
                         />
-                    </Box>  
-                    {/* button Create */}
-
-                    {
-                        dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createProductions ?
-                            <Button className="btn-add" onClick={handleOpenCreateProduction} startIcon={<AddIcon/>} >
-                                <Typography className="btn-text">Create</Typography>
-                            </Button>  
-                        : null
-                    }      
-
-                    {/* <Modal open={openCreateProduction} >  */}
-                        <CreateProduction 
-                            nameRequest={dataUserLogin?.getuserLogin?.first_name+" "+dataUserLogin?.getuserLogin?.last_name}
-                            handleClose={handleCloseCreateProduction}
-                            open={openCreateProduction}
-                            btnTitle={"Create"}
-                            setAlert={setAlert}
-                            setMessage={setMessage}
-                            setCheckMessage={setCheckMessage}
-                            setRefetch={refetch}
-                            checkStatus={"create"}
-                        />                         
-                    {/* </Modal> */}
-                    {/* button Create */}         
+                    </Box>                      
                     
                 </Stack>
+                {
+                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createProductions ?
+                        <Button className="btn-add" onClick={handleOpenCreateProduction} startIcon={<AddIcon/>} >
+                            <Typography className="btn-text">Create</Typography>
+                        </Button>  
+                    : null
+                }      
+
+                {/* <Modal open={openCreateProduction} >  */}
+                    <CreateProduction 
+                        nameRequest={dataUserLogin?.getuserLogin?.first_name+" "+dataUserLogin?.getuserLogin?.last_name}
+                        handleClose={handleCloseCreateProduction}
+                        open={openCreateProduction}
+                        btnTitle={"Create"}
+                        setAlert={setAlert}
+                        setMessage={setMessage}
+                        setCheckMessage={setCheckMessage}
+                        setRefetch={refetch}
+                        checkStatus={"create"}
+                    />                         
+                {/* </Modal> */}
+                {/* button Create */}    
             </Stack>
 
         {
@@ -386,7 +388,7 @@ export default function Production() {
                                 </>
                             :
                                 <>
-                                <TableBody component={Paper} className="body-odd">                        
+                                <TableBody component={Paper} className={theme.palette.mode === 'dark' ? "body" : "body-odd" }>                        
                                     <TableRow  className="body-row">
                                         <TableCell className="body-title" align="center" colSpan={7} rowSpan={5}>
                                             <Stack direction="row" justifyContent="center">                                                
@@ -429,6 +431,7 @@ export default function Production() {
                                 <ArrowForwardIosIcon sx={{":hover" :{color:"#0969A0"}}}/>
                             </IconButton>
                         </Stack>
+                        
                     </>
                 :
                     <PermissionContent />

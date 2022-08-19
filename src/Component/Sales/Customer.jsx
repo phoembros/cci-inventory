@@ -22,8 +22,12 @@ import {GET_USER_LOGIN} from "../../Schema/user"
 import PermissionContent from "../Permission/PermissionContent";
 import DescriptionIcon from '@mui/icons-material/Description';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { useTheme } from '@mui/material/styles';
+
 
 export default function Customer() {
+
+    const theme = useTheme();
 
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
     // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
@@ -78,10 +82,10 @@ export default function Customer() {
     return (
       <div className="customer-setup-page">
         <Stack direction="row" spacing={2}>
-          <Box className="slash" />
+          <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
           <Stack direction="column" justifyContent="center">
             <Stack direction="row" spacing={1}>             
-              <Typography className="color">Customer Setup</Typography>
+              <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >Customer</Typography>
             </Stack>
           </Stack>
           <Box sx={{ flexGrow: 1 }} />
@@ -102,38 +106,38 @@ export default function Customer() {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SearchIcon />
+                      <SearchIcon  sx={{color: "gray"}}/>
                     </InputAdornment>
                   ),                 
                 }}
               />
-            </Box>
-
-            {
-              dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createCustomer ?
-                <Button
-                  onClick={handleOpen}
-                  startIcon={<AddIcon />}
-                  className="btn-add"
-                >
-                  <Typography className="btn-text">Add</Typography>
-                </Button>
-              : null
-            }
-            
-            {/* <Modal open={open}> */}
-              <CustomerSetup
-                setRefetch={refetch}
-                setKeyword={setKeyword}
-                open={open}
-                setAlert={setAlert}
-                setMessage={setMessage}
-                setCheckMessage={setCheckMessage}
-                handleClose={handleClose}
-                
-              />
-            {/* </Modal> */}
+            </Box>            
           </Stack>
+          {
+            dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createCustomer ?
+              <Button
+                onClick={handleOpen}
+                startIcon={<AddIcon />}
+                className="btn-add"
+              >
+                <Typography className="btn-text">Add</Typography>
+              </Button>
+            : null
+          }
+          
+          {/* <Modal open={open}> */}
+            <CustomerSetup
+              setRefetch={refetch}
+              setKeyword={setKeyword}
+              open={open}
+              setAlert={setAlert}
+              setMessage={setMessage}
+              setCheckMessage={setCheckMessage}
+              handleClose={handleClose}
+              
+            />
+          {/* </Modal> */}
+
         </Stack>
 
       {
@@ -227,7 +231,7 @@ export default function Customer() {
                                   <TableBody
                                       key={index}
                                       component={Paper}
-                                      className={index % 2 === 0 ? "body" : "body-odd"}
+                                      className={index % 2 === 0 || theme.palette.mode === 'dark' ? "body" : "body-odd"}
                                   >
                                     <TableRow className="body-row">
                                       <TableCell

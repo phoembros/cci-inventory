@@ -23,10 +23,12 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchIcon from '@mui/icons-material/Search';
 import LoadingPage from "../Component/Permission/LoadingPage";
 import DescriptionIcon from '@mui/icons-material/Description';
-
+import DateRangeIcon from "@mui/icons-material/DateRange";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useTheme } from '@mui/material/styles';
+   
 
 // import { LocalizationProvider } from "@mui/x-date-pickers";
 // import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
@@ -34,6 +36,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // import DateRangeIcon from "@mui/icons-material/DateRange";
 
 export default function UserActions() {    
+    
+    const theme = useTheme();
     
     const [loading,setLoading] = React.useState(true);
 
@@ -86,9 +90,9 @@ export default function UserActions() {
   return (
     <div className="user-action-page">
         <Stack direction="row" spacing={2}>            
-            <Box className="slash" />
+            <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
             <Stack direction="column" justifyContent="center">
-                <Typography className="color">Actions</Typography>
+                <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" }>Actions</Typography>
             </Stack>
             <Box sx={{flexGrow: 1}} />      
             <Stack direction="row" spacing={2} className="btn">
@@ -103,7 +107,7 @@ export default function UserActions() {
                         InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
-                                <SearchIcon />
+                                <SearchIcon sx={{color: "gray"}} />
                               </InputAdornment>
                             ),                            
                         }}
@@ -111,7 +115,7 @@ export default function UserActions() {
                 </Box>  
             </Stack>
             
-            <Stack direction="row" spacing={2}>                
+            <Stack direction="row" spacing={2} className="btn-add-style">                
                 <Box className="select-date-filter">
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
@@ -123,9 +127,10 @@ export default function UserActions() {
                                     {...params} 
                                     size="small"
                                     className="text-field"
-                                    fullWidth
+                                    fullWidth                                    
                                 />
                             }
+                            
                         />
                     </LocalizationProvider>
                     {/* <LocalizationProvider  className="date-controll" dateAdapter={AdapterMoment} >
@@ -216,9 +221,9 @@ export default function UserActions() {
                 <>
                 { dataAction?.map( (row,index) => (
 
-                    <TableBody key={index} className='body'>
+                    <TableBody key={index} component={Paper} className='body'>
                         <TableRow className='body-row'>                       
-                            <TableCell className='body-title-shadow'>
+                            <TableCell className={theme.palette.mode === 'dark' ? 'body-title-shadow-dark' : 'body-title-shadow' }>
                                 <Stack direction="row" spacing={3}>
                                     <Avatar alt="Remy Sharp" src={row?.createdBy?.gender === "male" ? MaleSticker : FemalSticker} />
                                     <Stack direction="column" justifyContent="center">
