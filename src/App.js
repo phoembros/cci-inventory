@@ -45,7 +45,7 @@ function App() {
     });
 
     
-    const [prefersDarkMode,setPrefersDarkMode] = React.useState(window.localStorage.getItem("prefersDarkMode"));
+    const [prefersDarkMode,setPrefersDarkMode] = React.useState("light");
     // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');    
 
     const theme = React.useMemo(
