@@ -52,9 +52,9 @@ function App() {
         () =>
         createTheme({
             palette: {
-                mode: prefersDarkMode !== undefined && prefersDarkMode !== "light"  ? "dark" : "light" ,              
+                mode: prefersDarkMode !== undefined && prefersDarkMode !== "dark"  ? "light" : "dark" ,              
                 background: {
-                    default: prefersDarkMode !== undefined && prefersDarkMode !== "light" ?   '#121212' : "#F8F8F8" ,
+                    default: prefersDarkMode !== undefined && prefersDarkMode !== "dark" ?  "#F8F8F8" : '#121212' ,
                 },
             },
         }),
