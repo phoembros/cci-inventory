@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './chart.scss';
-import { IconButton, Stack,  Typography } from "@mui/material";
+import { IconButton, Paper, Stack,  Typography } from "@mui/material";
 import ReactApexChart from "react-apexcharts";
 import { useQuery } from "@apollo/client";
 import { GET_BAR_CHART } from "../../Schema/dasboard"
@@ -8,11 +8,14 @@ import { Box } from '@mui/system';
 import DescriptionIcon from '@mui/icons-material/Description';
 import PermissionContent from '../Permission/PermissionContent';
 import LoadingPage from "../Permission/LoadingPage";
+import { useTheme } from '@mui/material/styles';
+
 
 export default function Chart({dataUserLogines}) {
 
-  const [loading,setLoading] = React.useState(true);
+  const theme = useTheme();
 
+  const [loading,setLoading] = React.useState(true);
   const { data : dataBar } = useQuery(GET_BAR_CHART);
 
   React.useEffect( () => {
@@ -91,11 +94,10 @@ export default function Chart({dataUserLogines}) {
  
   // console.log(dataRevenue , dataExpense , dataCategories );
 
-
   return(
-    <Stack direction="column" height="100%" className='chart' >
+    <Stack component={Paper} direction="column" height="100%" className='chart' >
         <Stack direction='row' spacing={2}>          
-            <Typography className="title" > Cash Chart</Typography>          
+            <Typography className={theme.palette.mode === 'dark' ? "title-dark" : "title" }> Cash Chart</Typography>          
         </Stack>
         <Box sx={{flexGrow:1}}></Box>
 

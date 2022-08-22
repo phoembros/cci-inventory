@@ -16,10 +16,12 @@ import PermissionContent from "../Permission/PermissionContent";
 import ViewProduction from "../Production/ViewProduction";
 import AlertMessage from "../AlertMessage/AlertMessage";
 import LoadingPage from "../Permission/LoadingPage";
+import { useTheme } from '@mui/material/styles';
 
 
 function PurchaseProduct({dataUserLogines}) {
 
+    const theme = useTheme();
 
     const navigate = useNavigate();
 
@@ -78,12 +80,12 @@ function PurchaseProduct({dataUserLogines}) {
   
 
   return (
-    <Stack className="purchase" spacing={1} padding="2%">
+    <Stack component={Paper} className="purchase" spacing={1} padding="2%">
         <Stack direction="row" spacing={2}>
-            <Typography className="title"> Production </Typography>
+            <Typography className={theme.palette.mode === 'dark' ? "title-dark" : "title" }> Production </Typography>
             <Box sx={{ flexGrow: 1 }}></Box>
             <Stack direction="row" justifyContent="center">
-                <Typography className="title" variant="body2"> Pending: {productionData?.length} </Typography>
+                <Typography className={theme.palette.mode === 'dark' ? "title-dark" : "title" } variant="body2"> Pending: {productionData?.length} </Typography>
             </Stack>
         </Stack>
         <Divider />

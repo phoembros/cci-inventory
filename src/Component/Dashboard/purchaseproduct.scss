@@ -1,7 +1,9 @@
 @import '../../themes.scss';
 
 .purchase{
-    background-color: #fff;
+    // background-color: #fff;
+    box-shadow: none !important;
+    border-radius: 15px !important;
     height: 100%;
     border-radius: 10px;
 
@@ -13,6 +15,11 @@
         font-size: 18px;
         font-weight: bold;
         color: $primary-color;  
+    }
+    .title-dark{       
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;  
     }
     .left-make{
         align-items: flex-end;

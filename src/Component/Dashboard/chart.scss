@@ -1,11 +1,23 @@
 @import '../../themes.scss';
 
 .chart{
+    box-shadow: none !important;
+    border-radius: 15px !important;
+
     .chart-absotute{
         // inset: auto 0px 1px;
         // position: absolute;
         max-height: 150px;
     }
+
+    .title-dark {
+        align-items: center;
+        justify-content: space-evenly;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;  
+    }
+
     .title{
         align-items: center;
         justify-content: space-evenly;
@@ -13,6 +25,7 @@
         font-weight: bold;
         color: $primary-color;  
     }
+
     .sub-title{
         display: flex;
         align-items: flex-end;

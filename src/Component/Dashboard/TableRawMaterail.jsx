@@ -11,9 +11,12 @@ import { GET_PURCHASE_RAW_MATERAIL_PAGINATION } from "../../Schema/starageroom";
 import DescriptionIcon from '@mui/icons-material/Description';
 import PermissionContent from "../Permission/PermissionContent";
 import LoadingPage from "../Permission/LoadingPage";
+import { useTheme } from '@mui/material/styles';
 
 
 function TableRawMaterail({dataUserLogines}) {
+
+  const theme = useTheme();
 
   const [loading,setLoading] = React.useState(true);
 
@@ -58,12 +61,12 @@ function TableRawMaterail({dataUserLogines}) {
 
 
   return (
-    <Stack className="invoice-table" spacing={1} padding="15px">
+    <Stack component={Paper} className="invoice-table" spacing={1} padding="15px">
       <Stack direction="row" spacing={2}>
-        <Typography className="title-table"> Purchase Raw Materail </Typography>
+        <Typography className={theme.palette.mode === 'dark' ? "title-table-dark" : "title-table" } > Purchase Raw Materail </Typography>
         <Box sx={{ flexGrow: 1 }}></Box>
         <Stack direction="row" justifyContent="center">
-            <Typography className="title-table" variant="body2"> Unpaid&Owe: {dataPurchaseRawMaterial?.length} </Typography>
+            <Typography className={theme.palette.mode === 'dark' ? "title-table-dark" : "title-table" }  variant="body2"> Unpaid&Owe: {dataPurchaseRawMaterial?.length} </Typography>
         </Stack>
       </Stack>
       <Divider />

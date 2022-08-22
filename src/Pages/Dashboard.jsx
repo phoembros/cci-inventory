@@ -215,7 +215,7 @@ export default function Dashboard() {
 
         
         <Grid item xs={12} md={12} lg={12} xl={6}>
-          <Box  sx={{  padding: 2 ,  borderRadius: 3 ,  width: "100%", height: "100%", backgroundColor: "#fff",  display: "flex", justifyContent: "center", flexDirection: "column",}}>
+          <Box component={Paper}  sx={{  padding: 2 ,  borderRadius: 3 , boxShadow: "none"  , width: "100%", height: "100%", display: "flex", justifyContent: "center", flexDirection: "column",}}>
                 <Chart dataUserLogines={dataUserLogin}/>                            
           </Box>
         </Grid>
@@ -228,10 +228,10 @@ export default function Dashboard() {
       {/*Purchase Order*/}
       <Grid container spacing={3} sx={{ mt: "1px" }}>
         <Grid item xs={12} md={12} xl={6}>
-            <Box  sx={{  padding: 2,   borderRadius: 3,  width: "100%",  height: "100%",  backgroundColor: "#fff",  }} >
+            <Box component={Paper}  sx={{  padding: 2,   borderRadius: 3, boxShadow: "none"  ,  width: "100%",  height: "100%" }} >
                 <Stack direction="column" spacing={2} justifyContent="center">
-                      <Typography className="color">Top Raw Material</Typography>
-                      <Grid container className="title">
+                      <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >Top Raw Material</Typography>
+                      <Grid  container className="title" >
                           <Grid item xs={12} md={12}>
                             {
                               dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getTopRawMaterial ?
@@ -241,14 +241,13 @@ export default function Dashboard() {
                                   <LoadingPage />
                                 :
                                   <PermissionContent />
-                            }
-                            
+                            }                            
                           </Grid>
                       </Grid>
                       <Box sx={{ flexGrow: 1 }}></Box>
                       <Stack direction="column" className="footer">
                           <Link to="/raw-material">
-                              <Typography className="color">View ALL Material</Typography>
+                              <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >View ALL Material</Typography>
                           </Link>
                           <Typography className="modal" variant="body2">
                               Raw Materials that use as much in order to make the product.
