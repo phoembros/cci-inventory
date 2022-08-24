@@ -42,7 +42,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                 <Grid container>
                     <Grid item xs={12}>
                         <Stack direction="row" display="flex" spacing={1} width="350px" sx={{position: "absolute" , zIndex: "1"}}>
-                            <img src={logo} alt="logo" width="60%" style={{marginLeft:"15px"}}/>
+                            <img src={logo} alt="logo" width="55%" style={{marginLeft:"5px"}}/>
                         </Stack>
                         <Stack direction="row" spacing={2}>                            
                             <Box sx={{display: "flex" , justifyContent: "center" , width: "100%"}}>
@@ -238,6 +238,7 @@ export default function RawMaterialReport({ FromData , ToData }) {
             <Stack direction="row" sx={{mt:2}}>
                 <Box sx={{flexGrow:1}}></Box>
                 <ReactToPrint  
+                    // pageStyle={'@media print { body { -webkit-print-color-adjust: exact; } @page { size: A4; margin: 300mm !important }}'}
                     content={() => componentRef.current}         
                     trigger={() => (
                         <Stack direction="row" spacing={2} className="btn">           

@@ -300,7 +300,7 @@ export default function InventoryReport({ FromData , ToData }) {
             
             <Stack direction="row" sx={{mt:2}}>
                 <Box sx={{flexGrow:1}}></Box>
-                <ReactToPrint  
+                <ReactToPrint                 
                     content={() => componentRef.current}         
                     trigger={() => (
                         <Stack direction="row" spacing={2} className="btn">           
