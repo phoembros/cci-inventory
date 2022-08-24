@@ -238,7 +238,7 @@ export default function RawMaterialReport({ FromData , ToData }) {
             <Stack direction="row" sx={{mt:2}}>
                 <Box sx={{flexGrow:1}}></Box>
                 <ReactToPrint  
-                    // pageStyle={'@media print { body { -webkit-print-color-adjust: exact; } @page { size: A4; margin: 300mm !important }}'}
+                    pageStyle={'@media print { body { -webkit-print-color-adjust: exact; } @page { size: A4; margin: 12mm 5mm 12mm 5mm  !important; }}'}
                     content={() => componentRef.current}         
                     trigger={() => (
                         <Stack direction="row" spacing={2} className="btn">           
