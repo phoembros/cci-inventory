@@ -207,7 +207,7 @@ export default function ProductDetails() {
                                             </Box> 
 
                                             <Box sx={{flexGrow:1}}></Box> 
-                                            <Stack direction="row" spacing={2} width="120px">                                 
+                                            <Stack direction="row" spacing={2} width="140px">                                 
                                                 <Typography variant="body1">
                                                     Need:
                                                 </Typography> 
