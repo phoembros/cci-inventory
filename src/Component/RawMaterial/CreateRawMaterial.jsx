@@ -34,13 +34,13 @@ export default function CreateRawMaterials({
 
   // Get Unit Material
   const [unitRawMaterial,setUnitRawMaterial] = React.useState([])
-  const { data: unitRawData } = useQuery(GET_UNIT_PAGINATION,{
+  const { data: unitRawData } = useQuery(GET_RAW_MATERIAL_UNIT,{
     variables: {
       keyword: "",
       pagination: false,
     },
-    onCompleted: ({getUnitPagination}) => {
-        setUnitRawMaterial(getUnitPagination?.units)
+    onCompleted: ({getRawMaterialsUnits}) => {
+        setUnitRawMaterial(getRawMaterialsUnits)
     }
   });
 
@@ -326,10 +326,9 @@ export default function CreateRawMaterials({
                                           >
                                             {
                                               unitRawMaterial.map( (item,index) => (
-                                                    <MenuItem key={index} value={item?.unitName}>{item?.unitName}</MenuItem> 
+                                                    <MenuItem key={index} value={item}>{item}</MenuItem> 
                                               ))
                                             }                                                  
-                                          
                                           </Select>
                                         </FormControl>
 
