@@ -61,7 +61,7 @@ export default function Supplies() {
     //usequery
     const {data, refetch } = useQuery(GET_SUPPLIERS_BY_PAGINATION, {
         variables: {
-            page: page,
+            page: keyword !== "" ? 1 : page,
             limit:limit,
             keyword: keyword,
             pagination: true,

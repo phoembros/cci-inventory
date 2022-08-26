@@ -1,0 +1,73 @@
+@import '../../themes.scss';
+
+.dialog-delete-unit {
+
+    .MuiPaper-root {
+        border-radius: 12px !important;
+        width: 400px !important;
+    }
+
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+
+    .body-title {
+        color: $primary-color;
+    }
+
+    .body-void {
+        color: $primary-color;
+        text-transform: none !important ;   
+        font-weight: bold;     
+    }
+
+    .btn-create{
+        background-color: $primary-color !important;
+        color: #fff;
+    }
+
+    .btn-void {
+        background-color: red;
+        color: white;
+        border: none;
+    }
+
+}
+
+
+.delete-raw-material {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;    
+    background-color: #fff;
+    box-shadow: 30px;
+    border-radius: 10px;
+    padding: 20px;
+
+    
+    .header-title {
+        color: $primary-color;
+        font-weight: bold;
+    }
+
+    .body-title {
+        color: $primary-color;
+    }
+
+    .body-void {
+        color: $primary-color;
+        text-transform: none !important ;   
+        font-weight: bold;     
+    }
+
+    .btn-void {
+        background-color: red;
+        color: white;
+        border: none;
+    }
+
+}

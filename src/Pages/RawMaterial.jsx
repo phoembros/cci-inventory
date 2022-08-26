@@ -90,7 +90,7 @@ export default function RawMaterial() {
   //Query
   const { data, refetch } = useQuery(GET_RAW_MATERAIL_PAGINATION, {
       variables: {
-        page: page,
+        page: keyword !== "" ? 1 : page,
         limit: limit,
         keyword: keyword,
         pagination: true,

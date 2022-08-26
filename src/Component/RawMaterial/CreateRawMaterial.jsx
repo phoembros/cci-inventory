@@ -11,6 +11,7 @@ import { useFormik, Form, FormikProvider } from "formik";
 import {CREATE_RAW_MATERAIL, GET_RAW_GETEGORY_PAGINATION, UPDATE_RAW_MATERAIL} from "../../Schema/rawmaterial";
 import {useMutation , useQuery} from "@apollo/client";
 import { GET_RAW_MATERIAL_UNIT } from '../../Schema/rawmaterial';
+import { GET_UNIT_PAGINATION } from '../../Schema/unit';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -33,11 +34,17 @@ export default function CreateRawMaterials({
 
   // Get Unit Material
   const [unitRawMaterial,setUnitRawMaterial] = React.useState([])
-  const { data: unitRawData } = useQuery(GET_RAW_MATERIAL_UNIT,{
-    onCompleted: ({getRawMaterialsUnits}) => {
-        setUnitRawMaterial(getRawMaterialsUnits)
+  const { data: unitRawData } = useQuery(GET_UNIT_PAGINATION,{
+    variables: {
+      keyword: "",
+      pagination: false,
+    },
+    onCompleted: ({getUnitPagination}) => {
+        setUnitRawMaterial(getUnitPagination?.units)
     }
   });
+
+
 
   const [loading,setLoading] = React.useState(false);
 
@@ -319,7 +326,7 @@ export default function CreateRawMaterials({
                                           >
                                             {
                                               unitRawMaterial.map( (item,index) => (
-                                                    <MenuItem key={index} value={item}>{item}</MenuItem> 
+                                                    <MenuItem key={index} value={item?.unitName}>{item?.unitName}</MenuItem> 
                                               ))
                                             }                                                  
                                           

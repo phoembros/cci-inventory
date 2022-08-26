@@ -27,7 +27,7 @@ export default function QtyOnHand({ refetchQty, setRefetchQty , storageRoomId, r
 
     return(
         <>
-            <Typography>{data?.qtyOnHandRawMaterialByStorageRoom} - {unit}</Typography>
+            <Typography>{(data?.qtyOnHandRawMaterialByStorageRoom)?.toFixed(4)} - {unit}</Typography>
         </>
     )
 

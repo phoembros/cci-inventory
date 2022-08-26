@@ -231,7 +231,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     sx={{border: "none" ,color: "#0969A0" ,  padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                        ${item?.costOfProduction.toFixed(2)}
+                                                        ${item?.costOfProduction.toFixed(3)}
                                                     </Typography>
                                                 </TableCell>
                                                 
@@ -325,7 +325,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     sx={{border: "none" ,  padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>
-                                                        {/* ${item?.costOfProduction.toFixed(2)} */}
+                                                        ${(row?.qtyOfUM*row?.unitQtyGroup*(item?.costOfProduction/item?.targetProduction))?.toFixed(3)}
                                                     </Typography>
                                                 </TableCell>
                                                 

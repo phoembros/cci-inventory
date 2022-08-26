@@ -48,21 +48,21 @@ export default function SystemSetting() {
                                 {
                                     dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createRole ?
                                         <>
-                                        <Stack direction="column" justifyContent="center" spacing={1}> 
-                                            <Link to="/system-setting/role" style={{textDecoration: "none"}}>
-                                                <Typography className="text-title">Role & Permission</Typography>
-                                            </Link>
-                                            <Typography variant="body">Edit abilities of system can do to change mode.</Typography>                                    
-                                        </Stack>
+                                            <Stack direction="column" justifyContent="center" spacing={1}> 
+                                                <Link to="/system-setting/role" style={{textDecoration: "none"}}>
+                                                    <Typography className="text-title">Role & Permission</Typography>
+                                                </Link>
+                                                <Typography variant="body">Edit abilities of system can do to change.</Typography>                                    
+                                            </Stack>
                                         </>
                                     :
                                         <>
-                                        <Stack direction="column" justifyContent="center" spacing={1}>
-                                            <Link to="/system-setting" style={{textDecoration: "none"}}>
-                                                <Typography className="text-title">Role & Permission</Typography> 
-                                            </Link>                                            
-                                            <Typography variant="body">Edit abilities of system can do to change mode.</Typography>                                    
-                                        </Stack>
+                                            <Stack direction="column" justifyContent="center" spacing={1}>
+                                                <Link to="/system-setting" style={{textDecoration: "none"}}>
+                                                    <Typography className="text-title">Role & Permission</Typography> 
+                                                </Link>                                            
+                                                <Typography variant="body">Edit abilities of system can do to change.</Typography>                                    
+                                            </Stack>
                                         </>
                                 }
                                 
@@ -71,7 +71,7 @@ export default function SystemSetting() {
                     </Box>
                 </Grid>
 
-                {/* <Grid item xs={12} sm={12} md={6} lg={6} className="grid-item">
+                <Grid item xs={12} sm={12} md={6} lg={6} className="grid-item">
                     <Box className={theme.palette.mode === 'dark' ? 'box-item-dark' : 'box-item' }>                        
                         <Stack direction="column" justifyContent="center" spacing={2} sx={{height:"100%"}}>
                             <Stack direction="row" spacing={2} sx={{ml:2}}>
@@ -79,16 +79,16 @@ export default function SystemSetting() {
                                     <SettingsIcon className="icon"/>
                                 </Stack>
                                 <Stack direction="column" justifyContent="center" spacing={1}> 
-                                    <Link to="/system-setting" style={{textDecoration: "none"}}>
-                                        <Typography className="text-title">Your Profile</Typography>
+                                    <Link to="/system-setting/unit" style={{textDecoration: "none"}}>
+                                        <Typography className="text-title">Setup Unit</Typography>
                                     </Link>
-                                    <Typography variant="body">Edit abilities of system can do to change mode.</Typography>                                    
+                                    <Typography variant="body">Setup your unit to use in product and raw materail.</Typography>                                    
                                 </Stack>
                             </Stack>
                         </Stack>
                     </Box>
-                </Grid> */}
-                
+                </Grid>
+
             </Grid>
 
             <AlertMessage alert={alert} setAlert={setAlert} message={message} setMessage={setMessage} checkMessage={checkMessage} />

@@ -61,7 +61,7 @@ export default function Customer() {
 
     const { data, refetch } = useQuery(GET_CUSTOMER_PAGINATION, {
       variables: {
-        page: page,
+        page: keyword !== "" ? 1 : page,
         limit: limit,
         keyword: keyword,
         pagination: true,

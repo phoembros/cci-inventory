@@ -231,7 +231,15 @@ export default function ViewProduction({
                                             <TableRow  className="body-row">                                
                                                 <TableCell className="body-title" component="th" scope="row"> {row?.rawName} </TableCell>
                                                 <TableCell className="body-title" >{(row?.amount*ViewData?.qty)?.toFixed(2)} {row?.rawMaterialId?.unit}</TableCell>    
-                                                <TableCell className="body-title" ></TableCell>                                                   
+                                                <TableCell className="body-title" >
+                                                {   (row?.amount*ViewData?.qty) < 1 ?
+                                                        <>
+                                                            { (row?.amount*ViewData?.qty*1000)?.toFixed(2) } 
+                                                            { row?.rawMaterialId?.unit === "kilogram" ? "g" : "l" }
+                                                        </>
+                                                    : null
+                                                }
+                                                </TableCell>                                                   
                                             </TableRow>
                                         </TableBody>                        
                                     ))}

@@ -20,6 +20,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import ModalAlert from '../Permission/ModalAlert';
+import { GET_UNIT_PAGINATION } from '../../Schema/unit';
 
 
 export default function UpdateProduct({
@@ -72,11 +73,18 @@ export default function UpdateProduct({
 
     // Get Product Unit 
     const [unit,setUnit] = React.useState([])
-    const { data: productUnit } = useQuery(GET_PRODUCT_UNIT);
+    const { data: productUnit } = useQuery(GET_UNIT_PAGINATION, {
+      variables: {
+        keyword: "",
+        pagination: false,
+      }
+    });
 
     React.useEffect( () => {        
-        setUnit(productUnit?.getProductsUnits);
-    },[productUnit])
+      if(productUnit?.getUnitPagination){
+        setUnit(productUnit?.getUnitPagination?.units);
+      }      
+    },[productUnit?.getUnitPagination])
     // End
 
      // Get Product Unit 
@@ -441,7 +449,7 @@ export default function UpdateProduct({
                                                             >                                               
                                                                 {
                                                                     unit?.map( (item,index) => (
-                                                                        <MenuItem key={index} value={`${item}`}>{item}</MenuItem>
+                                                                        <MenuItem key={index} value={`${item?.unitName}`}>{item?.unitName}</MenuItem>
                                                                     ))
                                                                 }                               
                                                             

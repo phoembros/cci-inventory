@@ -81,7 +81,7 @@ export default function Sales() {
 
   const { data, refetch } = useQuery(GET_SALE_WITH_PAGINATION, {
       variables: {
-          page: page,
+          page: keyword !== "" ? 1 : page,
           limit: limit,
           keyword: keyword,
           pagination: true,
@@ -197,7 +197,7 @@ export default function Sales() {
                             data?.getSaleWithPagination?.sales?.length !== 0 ?
                               <>
                               {data?.getSaleWithPagination?.sales?.map((row, index) => (
-                                  <TableBody key={index} component={Paper} className={index%2 === 0 ? "body" : "body-odd" }>
+                                  <TableBody key={index} component={Paper} className={index%2 === 0 || theme.palette.mode === 'dark' ? "body" : "body-odd" }>
                                     <TableRow className="body-row" >
                                       <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="10%">{moment(row?.date).format("DD/MM/YYYY")}</TableCell>
                                       <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="15%">

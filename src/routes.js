@@ -34,6 +34,7 @@ import PrintInvoice from "./Component/Sales/PrintInvoice";
 import ProductDetails from "./Component/Product/ProductDetails";
 import Role from "./Component/Setting/Role";
 import PurchaseMaterial from "./Component/PurchaseRawMaterial/PurchaseMaterial";
+import Unit from "./Component/Setting/Unit";
 
 export default function Router({ prefersDarkMode, setPrefersDarkMode }) {
   //Apollo
@@ -92,6 +93,7 @@ export default function Router({ prefersDarkMode, setPrefersDarkMode }) {
         { path: "report", element: <Report /> },
         { path: "system-setting", element: <SystemSetting /> },
         { path: "system-setting/role", element: <Role /> },
+        { path: "system-setting/unit", element: <Unit /> },
 
         { path: "*", element: <Page404 /> },
       ],

@@ -123,7 +123,7 @@ export default function Production() {
     const { data , refetch } = useQuery(GET_PRODUCTION_WITH_PAGINATION , {
         variables: {
             productId: productId,
-            page: page,
+            page: keyword !== "" ? 1 : page,
             limit: limit,
             keyword: keyword,
             pagination: true,
@@ -160,7 +160,7 @@ export default function Production() {
                     <Autocomplete                       
                         disablePortal                        
                         options={productFilter}
-                        onChange={(event, value) => setProductId(value?._id) }
+                        onChange={ (event, value) => setProductId(value?._id) }
                         renderInput={(params) => ( 
                             <TextField fullWidth className="text-field" {...params} placeholder="Product Name" size="small" /> 
                         )}
@@ -250,8 +250,8 @@ export default function Production() {
                             {
                                 productionData?.length !== 0 ?
                                 <>
-                                {productionData?.map((row , index) => (
-                                        <TableBody key={index} component={Paper} className={index % 2 === 0 ? "body" : "body-odd" } >                        
+                                { productionData?.map((row , index) => (
+                                        <TableBody key={index} component={Paper} className={ index % 2 === 0 || theme.palette.mode === 'dark' ? "body" : "body-odd" } >                        
                                             <TableRow  className="body-row">
                                                 <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" component="th" scope="row" width="10%" >
                                                     {moment(row?.createdAt).format("YYMM")}-{row?.productionsId.padStart(2, '0')}

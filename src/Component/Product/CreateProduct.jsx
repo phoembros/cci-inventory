@@ -13,6 +13,7 @@ import * as Yup from "yup";
 import { useFormik, Form, FormikProvider } from "formik";
 import { GET_PRODUCT_UNIT , CREATE_PRODUCT } from "../../Schema/product";
 import { useMutation } from '@apollo/client';
+import { GET_UNIT_PAGINATION } from '../../Schema/unit';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -76,13 +77,19 @@ export default function CreateProduct({
 
     // Get Product Unit 
     const [unit,setUnit] = React.useState([])
-    const { data: productUnit } = useQuery(GET_PRODUCT_UNIT);
+    const { data: productUnit } = useQuery(GET_UNIT_PAGINATION, {
+      variables: {
+        keyword: "",
+        pagination: false,
+      }
+    });
 
     React.useEffect( () => {        
-      if(productUnit?.getProductsUnits){
-        setUnit(productUnit?.getProductsUnits);
+      if(productUnit?.getUnitPagination){
+        setUnit(productUnit?.getUnitPagination?.units);
       }      
-    },[productUnit?.getProductsUnits])
+    },[productUnit?.getUnitPagination])
+
     // End
     
     
@@ -426,7 +433,7 @@ export default function CreateProduct({
                                           helperText={touched.unit && errors.unit}
                                         >                            
                                           {unit?.map((item, index) => (
-                                            <MenuItem key={index} value={`${item}`}>{item}</MenuItem>
+                                            <MenuItem key={index} value={`${item?.unitName}`}>{item?.unitName}</MenuItem>
                                           ))}
                                         </Select>
                                       </FormControl>

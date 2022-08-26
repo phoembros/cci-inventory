@@ -72,7 +72,7 @@ export default function Product() {
 
     const { data , refetch , error } = useQuery(GET_PRODUCT_WITH_PAGINATION , {
         variables: {
-            page: page,
+            page: keyword !== "" ? 1 : page,
             limit: limit,
             keyword: keyword,
             pagination: true,

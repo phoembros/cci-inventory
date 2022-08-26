@@ -460,7 +460,15 @@ export default function CreateProduction({
                                                             <TableRow  className="body-row">                                
                                                                 <TableCell className="body-title" component="th" scope="row" > {row?.rawMaterialId?.materialName} </TableCell>
                                                                 <TableCell className="body-title" >{ (row?.amount*values?.qty)?.toFixed(4)} {row?.rawMaterialId?.unit}</TableCell>    
-                                                                <TableCell className="body-title" ></TableCell>                                                   
+                                                                <TableCell className="body-title" >
+                                                                    {   (row?.amount*values?.qty) < 1 ?
+                                                                            <>
+                                                                                { (row?.amount*values?.qty*1000)?.toFixed(2) } 
+                                                                                { row?.rawMaterialId?.unit === "kilogram" ? "g" : "l" }
+                                                                            </>
+                                                                        : null
+                                                                    }
+                                                                </TableCell>                                                   
                                                             </TableRow>
                                                         </TableBody>                        
                                                     ))}

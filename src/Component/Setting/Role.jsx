@@ -69,15 +69,16 @@ export default function Role () {
         <div className="system-page-role">
             <Stack direction="row" spacing={2}>
                 <Box  className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />
-                <Stack direction="column" justifyContent="center" className="page-title">
-                    <Link to="/system-setting" style={{ textDecoration: "none"}}>
-                        <Typography  className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >System Setting</Typography>
-                    </Link>
+                <Stack direction="row" spacing={1}>
+                    <Stack direction="column" justifyContent="center" className="page-title">
+                        <Link to="/system-setting" style={{ textDecoration: "none"}}>
+                            <Typography  className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >System Setting</Typography>
+                        </Link>
+                    </Stack>
+                    <Stack direction="column" justifyContent="center" className="page-title">
+                        <Typography  className={theme.palette.mode === 'dark' ? "color-dark" : "color" }  >/ Role</Typography>
+                    </Stack>
                 </Stack>
-                <Stack direction="column" justifyContent="center" className="page-title">
-                    <Typography  className={theme.palette.mode === 'dark' ? "color-dark" : "color" }  >/ Role</Typography>
-                </Stack>
-
                 <Stack direction="column" justifyContent="center" className="page-title-mobile">
                     <Typography  className={theme.palette.mode === 'dark' ? "color-dark" : "color" }  >Role</Typography>
                 </Stack>

@@ -70,7 +70,7 @@ export default function PurchaseMaterial() {
     const [pageShow, setPageShow] = React.useState(null);
     const [page, setPage] = React.useState(1);
     const [limit, setLimit] = React.useState(8);
-    const [keyword, setKeyword] = React.useState("0");
+    const [keyword, setKeyword] = React.useState("");
     const [priority,setPriority] = React.useState("")
     const [status,setStatus] = React.useState("");
 
@@ -78,7 +78,7 @@ export default function PurchaseMaterial() {
 
     const { data , refetch } = useQuery(GET_PURCHASE_RAW_MATERIAL_PAGINATION, {
         variables: {           
-            page: page,
+            page: keyword !== "" ? 1 : page,
             limit:limit,
             keyword: keyword,
             pagination: true,
@@ -99,10 +99,9 @@ export default function PurchaseMaterial() {
         setPageShow(page)
     }, [ page, keyword , priority , status ])
 
-    // console.log(keyword, "keyword")  
+    console.log(keyword, "keyword")  
 
     
-
     return(
         <div className="purchases-raw-page">
             <Stack direction="row" spacing={2}>
@@ -127,7 +126,7 @@ export default function PurchaseMaterial() {
                             className="text-field"
                             fullWidth
                             id="input-with-sx" 
-                            placeholder="Purchase By"                           
+                            placeholder="PO Number"                           
                             size="small"                  
                             onChange={(e) => {
                                 setKeyword(e.target.value)

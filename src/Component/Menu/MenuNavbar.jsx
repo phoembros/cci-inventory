@@ -323,16 +323,24 @@ export default function MenuNavbar({open , handleDrawerClose}) {
                 {/* Item */}                   
                 <ListItem className={
                     theme.palette.mode === 'dark' && location.pathname === "/system-setting" ||
-                    theme.palette.mode === 'dark' && location.pathname === "/system-setting/role"
+                    theme.palette.mode === 'dark' && location.pathname === "/system-setting/role" ||
+                    theme.palette.mode === 'dark' && location.pathname === "/system-setting/unit"
                 ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}>
                     <Link to="/system-setting" style={{ textDecoration: 'none' }}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
                             <ListItemIcon className={
-                                location.pathname === "/system-setting" || location.pathname === "/system-setting/role" ? "list-item-icon-active" : "list-item-icon"}  >
+                                location.pathname === "/system-setting" || 
+                                location.pathname === "/system-setting/role" ||
+                                location.pathname === "/system-setting/unit"
+                                ? "list-item-icon-active" : "list-item-icon"}  >
                                 <SettingsIcon />
                             </ListItemIcon>
                             <ListItemText
-                                className={ location.pathname === "/system-setting" || location.pathname === "/system-setting/role" ? "list-item-text-active" : "list-item-text"}
+                                className={ 
+                                    location.pathname === "/system-setting" || 
+                                    location.pathname === "/system-setting/role" ||
+                                    location.pathname === "/system-setting/unit"
+                                    ? "list-item-text-active" : "list-item-text"}
                                 primary={"System Setting"} />
                         </ListItemButton>
                     </Link>
