@@ -3,12 +3,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './createcategory.scss';
-import { FormControl, Icon, IconButton, InputAdornment, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { FormControl, FormHelperText, Icon, IconButton, InputAdornment, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import * as Yup from "yup";
 import { useFormik, Form, FormikProvider } from "formik";
 import { CREATE_PRODUCT_GROUP , UPDATE_PRODUCT_GROUP } from "../../Schema/product";
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -16,6 +16,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useLocation } from 'react-router-dom';
+import { GET_UNIT_PAGINATION } from '../../Schema/unit';
 
 
 export default function ModalProductGroup({
@@ -34,12 +35,28 @@ export default function ModalProductGroup({
     //get Storage Room ID by Url 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
-    const [productId, setProductId] = React.useState(params.get("id"));
-   
+    const [productId, setProductId] = React.useState(params.get("id"));   
     React.useEffect( () => {
         setProductId(params.get("id"));         
     }, [location.search]);
     // End get Id Storage Room
+    
+
+    // Get Product Unit 
+    const [unit,setUnit] = React.useState([])
+    const { data: unitData } = useQuery(GET_UNIT_PAGINATION, {
+        variables: {
+            keyword: "",
+            pagination: false,
+        }
+    });
+    React.useEffect( () => {        
+        if(unitData?.getUnitPagination){
+          setUnit(unitData?.getUnitPagination?.units);
+        }      
+    },[unitData?.getUnitPagination])
+
+
 
     const [loading,setLoading] = React.useState(false);
 
@@ -68,6 +85,7 @@ export default function ModalProductGroup({
         }
 
     });
+
 
     const [updateProductGroup] = useMutation(UPDATE_PRODUCT_GROUP , {
         onCompleted: ({updateProductGroup}) => {         
@@ -105,6 +123,7 @@ export default function ModalProductGroup({
         quantityPerStockUM: Yup.number(),
         unitPrice: Yup.number().required("Unit Price is required!"),
         groupBy: Yup.string(),
+        unit: Yup.string().required("Unit is required!"),
     });
     
     const formik = useFormik({
@@ -113,12 +132,14 @@ export default function ModalProductGroup({
             quantityPerStockUM: 0,
             unitPrice: 0,
             groupBy: productId,
+            unit: "",
         },
     
         validationSchema: CreateCategory,
         onSubmit: async (values, { setSubmitting, resetForm }) => {      
             setLoading(true)  
             console.log(values)
+
             if(checkStatus === "create") {
                 createProductGroup({
                     variables: {
@@ -151,6 +172,7 @@ export default function ModalProductGroup({
             setFieldValue("name", editData?.name);
             setFieldValue("unitPrice", editData?.unitPrice);
             setFieldValue("quantityPerStockUM" , editData?.quantityPerStockUM);
+            setFieldValue("unit" , editData?.unit);
         }        
     },[editData])
 
@@ -216,6 +238,7 @@ export default function ModalProductGroup({
                                     />            
                                 </Stack>
 
+
                                 <Stack direction="column" spacing={1} sx={{mt:2}}>
                                     <Typography className='header-title'>
                                         Unit Price
@@ -237,6 +260,31 @@ export default function ModalProductGroup({
                                         }}
                                     />            
                                 </Stack>
+
+                                <Stack direction="column" spacing={1} sx={{mt:2}}>
+                                    <Typography className='header-title'>
+                                        Unit
+                                    </Typography>
+                                    <FormControl fullWidth size="small">
+                                        <Select                           
+                                          {...getFieldProps("unit")}
+                                          error={Boolean(touched.unit && errors.unit)}
+                                          helperText={touched.unit && errors.unit}
+                                        >                            
+                                          {unit?.map((item, index) => (
+                                            <MenuItem key={index} value={`${item?.unitName}`}>{item?.unitName}</MenuItem>
+                                          ))}
+                                        </Select>
+                                    </FormControl>
+
+                                    {!!errors.unit && (
+                                        <FormHelperText error id="outlined-adornment-email">
+                                            {errors.unit}
+                                        </FormHelperText>
+                                    )}  
+
+                                </Stack>
+                                
 
                                 <Stack direction="column" spacing={1} sx={{mt:2}}>       
                                     {

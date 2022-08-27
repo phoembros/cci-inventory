@@ -79,6 +79,7 @@ export default function ProductGroupList({productId, storageRoomId, dataUserLogi
                                                 alert={alert}                                                                                               
                                                 storageRoomId={storageRoomId} 
                                                 productGroupId={row?._id} 
+                                                rows={row}
                                             />
                                         </Typography>
                                     </TableCell> 

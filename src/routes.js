@@ -35,8 +35,10 @@ import ProductDetails from "./Component/Product/ProductDetails";
 import Role from "./Component/Setting/Role";
 import PurchaseMaterial from "./Component/PurchaseRawMaterial/PurchaseMaterial";
 import Unit from "./Component/Setting/Unit";
+import ViewVoid from "./Component/Sales/ViewVoid";
 
 export default function Router({ prefersDarkMode, setPrefersDarkMode }) {
+
   //Apollo
   const { state } = useContext(AuthContext);
   const { user } = state;
@@ -83,6 +85,7 @@ export default function Router({ prefersDarkMode, setPrefersDarkMode }) {
         { path: "product/details", element: <ProductDetails /> },
 
         { path: "sales", element: <Sales /> },
+        { path: "sales/void", element: <ViewVoid /> },
         { path: "sales/print", element: <PrintInvoice /> },
 
         { path: "customer", element: <Customer /> },

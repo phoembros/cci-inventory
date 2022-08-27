@@ -201,12 +201,12 @@ export default function Role () {
                                 Report
                             </Button>
 
-                            {/* <Button fullWidth 
+                            <Button fullWidth 
                                 onClick={ () => activateButton ?  setMenuRole("role-permission") : setMenuRole("") }
                                 className={ menuRole === "role-permission" ? "btn-permission-active" : "btn-permission"}
                             >
-                                Role & Permission
-                            </Button> */}
+                                System Setting
+                            </Button>
 
                         </Stack>
                     </Grid>
@@ -231,8 +231,7 @@ export default function Role () {
                                     { menuRole === "user" ? <UserRole setRefetch={refetch}  dataRole={dataRolePermission} /> : null  }
                                     { menuRole === "report" ? <ReportRole setRefetch={refetch}  dataRole={dataRolePermission} /> : null  }
                                     { menuRole === "role-permission" ? <RolePermission setRefetch={refetch}  dataRole={dataRolePermission} /> : null  }
-
-
+                                    
                                 </Table>
                             </TableContainer>
                     </Grid>

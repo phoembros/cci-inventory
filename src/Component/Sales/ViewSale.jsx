@@ -17,7 +17,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 
-export default function ViewSale({handleCloseView, open , RowData}) {
+export default function ViewSale({ handleCloseView , open , RowData }) {
   //format date
   const formatDate = Moment(RowData?.date).format('DD-MM-YYYY')
   // console.log(RowData, 'view')

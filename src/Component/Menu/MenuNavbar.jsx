@@ -219,16 +219,25 @@ export default function MenuNavbar({open , handleDrawerClose}) {
                 {/* Item */}                   
                 <ListItem className={
                     theme.palette.mode === 'dark' && location.pathname === "/sales" ||
-                    theme.palette.mode === 'dark' && location.pathname === "/sales/print"
+                    theme.palette.mode === 'dark' && location.pathname === "/sales/print" ||
+                    theme.palette.mode === 'dark' && location.pathname === "/sales/void"
                     ? 'list-item-active' : 'list-item' }   disablePadding sx={{ display: 'block' }}
                 >
                     <Link to="/sales" style={{ textDecoration: 'none' }}>
                         <ListItemButton className='list-item-button' sx={{ px: 2.5, }} >
-                            <ListItemIcon className={location.pathname === "/sales" || location.pathname === "/sales/print" ? "list-item-icon-active" : "list-item-icon"} >
+                            <ListItemIcon className={
+                                    location.pathname === "/sales" || 
+                                    location.pathname === "/sales/print" ||
+                                    location.pathname === "/sales/void"
+                                    ? "list-item-icon-active" : "list-item-icon"} >
                                 <ShoppingCartOutlinedIcon />
                             </ListItemIcon>
                             <ListItemText 
-                                className={location.pathname === "/sales" || location.pathname === "/sales/print" ? "list-item-text-active" : "list-item-text"}
+                                className={
+                                        location.pathname === "/sales" || 
+                                        location.pathname === "/sales/print" || 
+                                        location.pathname === "/sales/void"
+                                        ? "list-item-text-active" : "list-item-text"}
                                 primary={"Sales"} />
                         </ListItemButton>
                     </Link>

@@ -93,6 +93,9 @@ query GetRoleAndPermission {
       adjustQtyProductGroup
       adjustQtyRawMaterial
       getRawMaterialReport
+      createUnit
+      updateUnit
+      deleteUnit
     }
     paths {
       user
@@ -197,6 +200,9 @@ query GetRoleAndPermissionById($id: ID!) {
       deleteProductGroup
       adjustQtyProductGroup
       getRawMaterialReport
+      createUnit
+      updateUnit
+      deleteUnit
     }
     paths {
       user

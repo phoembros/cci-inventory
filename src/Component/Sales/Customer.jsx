@@ -32,10 +32,10 @@ export default function Customer() {
     const {data: dataUserLogin } = useQuery(GET_USER_LOGIN)
     // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
-    const [shortID,setShortID] = React.useState(false);
-    const [shortName,setShortName] = React.useState(false);
+    const [shortID,setShortID] = React.useState( JSON.parse(window.localStorage.getItem("shortIDCustomer")) );
+    const [shortName,setShortName] = React.useState( JSON.parse(window.localStorage.getItem("shortNameCustomer")) );
     const [shortOwe,setShortOwe] = React.useState(false);
-    const [valueShort,setValueShort] = React.useState({})  
+    const [valueShort,setValueShort] = React.useState( JSON.parse(window.localStorage.getItem("shortValueCustomer")) )  
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -65,7 +65,7 @@ export default function Customer() {
         limit: limit,
         keyword: keyword,
         pagination: true,
-        sortField: [valueShort],
+        sortField: valueShort === null || valueShort === undefined ? [{}] : [valueShort],
       },
       onCompleted: () => {
         setLoading(false);
@@ -76,7 +76,7 @@ export default function Customer() {
     React.useEffect(()=>{
         refetch();
         setShowPage(page);
-    },[page, keyword , valueShort])
+    },[ page, keyword , valueShort , shortID , shortName ])
 
     
     return (
@@ -162,15 +162,19 @@ export default function Customer() {
                                               <Typography className="title">ID</Typography>
                                           </Stack>
                                           <IconButton  onClick={ () => {
-                                              if(shortID) {
+                                              if(shortID !== undefined && shortID !== false) {
                                                   setShortID(false)
                                                   setValueShort({ sortName : "cusId" , sortValue : -1 })
+                                                  window.localStorage.setItem("shortIDCustomer", JSON.stringify(false) )
+                                                  window.localStorage.setItem("shortValueCustomer", JSON.stringify({ sortName : "cusId" , sortValue : -1 }) )
                                               } else {
                                                   setShortID(true) 
                                                   setValueShort({ sortName : "cusId" , sortValue : 1 })
+                                                  window.localStorage.setItem("shortIDCustomer", JSON.stringify(true) )
+                                                  window.localStorage.setItem("shortValueCustomer", JSON.stringify({ sortName : "cusId" , sortValue : 1 }) )
                                               } 
                                           }}>
-                                              <FilterListIcon  className={ shortID ? "icon-flip-back" : "icon-flip"}/>
+                                              <FilterListIcon  className={ shortID !== undefined && shortID !== false ? "icon-flip-back" : "icon-flip"}/>
                                           </IconButton>
                                       </Stack>
                                   </TableCell>
@@ -180,15 +184,19 @@ export default function Customer() {
                                               <Typography className="title">Name</Typography>
                                           </Stack>
                                           <IconButton  onClick={ () => {
-                                              if(shortName) {
+                                              if(shortName !== undefined && shortName !== false) {
                                                   setShortName(false)
                                                   setValueShort({ sortName : "name" , sortValue : -1 })
+                                                  window.localStorage.setItem("shortNameCustomer", JSON.stringify(false) )
+                                                  window.localStorage.setItem("shortValueCustomer", JSON.stringify({ sortName : "name" , sortValue : -1 }) )
                                               } else {
                                                   setShortName(true) 
                                                   setValueShort({ sortName : "name" , sortValue : 1 })
+                                                  window.localStorage.setItem("shortNameCustomer", JSON.stringify(true) )
+                                                  window.localStorage.setItem("shortValueCustomer", JSON.stringify({ sortName : "name" , sortValue : 1 }) )
                                               } 
                                           }}>
-                                              <FilterListIcon  className={ shortName ? "icon-flip-back" : "icon-flip"}/>
+                                              <FilterListIcon  className={ shortName !== undefined && shortName !== false ? "icon-flip-back" : "icon-flip"}/>
                                           </IconButton>
                                       </Stack>
                                   </TableCell>

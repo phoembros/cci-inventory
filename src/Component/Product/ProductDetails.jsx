@@ -207,7 +207,7 @@ export default function ProductDetails() {
                                             </Box> 
 
                                             <Box sx={{flexGrow:1}}></Box> 
-                                            <Stack direction="row" spacing={2} width="140px">                                 
+                                            <Stack direction="row" spacing={2} width="150px">                                 
                                                 <Typography variant="body1">
                                                     Need:
                                                 </Typography> 
@@ -269,12 +269,15 @@ export default function ProductDetails() {
                                     <TableCell className="header-title">
                                         Quantity/StockUM
                                     </TableCell>  
+                                   
                                     <TableCell className="header-title">
                                         Unit Price
                                     </TableCell>    
-                                    {/* <TableCell className="header-title">
-                                        Qty On Hand
-                                    </TableCell>                                  */}
+
+                                    <TableCell className="header-title">
+                                        Unit
+                                    </TableCell>
+
                                     <TableCell className="header-title" align="right">
                                         Action
                                     </TableCell>
@@ -304,12 +307,15 @@ export default function ProductDetails() {
                                             <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
                                                 <Typography variant="body1">{row?.quantityPerStockUM}</Typography>
                                             </TableCell>  
+                                             
                                             <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
                                                 <Typography variant="body1">${row?.unitPrice}</Typography>
-                                            </TableCell>     
-                                            {/* <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
-                                                <Typography variant="body1">{row?.totalStockAmount-row?.totalSold} - U/M</Typography>
-                                            </TableCell>                                  */}
+                                            </TableCell>    
+                                     
+                                            <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
+                                                <Typography variant="body1">{row?.unit}</Typography>
+                                            </TableCell>
+
                                             <TableCell className="body-title" align="right">
                                                 <ProductGroupAction 
                                                     setAlert={setAlert}

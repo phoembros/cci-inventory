@@ -42,37 +42,52 @@ export default function UnitAction({ DataUnit, setRefetch, setAlert, setMessage,
         <MoreVertIcon sx={{ color: "#3C64F6" }} />
       </IconButton>
 
-    
-      <Menu
-          id="basic-button"
-          anchorEl={anchorEl}
-          open={openEl}
-          onClose={handleCloseEl}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-      >
+      {
+          dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateUnit ||
+          dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteUnit ?
+        <>
+          <Menu
+              id="basic-button"
+              anchorEl={anchorEl}
+              open={openEl}
+              onClose={handleCloseEl}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+          >
 
-                <MenuItem onClick={()=> { handleOpen(); handleCloseEl(); }}>
-                  <Stack direction="row" spacing={2}>
-                    <EditIcon sx={{ color: "blue" }} />
-                    <Typography> Update </Typography>
-                  </Stack>
-                </MenuItem>
-          
-            
+                {
+                  dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.updateUnit ?
 
-            
-                <MenuItem onClick={()=> { handleOpenDel(); handleCloseEl(); }}>
-                  <Stack direction="row" spacing={2}>
-                    <DeleteIcon sx={{ color: "red" }} />
-                    <Typography> Delete</Typography>
-                  </Stack>
-                </MenuItem>
-              
-      </Menu>
-         
-      
+                      <MenuItem onClick={()=> { handleOpen(); handleCloseEl(); }}>
+                        <Stack direction="row" spacing={2}>
+                          <EditIcon sx={{ color: "blue" }} />
+                          <Typography> Update </Typography>
+                        </Stack>
+                      </MenuItem>
+
+                  : null
+                }
+
+                    
+                {
+                  dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.deleteUnit ?  
+
+                    <MenuItem onClick={()=> { handleOpenDel(); handleCloseEl(); }}>
+                      <Stack direction="row" spacing={2}>
+                        <DeleteIcon sx={{ color: "red" }} />
+                        <Typography> Delete</Typography>
+                      </Stack>
+                    </MenuItem>
+
+                  : null 
+                }
+                  
+          </Menu>         
+        </>
+      :
+        null
+      }
 
       {/* <Modal open={open} > */}
             <CreateUnit 

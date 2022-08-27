@@ -12,7 +12,7 @@ import ModalUserAdd from "../Component/User/ModalUserAdd";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 // Aleret Message
 import AlertMessage from "../Component/AlertMessage/AlertMessage";
-import { useQuery } from "@apollo/client";
+import { useQuery , useMutation } from "@apollo/client";
 import { GET_USER_LOGIN, GET_USER_ACTION } from "../Schema/user";
 import PermissionContent from "../Component/Permission/PermissionContent";
 import IconSticker from "../Assets/scared.png";
@@ -28,7 +28,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTheme } from '@mui/material/styles';
-   
+import { DELETE_USER_ACTION } from "../Schema/user";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 // import { LocalizationProvider } from "@mui/x-date-pickers";
 // import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
@@ -84,8 +85,22 @@ export default function UserActions() {
         setPageShow(page);
     }, [page,keyword,valueShort,toDate])
 
-    console.log(toDate);
+    // console.log(toDate);
     // console.log(moment(toDate).format("YYYY-MM-DD"))
+
+    // Delete User Action +++++++++++++++++++++=========================================================================
+    const [deleteManyUserAction] = useMutation(DELETE_USER_ACTION,{
+        onCompleted: ({deleteManyUserAction}) => {
+            console.log(deleteManyUserAction?.message)
+        },
+        onError: (error) => {
+            console.log(error?.message)
+        }
+    })
+
+    React.useEffect( () => {
+        deleteManyUserAction()
+    },[])
 
   return (
     <div className="user-action-page">

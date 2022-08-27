@@ -126,6 +126,9 @@ query GetUsersPagination($page: Int, $limit: Int, $keyword: String, $pagination:
           deleteProductGroup
           adjustQtyProductGroup
           getRawMaterialReport
+          createUnit
+          updateUnit
+          deleteUnit
         }
         paths {
           user
@@ -283,6 +286,9 @@ query GetuserLogin {
         deleteProductGroup
         adjustQtyProductGroup
         getRawMaterialReport
+        createUnit
+        updateUnit
+        deleteUnit
       }
       paths {
         user
@@ -423,6 +429,9 @@ query GetUserActionWithPagination($page: Int, $limit: Int, $keyword: String, $pa
             getProductionReport
             getInventoryStockReport
             getRawMaterialReport
+            createUnit
+            updateUnit
+            deleteUnit
           }
           paths {
             user
@@ -464,4 +473,13 @@ query GetUserActionWithPagination($page: Int, $limit: Int, $keyword: String, $pa
     }
   }
 }
+`
+
+export const DELETE_USER_ACTION = gql`
+  mutation DeleteManyUserAction {
+    deleteManyUserAction {
+      success
+      message
+    }
+  }
 `

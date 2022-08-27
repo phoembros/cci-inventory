@@ -145,7 +145,13 @@ export default function User() {
                                     {data?.getUsersPagination?.users?.map((row, index) => (
                                         <TableBody  key={index} component={Paper}  className={index % 2 === 0 || theme.palette.mode === 'dark' ? "body" : "body-odd"} >
                                             <TableRow className='body-row'>
-                                                <TableCell className='body-title' width="5%"> {index+1}- </TableCell>
+                                                <TableCell className='body-title' width="5%">                                                   
+
+                                                    { pageShow === 1 ?  index+1 : null }
+                                                    { pageShow !== 1 ?  index+1+(pageShow-1)*(8) : null } 
+                                                    -
+
+                                                </TableCell>
                                                 <TableCell onClick={handleOpenView} className='body-title'>
                                                     <Stack direction="row"  spacing={2}> 
                                                         <Avatar src= {row?.image_src} alt={row?.name}/>

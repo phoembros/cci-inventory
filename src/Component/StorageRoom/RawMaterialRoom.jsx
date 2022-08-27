@@ -61,9 +61,10 @@ export default function RawMaterialRoom() {
   const [refetchQty,setRefetchQty] = React.useState(true);
 
   // Filter  
-  const [shortUnitPrice,setShortUnitPrice] = React.useState(false);
-  const [shortName,setShortName] = React.useState(false);   
-  const [valueShort,setValueShort] = React.useState({})    
+  const [shortUnitPrice,setShortUnitPrice] = React.useState( JSON.parse(window.localStorage.getItem("shortUnitPriceRawMaterial")) );
+  const [shortName,setShortName] = React.useState( JSON.parse(window.localStorage.getItem("shortNameRawMaterial")) ); 
+
+  const [valueShort,setValueShort] = React.useState( JSON.parse(window.localStorage.getItem("valueShortRawMaterial")) )    
 
 
   const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
@@ -109,7 +110,7 @@ export default function RawMaterialRoom() {
         limit: limit,
         keyword: keyword,
         pagination: true,
-        sortField: [valueShort]
+        sortField: valueShort === undefined || valueShort === null ? [{}] : [valueShort] 
       },  
       onCompleted: () =>  setLoadingData(false),  
       pollInterval: 10000,
@@ -121,7 +122,7 @@ export default function RawMaterialRoom() {
     refetch();
     setLoadingData(true);
     setPageShow(page);
-  }, [page, keyword , valueShort]);
+  }, [page, keyword , valueShort , shortName , shortUnitPrice ]);
 
   React.useEffect( () => {
     if(data?.getRawMaterialPagination?.rawMaterial){
@@ -190,15 +191,19 @@ export default function RawMaterialRoom() {
                                               <Typography className="title">Name</Typography>
                                           </Stack>
                                           <IconButton  onClick={ () => {
-                                              if(shortName) {
+                                              if(shortName !== undefined && shortName !== false) {
                                                   setShortName(false)
                                                   setValueShort( {sortName : "materialName" , sortValue : -1 } )
+                                                  window.localStorage.setItem("valueShortRawMaterial" , JSON.stringify({sortName : "materialName" , sortValue : -1 }))
+                                                  window.localStorage.setItem("shortNameRawMaterial" , JSON.stringify(false) )
                                               } else {
                                                   setShortName(true) 
                                                   setValueShort( {sortName : "materialName" , sortValue : 1 } )
+                                                  window.localStorage.setItem("valueShortRawMaterial" , JSON.stringify({sortName : "materialName" , sortValue : 1 }))
+                                                  window.localStorage.setItem("shortNameRawMaterial" , JSON.stringify(true) )
                                               } 
                                           }}>
-                                              <FilterListIcon  className={ shortName ? "icon-flip-back" : "icon-flip"}/>
+                                              <FilterListIcon  className={ shortName !== undefined && shortName !== false ? "icon-flip-back" : "icon-flip"}/>
                                           </IconButton>
                                       </Stack>
                                   </TableCell>
@@ -208,15 +213,19 @@ export default function RawMaterialRoom() {
                                               <Typography className="title">Unit Price</Typography>
                                           </Stack>
                                           <IconButton  onClick={ () => {
-                                              if(shortUnitPrice) {
+                                              if(shortUnitPrice !== undefined && shortUnitPrice !== false) {
                                                   setShortUnitPrice(false)
                                                   setValueShort({sortName : "unitPrice" , sortValue : -1 })
+                                                  window.localStorage.setItem("valueShortRawMaterial" , JSON.stringify({sortName : "unitPrice" , sortValue : -1 }))
+                                                  window.localStorage.setItem("shortUnitPriceRawMaterial" , JSON.stringify(false) )
                                               } else {
                                                   setShortUnitPrice(true) 
                                                   setValueShort({sortName : "unitPrice" , sortValue : 1 })
+                                                  window.localStorage.setItem("valueShortRawMaterial" , JSON.stringify({sortName : "unitPrice" , sortValue : 1 }))
+                                                  window.localStorage.setItem("shortUnitPriceRawMaterial" , JSON.stringify(true) )
                                               } 
                                           }}>
-                                              <FilterListIcon  className={ shortUnitPrice ? "icon-flip-back" : "icon-flip"}/>
+                                              <FilterListIcon  className={ shortUnitPrice !== undefined && shortUnitPrice !== false ? "icon-flip-back" : "icon-flip"}/>
                                           </IconButton>
                                       </Stack>
                                   </TableCell> 

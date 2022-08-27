@@ -8,10 +8,20 @@ export default function RolePermission({setRefetch , dataRole}) {
 
     console.log(dataRole)
 
+    const [createRole,setCreateRole] = React.useState(dataRole?.permissions?.createRole)
+    const [deleteRole,setDeleteRole] = React.useState(dataRole?.permissions?.deleteRole)
+    const [updateRoles,setUpdateRoles] = React.useState(true)
+    const [getRoleAndPermissionById,setGetRoleAndPermissionById] = React.useState(true)
+    const [getRoleAndPermission,setGetRoleAndPermission] = React.useState(true)
+
+    const [createUnit,setCreateUnit] = React.useState(dataRole?.permissions?.createUnit)
+    const [updateUnit,setUpdateUnit] = React.useState(dataRole?.permissions?.updateUnit)
+    const [deleteUnit,setDeleteUnit] = React.useState(dataRole?.permissions?.deleteUnit)
+
     // Update Function
     const [updateRole, error] = useMutation(UPDATE_ROLE, {
         onCompleted: ({ updateRole }) => {
-            // console.log(updateRole);
+            console.log(updateRole);
             setRefetch()
         },
         onError: (error) => {
@@ -120,17 +130,22 @@ export default function RolePermission({setRefetch , dataRole}) {
                         deleteSupplier: dataRole?.permissions?.deleteSupplier,
 
                         // role
-                        createRole: dataRole?.permissions?.createRole,
-                        deleteRole: dataRole?.permissions?.deleteRole,
-                        updateRole: dataRole?.permissions?.updateRole,
-                        getRoleAndPermissionById: dataRole?.permissions?.getRoleAndPermissionById,
-                        getRoleAndPermission: dataRole?.permissions?.getRoleAndPermission,
+                        createRole: createRole,
+                        deleteRole: deleteRole,
+                        updateRole: updateRoles,
+                        getRoleAndPermissionById: getRoleAndPermissionById,
+                        getRoleAndPermission: getRoleAndPermission,
 
                         // report 
                         getSaleReport: dataRole?.permissions?.getSaleReport,
                         getProductionReport: dataRole?.permissions?.getProductionReport,
                         getInventoryStockReport: dataRole?.permissions?.getInventoryStockReport,
                         getRawMaterialReport: dataRole?.permissions?.getRawMaterialReport,
+
+                        //unit
+                        createUnit: createUnit,
+                        updateUnit: updateUnit,
+                        deleteUnit: deleteUnit,
 
                     },
                 },
@@ -140,28 +155,111 @@ export default function RolePermission({setRefetch , dataRole}) {
 
     React.useEffect(() => {
         handleUpdateRole();
-    }, [])
+    }, [
+        createRole,
+        deleteRole, 
+        updateRoles, 
+        createUnit,
+        updateUnit,
+        deleteUnit,
+    ])
 
 
     return (
         <>
             <TableBody>
 
-                {/* <TableRow className="body-row">
-                    <TableCell align="center" className="body-title">View Sale Report</TableCell>
+                <TableRow className="body-row">
+                    <TableCell align="center" className="body-title">Create Role</TableCell>
                     <TableCell align="center" className="body-title">                                                
                             <FormControlLabel
                                 control={
                                 <Switch
-                                    checked={getSaleReport ? true : false}
-                                    onChange={() => setGetSaleReport(!getSaleReport)}
+                                    checked={createRole ? true : false}
+                                    onChange={() => setCreateRole(!createRole)}
                                 />
                                 }
-                                label={getSaleReport ? "On" : "Off"}
+                                label={createRole ? "On" : "Off"}
                             />                                                 
                     </TableCell>                                            
-                </TableRow>    */}
+                </TableRow>   
 
+                <TableRow className="body-row">
+                    <TableCell align="center" className="body-title">Delete Role</TableCell>
+                    <TableCell align="center" className="body-title">                                                
+                            <FormControlLabel
+                                control={
+                                <Switch
+                                    checked={deleteRole ? true : false}
+                                    onChange={() => setDeleteRole(!deleteRole)}
+                                />
+                                }
+                                label={deleteRole ? "On" : "Off"}
+                            />                                                 
+                    </TableCell>                                            
+                </TableRow>   
+
+                {/* <TableRow className="body-row">
+                    <TableCell align="center" className="body-title">Update Role</TableCell>
+                    <TableCell align="center" className="body-title">                                                
+                            <FormControlLabel
+                                control={
+                                <Switch
+                                    checked={updateRoles ? true : false}
+                                    onChange={() => setUpdateRoles(!updateRoles)}
+                                />
+                                }
+                                label={updateRoles ? "On" : "Off"}
+                            />                                                 
+                    </TableCell>                                            
+                </TableRow> */}
+
+
+                <TableRow className="body-row">
+                    <TableCell align="center" className="body-title">Create Unit </TableCell>
+                    <TableCell align="center" className="body-title">                                                
+                            <FormControlLabel
+                                control={
+                                <Switch
+                                    checked={createUnit ? true : false}
+                                    onChange={() => setCreateUnit(!createUnit)}
+                                />
+                                }
+                                label={createUnit ? "On" : "Off"}
+                            />                                                 
+                    </TableCell>                                            
+                </TableRow> 
+
+                <TableRow className="body-row">
+                    <TableCell align="center" className="body-title">Update Unit </TableCell>
+                    <TableCell align="center" className="body-title">                                                
+                            <FormControlLabel
+                                control={
+                                <Switch
+                                    checked={updateUnit ? true : false}
+                                    onChange={() => setUpdateUnit(!updateUnit)}
+                                />
+                                }
+                                label={updateUnit ? "On" : "Off"}
+                            />                                                 
+                    </TableCell>                                            
+                </TableRow> 
+
+                <TableRow className="body-row">
+                    <TableCell align="center" className="body-title">Delete Unit </TableCell>
+                    <TableCell align="center" className="body-title">                                                
+                            <FormControlLabel
+                                control={
+                                <Switch
+                                    checked={deleteUnit ? true : false}
+                                    onChange={() => setDeleteUnit(!deleteUnit)}
+                                />
+                                }
+                                label={deleteUnit ? "On" : "Off"}
+                            />                                                 
+                    </TableCell>                                            
+                </TableRow> 
+                
 
             </TableBody>
         </>

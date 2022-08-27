@@ -14,6 +14,9 @@ import moment from "moment";
 
 const ComponentToPrint = ({FromData , ToData}) => {
 
+    console.log(
+        FromData , ToData
+    )
     // get Data
     const [dataReport,setDataReport] = React.useState([]);
 
@@ -23,7 +26,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
             toDate: ToData,
         },
         onCompleted: ({getProductionReport}) => {
-            // console.log(getProductionReport)
+            console.log(getProductionReport)
             setDataReport(getProductionReport)
         },
         onError: (error) => {
@@ -306,7 +309,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     sx={{border: "none" ,  padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>
-                                                        {/* {item?.targetProduction} */}---
+                                                        ---
                                                     </Typography>
                                                 </TableCell> 
 
@@ -316,7 +319,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     sx={{border: "none" ,  padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>
-                                                        {(row?.qtyOfUM)?.toFixed(4)}
+                                                        {(row?.qtyOfUM)?.toFixed(4)}-{row?.productGroupId?.unit}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell 

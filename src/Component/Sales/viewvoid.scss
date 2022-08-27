@@ -1,6 +1,6 @@
-@import '../themes.scss';
+@import '../../themes.scss';
 
-.sales-pages {
+.view-void-pages {
 
     .text-field {
         
@@ -56,6 +56,32 @@
         font-weight: bold;        
     }
 
+    .page-title {
+        @include mobile-large {
+            display: none;
+        }
+        @include mobile {
+            display: none;
+        }
+        @include mobile-small {
+            display: none;
+        }
+    }
+
+    .page-title-mobile {
+        display: none;
+        
+        @include mobile-large {
+            display: flex;
+        }
+        @include mobile {
+            display: flex;
+        }
+        @include mobile-small {
+            display: flex;
+        }
+    }
+
     .btn-add{
         border-radius: 5px;
         background-color: white;
@@ -66,7 +92,7 @@
         }
     }
     
-     .btn {
+    .btn {
         background-color: #fff;
         border-radius: 5px;
         padding: 5px;
@@ -86,8 +112,7 @@
         .btn-text-field {
             display: flex;
             align-items: center;
-            width:300px;
-            
+            width:300px;        
         }
 
 

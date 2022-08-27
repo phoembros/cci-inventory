@@ -38,9 +38,9 @@ export default function Product() {
     
 
     // Filter
-    const [shortID,setShortID] = React.useState(-1);
-    const [shortName,setShortName] = React.useState(-1);   
-    const [valueShort,setValueShort] = React.useState({})    
+    const [shortID,setShortID] = React.useState( JSON.parse(window.localStorage.getItem("shortIDProduct")) );
+    const [shortName,setShortName] = React.useState( JSON.parse(window.localStorage.getItem("shortNameProduct")) );   
+    const [valueShort,setValueShort] = React.useState( JSON.parse(window.localStorage.getItem("valueShortProduct"))  )    
 
     const navigate = useNavigate();
 
@@ -76,7 +76,7 @@ export default function Product() {
             limit: limit,
             keyword: keyword,
             pagination: true,
-            sortField: [valueShort],
+            sortField: valueShort === null || valueShort === undefined ? [{}] : [valueShort],
         },
         onCompleted: () => {
             setLoading(false);
@@ -92,8 +92,9 @@ export default function Product() {
         if(data?.getProductPagination?.products){
             setProductData(data?.getProductPagination?.products);
         }
-    },[data?.getProductPagination?.products, page, keyword , valueShort ])
+    },[data?.getProductPagination?.products, page, keyword , valueShort , shortID , shortName ])
     // End Get
+
 
     return(
         <div className="product-page">
@@ -179,15 +180,19 @@ export default function Product() {
                                                             <Typography className="title">ID</Typography>
                                                         </Stack>
                                                         <IconButton  onClick={ () => {
-                                                            if(shortID === -1) {
+                                                            if(shortID === -1 || shortID === undefined) {
                                                                 setShortID(1)
                                                                 setValueShort({ sortName : "productId" , sortValue: 1})
+                                                                window.localStorage.setItem("shortIDProduct" , JSON.stringify(1) )
+                                                                window.localStorage.setItem("valueShortProduct" , JSON.stringify({ sortName : "productId" , sortValue: 1}) )
                                                             } else {
                                                                 setShortID(-1) 
                                                                 setValueShort({ sortName : "productId" , sortValue: -1})
+                                                                window.localStorage.setItem("shortIDProduct" , JSON.stringify(-1) )
+                                                                window.localStorage.setItem("valueShortProduct" , JSON.stringify({ sortName : "productId" , sortValue: -1}) )
                                                             } 
                                                         }}>
-                                                            <FilterListIcon  className={shortID === 1 ? "icon-flip-back" : "icon-flip"}/>
+                                                            <FilterListIcon  className={ shortID === -1 || shortID === undefined ? "icon-flip-back" : "icon-flip"}/>
                                                         </IconButton> 
                                                     </Stack>                                                   
                                                 </TableCell>
@@ -197,15 +202,19 @@ export default function Product() {
                                                             <Typography className="title">Name</Typography>
                                                         </Stack>
                                                         <IconButton onClick={ () => {
-                                                            if(shortName === -1) {
+                                                            if(shortName === -1 || shortName === undefined) {
                                                                 setShortName(1)
                                                                 setValueShort({ sortName : "productName" , sortValue: 1})
+                                                                window.localStorage.setItem("shortNameProduct" , JSON.stringify(1) )
+                                                                window.localStorage.setItem("valueShortProduct" , JSON.stringify({ sortName : "productName" , sortValue: 1}) )
                                                             } else {
                                                                 setShortName(-1) 
                                                                 setValueShort({ sortName : "productName" , sortValue: -1})
+                                                                window.localStorage.setItem("shortNameProduct" , JSON.stringify(-1) )
+                                                                window.localStorage.setItem("valueShortProduct" , JSON.stringify({ sortName : "productName" , sortValue: -1}) )
                                                             } 
                                                         }}>
-                                                            <FilterListIcon className={ shortName === 1 ? "icon-flip-back" : "icon-flip"}/>
+                                                            <FilterListIcon className={ shortName === -1 || shortName === undefined ? "icon-flip-back" : "icon-flip"}/>
                                                         </IconButton>
                                                     </Stack> 
                                                 </TableCell>                                                

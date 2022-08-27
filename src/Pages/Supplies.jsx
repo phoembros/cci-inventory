@@ -31,8 +31,8 @@ export default function Supplies() {
     // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
     // Filter 
-    const [shortName,setShortName] = React.useState(false);
-    const [valueShort,setValueShort] = React.useState({})    
+    const [shortName,setShortName] = React.useState( JSON.parse(window.localStorage.getItem("shortNameSupplies")) );
+    const [valueShort,setValueShort] = React.useState( JSON.parse(window.localStorage.getItem("valueShortSupplies")) )    
 
     const [loading,setLoading] = React.useState(true);
     // create
@@ -65,7 +65,7 @@ export default function Supplies() {
             limit:limit,
             keyword: keyword,
             pagination: true,
-            sortField : [valueShort],
+            sortField : valueShort === null || valueShort === undefined ? [{}] : [valueShort],
         },
         onCompleted: () => {
             setLoading(false);
@@ -138,15 +138,19 @@ export default function Supplies() {
                                           <Typography className="title">Name</Typography>
                                       </Stack>
                                       <IconButton  onClick={ () => {
-                                          if(shortName) {
+                                          if(shortName !== undefined && shortName !== false) {
                                               setShortName(false)
                                               setValueShort({ sortName : "name" , sortValue: 1})
+                                              window.localStorage.setItem("shortNameSupplies", JSON.stringify(false) )
+                                              window.localStorage.setItem("valueShortSupplies", JSON.stringify({ sortName : "name" , sortValue: 1}) )
                                           } else {
-                                              setShortName(true) 
+                                              setShortName(true)
                                               setValueShort({ sortName : "name" , sortValue: -1})
+                                              window.localStorage.setItem("shortNameSupplies", JSON.stringify(true) )
+                                              window.localStorage.setItem("valueShortSupplies", JSON.stringify({ sortName : "name" , sortValue: -1}) )
                                           } 
                                       }}>
-                                          <FilterListIcon  className={ shortName ? "icon-flip-back" : "icon-flip"}/>
+                                          <FilterListIcon  className={ shortName !== undefined && shortName !== false ? "icon-flip-back" : "icon-flip"}/>
                                       </IconButton> 
                                   </Stack>  
                               </TableCell> 
@@ -175,7 +179,9 @@ export default function Supplies() {
                             >
                               <TableRow className="body-row">
                                 <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}} className="body-title" component="th"scope="row"width="3%">
-                                  {index + 1}
+                                    { pageShow === 1 ?  index+1 : null }
+                                    { pageShow !== 1 ?  index+1+(pageShow-1)*(8) : null } 
+                                    -
                                 </TableCell>
                                 <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}} className="body-title" component="th"scope="row" width="20%">{item?.name}</TableCell>
                                 <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >{item?.phoneNumber}</TableCell>

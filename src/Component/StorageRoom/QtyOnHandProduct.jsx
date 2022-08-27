@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 import { GET_QUATITY_ON_HAND_PRODUCT } from "../../Schema/product";
 
 
-export default function QtyOnHandProduct({ storageRoomId, productGroupId, alert}) {
+export default function QtyOnHandProduct({ storageRoomId, productGroupId, alert , rows }) {
 
     const { data: dataQtyOnHand , refetch } = useQuery(GET_QUATITY_ON_HAND_PRODUCT, {
         variables: {
@@ -26,7 +26,7 @@ export default function QtyOnHandProduct({ storageRoomId, productGroupId, alert}
 
     return (
         <>
-            <Typography>{ dataQtyOnHand?.qtyOnHandProductByStorageRoom ? (dataQtyOnHand?.qtyOnHandProductByStorageRoom)?.toFixed(4) : 0 } - U/M </Typography>
+            <Typography>{ dataQtyOnHand?.qtyOnHandProductByStorageRoom ? (dataQtyOnHand?.qtyOnHandProductByStorageRoom)?.toFixed(4) : 0 } - {rows?.unit} </Typography>
         </>
     )
 }

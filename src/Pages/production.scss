@@ -99,24 +99,24 @@
         background-color: #fff;
         border-radius:5px;
         padding: 5px;
+
+        @include mobile-small {
+            display: none;
+        }
+
+        @include mobile {
+            display: none;
+        }
+
+        @include mobile-large {
+            display: none;
+        }
         
         .btn-text-field {
             display: flex;
             align-items: center;
             width:300px;
             
-
-            @include mobile-small {
-                display: none;
-            }
-
-            @include mobile {
-                display: none;
-            }
-
-            @include mobile-large {
-                display: none;
-            }
         }
         
         

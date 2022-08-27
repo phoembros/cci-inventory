@@ -138,6 +138,12 @@ export default function SupplierRole({dataRole, setRefetch}) {
                         getInventoryStockReport: dataRole?.permissions?.getInventoryStockReport,
                         getRawMaterialReport: dataRole?.permissions?.getRawMaterialReport,
 
+
+                         //unit
+                         createUnit: dataRole?.permissions?.createUnit,
+                         updateUnit: dataRole?.permissions?.updateUnit,
+                         deleteUnit: dataRole?.permissions?.deleteUnit,
+
                     },
                 },
             },

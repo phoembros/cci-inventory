@@ -12,10 +12,12 @@ export const GET_INVENTORY_REPORT = gql`
         qtyStockIn
         qtySold
         quantityPerStockUM
+        unit
       }
     }
   }
 `
+
 
 export const GET_RAWMATERIAL_REPORT = gql`
 query GetRawMaterialReport($fromDate: Date!, $toDate: Date!) {
@@ -44,51 +46,13 @@ export const GET_PRODUCTION_REPORT = gql`
           productGroupId {
             _id
             name
-            quantityPerStockUM
-            groupBy {
-              _id
-              productName
-              productId
-              category {
-                _id
-                categoryName
-                remark
-              }
-              unit
-              completedUnit
-              unitPrice
-              durationProduce
-              totalStockAmount
-              totalSoldAmount
-              ingredients {
-                rawName
-                rawMaterialId {
-                  _id
-                  materialName
-                  category {
-                    _id
-                    categoryName
-                  }
-                  totalStockAmount
-                  usedStockAmount
-                  unit
-                  unitPrice
-                }
-                amount
-                key
-                unitRawMaterial
-              }
-              remark
-              updatedAt
-              createdAt
-            }                   
+            quantityPerStockUM         
+            unit                
             unitPrice
             totalStockAmount
-            totalSold
-            updatedAt
-            createdAt
+            totalSold            
           }
-          qtyOfUM
+          qtyOfUM          
           key
           label
           unitQtyGroup
@@ -102,7 +66,8 @@ export const GET_PRODUCTION_REPORT = gql`
           quantityPerStockUM          
           unitPrice    
           totalSold
-          totalStockAmount          
+          totalStockAmount   
+          unit                
         } 
       }
     }

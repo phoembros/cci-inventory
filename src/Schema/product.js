@@ -160,6 +160,7 @@ export const GET_PRODUCT_GROUP_BYPRODUCT_ID = gql`
       _id
       quantityPerStockUM
       unitPrice
+      unit
       name      
       totalSold
       totalStockAmount

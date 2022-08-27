@@ -168,14 +168,14 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                     className="cell-item-subtitle"
                                                     sx={{border: "none" , color: "#0969A0", padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" sx={{fontWeight: "bold"}} className="text">{item?.completedUnit}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight: "bold"}} className="text"></Typography>
                                                 </TableCell>      
                                                 <TableCell 
                                                     align="center" width="10%"
                                                     className="cell-item-subtitle"
                                                     sx={{border: "none" , color: "#0969A0", padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" sx={{fontWeight: "bold"}} className="text">{item?.qtySold?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" sx={{fontWeight: "bold"}} className="text"></Typography>
                                                 </TableCell>                                                                                                      
                                             </TableRow>                                                                  
                                         </TableBody>
@@ -206,7 +206,9 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                             className="cell-item"
                                                             sx={{border: "none" , padding: "8px"}}
                                                         > 
-                                                            <Typography variant="body2" className="text" sx={{color:"black"}}>{(row?.qtyStockIn-row?.qtySold)?.toFixed(4)}</Typography>
+                                                            <Typography variant="body2" className="text" sx={{color:"black"}}>
+                                                                {(row?.qtyStockIn-row?.qtySold)?.toFixed(4)}-{row?.unit}
+                                                            </Typography>
                                                         </TableCell>  
 
                                                         <TableCell 

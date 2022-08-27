@@ -85,22 +85,26 @@ export default function Unit() {
 
                 <Box sx={{flexGrow: 1}} />  
 
-
+                {                   
+                    dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.createUnit ?
+                        <Stack direction="row" className="stack-btn"  justifyContent="right" spacing={1}>                       
+                            <Button onClick={handleOpenCreateUnit} startIcon={<AddIcon/>} className="btn-add">
+                                <Typography className="btn-text">ADD</Typography>
+                            </Button>                    
+                            <CreateUnit  
+                                open={openCreateUnit}
+                                handleClose={handleCloseCreateUnit} 
+                                btnTitle={"Create"}
+                                setAlert={setAlert}
+                                setMessage={setMessage}
+                                setCheckMessage={setCheckMessage}
+                                setRefetch={refetch}
+                            />                     
+                        </Stack>
+                    : null
+                }
                 
-                <Stack direction="row" className="stack-btn"  justifyContent="right" spacing={1}>                       
-                    <Button onClick={handleOpenCreateUnit} startIcon={<AddIcon/>} className="btn-add">
-                        <Typography className="btn-text">ADD</Typography>
-                    </Button>                    
-                    <CreateUnit  
-                        open={openCreateUnit}
-                        handleClose={handleCloseCreateUnit} 
-                        btnTitle={"Create"}
-                        setAlert={setAlert}
-                        setMessage={setMessage}
-                        setCheckMessage={setCheckMessage}
-                        setRefetch={refetch}
-                    />                     
-                </Stack>
+                
             </Stack>
 
 
