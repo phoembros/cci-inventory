@@ -102,26 +102,21 @@ export default function Layout({prefersDarkMode, setPrefersDarkMode }) {
     window.location.reload(location.pathname);
   };
 
-  const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
+  const { data: dataUserLogin } = useQuery(GET_USER_LOGIN, {
     pollInterval: 10000,
     onCompleted: ({getuserLogin}) => { 
       console.log(getuserLogin);      
     },
     onError: (error) => { 
       console.log(error?.message);
+      let result = error.message.includes("expired");
+      if(result){
+          setOpenBackdrop(true)          
+      }
     }
   })
-
-  React.useEffect( () => {
-    if(dataUserLogin?.getuserLogin?.role_and_permission !== null) {
-      setTimeout( () => {
-        setOpenBackdrop(false);
-      },2000)  
-    } else {
-        setOpenBackdrop(true)
-    }
-  },[dataUserLogin?.getuserLogin?.role_and_permission])
   // Sleep Screen ================================================================================================
+
 
   if(openBackdrop){
     return(     
