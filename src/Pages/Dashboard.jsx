@@ -59,22 +59,25 @@ export default function Dashboard() {
     pollInterval: 10000,
     onCompleted: ({getuserLogin}) => {
       console.log(getuserLogin)
+
       // token-expired                  
-      if(getuserLogin?.message === "token-expired") {
-          signOut(auth).then( () => { 
-            setTimeout( () => {                
-              navigate("/login")
-            },1000)
-          }).catch( (error) => {                
-              console.log(error)
-          });
-      }        
+      // if(getuserLogin?.role_and_permission?.permissions) {
+      //     signOut(auth).then( () => { 
+      //       setTimeout( () => {                
+      //         navigate("/login")
+      //       },1000)
+      //     }).catch( (error) => {                
+      //         console.log(error)
+      //     });
+      // }        
       // End
+
     },
     onError: (error) => {
       console.log(error?.message) 
     }    
   })
+  
   // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
   React.useEffect( () => {

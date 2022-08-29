@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import TuneIcon from '@mui/icons-material/Tune';
 import CreateProduct from "../Component/Product/CreateProduct";
-import { Link , useNavigate } from "react-router-dom";
+import { Link , useLocation, useNavigate } from "react-router-dom";
 import ViewProduct from "../Component/Product/ViewProduct";
 import {useQuery} from "@apollo/client";
 import { GET_PRODUCT_WITH_PAGINATION } from "../Schema/product";
@@ -35,7 +35,15 @@ export default function Product() {
     })
     //   console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
-    
+    //get Storage Room ID by Url 
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);   
+    const [getPage,setGetPage] = React.useState(params.get("page"))
+
+    React.useEffect( () => {     
+        setGetPage(params.get("page"));     
+    }, [location.search]);
+    // End get Id Storage Room
 
     // Filter
     const [shortID,setShortID] = React.useState( JSON.parse(window.localStorage.getItem("shortIDProduct")) );
@@ -54,14 +62,7 @@ export default function Product() {
     const [openCreateProduct, setOpenCreateProduct] = React.useState(false);
     const handleOpenCreateProduct = () => setOpenCreateProduct(true);
     const handleCloseCreateProduct = () => setOpenCreateProduct(false);
-    // 
-    const [openView,setOpenView] = React.useState(false);
-    const handleOpenView = (e) => {
-        // setOpenView(true);
-        navigate(`/product/details?id=${e}`)
-    }   
-    const handleCloseView = () => setOpenView(false);
-
+   
     // GET Product 
     const [productData,setProductData] = React.useState([]);   
     const [pageShow, setPageShow] = React.useState(null);
@@ -86,14 +87,30 @@ export default function Product() {
 
     // console.log(data?.getProductPagination?.products, 'p')
 
-    React.useEffect( () => {
+    React.useEffect( () => {  
         refetch()
         setPageShow(page)
         if(data?.getProductPagination?.products){
             setProductData(data?.getProductPagination?.products);
         }
-    },[data?.getProductPagination?.products, page, keyword , valueShort , shortID , shortName ])
+        
+    },[data?.getProductPagination?.products, page, keyword , valueShort , shortID , shortName , getPage ])
+
+    React.useEffect( () => {
+        if(getPage){
+            setPage(parseInt(getPage))
+        }
+    },[getPage])
     // End Get
+
+    // 
+    const [openView,setOpenView] = React.useState(false);
+    const handleOpenView = (e) => {
+        // setOpenView(true);
+        navigate(`/product/details?page=${pageShow}&id=${e}`)
+    }   
+    const handleCloseView = () => setOpenView(false);
+
 
 
     return(

@@ -3,10 +3,17 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import MenuNavbar from '../Component/Menu/MenuNavbar';
 import TopNavbar from '../Component/Menu/TopNavbar';
 import MenuNavbarMobile from "../Component/Menu/MenuNavbarMobile"
+import { GET_USER_LOGIN } from '../Schema/user';
+import { useQuery } from '@apollo/client';
+import { Backdrop, Button, Paper, Slide, Stack, Typography } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import "./layout.scss";
+import logo from "../Assets/CCI512.png";
+import ReplayIcon from '@mui/icons-material/Replay';
 
 const drawerWidth = 260;
 
@@ -55,8 +62,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
+
 export default function Layout({prefersDarkMode, setPrefersDarkMode }) {
 
+  let location = useLocation();
+  
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => setOpen(true);
   const handleDrawerClose = () => setOpen(false);
@@ -78,6 +88,81 @@ export default function Layout({prefersDarkMode, setPrefersDarkMode }) {
 
   // console.log(width)
 
+
+  // Sleep Screen ================================================================================================
+  const [openBackdrop, setOpenBackdrop] = React.useState(true);
+  const [iconReload,setIconReload] = React.useState(false);
+
+  const handleCloseBackdrop = () => {
+    setIconReload(true)
+    setTimeout( () => {
+      setOpenBackdrop(false);
+      setIconReload(false)
+    },2000)        
+    window.location.reload(location.pathname);
+  };
+
+  const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
+    pollInterval: 10000,
+    onCompleted: ({getuserLogin}) => { 
+      console.log(getuserLogin);      
+    },
+    onError: (error) => { 
+      console.log(error?.message);
+    }
+  })
+
+  React.useEffect( () => {
+    if(dataUserLogin?.getuserLogin?.role_and_permission !== null) {
+      setTimeout( () => {
+        setOpenBackdrop(false);
+      },2000)  
+    } else {
+        setOpenBackdrop(true)
+    }
+  },[dataUserLogin?.getuserLogin?.role_and_permission])
+  // Sleep Screen ================================================================================================
+
+  if(openBackdrop){
+    return(     
+       
+        <Backdrop
+          className='backdrop-style'
+          sx={{                   
+            color: '#fff',            
+            zIndex: (theme) => theme.zIndex.drawer + 1 
+          }}
+          transitionDuration={{ enter: 500, exit: 1000 }}
+          open={openBackdrop}         
+        > 
+            <Box className="background-image" />
+            <Stack direction="column"  justifyContent="center" sx={{height: "100vh"}}>  
+                <Box display="flex" flexDirection="column" justifyContent="center" height="90%">          
+                    <Box display="flex" justifyContent="center" width="100%">       
+                        <img src={logo} alt="logo" width="25%"/>  
+                    </Box>
+                    <Box display="flex" justifyContent="center" width="100%">
+                        <Typography className='system-title'>CCI INVENTORY SYSTEM</Typography>
+                    </Box>
+                    <Box display="flex" justifyContent="center" width="100%">
+                      <Button 
+                          variant='contained' 
+                          endIcon={iconReload ? <CircularProgress sx={{color: "white"}} size="25px"/> : <ReplayIcon />}
+                          onClick={handleCloseBackdrop}
+                      >
+                        Back to Page
+                      </Button>                                 
+                    </Box>  
+                </Box>  
+                <Box sx={{flexGrow:1}}></Box>
+                <Box display="flex" justifyContent="center" width="100%" sx={{mb:"10px"}}>
+                  <Typography className='power-title'>Power By: GO GLOBAL TECH</Typography>
+                </Box>                            
+            </Stack>           
+        </Backdrop>
+           
+    )
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>

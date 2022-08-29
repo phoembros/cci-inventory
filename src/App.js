@@ -16,12 +16,10 @@ import { AuthContext } from './context/AuthContext'
 import { useContext } from "react";
 import { setContext } from '@apollo/client/link/context';
 
-
 function App() {
     //Apollo
     const { state } = useContext(AuthContext);
     const { user } = state;
-
     console.log(state,'state')  
 
     const httpLink = createHttpLink({      

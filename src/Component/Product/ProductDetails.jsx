@@ -53,9 +53,11 @@ export default function ProductDetails() {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const [productId, setProductId] = React.useState(params.get("id"));
+    const [getPage,setGetPage] = React.useState(params.get("page"))
 
     React.useEffect( () => {
-        setProductId(params.get("id"));         
+        setProductId(params.get("id"));   
+        setGetPage(params.get("page"));     
     }, [location.search]);
     // End get Id Storage Room
 
@@ -104,7 +106,7 @@ export default function ProductDetails() {
             <Stack direction="row" spacing={2}>                
                 <Box className={theme.palette.mode === 'dark' ? "slash-dark" : "slash"} />            
                 <Stack direction="column" justifyContent="center" className="page-title">
-                    <Link to="/product" style={{textDecoration: "none"}}>
+                    <Link to={`/product?page=${getPage}`} style={{textDecoration: "none"}}>
                         <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >Product</Typography>
                     </Link>
                 </Stack>
