@@ -90,7 +90,7 @@ export default function Layout({prefersDarkMode, setPrefersDarkMode }) {
 
 
   // Sleep Screen ================================================================================================
-  const [openBackdrop, setOpenBackdrop] = React.useState(true);
+  const [openBackdrop, setOpenBackdrop] = React.useState(false);
   const [iconReload,setIconReload] = React.useState(false);
 
   const handleCloseBackdrop = () => {
