@@ -44,14 +44,36 @@ import PermissionContent from "../Component/Permission/PermissionContent";
 import LoadingPage from "../Component/Permission/LoadingPage";
 import { useTheme } from '@mui/material/styles';
 
+// check Expire
+import { auth } from "../firebase";
+import {  getAuth ,signOut } from "firebase/auth";
+
 export default function Dashboard() {
 
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const [loading,setLoading] = React.useState(true);
 
   const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
     pollInterval: 10000,
+    onCompleted: ({getuserLogin}) => {
+      console.log(getuserLogin)
+      // token-expired                  
+      if(getuserLogin?.message === "token-expired") {
+          signOut(auth).then( () => { 
+            setTimeout( () => {                
+              navigate("/login")
+            },1000)
+          }).catch( (error) => {                
+              console.log(error)
+          });
+      }        
+      // End
+    },
+    onError: (error) => {
+      console.log(error?.message) 
+    }    
   })
   // console.log(dataUserLogin?.getuserLogin?.role_and_permission?.permissions)
 
@@ -95,7 +117,6 @@ export default function Dashboard() {
   };
   //end
 
-  const navigate = useNavigate();
 
   return (
     <div className="dashboard-page">
@@ -182,7 +203,7 @@ export default function Dashboard() {
                 <Button className="btn-maker">
                   <Stack direction="row" justifyContent="center" spacing={1}>
                     <Box className="circle">
-                      <Typography className="text-padding">{dataProduct?.getProductPagination?.products? dataProduct?.getProductPagination?.products?.length : 0}</Typography>
+                      <Typography className="text-padding">{dataProduct?.getProductPagination?.products ? dataProduct?.getProductPagination?.products?.length : 0}</Typography>
                     </Box>                   
                   </Stack>
                 </Button>

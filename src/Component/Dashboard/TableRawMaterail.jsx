@@ -57,7 +57,7 @@ function TableRawMaterail({dataUserLogines}) {
     setPaymentStatus(["unpaid" , "owe"]);      
   },[])
 
-  console.log(dataPurchaseRawMaterial)
+  // console.log(dataPurchaseRawMaterial)
 
 
   return (

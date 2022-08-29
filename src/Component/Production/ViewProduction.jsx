@@ -222,16 +222,20 @@ export default function ViewProduction({
                                     <TableHead >
                                         <TableRow className="header-row">
                                             <TableCell className="header-title">Raw Materail</TableCell>                            
-                                            <TableCell className="header-title">QTY</TableCell>  
+                                            <TableCell className="header-title"  align='center'>Quantity</TableCell>  
                                             <TableCell className="header-title"></TableCell>                                                       
                                         </TableRow>
                                     </TableHead>
                                     {dataIngredients?.map((row , index) => (
                                         <TableBody key={index} component={Paper} className="body">                        
                                             <TableRow  className="body-row">                                
-                                                <TableCell className="body-title" component="th" scope="row"> {row?.rawName} </TableCell>
-                                                <TableCell className="body-title" >{(row?.amount*ViewData?.qty)?.toFixed(2)} {row?.rawMaterialId?.unit}</TableCell>    
-                                                <TableCell className="body-title" >
+                                                <TableCell className="body-title" component="th" scope="row"  width="30%"> 
+                                                    {row?.rawName} 
+                                                </TableCell>
+                                                <TableCell className="body-title" width="30%" align='right'>
+                                                    {(row?.amount*ViewData?.qty)?.toFixed(2)} {row?.rawMaterialId?.unit}
+                                                </TableCell>    
+                                                <TableCell className="body-title" width="30%" align='right'>
                                                 {   (row?.amount*ViewData?.qty) < 1 ?
                                                         <>
                                                             { (row?.amount*ViewData?.qty*1000)?.toFixed(2) } 
@@ -253,7 +257,7 @@ export default function ViewProduction({
                                         <TableHead >
                                             <TableRow className="header-row">
                                                 <TableCell className="header-title-complete">Completed Stock U/M</TableCell>                            
-                                                <TableCell className="header-title-complete">Stock U/M</TableCell> 
+                                                <TableCell className="header-title-complete" align='center'>Stock U/M</TableCell> 
                                                                                                 
                                             </TableRow>
                                         </TableHead>
@@ -261,7 +265,7 @@ export default function ViewProduction({
                                             <TableBody key={index} component={Paper} className="body">                        
                                                 <TableRow  className="body-row">                                
                                                     <TableCell className="body-title" component="th" scope="row" width="50%"> {row?.label} </TableCell>
-                                                    <TableCell className="body-title" >{(row?.qtyOfUM)} - U/M</TableCell>    
+                                                    <TableCell className="body-title" align='right' >{(row?.qtyOfUM)} - U/M</TableCell>    
                                                                                                     
                                                 </TableRow>
                                             </TableBody>                        

@@ -448,7 +448,7 @@ export default function CreateProduction({
                                             <TableHead >
                                                 <TableRow className="header-row">
                                                     <TableCell className="header-title">Raw Materail</TableCell>                            
-                                                    <TableCell className="header-title">QTY</TableCell>  
+                                                    <TableCell className="header-title" align='center'>Quantity</TableCell>  
                                                     <TableCell className="header-title"></TableCell>                                                       
                                                 </TableRow>
                                             </TableHead>
@@ -458,9 +458,13 @@ export default function CreateProduction({
                                                     { productById?.ingredients?.map((row , index) => (
                                                         <TableBody key={index} component={Paper} className="body" >                        
                                                             <TableRow  className="body-row">                                
-                                                                <TableCell className="body-title" component="th" scope="row" > {row?.rawMaterialId?.materialName} </TableCell>
-                                                                <TableCell className="body-title" >{ (row?.amount*values?.qty)?.toFixed(4)} {row?.rawMaterialId?.unit}</TableCell>    
-                                                                <TableCell className="body-title" >
+                                                                <TableCell className="body-title" component="th" scope="row" width="30%"> 
+                                                                    {row?.rawMaterialId?.materialName} 
+                                                                </TableCell>
+                                                                <TableCell className="body-title" align='right' width="30%">                                                                    
+                                                                    { (row?.amount*values?.qty)?.toFixed(4)} {row?.rawMaterialId?.unit}
+                                                                </TableCell>    
+                                                                <TableCell className="body-title" width="30%" align='right'>
                                                                     {   (row?.amount*values?.qty) < 1 ?
                                                                             <>
                                                                                 { (row?.amount*values?.qty*1000)?.toFixed(2) } 
