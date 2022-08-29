@@ -48,11 +48,11 @@ export default function ProductGroupList({productId, storageRoomId, dataUserLogi
                 <Table className="table">
                     <TableHead >
                         <TableRow className="header-row">
-                            <TableCell className="header-title">
+                            <TableCell className="header-title" width="30%">
                                 <Typography className="title">Name</Typography>
                             </TableCell>       
-                            <TableCell className="header-title">
-                                <Typography className="title">Qty On Hand</Typography>
+                            <TableCell className="header-title" width="35%" align="center" >
+                                <Typography className="title" >Qty On Hand</Typography>
                             </TableCell>                        
                             <TableCell className="header-title">
                                 <Typography className="title">Unit Price </Typography>
@@ -72,9 +72,8 @@ export default function ProductGroupList({productId, storageRoomId, dataUserLogi
                                         <Typography className="title" >{row?.name} </Typography>
                                     </TableCell>                                     
                                     
-                                    <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
-                                        <Typography className="title" > 
-                                            {/* {row?.totalStockAmount-row?.totalSold}  - U/M */}
+                                    <TableCell className="body-title" align="center"  onClick={ () => handleOpenView(row)}>
+                                        <Typography className="title" >                                            
                                             <QtyOnHandProduct  
                                                 alert={alert}                                                                                               
                                                 storageRoomId={storageRoomId} 

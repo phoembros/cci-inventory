@@ -1,7 +1,7 @@
 import * as React from "react";
 import { GET_QUANTITY_ON_HAND } from "../../Schema/rawmaterial";
 import { useQuery } from "@apollo/client";
-import { Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 export default function QtyOnHand({ refetchQty, setRefetchQty , storageRoomId, rawMaterialId , unit }) {
 
@@ -25,10 +25,17 @@ export default function QtyOnHand({ refetchQty, setRefetchQty , storageRoomId, r
         console.log(refetchQty)
     },[storageRoomId, rawMaterialId , refetchQty])
 
-    return(
-        <>
-            <Typography>{(data?.qtyOnHandRawMaterialByStorageRoom)?.toFixed(4)} - {unit}</Typography>
-        </>
-    )
+
+    return(       
+        <Stack direction="row" justifyContent="center" spacing={1} width="100%">
+            <Box  width="50%" display="flex" justifyContent="right">
+                <Typography>{(data?.qtyOnHandRawMaterialByStorageRoom)?.toFixed(4)}</Typography>
+            </Box>
+            <Typography>-</Typography>
+            <Box  width="50%" display="flex" justifyContent="left">
+                <Typography>{unit}</Typography>
+            </Box>
+        </Stack>        
+    );
 
 }

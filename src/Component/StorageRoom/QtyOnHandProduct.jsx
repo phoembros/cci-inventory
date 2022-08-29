@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useQuery } from "@apollo/client";
-import { Typography } from "@mui/material";
+import { Stack, Typography , Box} from "@mui/material";
 import { GET_QUATITY_ON_HAND_PRODUCT } from "../../Schema/product";
 
 
@@ -25,8 +25,14 @@ export default function QtyOnHandProduct({ storageRoomId, productGroupId, alert 
     },[storageRoomId,productGroupId,alert])
 
     return (
-        <>
-            <Typography>{ dataQtyOnHand?.qtyOnHandProductByStorageRoom ? (dataQtyOnHand?.qtyOnHandProductByStorageRoom)?.toFixed(4) : 0 } - {rows?.unit} </Typography>
-        </>
+        <Stack direction="row" justifyContent="center" spacing={1} width="100%">
+            <Box  width="50%" display="flex" justifyContent="right">
+                <Typography>{ dataQtyOnHand?.qtyOnHandProductByStorageRoom ? (dataQtyOnHand?.qtyOnHandProductByStorageRoom)?.toFixed(4) : 0 }</Typography>
+            </Box>
+            <Typography>-</Typography>
+            <Box  width="50%" display="flex" justifyContent="left">
+                <Typography> {rows?.unit} </Typography>
+            </Box>
+        </Stack>
     )
 }

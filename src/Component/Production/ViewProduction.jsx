@@ -258,14 +258,13 @@ export default function ViewProduction({
                                             <TableRow className="header-row">
                                                 <TableCell className="header-title-complete">Completed Stock U/M</TableCell>                            
                                                 <TableCell className="header-title-complete" align='center'>Stock U/M</TableCell> 
-                                                                                                
                                             </TableRow>
                                         </TableHead>
                                         {ViewData?.completedQtyUM?.map( (row , index) => (
                                             <TableBody key={index} component={Paper} className="body">                        
                                                 <TableRow  className="body-row">                                
                                                     <TableCell className="body-title" component="th" scope="row" width="50%"> {row?.label} </TableCell>
-                                                    <TableCell className="body-title" align='right' >{(row?.qtyOfUM)} - U/M</TableCell>    
+                                                    <TableCell className="body-title" align='right' > {(row?.qtyOfUM)} - U/M </TableCell>    
                                                                                                     
                                                 </TableRow>
                                             </TableBody>                        
@@ -277,8 +276,6 @@ export default function ViewProduction({
                         }                
                             
                             
-
-
                             <TableContainer >
                                 <Table className="table-buttom" aria-label="simple table">
                                     <TableHead >
