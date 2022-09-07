@@ -109,7 +109,8 @@ export default function Layout({prefersDarkMode, setPrefersDarkMode }) {
     },
     onError: (error) => { 
       console.log(error?.message);
-      let result = error.message.includes("expired");
+      let result = error.message.includes("expired");      
+      // console.log(result)
       if(result){
           setOpenBackdrop(true)          
       }
@@ -120,7 +121,6 @@ export default function Layout({prefersDarkMode, setPrefersDarkMode }) {
 
   if(openBackdrop){
     return(     
-       
         <Backdrop
           className='backdrop-style'
           sx={{                   

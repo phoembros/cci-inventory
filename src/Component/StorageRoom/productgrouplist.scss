@@ -29,7 +29,26 @@
         .body-row {       
             
             cursor: pointer;
+            background-color: $background-table-modal;
+
+            .body-title {
+                padding: 10px;
+                border: none;
+                font-size: $font-Size-Subtitle;
+
+
+                .title {
+                    padding-left: 8px ;
+                }
+                
+            }
+        }
+
+        .odd-body-row {       
             
+            cursor: pointer;            
+            background-color: $background-table-odd;
+
             .body-title {
                 padding: 10px;
                 border: none;
@@ -41,6 +60,7 @@
                 
             }
         }
+
     }
 
 }

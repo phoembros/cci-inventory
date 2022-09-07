@@ -62,11 +62,17 @@ export default function ProductGroupList({productId, storageRoomId, dataUserLogi
 
 
                     {
-                        loadingQty ? <LoadingPage /> :
+                        loadingQty ? 
+                            <TableRow className="body-row">
+                                <TableCell className="body-title" colSpan={4}>
+                                    <LoadingPage /> 
+                                </TableCell>
+                            </TableRow>
+                        :
                         <> 
                         {
                             data?.getProductGroupByProductId?.map( (row,index) => (
-                                <TableRow key={index} className="body-row">
+                                <TableRow key={index} className={ index%2 === 0 ? "body-row" : "odd-body-row" }>
                                     
                                     <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
                                         <Typography className="title" >{row?.name} </Typography>

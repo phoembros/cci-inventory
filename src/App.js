@@ -24,7 +24,7 @@ function App() {
 
     const httpLink = createHttpLink({      
         uri: process.env.React_APP_END_POINT,
-        // uri: "http://192.168.2.79:4055/graphql",
+        // uri: "http://localhost:4055/graphql",
     });
     
     // 

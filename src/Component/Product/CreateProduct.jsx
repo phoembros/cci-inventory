@@ -433,7 +433,7 @@ export default function CreateProduct({
                                           helperText={touched.unit && errors.unit}
                                         >                            
                                           {unit?.map((item, index) => (
-                                            <MenuItem key={index} value={`${item?.unitName}`}>{item?.unitName}</MenuItem>
+                                            <MenuItem key={index} value={`${item?._id}`}>{item?.unitName}</MenuItem>
                                           ))}
                                         </Select>
                                       </FormControl>

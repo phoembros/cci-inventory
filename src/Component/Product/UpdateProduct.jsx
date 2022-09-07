@@ -318,7 +318,7 @@ export default function UpdateProduct({
         setFieldValue("productId" , editData?.productId)
         setFieldValue("remark" , editData?.remark)
         setFieldValue("unitPrice" , editData?.unitPrice)
-        setFieldValue("unit" ,  editData?.unit)
+        setFieldValue("unit" ,  editData?.unit?._id)
         setFieldValue("completedUnit" , editData?.completedUnit)
         setFieldValue("category" , editData?.category?._id)
         setFieldValue("durationProduce" , editData?.durationProduce)      
@@ -449,7 +449,7 @@ export default function UpdateProduct({
                                                             >                                               
                                                                 {
                                                                     unit?.map( (item,index) => (
-                                                                        <MenuItem key={index} value={`${item?.unitName}`}>{item?.unitName}</MenuItem>
+                                                                        <MenuItem key={index} value={`${item?._id}`}>{item?.unitName}</MenuItem>
                                                                     ))
                                                                 }                               
                                                             

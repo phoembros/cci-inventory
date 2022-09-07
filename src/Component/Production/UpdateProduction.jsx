@@ -62,7 +62,8 @@ export default function UpdateProduction({
     const [loading,setLoading] = React.useState(false);
 
     const [updateProductions] = useMutation(UPDATE_PRODUCTION , {
-        onCompleted: async ({updateProductions}) => {          
+        onCompleted: async ({updateProductions}) => {  
+            console.log(updateProductions?.data)        
             if(updateProductions?.success){
                 setCheckMessage("success")
                 setMessage(updateProductions?.message)
@@ -71,7 +72,7 @@ export default function UpdateProduction({
                 setRefetch();
                 setLoading(false)
                 
-                await sendMessage({content: `<b>[Request Create Production]</b>\n👩‍🚀 <i>${nameRequest}</i>\n\n${updateProductions?.data?.production?.productId?.productName} (x${updateProductions?.data?.qty} ${updateProductions?.data?.production?.productId?.unit})\n\n🗓 Date:${moment(updateProductions?.data?.createdAt).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
+                await sendMessage({content: `<b>[Request Create Production]</b>\n👩‍🚀 <i>${nameRequest}</i>\n\n${updateProductions?.data?.production?.productId?.productName} (x${updateProductions?.data?.qty} ${updateProductions?.data?.production?.productId?.unit?.unitName})\n\n🗓 Date:${moment(updateProductions?.data?.createdAt).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
 
             } else {
                 setLoading(false)

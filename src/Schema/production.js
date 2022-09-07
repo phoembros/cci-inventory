@@ -83,7 +83,10 @@ export const CREATE_PRODUCTION = gql`
               categoryName
               remark
             }
-            unit
+            unit {
+              _id
+              unitName
+            }
             completedUnit
             unitPrice
             durationProduce
@@ -106,7 +109,10 @@ export const CREATE_PRODUCTION = gql`
               _id
               productName
               productId
-              unit
+              unit {
+                _id
+                unitName
+              }
               completedUnit
               unitPrice
               durationProduce
@@ -210,7 +216,10 @@ export const GET_PRODUCTION_WITH_PAGINATION =  gql`
               categoryName
               remark
             }
-            unit
+            unit {
+              _id
+              unitName
+            }
             completedUnit
             unitPrice
             durationProduce
@@ -260,7 +269,10 @@ export const GET_PRODUCTION_WITH_PAGINATION =  gql`
                 categoryName
                 remark
               }
-              unit
+              unit {
+                _id
+                unitName
+              }
               completedUnit
               unitPrice
               durationProduce
@@ -355,7 +367,10 @@ mutation UpdateProductions($id: ID!, $productionsEdit: ProductionsInput) {
             _id
             categoryName
           }
-          unit
+          unit {
+            _id
+            unitName
+          }
           completedUnit
           unitPrice
           durationProduce
@@ -389,7 +404,10 @@ mutation UpdateProductions($id: ID!, $productionsEdit: ProductionsInput) {
               _id
               categoryName
             }
-            unit
+            unit {
+              _id
+              unitName
+            }
             completedUnit
             unitPrice
           }

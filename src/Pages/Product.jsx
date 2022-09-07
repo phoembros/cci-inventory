@@ -81,7 +81,7 @@ export default function Product() {
         },
         onCompleted: () => {
             setLoading(false);
-        },
+        },        
         pollInterval: 10000,
     });
 
@@ -252,7 +252,7 @@ export default function Product() {
                                                 <TableRow  className="body-row">
                                                     <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="15%" >{row?.productId}</TableCell>
                                                     <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" component="th" scope="row" width="20%">{row?.productName}</TableCell>
-                                                    <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" width="8%">{row?.unit}</TableCell>
+                                                    <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" width="8%">{row?.unit?.unitName}</TableCell>
                                                     {/* <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" width="10%">${row?.unitPrice}</TableCell> */}
                                                     <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" width="10%">{row?.category?.categoryName}</TableCell>
                                                     <TableCell onClick={() => { handleOpenView(row?._id); setDataRowPruduct(row) }} className="body-title" align="left" width="10%">{row.durationProduce}min</TableCell>

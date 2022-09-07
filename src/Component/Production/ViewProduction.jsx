@@ -201,7 +201,7 @@ export default function ViewProduction({
                                             </TableCell>
                                             <TableCell className="body-title"></TableCell>
                                             <TableCell className="body-title" component="th" align='center' width="15%" >
-                                                <TextField size='small' fullWidth value={ ViewData?.production?.productId ? ViewData?.qty+' '+ViewData?.production?.productId?.unit : ""}/>
+                                                <TextField size='small' fullWidth value={ ViewData?.production?.productId ? ViewData?.qty+' '+ViewData?.production?.productId?.unit?.unitName : ""}/>
                                             </TableCell>
                                             <TableCell className="body-title"></TableCell>
                                             <TableCell className="body-title" width="15%" align='center'>

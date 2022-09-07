@@ -58,7 +58,7 @@ export default function Dashboard() {
   const {data: dataUserLogin } = useQuery(GET_USER_LOGIN,{
     pollInterval: 10000,
     onCompleted: ({getuserLogin}) => {
-      console.log(getuserLogin)
+      // console.log(getuserLogin)
 
       // token-expired                  
       // if(getuserLogin?.role_and_permission?.permissions) {

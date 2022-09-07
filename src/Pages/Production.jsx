@@ -137,6 +137,9 @@ export default function Production() {
             setProductionData(getProductionsPagination?.productions);
             setLoading(false);
         },
+        onError: (error) => {
+            console.log(error?.message)
+        }
 
     })    
     // End Get Production
@@ -281,7 +284,7 @@ export default function Production() {
                                                 </TableCell>
                                                 
                                                 <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" align="left" width="15%">
-                                                   { row?.production?.productId ? row?.qty+"-"+row?.production?.productId?.unit : "---" } 
+                                                   { row?.production?.productId ? row?.qty+"-"+row?.production?.productId?.unit?.unitName : "---" } 
                                                 </TableCell>
 
                                                 <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" width="20%">

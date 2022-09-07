@@ -32,6 +32,8 @@ export default function ModalProductGroup({
     productUnit,
 }) {
 
+    console.log(editData)
+
     //get Storage Room ID by Url 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -48,6 +50,9 @@ export default function ModalProductGroup({
         variables: {
             keyword: "",
             pagination: false,
+        },
+        onError: (error) => {
+            console.log(error?.message)
         }
     });
     React.useEffect( () => {        
@@ -167,12 +172,13 @@ export default function ModalProductGroup({
     const { errors, touched, values, isSubmitting, checkProp, handleSubmit, getFieldProps, setFieldValue, resetForm } = formik;
     // End Formik
 
+
     React.useEffect( () => {
         if(editData){
             setFieldValue("name", editData?.name);
             setFieldValue("unitPrice", editData?.unitPrice);
             setFieldValue("quantityPerStockUM" , editData?.quantityPerStockUM);
-            setFieldValue("unit" , editData?.unit);
+            setFieldValue("unit" , editData?.unit?._id);
         }        
     },[editData])
 
@@ -218,7 +224,7 @@ export default function ModalProductGroup({
 
                                 <Stack direction="column" spacing={1} sx={{mt:2}}>
                                     <Typography className='header-title'>
-                                        Quantity/StockUM
+                                        Kg/L
                                     </Typography>
                                     <TextField 
                                         size='small' 
@@ -272,7 +278,7 @@ export default function ModalProductGroup({
                                           helperText={touched.unit && errors.unit}
                                         >                            
                                           {unit?.map((item, index) => (
-                                            <MenuItem key={index} value={`${item?.unitName}`}>{item?.unitName}</MenuItem>
+                                            <MenuItem key={index} value={`${item?._id}`}>{item?.unitName}</MenuItem>
                                           ))}
                                         </Select>
                                     </FormControl>

@@ -108,7 +108,10 @@ query CompletedQtyUM($page: Int, $limit: Int, $keyword: String, $pagination: Boo
           categoryName
           remark
         }
-        unit
+        unit {
+          _id
+          unitName
+        }
         completedUnit
         unitPrice
         durationProduce
@@ -158,12 +161,34 @@ export const GET_PRODUCT_GROUP_BYPRODUCT_ID = gql`
   query GetProductGroupByProductId($productId: ID!) {
     getProductGroupByProductId(ProductId: $productId) {
       _id
+      name
       quantityPerStockUM
+      groupBy {
+        _id
+        productName
+        productId
+        category {
+          _id
+          categoryName
+        }
+        unit {
+          _id
+          unitName
+        }
+        completedUnit
+        unitPrice
+        durationProduce
+        totalStockAmount
+        totalSoldAmount
+      }
       unitPrice
-      unit
-      name      
-      totalSold
       totalStockAmount
+      totalSold
+      unit {
+        _id
+        unitName
+        remark
+      }
       updatedAt
       createdAt
     }
@@ -206,7 +231,10 @@ query GetProductPagination($page: Int, $limit: Int, $keyword: String, $paginatio
         updatedAt
         createdAt
       }
-      unit
+      unit {
+        _id
+        unitName
+      }
       completedUnit
       unitPrice
       durationProduce
@@ -287,7 +315,10 @@ export const GET_PRODUCT_BYID = gql`
         categoryName
         remark
       }
-      unit
+      unit {
+        _id
+        unitName        
+      }
       completedUnit
       unitPrice
       durationProduce

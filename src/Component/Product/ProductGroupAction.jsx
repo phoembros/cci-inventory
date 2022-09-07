@@ -46,6 +46,8 @@ export default function ProductGroupAction({
   const handleCloseDelete = () => setOpenDelete(false);
 
 
+//   console.log(editData)
+
   return (
     <div>
         

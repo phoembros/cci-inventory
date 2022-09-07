@@ -128,7 +128,10 @@ query GetSaleWithPagination($page: Int, $limit: Int, $keyword: String, $paginati
               categoryName
               remark
             }
-            unit
+            unit {
+              _id
+              unitName
+            }
             completedUnit
             unitPrice
             durationProduce
@@ -250,7 +253,10 @@ query GetSaleById($id: ID!) {
             categoryName
             remark
           }
-          unit
+          unit {
+            _id
+            unitName
+          }
           completedUnit
           unitPrice
           durationProduce

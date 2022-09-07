@@ -166,7 +166,7 @@ export default function ProductDetails() {
                                 </Box> 
                                 <Box className={ theme.palette.mode === 'dark' ? "right-dark" : "right"}>
                                     <Stack direction="row" justifyContent="center">
-                                        <Typography variant="body1">{dataProduct?.unit}</Typography>
+                                        <Typography variant="body1">{dataProduct?.unit?.unitName}</Typography>
                                     </Stack>
                                 </Box> 
                             </Stack>                       
@@ -250,7 +250,7 @@ export default function ProductDetails() {
                                     btnTitle="Create"
                                     checkStatus="create"
                                     setRefetch={refetchProductGroup}
-                                    productUnit={dataProduct?.unit}
+                                    productUnit={dataProduct?.unit?.unitName}
                                 />
                             {/* </Modal> */}
                         </Stack>
@@ -315,7 +315,7 @@ export default function ProductDetails() {
                                             </TableCell>    
                                      
                                             <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
-                                                <Typography variant="body1">{row?.unit}</Typography>
+                                                <Typography variant="body1">{row?.unit?.unitName}</Typography>
                                             </TableCell>
 
                                             <TableCell className="body-title" align="right">
@@ -325,7 +325,7 @@ export default function ProductDetails() {
                                                     setCheckMessage={setCheckMessage}  
                                                     setRefetch={refetchProductGroup}
                                                     editData={row} 
-                                                    productUnit={dataProduct?.unit} 
+                                                    productUnit={dataProduct?.unit?.unitName} 
                                                     dataRole= {dataUserLogin?.getuserLogin?.role_and_permission?.permissions}                                        
                                                 />
                                             </TableCell>

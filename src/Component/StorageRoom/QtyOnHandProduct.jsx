@@ -31,7 +31,7 @@ export default function QtyOnHandProduct({ storageRoomId, productGroupId, alert 
             </Box>
             <Typography>-</Typography>
             <Box  width="50%" display="flex" justifyContent="left">
-                <Typography> {rows?.unit} </Typography>
+                <Typography> {rows?.unit?.unitName} </Typography>
             </Box>
         </Stack>
     )

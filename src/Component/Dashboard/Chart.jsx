@@ -54,7 +54,7 @@ export default function Chart({dataUserLogines}) {
     options: {
       chart: {
         type: 'bar',
-        height: 350
+        height: 350,
       },
       plotOptions: {
         bar: {
@@ -69,7 +69,8 @@ export default function Chart({dataUserLogines}) {
       stroke: {
         show: true,
         width: 2,
-        colors: ['transparent']
+        colors: ['transparent'],       
+        
       },
       xaxis: {
         categories: dataCategories,
@@ -80,7 +81,8 @@ export default function Chart({dataUserLogines}) {
       //   }
       // },
       fill: {
-        opacity: 1
+        opacity: 1,
+        // colors: ['#546E7A', '#E91E63'],
       },
       tooltip: {
         y: {
