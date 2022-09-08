@@ -23,8 +23,10 @@ export default function ModalQualityCheck({
     setAlert,
     setMessage,
     setCheckMessage,
-    setRefetch,
+    setRefetch,    
 }) {
+
+    console.log(editDataProduction)
 
     // Alert Message before close form
     const [openFormAlert,setOpenFormAlert] = React.useState(false);
@@ -44,6 +46,8 @@ export default function ModalQualityCheck({
             setUnitProduct(getCompletedProductsUnits)
         }
     });
+
+    console.log("modalCheck" , editDataProduction)
 
     // Handle Message Error TextField
     const [errorMessage, setErrorMessage] = React.useState(["Over than remain" , "Input invalid value" , "is required!"]);
@@ -291,7 +295,7 @@ export default function ModalQualityCheck({
                                     Product : {editDataProduction?.production?.productId?.productName}
                                 </Typography>
                                 <Typography variant='body1'>
-                                    Qty : {editDataProduction?.qty}-{editDataProduction?.production?.productId?.unit}
+                                    Qty : {editDataProduction?.qty}-{editDataProduction?.production?.productId?.unit?.unitName}
                                 </Typography>                
                             </Stack>
                         </>
@@ -339,7 +343,7 @@ export default function ModalQualityCheck({
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">                                             
-                                            {editDataProduction?.production?.productId?.unit}                                           
+                                            {editDataProduction?.production?.productId?.unit?.unitName}                                           
                                         </InputAdornment>
                                     ),
                                     inputProps: { min: 1 },

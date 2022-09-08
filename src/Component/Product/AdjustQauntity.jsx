@@ -115,7 +115,7 @@ export default function AdjustQauntity({
                       <Box sx={{flexGrow:1}}></Box>
                       <Box sx={{width:"70%"}}>
                           <Typography variant="subtitle1">
-                            {editData?.totalStockAmount-editData?.totalSold} - U/M
+                            {editData?.totalStockAmount-editData?.totalSold} - {editData?.unit?.unitName}
                           </Typography>     
                       </Box>            
                     </Stack>
@@ -144,7 +144,7 @@ export default function AdjustQauntity({
                           InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
-                                    {editData?.unit}
+                                    {editData?.unit?.unitName}
                                 </InputAdornment>
                             ),   
                             inputProps: {

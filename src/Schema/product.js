@@ -170,11 +170,7 @@ export const GET_PRODUCT_GROUP_BYPRODUCT_ID = gql`
         category {
           _id
           categoryName
-        }
-        unit {
-          _id
-          unitName
-        }
+        }        
         completedUnit
         unitPrice
         durationProduce
@@ -186,8 +182,7 @@ export const GET_PRODUCT_GROUP_BYPRODUCT_ID = gql`
       totalSold
       unit {
         _id
-        unitName
-        remark
+        unitName       
       }
       updatedAt
       createdAt

@@ -27,6 +27,14 @@ export default function ProductionAction({
     setRefetch,
 }) {
 
+    const [getDataEdit,setGetDataEdit] = React.useState(editDataProduction);
+
+    React.useEffect( () => {
+        if(editDataProduction) {
+            setGetDataEdit(editDataProduction)
+        }
+    },[editDataProduction])
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => setAnchorEl(event.currentTarget);
@@ -166,7 +174,7 @@ export default function ProductionAction({
             <ModalQualityCheck  
                 open={openQualityCheck}
                 handleClose={handleCloseQualityCheck} 
-                editDataProduction={editDataProduction}
+                editDataProduction={getDataEdit}                
                 setAlert={setAlert}
                 setMessage={setMessage}
                 setCheckMessage={setCheckMessage}

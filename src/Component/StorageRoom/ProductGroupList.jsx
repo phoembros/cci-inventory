@@ -8,8 +8,12 @@ import StorageRoomProductGroupAction from "../Product/StorageRoomProductGroupAct
 import AlertMessage from "../AlertMessage/AlertMessage";
 import ViewAdjustProductGroup from "../Product/ViewAdjustProductGroup";
 import LoadingPage from "../Permission/LoadingPage";
+import { useTheme } from '@mui/material/styles';
+
 
 export default function ProductGroupList({productId, storageRoomId, dataUserLogin}) {
+
+    const theme = useTheme();
 
     const [loadingQty,setLoadingQty] = React.useState(true);
     // Open View 
@@ -72,7 +76,7 @@ export default function ProductGroupList({productId, storageRoomId, dataUserLogi
                         <> 
                         {
                             data?.getProductGroupByProductId?.map( (row,index) => (
-                                <TableRow key={index} className={ index%2 === 0 ? "body-row" : "odd-body-row" }>
+                                <TableRow key={index} className={theme.palette.mode === 'dark' ? "body" : index%2 === 0 ? "body-row" : "odd-body-row" }>
                                     
                                     <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
                                         <Typography className="title" >{row?.name} </Typography>
