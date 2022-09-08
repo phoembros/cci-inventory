@@ -32,6 +32,7 @@ export default function ProductionAction({
     React.useEffect( () => {
         if(editDataProduction) {
             setGetDataEdit(editDataProduction)
+            setRefetch()
         }
     },[editDataProduction])
 
@@ -160,7 +161,7 @@ export default function ProductionAction({
                 open={openEdit}
                 btnTitle={"Update"} 
                 checkStatus={"update"} 
-                editDataProduction={editDataProduction}
+                editDataProduction={getDataEdit}
                 storageRoomDataSelected={editDataProduction?.storageRoomId}
                 setAlert={setAlert}
                 setMessage={setMessage}

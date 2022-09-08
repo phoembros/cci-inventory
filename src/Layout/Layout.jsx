@@ -105,7 +105,7 @@ export default function Layout({prefersDarkMode, setPrefersDarkMode }) {
   const { data: dataUserLogin } = useQuery(GET_USER_LOGIN, {
     pollInterval: 10000,
     onCompleted: ({getuserLogin}) => { 
-      console.log(getuserLogin);      
+      // console.log(getuserLogin);      
     },
     onError: (error) => { 
       console.log(error?.message);

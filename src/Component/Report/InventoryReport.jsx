@@ -64,7 +64,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                     </Grid>                    
 
                        
-                    <Grid item xs={12} sx={{mt:6}}>
+                    <Grid item xs={12} sx={{mt:5}}>
                         <Box width="100%">
                             <TableContainer className="table">
                                 <Table sx={{ width:"100%" }}>
@@ -207,7 +207,16 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                             sx={{border: "none" , padding: "8px"}}
                                                         > 
                                                             <Typography variant="body2" className="text" sx={{color:"black"}}>
-                                                                {(row?.qtyStockIn-row?.qtySold)?.toFixed(4)}-{row?.unit}
+                                                                <Stack direction="row" justifyContent="center">
+                                                                    <Box  width="50%" display="flex" justifyContent="right">
+                                                                        <Typography variant="body2">{(row?.qtyStockIn-row?.qtySold)?.toFixed(4)}</Typography>
+                                                                    </Box>
+                                                                    <Typography variant="body2">-</Typography>
+                                                                    <Box  width="50%" display="flex" justifyContent="left">
+                                                                        <Typography variant="body2">{row?.unit}</Typography>
+                                                                    </Box>
+                                                                </Stack>
+                                                                
                                                             </Typography>
                                                         </TableCell>  
 
@@ -302,7 +311,8 @@ export default function InventoryReport({ FromData , ToData }) {
             
             <Stack direction="row" sx={{mt:2}}>
                 <Box sx={{flexGrow:1}}></Box>
-                <ReactToPrint                 
+                <ReactToPrint    
+                    pageStyle={'@media print { body { -webkit-print-color-adjust: exact; } @page { size: landscape; margin: 12mm 5mm 12mm 5mm  !important; }}'}              
                     content={() => componentRef.current}         
                     trigger={() => (
                         <Stack direction="row" spacing={2} className="btn">           

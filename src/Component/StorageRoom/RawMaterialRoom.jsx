@@ -281,7 +281,7 @@ export default function RawMaterialRoom() {
                                 width="20%"
                               >
                                   
-                                <QtyOnHand setRefetchQty={setRefetchQty} refetchQty={refetchQty} storageRoomId={roomId} rawMaterialId={row?._id} unit={row?.unit}/>
+                                <QtyOnHand setRefetchQty={setRefetchQty} refetchQty={refetchQty} storageRoomId={roomId} rawMaterialId={row?._id} unit={row?.unit?.unitName}/>
                                
                               </TableCell>
                               

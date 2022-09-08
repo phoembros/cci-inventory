@@ -161,7 +161,10 @@ export const GET_PRODUCT_STORAGE_ROOM_BY = gql`
           }
           totalStockAmount
           usedStockAmount
-          unit
+          unit {
+            _id
+            unitName
+          }
           unitPrice
           remark
           updatedAt

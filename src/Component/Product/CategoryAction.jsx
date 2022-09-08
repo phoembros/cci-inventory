@@ -22,19 +22,24 @@ export default function CategoryAction({
     editData,
 }) {
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => setAnchorEl(event.currentTarget);
-  const handleClose = () =>  setAnchorEl(null);
+    const [getEditData,setGetEditData] = React.useState(editData);
 
-  const [openEdit ,setOpenEdit] = React.useState(false);
-  const handleOpenEdit = () => setOpenEdit(true);
-  const handleCloseEdit = () => setOpenEdit(false);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => setAnchorEl(event.currentTarget);
+    const handleClose = () =>  setAnchorEl(null);
 
-  const [openDelete ,setOpenDelete] = React.useState(false);
-  const handleOpenDelete = () => setOpenDelete(true);
-  const handleCloseDelete = () => setOpenDelete(false);
+    const [openEdit ,setOpenEdit] = React.useState(false);
+    const handleOpenEdit = () => setOpenEdit(true);
+    const handleCloseEdit = () => setOpenEdit(false);
 
+    const [openDelete ,setOpenDelete] = React.useState(false);
+    const handleOpenDelete = () => setOpenDelete(true);
+    const handleCloseDelete = () => setOpenDelete(false);
+
+    React.useEffect( () => {
+        setGetEditData(editData)
+    },[editData])
 
   return (
     <div>
@@ -97,7 +102,7 @@ export default function CategoryAction({
                 handleClose={handleCloseEdit} 
                 open={openEdit}
                 btnTitle={"Update"} 
-                editData={editData}
+                editData={getEditData}
                 setAlert={setAlert}
                 setMessage={setMessage}
                 setCheckMessage={setCheckMessage}    
@@ -108,7 +113,7 @@ export default function CategoryAction({
         { /*  */}
         {/* <Modal open={openDelete} > */}
             <ModalDeleteCategory 
-                editData={editData}
+                editData={getEditData}
                 open={openDelete}
                 handleClose={handleCloseDelete} 
                 setAlert={setAlert}

@@ -35,6 +35,8 @@ export default function ViewProduct({
     setRefetch,
 }) {
 
+    console.log(PurchaseData)
+    
     // Get User ID  
     const { data: userLoginData } = useQuery(GET_USER_LOGIN);  
     const userId =  userLoginData?.getuserLogin?._id;
@@ -179,7 +181,7 @@ return (
                                         <TableBody key={index} component={Paper} className="body" >                        
                                             <TableRow  className="body-row">                                
                                                 <TableCell className="body-title" component="th" scope="row" width="250px">{row?.rawMaterialId?.materialName}</TableCell>
-                                                <TableCell className="body-title"  align="center" width="20%">{row?.newQty}</TableCell>  
+                                                <TableCell className="body-title"  align="center" width="20%">{row?.newQty}-{row?.rawMaterialId?.unit?.unitName}</TableCell>  
                                                 <TableCell className="body-title"  align="center" width="20%" >${row?.unitPrice} </TableCell>
                                                 {/* <TableCell className="body-title"  align="center" width="20%">{row?.suppliersName}</TableCell>  */}
                                                 <TableCell className="body-title" ></TableCell>

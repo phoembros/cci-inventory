@@ -116,7 +116,7 @@ export default function ModalCheckPurchase({
                                     <TableBody key={index} component={Paper} className="body" >                        
                                         <TableRow  className="body-row">                                
                                             <TableCell className="body-title" component="th" scope="row">{row?.rawMaterialId?.materialName}</TableCell>
-                                            <TableCell className="body-title"  align="center" width="20%">{row?.newQty}</TableCell>  
+                                            <TableCell className="body-title"  align="center" width="20%">{row?.newQty}-{row?.rawMaterialId?.unit?.unitName}</TableCell>  
                                             <TableCell className="body-title"  align="center" width="20%" >{row?.rawMaterialId?.unitPrice} </TableCell>
                                             <TableCell className="body-title"  align="center" width="20%">{row?.suppliersName}</TableCell> 
                                             <TableCell className="body-title" ></TableCell>

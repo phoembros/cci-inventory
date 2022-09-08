@@ -317,12 +317,12 @@ export default function RawMaterial() {
                               </TableCell> */}
 
                               <TableCell
-                                onClick={()=>{handleOpenView(); setDataRow(row)}}
+                                onClick={()=>{ handleOpenView(); setDataRow(row) }}
                                 className="body-title"
                                 align="left"
                                 width="10%"
                               >
-                                {row?.unit}
+                                {row?.unit?.unitName}
                               </TableCell>
                               <TableCell
                                 onClick={()=>{handleOpenView(); setDataRow(row)}}

@@ -95,6 +95,10 @@ query CompletedQtyUM($page: Int, $limit: Int, $keyword: String, $pagination: Boo
       name
       quantityPerStockUM
       unitPrice
+      unit {
+        _id
+        unitName
+      }
       totalStockAmount
       totalSold
       updatedAt
@@ -107,11 +111,7 @@ query CompletedQtyUM($page: Int, $limit: Int, $keyword: String, $pagination: Boo
           _id
           categoryName
           remark
-        }
-        unit {
-          _id
-          unitName
-        }
+        }        
         completedUnit
         unitPrice
         durationProduce
@@ -128,7 +128,10 @@ query CompletedQtyUM($page: Int, $limit: Int, $keyword: String, $pagination: Boo
             }
             totalStockAmount
             usedStockAmount
-            unit
+            unit {
+              _id
+              unitName
+            }
             unitPrice
             remark
           }
@@ -248,8 +251,7 @@ query GetProductPagination($page: Int, $limit: Int, $keyword: String, $paginatio
             createdAt
           }
           totalStockAmount
-          usedStockAmount
-          unit
+          usedStockAmount         
           unitPrice
           remark
           updatedAt
@@ -328,10 +330,13 @@ export const GET_PRODUCT_BYID = gql`
             remark
           }
           _id
+          unit {
+            _id
+            unitName
+          }
           materialName
           totalStockAmount
-          usedStockAmount
-          unit
+          usedStockAmount         
           unitPrice
           remark
         }

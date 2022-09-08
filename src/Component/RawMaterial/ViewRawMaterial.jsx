@@ -127,7 +127,7 @@ export default function ViewRawMaterial({handleClose, open , DataRow ,setRefetch
                                 refetchQty={refetchQty} 
                                 storageRoomId={storageRoomId} 
                                 rawMaterialId={DataRow?._id} 
-                                unit={DataRow?.unit}
+                                unit={DataRow?.unit?.unitName}
                             />
                         </Typography>                      
                     </Stack>  

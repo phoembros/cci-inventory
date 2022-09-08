@@ -46,9 +46,12 @@ export const GET_PRODUCTION_REPORT = gql`
           productGroupId {
             _id
             name
-            quantityPerStockUM         
-            unit                
+            quantityPerStockUM        
             unitPrice
+            unit {
+              _id
+              unitName
+            }  
             totalStockAmount
             totalSold            
           }
@@ -67,7 +70,10 @@ export const GET_PRODUCTION_REPORT = gql`
           unitPrice    
           totalSold
           totalStockAmount   
-          unit                
+          unit {
+            _id
+            unitName
+          }                 
         } 
       }
     }

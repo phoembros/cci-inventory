@@ -116,8 +116,8 @@ function PurchaseProduct({dataUserLogines}) {
                             <TableContainer className="table-container">
                                 <Table className="table" aria-label="simple table">
                                     {productionData?.map((row, index) => (
-                                        <TableBody key={index} component={Paper} className="body">
-                                        <TableRow className={index%2 === 0 ? "body-row" : "body-odd"}>
+                                        <TableBody key={index} component={Paper} className={ index%2 === 0 ||theme.palette.mode === 'dark'  ?  "body" : "body-odd" }>
+                                        <TableRow className="body-row">
                                             <TableCell                    
                                                 className="body-title"
                                                 width="30%"

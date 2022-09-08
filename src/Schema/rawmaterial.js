@@ -83,7 +83,10 @@ query GetRawMaterialPagination($storageId: ID, $page: Int, $limit: Int, $keyword
         }
         totalStockAmount
         usedStockAmount
-        unit
+        unit {
+          _id
+          unitName
+        }
         unitPrice
         remark
         updatedAt
@@ -220,7 +223,10 @@ export const CREATE_PURCHASE_RAW_MATERIAL = gql`
           rawMaterialId {
             _id
             materialName
-            unit
+            unit {
+              _id
+              unitName
+            }
             unitPrice
             totalStockAmount
             usedStockAmount
@@ -301,7 +307,10 @@ export const UPDATE_PURCHASE_RAW_MATERIAL = gql`
           rawMaterialId {
             _id
             materialName
-            unit
+            unit {
+              _id
+              unitName
+            }
             unitPrice
             totalStockAmount
             usedStockAmount
@@ -413,7 +422,10 @@ export const GET_PURCHASE_RAW_MATERIAL_PAGINATION = gql`
             }
             totalStockAmount
             usedStockAmount
-            unit
+            unit {
+              _id
+              unitName
+            }
             unitPrice
             remark
           }

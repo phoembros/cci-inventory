@@ -32,18 +32,18 @@ export default function CreateRawMaterials({
   setRefetch,
 }) {
 
-  // Get Unit Material
-  const [unitRawMaterial,setUnitRawMaterial] = React.useState([])
-  const { data: unitRawData } = useQuery(GET_RAW_MATERIAL_UNIT,{
+  // Get Product Unit 
+  const [unitRawMaterial,setUnitRawMaterial] = React.useState([])   
+  const { data: productUnit } = useQuery(GET_UNIT_PAGINATION, {
     variables: {
       keyword: "",
       pagination: false,
     },
-    onCompleted: ({getRawMaterialsUnits}) => {
-        setUnitRawMaterial(getRawMaterialsUnits)
+    onCompleted: ({getUnitPagination}) => {
+      console.log(getUnitPagination?.units)
+      setUnitRawMaterial(getUnitPagination?.units)
     }
   });
-
 
 
   const [loading,setLoading] = React.useState(false);
@@ -144,7 +144,7 @@ export default function CreateRawMaterials({
       materialName: DataRow?.materialName,
       remark:  DataRow?.remark,
       unitPrice: DataRow?.unitPrice,
-      unit: DataRow?.unit,  
+      unit: DataRow?.unit?._id,  
       categoryId: DataRow?.category?._id,
     },
 
@@ -325,8 +325,8 @@ export default function CreateRawMaterials({
                                             helperText={touched.unit && errors.unit}
                                           >
                                             {
-                                              unitRawMaterial.map( (item,index) => (
-                                                    <MenuItem key={index} value={item}>{item}</MenuItem> 
+                                              unitRawMaterial?.map( (item,index) => (
+                                                    <MenuItem key={index} value={item?._id}>{item?.unitName}</MenuItem> 
                                               ))
                                             }                                                  
                                           </Select>

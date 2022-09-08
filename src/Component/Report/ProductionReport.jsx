@@ -4,6 +4,7 @@ import { Box } from "@mui/system";
 import * as React from "react";
 import './inventoryreport.scss';
 import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined';
+import Unit from "./Unit";
 import ReactToPrint from "react-to-print";
 import { GET_SALE_BYID } from "../../Schema/sales";
 import { GET_PRODUCTION_REPORT } from "../../Schema/report";
@@ -66,11 +67,11 @@ const ComponentToPrint = ({FromData , ToData}) => {
                     </Grid>                    
 
                                    
-                    <Grid item xs={12} sx={{mt:5}}>
+                    {/* <Grid item xs={12} sx={{mt:5}}>
                         <Divider sx={{border: "1px solid #0969A0"}}/>
-                    </Grid>
+                    </Grid> */}
         
-                    <Grid item xs={12} sx={{mt:6}}>
+                    <Grid item xs={12} sx={{mt:5}}>
                         <Box width="100%">
                             <TableContainer className="table">
                                 <Table sx={{ width:"100%" }}>
@@ -234,7 +235,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     sx={{border: "none" ,color: "#0969A0" ,  padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                        ${item?.costOfProduction.toFixed(3)}
+                                                        ${item?.costOfProduction?.toFixed(3)}
                                                     </Typography>
                                                 </TableCell>
                                                 
@@ -318,10 +319,19 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     className="cell-item"
                                                     sx={{border: "none" ,  padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text" sx={{color: "black"}}>
-                                                        {(row?.qtyOfUM)?.toFixed(4)}-{row?.productGroupId?.unit}
+                                                    <Typography variant="body2" className="text" sx={{color:"black"}}>
+                                                        <Stack direction="row" justifyContent="center">
+                                                            <Box  width="50%" display="flex" justifyContent="right">
+                                                                <Typography variant="body2">{(row?.qtyOfUM)?.toFixed(4)} </Typography>
+                                                            </Box>
+                                                            <Typography variant="body2">-</Typography>
+                                                            <Box  width="50%" display="flex" justifyContent="left">
+                                                                <Typography variant="body2"><Unit unitId={row?.productGroupId?.unit?._id}/></Typography>
+                                                            </Box>
+                                                        </Stack>                                                        
                                                     </Typography>
                                                 </TableCell>
+
                                                 <TableCell 
                                                     align="center" width="10%"
                                                     className="cell-item"
@@ -411,7 +421,8 @@ export default function ProductionReport({FromData , ToData}) {
             </Box>
             <Stack direction="row" sx={{mt:2}}>
                 <Box sx={{flexGrow:1}}></Box>
-                <ReactToPrint  
+                <ReactToPrint 
+                    pageStyle={'@media print { body { -webkit-print-color-adjust: exact; } @page { size: landscape; margin: 12mm 5mm 10mm 5mm  !important; }}'} 
                     content={() => componentRef.current}         
                     trigger={() => (
                         <Stack direction="row" spacing={2} className="btn">           

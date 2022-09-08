@@ -19,6 +19,7 @@ import moment from "moment";
 import CircularProgress from "@mui/material/CircularProgress";
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import Filter from "../Component/Production/Filter";
+import Unit from "../Component/Report/Unit";
 
 //icon progress
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -284,10 +285,10 @@ export default function Production() {
                                                 </TableCell>
                                                 
                                                 <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" align="left" width="15%">
-                                                   { row?.production?.productId ? row?.qty+"-"+row?.production?.productId?.unit?.unitName : "---" } 
+                                                    {   row?.production?.productId ?   <>{row?.qty}-<Unit unitId={row?.production?.productId?.unit?._id} /></>  : "---" } 
                                                 </TableCell>
 
-                                                <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" width="20%">
+                                                <TableCell onClick={() => { handleOpenView(); setViewData(row)}} className="body-title" width="20%">
 
                                                     {
                                                         row.priority === "urgent" ?                                        
@@ -446,7 +447,7 @@ export default function Production() {
                 <ViewProduction 
                     dataUserLogin={dataUserLogin}
                     open={openView}
-                    handleClose={handleCloseView} 
+                    handleClose={handleCloseView}
                     ViewData={ViewData}
                     setAlert={setAlert}
                     setMessage={setMessage}

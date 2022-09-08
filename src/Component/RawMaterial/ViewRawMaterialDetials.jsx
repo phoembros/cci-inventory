@@ -71,7 +71,7 @@ export default function ViewRawMaterialDetials({handleClose, open , DataRow}) {
                                 Unit:
                             </Typography>  
                             <Typography variant='body1'>
-                                {DataRow?.unit}
+                                {DataRow?.unit?.unitName}
                             </Typography>                      
                         </Stack>      
                         <Box sx={{flexGrow:1}}></Box>

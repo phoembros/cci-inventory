@@ -26,7 +26,7 @@ export default function ModalQualityCheck({
     setRefetch,    
 }) {
 
-    console.log(editDataProduction)
+    // console.log(editDataProduction)
 
     // Alert Message before close form
     const [openFormAlert,setOpenFormAlert] = React.useState(false);
@@ -47,7 +47,7 @@ export default function ModalQualityCheck({
         }
     });
 
-    console.log("modalCheck" , editDataProduction)
+    // console.log("modalCheck" , editDataProduction)
 
     // Handle Message Error TextField
     const [errorMessage, setErrorMessage] = React.useState(["Over than remain" , "Input invalid value" , "is required!"]);
@@ -339,7 +339,7 @@ export default function ModalQualityCheck({
                                 fullWidth 
                                 size="small" 
                                 type="number"
-                                value={ showValueEsstimate ? showValueEsstimate : 0 }
+                                value={ showValueEsstimate ? (showValueEsstimate)?.toFixed(4) : 0.0000 }
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">                                             

@@ -99,9 +99,7 @@ export default function PurchaseMaterial() {
         setPageShow(page)
     }, [ page, keyword , priority , status ])
 
-    console.log(keyword, "keyword")  
-
-    
+     
     return(
         <div className="purchases-raw-page">
             <Stack direction="row" spacing={2}>
@@ -128,9 +126,8 @@ export default function PurchaseMaterial() {
                             id="input-with-sx" 
                             placeholder="PO Number"                           
                             size="small"                  
-                            onChange={(e) => {
+                            onChange={ (e) => {
                                 setKeyword(e.target.value)
-                                console.log(e.target.value)
                             }}         
                             InputProps={{
                                 startAdornment: (

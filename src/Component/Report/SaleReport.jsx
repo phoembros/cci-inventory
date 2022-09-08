@@ -35,6 +35,9 @@ const ComponentToPrint = ({FromData , ToData}) => {
         onCompleted: ({getSaleReport}) => {
             setDataSale(getSaleReport)
         },
+        onError: (error) => {
+            console.log(error?.message)
+        }
     })
 
     // console.log(dataSale , "dataSale")    
@@ -70,11 +73,11 @@ const ComponentToPrint = ({FromData , ToData}) => {
                     </Grid>                    
 
                                    
-                    <Grid item xs={12} sx={{mt:5}}>
+                    {/* <Grid item xs={12} sx={{mt:5}}>
                         <Divider sx={{border: "1px solid #0969A0"}}/>
-                    </Grid>
+                    </Grid> */}
         
-                    <Grid item xs={12} sx={{mt:6}}>
+                    <Grid item xs={12} sx={{mt:5}}>
                         <Box width="100%" display="flex" flexDirection="column" justifyContent="center" >
                             <TableContainer className="table">
                                 <Table sx={{ width:"100%" }}>
@@ -586,6 +589,7 @@ export default function SaleReport({FromData , ToData}) {
             <Stack direction="row" sx={{mt:2}}>
                 <Box sx={{flexGrow:1}}></Box>
                 <ReactToPrint  
+                    pageStyle={'@media print { body { -webkit-print-color-adjust: exact; } @page { size: landscape; margin: 12mm 5mm 12mm 5mm  !important; }}'} 
                     content={() => componentRef.current}         
                     trigger={() => (
                         <Stack direction="row" spacing={2} className="btn">           

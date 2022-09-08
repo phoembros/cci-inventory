@@ -217,8 +217,7 @@ export const GET_PRODUCTION_WITH_PAGINATION =  gql`
               remark
             }
             unit {
-              _id
-              unitName
+              _id              
             }
             completedUnit
             unitPrice
@@ -236,8 +235,11 @@ export const GET_PRODUCTION_WITH_PAGINATION =  gql`
                   remark
                 }
                 totalStockAmount
-                usedStockAmount
-                unit
+                usedStockAmount  
+                unit {
+                  _id
+                  unitName
+                }              
                 unitPrice
                 remark
                 updatedAt

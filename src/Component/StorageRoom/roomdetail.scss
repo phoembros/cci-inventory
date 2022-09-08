@@ -168,6 +168,10 @@
                 }
             }
             
+            .according-odd {
+                background-color: $background-table-modal !important;
+            }
+
             .body {
                 box-shadow: none;
 
@@ -180,7 +184,7 @@
                     // background-color: #fff;
         
                     .body-title {
-                        padding: 5px;
+                        padding: 0px;
                         border: none;
                         font-size: $font-Size-Subtitle;
 
@@ -243,7 +247,7 @@
                     // background-color: $background-table-modal;
         
                     .body-title {
-                        padding: 5px;
+                        padding: 0px;
                         border: none;
                         font-size: $font-Size-Subtitle;
                       

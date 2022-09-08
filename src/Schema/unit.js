@@ -50,6 +50,12 @@ export const UPDATE_UNIT =  gql`
   }
 `
 
+export const GET_UNIT_BYID = gql`
+  query Query($unitId: ID!) {
+    getUnitById(unitId: $unitId)
+  }
+`
+
 export const DELETE_UNIT = gql`
   mutation DeleteUnit($unitId: ID!) {
     deleteUnit(unitId: $unitId) {

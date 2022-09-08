@@ -47,7 +47,7 @@
         .body-row {       
             
             cursor: pointer;
-            background-color: $background-table-modal;
+            background-color: $background-table-odd;
 
             .body-title {
                 padding: 10px;
@@ -65,7 +65,7 @@
         .odd-body-row {       
             
             cursor: pointer;            
-            background-color: $background-table-odd;
+            background-color: $background-table-modal;
 
             .body-title {
                 padding: 10px;

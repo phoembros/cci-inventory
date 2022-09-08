@@ -20,7 +20,7 @@ function ListCreateSales(props) {
     });
    
     React.useEffect( () => {
-        if (data?.getProductPagination?.products) {
+        if (data?.getProductPagination?.products) {           
             let rows = [];
             data?.getProductPagination?.products?.forEach((element) => {
                 const allrow = {
@@ -45,6 +45,9 @@ function ListCreateSales(props) {
             keyword: "",
             pagination: false,
         },
+        onCompleted: ({getProductGroupPagination}) => {
+            console.log(getProductGroupPagination?.productGroups)
+        },
         onError: (error) => {
             console.log(error.message)
         }
@@ -59,6 +62,7 @@ function ListCreateSales(props) {
                   label: element?.name,
                   _id: element?._id,
                   unitPrice: element?.unitPrice,
+                  unit: element?.unit?.unitName,
                 };
                 rows.push(allrow);
             });
@@ -88,7 +92,7 @@ function ListCreateSales(props) {
                                 options={productGroup}                                
                                 onChange={(e, value) => {
                                     props.setUpdateProductId( value?._id , item.key ) 
-                                    props.setUpdateItemName( value?.label , item.key )
+                                    props.setUpdateItemName( value?.label , value?.unit ,item.key )
                                     props.setUpdateRate( value?.unitPrice , item.key);
                                 }}
                                 renderInput={(params) => <TextField {...params} size="small" className='text-field' />}
@@ -110,7 +114,7 @@ function ListCreateSales(props) {
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            U/M
+                                            {item?.unitProductGroup}
                                         </InputAdornment>
                                     ),
                                     inputProps: { min: 1 },

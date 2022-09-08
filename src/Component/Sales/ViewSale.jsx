@@ -20,7 +20,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 export default function ViewSale({ handleCloseView , open , RowData }) {
   //format date
   const formatDate = Moment(RowData?.date).format('DD-MM-YYYY')
-  // console.log(RowData, 'view')
+  console.log(RowData, 'view')
 
   return (
 
@@ -99,7 +99,7 @@ export default function ViewSale({ handleCloseView , open , RowData }) {
                       <TableBody key={index} component={Paper} className="body" >                        
                         <TableRow  className="body-row">                                
                             <TableCell className="body-title" component="th" scope="row">{row?.productId?.name}</TableCell>
-                            <TableCell className="body-title"  align="center" width="20%">{row?.qty}</TableCell>  
+                            <TableCell className="body-title"  align="center" width="20%">{row?.qty}{row?.productId?.unit?.unitName}</TableCell>  
                             <TableCell className="body-title"  align="center" width="20%" >${row?.productId?.unitPrice}</TableCell>
                             <TableCell className="body-title"  align="center" width="20%">${row?.amount?.toFixed(2)}</TableCell> 
                             <TableCell className="body-title" ></TableCell>

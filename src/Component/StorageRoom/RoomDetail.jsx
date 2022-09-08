@@ -115,6 +115,7 @@ export default function RoomDetail() {
                                                                     expandIcon={<ExpandMoreIcon />}
                                                                     aria-controls="panel1a-content"
                                                                     id="panel1a-header"
+                                                                    className={index % 2 === 0  || theme.palette.mode === 'dark' ? "according" : "according-odd"}
                                                                 >   
                                                                     <Stack direction="row" spacing={4}>                                                                        
                                                                         <Typography>{index+1} - </Typography>                                                                        

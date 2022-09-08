@@ -58,7 +58,7 @@ export default function SalesCreated({
 
     const [openWarning,setOpenWarning] = React.useState(false);
 
-    const [currentItem, setCurrentItem] = React.useState({ itemName: '' , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: 0 ,})
+    const [currentItem, setCurrentItem] = React.useState({ itemName: '' , unitProductGroup: "" , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: 0 ,})
     const [item, setItem] = React.useState([])
 
     const [loading,setLoading] = React.useState(false)
@@ -72,7 +72,7 @@ export default function SalesCreated({
                 setAlert(true);
                 handleClose();
                 setRefetch();
-                setItem([{ itemName: 'product' , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: Date.now() }])
+                setItem([{ itemName: 'product' , unitProductGroup: "" , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: Date.now() }])
                 resetForm();
                 setLoading(false)
             } else {
@@ -133,13 +133,13 @@ export default function SalesCreated({
             ];
             setItem([... items])
             setCurrentItem({
-                itemName: '' , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: 0
+                itemName: '' , unitProductGroup: "" , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: 0
             })
         }
     }
 
     const handleAddSales = () => {
-        setCurrentItem({ itemName: 'product' , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: Date.now() });
+        setCurrentItem({ itemName: 'product' , unitProductGroup: "" , productId: '', qty: 0.01 , unitPrice: 0.01 , amount: 0 , key: Date.now() });
     }
 
     React.useEffect(() => {
@@ -178,11 +178,12 @@ export default function SalesCreated({
 
     // End Get
 
-    const setUpdateItemName = (itemName,key) => {
+    const setUpdateItemName = (itemName,unitProductGroup,key) => {
         const items = item;
         items.map( i => {      
           if(i.key===key){           
             i.itemName= itemName;
+            i.unitProductGroup = unitProductGroup;
           }
         })
         setItem([...items]) 

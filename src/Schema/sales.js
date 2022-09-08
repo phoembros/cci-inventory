@@ -148,7 +148,10 @@ query GetSaleWithPagination($page: Int, $limit: Int, $keyword: String, $paginati
                 materialName
                 totalStockAmount
                 usedStockAmount
-                unit
+                unit {
+                  _id
+                  unitName
+                }
                 unitPrice
               }
               amount
@@ -158,6 +161,10 @@ query GetSaleWithPagination($page: Int, $limit: Int, $keyword: String, $paginati
             remark
           }
           unitPrice
+          unit {
+            _id
+            unitName
+          }
           totalStockAmount
           totalSold
           updatedAt

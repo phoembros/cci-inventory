@@ -91,7 +91,7 @@ export default function ModalProgressProduction({
                                 Product : {editDataProduction?.production?.productId ? editDataProduction?.production?.productId?.productName : "---"}
                             </Typography>
                             <Typography variant='body1'>
-                                Qty : {editDataProduction?.production?.productId ? editDataProduction?.qty : "---"}{editDataProduction?.production?.productId?.unit}
+                                Qty : {editDataProduction?.production?.productId ? editDataProduction?.qty : "---"}{editDataProduction?.production?.productId?.unit?.unitName}
                             </Typography>                
                         </Stack>
 

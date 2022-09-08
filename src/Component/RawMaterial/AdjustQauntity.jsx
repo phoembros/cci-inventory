@@ -115,7 +115,7 @@ export default function AdjustQauntity({
                       <Box sx={{flexGrow:1}}></Box>
                       <Box sx={{width:"70%"}}>
                           <Typography variant="subtitle1">
-                              <QtyOnHand setRefetchQty={setRefetchQty}  storageRoomId={storageRoomId} rawMaterialId={DataRow?._id} unit={DataRow?.unit} />
+                              <QtyOnHand setRefetchQty={setRefetchQty}  storageRoomId={storageRoomId} rawMaterialId={DataRow?._id} unit={DataRow?.unit?.unitName} />
                           </Typography>     
                       </Box>            
                     </Stack>
@@ -144,7 +144,7 @@ export default function AdjustQauntity({
                           InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
-                                    {DataRow?.unit}
+                                    {DataRow?.unit?.unitName}
                                 </InputAdornment>
                             ),   
                             inputProps: {

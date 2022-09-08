@@ -68,12 +68,11 @@
                 }
                 
                 .body {
-                    box-shadow: none;                
-                    background-color: $background-table-modal;  
+                    box-shadow: none;              
                     border-radius: 15px;
 
-                    .body-row {       
-                                      
+                    .body-row {           
+                        background-color: rgba(255, 255, 255, 0.097);
 
                         .body-title {
                             padding: 10px;                            
@@ -131,9 +130,15 @@
 
                         }
                     }
+                }
 
-                    .body-odd {       
-                        background-color: white;                
+                .body-odd {
+                    box-shadow: none;                
+                    background-color: $background-table-modal;  
+                    border-radius: 15px;
+
+
+                    .body-row {            
 
                         .body-title {
                             padding: 10px;                            
@@ -144,8 +149,6 @@
                                 font-weight: bold;      
                                 color: $primary-color;                      
                             }
-
-                            
                         
                             .stack-map-icons {
                                 color: $primary-color;

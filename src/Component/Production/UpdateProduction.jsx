@@ -489,13 +489,28 @@ export default function UpdateProduction({
                                                             {row?.rawMaterialId?.materialName} 
                                                         </TableCell>
                                                         <TableCell className="body-title" width="30%" align='right'>
-                                                            {(row?.amount*values?.qty)?.toFixed(4)} {row?.rawMaterialId?.unit}
+                                                            {(row?.amount*values?.qty)?.toFixed(4)}-{row?.rawMaterialId?.unit?.unitName}
                                                         </TableCell>    
                                                         <TableCell className="body-title" width="30%"  align='right'>
                                                             {   (row?.amount*values?.qty) < 1 ?
                                                                     <>
-                                                                        { (row?.amount*values?.qty*1000)?.toFixed(2) } 
-                                                                        { row?.rawMaterialId?.unit === "kilogram" ? "g" : "l" }
+                                                                        {
+                                                                            row?.rawMaterialId?.unit?.unitName === "kilogram" ||
+                                                                            row?.rawMaterialId?.unit?.unitName === "Kilogram" ||
+                                                                            row?.rawMaterialId?.unit?.unitName === "Kg" ||
+                                                                            row?.rawMaterialId?.unit?.unitName === "kg" ?
+                                                                                (row?.amount*values?.qty*1000)?.toFixed(2)+"g"
+                                                                            : null
+                                                                        }
+            
+                                                                        {
+                                                                            row?.rawMaterialId?.unit?.unitName === "Liter" ||
+                                                                            row?.rawMaterialId?.unit?.unitName === "L" ||
+                                                                            row?.rawMaterialId?.unit?.unitName === "l" ?
+                                                                                (row?.amount*values?.qty*1000)?.toFixed(2)+"ml"
+                                                                            : null
+                                                                        }
+                                                                        
                                                                     </>
                                                                 : null
                                                             }

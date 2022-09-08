@@ -64,7 +64,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                     </Grid>                    
 
                        
-                    <Grid item xs={12} sx={{mt:6}}>
+                    <Grid item xs={12} sx={{mt:5}}>
                         <Box width="100%">
                             <TableContainer className="table">
                                 <Table sx={{ width:"100%" }}>

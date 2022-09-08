@@ -28,7 +28,7 @@ function ListRawMaterial(props) {
                 const allrow = {
                   label: element?.materialName,
                   _id: element?._id,
-                  unit: element?.unit,
+                  unit: element?.unit?.unitName,
                 };
                 rows.push(allrow);
             });

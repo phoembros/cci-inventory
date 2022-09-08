@@ -37,6 +37,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Unit from '../Report/Unit';
 
 
 export default function ViewProduction({
@@ -50,7 +51,7 @@ export default function ViewProduction({
     setRefetch,
 }) {
 
-    // console.log( "ViewData::",ViewData)
+    console.log( "ViewData::",ViewData)
 
     const [startDate,setStartDate] = React.useState(new Date());   
     const [endDate,setEndDate] = React.useState(new Date()); 
@@ -201,7 +202,8 @@ export default function ViewProduction({
                                             </TableCell>
                                             <TableCell className="body-title"></TableCell>
                                             <TableCell className="body-title" component="th" align='center' width="15%" >
-                                                <TextField size='small' fullWidth value={ ViewData?.production?.productId ? ViewData?.qty+' '+ViewData?.production?.productId?.unit?.unitName : ""}/>
+                                                <TextField size='small' fullWidth value={ ViewData?.production?.productId ? ViewData?.qty : "" } />
+                                                {/* <Unit unitId={ViewData?.production?.productId?.unit?._id} /> */}
                                             </TableCell>
                                             <TableCell className="body-title"></TableCell>
                                             <TableCell className="body-title" width="15%" align='center'>
@@ -226,20 +228,35 @@ export default function ViewProduction({
                                             <TableCell className="header-title"></TableCell>                                                       
                                         </TableRow>
                                     </TableHead>
-                                    {dataIngredients?.map((row , index) => (
+                                    {ViewData?.production?.productId?.ingredients?.map((row , index) => (
                                         <TableBody key={index} component={Paper} className="body">                        
                                             <TableRow  className="body-row">                                
                                                 <TableCell className="body-title" component="th" scope="row"  width="30%"> 
                                                     {row?.rawName} 
                                                 </TableCell>
                                                 <TableCell className="body-title" width="30%" align='right'>
-                                                    {(row?.amount*ViewData?.qty)?.toFixed(2)} {row?.rawMaterialId?.unit}
+                                                    {(row?.amount*ViewData?.qty)?.toFixed(2)} {row?.rawMaterialId?.unit?.unitName}
                                                 </TableCell>    
                                                 <TableCell className="body-title" width="30%" align='right'>
                                                 {   (row?.amount*ViewData?.qty) < 1 ?
                                                         <>
-                                                            { (row?.amount*ViewData?.qty*1000)?.toFixed(2) } 
-                                                            { row?.rawMaterialId?.unit === "kilogram" ? "g" : "l" }
+                                                            {
+                                                                row?.rawMaterialId?.unit?.unitName === "kilogram" ||
+                                                                row?.rawMaterialId?.unit?.unitName === "Kilogram" ||
+                                                                row?.rawMaterialId?.unit?.unitName === "Kg" ||
+                                                                row?.rawMaterialId?.unit?.unitName === "kg" ?
+                                                                    (row?.amount*ViewData?.qty*1000)?.toFixed(2)+"g"
+                                                                : null
+                                                            }
+
+                                                            {
+                                                                row?.rawMaterialId?.unit?.unitName === "Liter" ||
+                                                                row?.rawMaterialId?.unit?.unitName === "L" ||
+                                                                row?.rawMaterialId?.unit?.unitName === "l" ?
+                                                                    (row?.amount*ViewData?.qty*1000)?.toFixed(2)+"ml"
+                                                                : null
+                                                            }
+                                                            
                                                         </>
                                                     : null
                                                 }

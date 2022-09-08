@@ -120,9 +120,11 @@ export default function PurchaseRawMaterialUpdate({
         setRefetch();
         setLoading(false);
 
+        console.log(updatePurchaseRawMaterial?.data)
+
         var ListRawMaterils = "";
         updatePurchaseRawMaterial?.data?.productsItems?.map( i => (
-          ListRawMaterils+= `\n👉 ${i?.rawMaterialId?.materialName} (x${i?.newQty} ${i?.rawMaterialId?.unit})` 
+          ListRawMaterils+= `\n👉 ${i?.rawMaterialId?.materialName} (x${i?.newQty} ${i?.rawMaterialId?.unit?.unitName})` 
         ))
 
         await sendMessage({content: `<b>[Request Purchase RawMaterial]</b>\n👩‍🚀 <i>${nameRequest}</i>\n${ListRawMaterils}\n\n🗓 Date:${moment(updatePurchaseRawMaterial?.data?.purchaseDate).format("DD/MMM/YYYY")}\n<code>For details info please kindly check system.</code>\n<a href="https://system.cci-cambodia.com/">system.cci-cambodia.com</a>`})
