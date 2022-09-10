@@ -34,9 +34,12 @@ export default function ModalDeleteProduct({
                 setAlert(true);
                 handleClose();
                 setRefetch();
-                setLoading(false)
+                setLoading(false);
             } else {
-                setLoading(false)
+                setAlert(true);
+                setCheckMessage("error")
+                setMessage(deleteProduct?.message)
+                setLoading(false);             
             }
         },
         onError: (error) => { 

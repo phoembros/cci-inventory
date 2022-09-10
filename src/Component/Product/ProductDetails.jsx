@@ -86,14 +86,15 @@ export default function ProductDetails() {
         },
         onCompleted: ({getProductGroupByProductId}) => {
             // setLoading(false);
-            // console.log(getProductGroupByProductId)
+            console.log(getProductGroupByProductId)
             setTimeout( () => {
                 setLoading(false);
             },500)
         }
     })
    
-    React.useEffect( () => {      
+    React.useEffect( () => {     
+        refetchProductGroup() 
         if(productGroups?.getProductGroupByProductId) {
             setProductGroupData(productGroups?.getProductGroupByProductId);            
         }                
@@ -113,11 +114,9 @@ export default function ProductDetails() {
                 <Stack direction="column" justifyContent="center" className="page-title">
                     <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >/ Details</Typography>
                 </Stack>
-
                 <Stack direction="column" justifyContent="center" className="page-title-mobile">
                     <Typography className={theme.palette.mode === 'dark' ? "color-dark" : "color" } >Details</Typography>
                 </Stack>
-
                 <Box sx={{flexGrow: 1}} />                
             </Stack>
 
