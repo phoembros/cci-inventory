@@ -170,8 +170,7 @@ export const GET_PRODUCT_GROUP_BYPRODUCT_ID = gql`
         _id
         productName
         productId
-        category {
-          _id
+        category {          
           categoryName
         }        
         completedUnit
