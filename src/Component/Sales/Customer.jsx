@@ -203,11 +203,11 @@ export default function Customer() {
                                   <TableCell className="header-title">Phone Number</TableCell>
                                   <TableCell className="header-title">Email</TableCell>
                                   <TableCell className="header-title">Address</TableCell>
-                                  <TableCell className="header-title">
+                                  <TableCell className="header-title" align="center">
                                     {
                                       dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getOweCustomer ?
                                         <>
-                                          <Stack direction="row" spacing={1} >
+                                          <Stack direction="row" justifyContent="center" spacing={1} >
                                               <Stack direction="column" justifyContent="center">
                                                   <Typography className="title">Owe</Typography>
                                               </Stack>

@@ -189,8 +189,8 @@ export default function Sales() {
                                         <TableCell className="header-title">Created</TableCell>
                                         <TableCell className="header-title">Invoice No</TableCell>
                                         <TableCell className="header-title">Customer</TableCell>
-                                        <TableCell className="header-title">Total Amount</TableCell>   
-                                        <TableCell className="header-title">Paid Amount</TableCell>                    
+                                        <TableCell className="header-title" align="center">Total Amount</TableCell>   
+                                        <TableCell className="header-title" align="center">Paid Amount</TableCell>                    
                                         <TableCell className="header-title">VAT</TableCell>                            
                                         <TableCell className="header-title">Status</TableCell>
                                         <TableCell className="header-title"></TableCell>
@@ -206,10 +206,43 @@ export default function Sales() {
                                       <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="15%">
                                         { row?.invoiceNo }                                        
                                       </TableCell>
-                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="20%">{row?.billTo?.label}</TableCell>
-                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="20%">{row?.totalAmount?.toFixed(2)}$</TableCell>      
-                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="20%">{row?.paidAmount}$</TableCell>                
-                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="10%">{row?.vat}%</TableCell>                    
+
+                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" component="th" scope="row" width="15%">
+                                        {row?.billTo?.label}
+                                      </TableCell>
+
+                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="15%">
+                                        <Stack direction="row" justifyContent="center" >
+                                            <Stack direction="row" justifyContent="center" spacing={4} width="35%">
+                                                <Box  width="50%" display="flex" justifyContent="left">
+                                                    <Typography>$</Typography>
+                                                </Box>                                            
+                                                <Box  width="50%" display="flex" justifyContent="right">
+                                                    <Typography> {row?.totalAmount?.toFixed(2)} </Typography>
+                                                </Box>
+                                            </Stack>       
+                                        </Stack>
+                                        {/* {row?.totalAmount?.toFixed(2)}$ */}
+                                      </TableCell>  
+
+                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="20%">
+                                        {/* {row?.paidAmount}$ */}
+                                        <Stack direction="row" justifyContent="center" >
+                                            <Stack direction="row" justifyContent="center" spacing={4} width="35%">
+                                                <Box  width="50%" display="flex" justifyContent="left">
+                                                    <Typography>$</Typography>
+                                                </Box>                                            
+                                                <Box  width="50%" display="flex" justifyContent="right">
+                                                    <Typography> {row?.paidAmount?.toFixed(2)} </Typography>
+                                                </Box>
+                                            </Stack>       
+                                        </Stack>
+                                      </TableCell> 
+
+                                      <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" width="10%">
+                                        {row?.vat}%
+                                      </TableCell>  
+
                                       <TableCell onClick={()=>{handleOpenView(); setRowData(row)}} className="body-title" >
                                           {
                                               row?.voided !== true ?
@@ -219,7 +252,7 @@ export default function Sales() {
                                           }
                                           
                                       </TableCell>
-                                      <TableCell className="body-title" >
+                                      <TableCell className="body-title" align="right">
                                           <SalesAction 
                                               dataUserLogin={dataUserLogin}
                                               setAlert={setAlert}
