@@ -91,7 +91,7 @@ export default function ViewSale({ handleCloseView , open , RowData }) {
                             <TableCell className="header-title" align="center" width="20%">
                               Amount
                             </TableCell>
-                            <TableCell className="header-title" width="3%"></TableCell>
+                            {/* <TableCell className="header-title" width="3%"></TableCell> */}
                             
                         </TableRow>    
                       </TableHead>
@@ -99,11 +99,45 @@ export default function ViewSale({ handleCloseView , open , RowData }) {
                       <TableBody key={index} component={Paper} className="body" >                        
                         <TableRow  className="body-row">                                
                             <TableCell className="body-title" component="th" scope="row">{row?.productId?.name}</TableCell>
-                            <TableCell className="body-title"  align="center" width="20%">{row?.qty}{row?.productId?.unit?.unitName}</TableCell>  
-                            <TableCell className="body-title"  align="center" width="20%" >${row?.productId?.unitPrice}</TableCell>
-                            <TableCell className="body-title"  align="center" width="20%">${row?.amount?.toFixed(2)}</TableCell> 
-                            <TableCell className="body-title" ></TableCell>
-                            <TableCell className="body-title" ></TableCell>                                                      
+                            <TableCell className="body-title"  align="center" width="20%">
+                              
+                              <Stack direction="row" justifyContent="center">
+                                    <Stack direction="row" justifyContent="center" width="100%" spacing={1}>
+                                      <Box width="60%" display="flex" justifyContent="right">
+                                          <Typography>{row?.qty}</Typography>
+                                      </Box>
+                                      <Box width="40%" display="flex" justifyContent="left">
+                                        <Typography>{row?.productId?.unit?.unitName}</Typography>
+                                      </Box>
+                                    </Stack>
+                                </Stack>
+                            </TableCell>  
+                            <TableCell className="body-title"  align="center" width="20%" >
+                                <Stack direction="row" justifyContent="center">
+                                    <Stack direction="row" justifyContent="center" width="70%" spacing={1}>
+                                      <Box width="50%" display="flex" justifyContent="left">
+                                          <Typography>$</Typography>
+                                      </Box>
+                                      <Box width="50%" display="flex" justifyContent="right">
+                                        <Typography>{row?.productId?.unitPrice}</Typography>
+                                      </Box>
+                                    </Stack>
+                                </Stack>
+                            </TableCell>
+                            <TableCell className="body-title"  align="center" >
+                                <Stack direction="row" justifyContent="center">
+                                    <Stack direction="row" justifyContent="center" width="100%" spacing={1}>
+                                      <Box width="50%" display="flex" justifyContent="left">
+                                          <Typography>$</Typography>
+                                      </Box>
+                                      <Box width="50%" display="flex" justifyContent="right">
+                                        <Typography>{row?.amount?.toFixed(2)}</Typography>
+                                      </Box>
+                                    </Stack>
+                                </Stack>                              
+                            </TableCell> 
+                            {/* <TableCell className="body-title" ></TableCell> */}
+                            {/* <TableCell className="body-title" ></TableCell>                                                       */}
                         </TableRow>
                     </TableBody>  
                     ))}
