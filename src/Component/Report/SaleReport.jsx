@@ -295,46 +295,48 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>{row?.itemDescription}</Typography>
                                                 </TableCell>      
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none"   , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>{row?.qty?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none"   , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>{row?.salePrice?.toFixed(2)}</Typography>
                                                 </TableCell>
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none"   , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>{row?.amount?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none"   , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>{row?.costOfSales?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none"   , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>{row?.grossProfit?.toFixed(2)}</Typography>
                                                 </TableCell>  
                                                 <TableCell 
-                                                    align="center" width="6%"
-                                                    className="cell-item"
+                                                    align="right" width="6%"
+                                                    className="cell-item"                
                                                     sx={{border: "none"   , padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text" sx={{color: "black"}}>{row?.grossMargin?.toFixed(2)}</Typography>
+                                                    <Typography variant="body2" className="text" sx={{color: "black"}}>
+                                                        {row?.grossMargin?.toFixed(2)}
+                                                    </Typography>
                                                 </TableCell>   
 
                                             </TableRow> 
@@ -387,42 +389,42 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     <Typography variant="body2" className="text"></Typography>
                                                 </TableCell>      
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" sx={{fontWeight: "bold"}}>{item?.totalQty?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" sx={{fontWeight: "bold"}}>{item?.totalSalePrice?.toFixed(2)}</Typography>
                                                 </TableCell>
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" sx={{fontWeight: "bold"}}>{item?.totalAmout?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" sx={{fontWeight: "bold"}}>{item?.totalCostOfSales?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" sx={{fontWeight: "bold"}}>{item?.totalGrossProfit?.toFixed(2)}</Typography>
                                                 </TableCell>  
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
@@ -488,42 +490,42 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     <Typography variant="body2" className="text"></Typography>
                                                 </TableCell>      
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" sx={{fontWeight:"bold"}} >{dataSale?.reportTotal?.totalQty?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" sx={{fontWeight:"bold"}} >{dataSale?.reportTotal?.totalSalePrice?.toFixed(2)}</Typography>
                                                 </TableCell>
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" sx={{fontWeight:"bold"}} >{dataSale?.reportTotal?.totalAmount?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" sx={{fontWeight:"bold"}} >{dataSale?.reportTotal?.totalCostOfSales?.toFixed(2)}</Typography>
                                                 </TableCell> 
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" sx={{fontWeight:"bold"}} >{dataSale?.reportTotal?.totalGrossProfit?.toFixed(2)}</Typography>
                                                 </TableCell>  
                                                 <TableCell 
-                                                    align="center" width="6%"
+                                                    align="right" width="6%"
                                                     className="cell-item"
                                                     sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                                 >
