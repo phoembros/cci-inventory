@@ -242,8 +242,7 @@ export default function ViewProduction({
                                                                 <Typography>
                                                                     {(row?.amount*ViewData?.qty)?.toFixed(2)}
                                                                 </Typography>
-                                                            </Box>  
-                                                            <Typography>-</Typography>                                          
+                                                            </Box>                                                                                                    
                                                             <Box  width="50%" display="flex" justifyContent="left">
                                                                 <Typography> 
                                                                     {row?.rawMaterialId?.unit?.unitName}
