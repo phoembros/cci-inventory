@@ -157,7 +157,7 @@ export default function Supplies() {
                               <TableCell className="header-title">Phone Number</TableCell>  
                               <TableCell className="header-title">Address</TableCell>                             
                               <TableCell className="header-title">Email</TableCell>
-                              <TableCell className="header-title">
+                              <TableCell className="header-title" align="center">
                                   {
                                         dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getOweSupplier ?
                                             <>Owe</>
@@ -187,7 +187,7 @@ export default function Supplies() {
                                 <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >{item?.phoneNumber}</TableCell>
                                 <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >{item?.address}</TableCell>
                                 <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >{item?.email}</TableCell>
-                                <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" >
+                                <TableCell onClick={() => { handleOpenView();setRowSupplies(item);}}className="body-title" align="center">
                                     {
                                         dataUserLogin?.getuserLogin?.role_and_permission?.permissions?.getOweSupplier ?
                                             <SupplierOwe dataOwe={item?._id}/>
