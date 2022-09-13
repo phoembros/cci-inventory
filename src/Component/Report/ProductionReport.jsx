@@ -234,9 +234,27 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     className="cell-item"
                                                     sx={{border: "none" ,color: "#0969A0" ,  padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" sx={{fontWeight:"bold"}}>
+
+                                                    <Stack direction="row" justifyContent="center">
+                                                        <Stack direction="row" justifyContent="center" width="100%" spacing={1}>
+                                                            <Box width="50%" display="flex" justifyContent="left">
+                                                                <Typography variant="body2" sx={{fontWeight:"bold"}}>
+                                                                    $
+                                                                </Typography>
+                                                            </Box>
+
+                                                            <Box  width="50%" display="flex" justifyContent="right">
+                                                                <Typography variant="body2" sx={{fontWeight:"bold"}}>
+                                                                    {item?.costOfProduction?.toFixed(3)}
+                                                                </Typography>
+                                                            </Box>
+                                                        </Stack>
+                                                    </Stack>
+
+
+                                                    {/* <Typography variant="body2" sx={{fontWeight:"bold"}}>
                                                         ${item?.costOfProduction?.toFixed(3)}
-                                                    </Typography>
+                                                    </Typography> */}
                                                 </TableCell>
                                                 
                                                 <TableCell 
@@ -337,9 +355,26 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     className="cell-item"
                                                     sx={{border: "none" ,  padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text" sx={{color: "black"}}>
+
+                                                    <Stack direction="row" justifyContent="center">
+                                                        <Stack direction="row" justifyContent="center" width="100%" spacing={1}>
+                                                            <Box width="50%" display="flex" justifyContent="left">
+                                                                <Typography variant="body2" className="text" sx={{color: "black"}}>
+                                                                    $
+                                                                </Typography>
+                                                            </Box>
+
+                                                            <Box  width="50%" display="flex" justifyContent="right">
+                                                                <Typography variant="body2" className="text" sx={{color: "black"}}>
+                                                                    {(row?.qtyOfUM*row?.unitQtyGroup*(item?.costOfProduction/item?.targetProduction))?.toFixed(3)}
+                                                                </Typography>
+                                                            </Box>
+                                                        </Stack>
+                                                    </Stack>
+                                                    {/* <Typography variant="body2" className="text" sx={{color: "black"}}>
                                                         ${(row?.qtyOfUM*row?.unitQtyGroup*(item?.costOfProduction/item?.targetProduction))?.toFixed(3)}
-                                                    </Typography>
+                                                    </Typography> */}
+
                                                 </TableCell>
                                                 
                                                 <TableCell 
