@@ -102,7 +102,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                             </TableCell>  
 
                                             <TableCell 
-                                                align="center" width="8%"
+                                                align="left" width="8%"
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  ,   padding: "8px"}}
                                             >
