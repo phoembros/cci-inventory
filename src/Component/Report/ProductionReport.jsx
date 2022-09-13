@@ -349,7 +349,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                     sx={{border: "none" ,  padding: "8px"}}
                                                 >
                                                     
-                                                        <Stack direction="row" justifyContent="center">
+                                                        <Stack direction="row" justifyContent="center" spacing={1}>
                                                             <Box  width="60%" display="flex" justifyContent="right">
                                                                 <Typography variant="body2" className="text" sx={{color:"black"}}>
                                                                     {(row?.qtyOfUM)?.toFixed(4)} 
