@@ -231,8 +231,8 @@ export default function RawMaterial() {
                                           </IconButton>
                                       </Stack>
                                   </TableCell>
-                                  <TableCell className="header-title">
-                                      <Stack direction="row" spacing={1} >
+                                  <TableCell className="header-title" align="center">
+                                      <Stack direction="row" justifyContent="center" spacing={1} >
                                           <Stack direction="column" justifyContent="center">
                                               <Typography className="title">Unit Price</Typography>
                                           </Stack>
@@ -275,18 +275,27 @@ export default function RawMaterial() {
                                 className="body-title"
                                 component="th"
                                 scope="row"
-                                width="20%"
+                                width="15%"
                               >
                                 {row?.materialName}
                               </TableCell>
 
                               <TableCell
-                                  onClick={()=>{handleOpenView(); setDataRow(row)}}
+                                  onClick={() => { handleOpenView(); setDataRow(row) }}
                                   className="body-title"
                                   align="left"
                                   width="20%"
                               >
-                                ${row?.unitPrice}
+                                  <Stack direction="row" justifyContent="center" >
+                                      <Stack direction="row" justifyContent="center" spacing={4} width="30%">
+                                          <Box  width="50%" display="flex" justifyContent="center">
+                                              <Typography>$</Typography>
+                                          </Box>                                            
+                                          <Box  width="50%" display="flex" justifyContent="right">
+                                              <Typography> {(row?.unitPrice)?.toFixed(2)} </Typography>
+                                          </Box>
+                                      </Stack>       
+                                  </Stack>
                               </TableCell>
                               
                               <TableCell

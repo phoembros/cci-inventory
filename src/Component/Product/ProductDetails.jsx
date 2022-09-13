@@ -272,12 +272,12 @@ export default function ProductDetails() {
                                     </TableCell>  
                                    
                                     <TableCell className="header-title">
-                                        Unit Price
-                                    </TableCell>    
-
-                                    <TableCell className="header-title">
                                         Unit
                                     </TableCell>
+                                    
+                                    <TableCell className="header-title" align="center">
+                                        Unit Price
+                                    </TableCell>   
 
                                     <TableCell className="header-title" align="right">
                                         Action
@@ -310,12 +310,23 @@ export default function ProductDetails() {
                                             </TableCell>  
                                              
                                             <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
-                                                <Typography variant="body1">${row?.unitPrice}</Typography>
-                                            </TableCell>    
-                                     
-                                            <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
                                                 <Typography variant="body1">{row?.unit?.unitName}</Typography>
                                             </TableCell>
+
+                                            <TableCell className="body-title" onClick={ () => handleOpenView(row)}>                                                
+                                                <Stack direction="row" justifyContent="center" >
+                                                    <Stack direction="row" justifyContent="center" spacing={4} width="50%">
+                                                        <Box  width="50%" display="flex" justifyContent="center">
+                                                            <Typography>$</Typography>
+                                                        </Box>                                            
+                                                        <Box  width="50%" display="flex" justifyContent="right">
+                                                            <Typography> {(row?.unitPrice)?.toFixed(2)} </Typography>
+                                                        </Box>
+                                                    </Stack>       
+                                                </Stack>
+                                            </TableCell>    
+                                     
+                                           
 
                                             <TableCell className="body-title" align="right">
                                                 <ProductGroupAction 

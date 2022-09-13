@@ -244,7 +244,7 @@ export default function Production() {
                                         <TableRow className="header-row">
                                             <TableCell className="header-title">ID</TableCell>
                                             <TableCell className="header-title">Product</TableCell>                                
-                                            <TableCell className="header-title">QTY</TableCell> 
+                                            <TableCell className="header-title" align="center">Qauntity</TableCell> 
                                             <TableCell className="header-title">Priority</TableCell>  
                                             <TableCell className="header-title">Progress</TableCell>                              
                                             <TableCell className="header-title">Status</TableCell>   
@@ -260,7 +260,8 @@ export default function Production() {
                                                 <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" component="th" scope="row" width="10%" >
                                                     {moment(row?.createdAt).format("YYMM")}-{row?.productionsId.padStart(2, '0')}
                                                 </TableCell>
-                                                <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" component="th" scope="row" width="25%">
+
+                                                <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" component="th" scope="row" width="18%">
                                                     <Stack direction="row" spacing={2}>
                                                         <Stack direction="column" justifyContent="center">
                                                             <Typography variant="body1">
@@ -283,10 +284,26 @@ export default function Production() {
                                                         
                                                     </Stack>
                                                 </TableCell>
+
                                                 
                                                 <TableCell onClick={()=>{handleOpenView(); setViewData(row)}} className="body-title" align="left" width="15%">
-                                                    {   row?.production?.productId ?   <>{row?.qty}-<Unit unitId={row?.production?.productId?.unit?._id} /></>  : "---" } 
+                                                    <Stack direction="row" justifyContent="center" >
+                                                        <Stack direction="row" justifyContent="center" spacing={1} width="100%">
+                                                            <Box  width="50%" display="flex" justifyContent="right">
+                                                                <Typography>
+                                                                    {  row?.production?.productId ? row?.qty : "--" } 
+                                                                </Typography>
+                                                            </Box> 
+                                                            <Typography>-</Typography>                          
+                                                            <Box  width="50%" display="flex" justifyContent="left">
+                                                                <Typography> 
+                                                                {   row?.production?.productId ?  <Unit unitId={row?.production?.productId?.unit?._id} />  : "---" } 
+                                                                </Typography>
+                                                            </Box>
+                                                        </Stack>       
+                                                    </Stack>
                                                 </TableCell>
+
 
                                                 <TableCell onClick={() => { handleOpenView(); setViewData(row)}} className="body-title" width="20%">
 

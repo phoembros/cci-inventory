@@ -186,7 +186,7 @@ export default function RawMaterialRoom() {
                           <TableHead>
                               <TableRow className="header-row">
                                   <TableCell className="header-title">
-                                      <Stack direction="row" spacing={1}>
+                                      <Stack direction="row" spacing={2}>
                                           <Stack direction="column" justifyContent="center">
                                               <Typography className="title">Name</Typography>
                                           </Stack>
@@ -207,8 +207,8 @@ export default function RawMaterialRoom() {
                                           </IconButton>
                                       </Stack>
                                   </TableCell>
-                                  <TableCell className="header-title">
-                                      <Stack direction="row" spacing={1} >
+                                  <TableCell className="header-title" align="center">
+                                      <Stack direction="row" justifyContent="center" spacing={2} >
                                           <Stack direction="column" justifyContent="center">
                                               <Typography className="title">Unit Price</Typography>
                                           </Stack>
@@ -254,16 +254,22 @@ export default function RawMaterialRoom() {
                               >
                                 {row?.materialName}
                               </TableCell>
-
-                              
-
                               <TableCell
                                   onClick={()=>{handleOpenView(); setDataRow(row)}}
                                   className="body-title"
-                                  align="left"
+                                  align="center"
                                   width="20%"
                               >
-                                ${row?.unitPrice}
+                                <Stack direction="row" justifyContent="center" >
+                                    <Stack direction="row" justifyContent="center" spacing={4} width="30%">
+                                        <Box  width="50%" display="flex" justifyContent="center">
+                                            <Typography>$</Typography>
+                                        </Box>                                            
+                                        <Box  width="50%" display="flex" justifyContent="right">
+                                            <Typography> {(row?.unitPrice)?.toFixed(2)} </Typography>
+                                        </Box>
+                                    </Stack>       
+                                </Stack>                             
                               </TableCell>
                               
                               {/* <TableCell
@@ -278,14 +284,20 @@ export default function RawMaterialRoom() {
                                 onClick={()=>{handleOpenView(); setDataRow(row)}}
                                 className="body-title"
                                 align="center"
-                                width="20%"
+                                width="35%"
                               >
-                                  
-                                <QtyOnHand setRefetchQty={setRefetchQty} refetchQty={refetchQty} storageRoomId={roomId} rawMaterialId={row?._id} unit={row?.unit?.unitName}/>
-                               
+                                <Stack direction="row" justifyContent="center" sx={{marginLeft: "12%"}}>
+                                    <QtyOnHand 
+                                        setRefetchQty={setRefetchQty} 
+                                        refetchQty={refetchQty} 
+                                        storageRoomId={roomId} 
+                                        rawMaterialId={row?._id} 
+                                        unit={row?.unit?.unitName}
+                                    />
+                                </Stack>
                               </TableCell>
                               
-                              
+
                               <TableCell className="body-title" align="right">
                                 <MaterialAction
                                     dataUserLogin={dataUserLogin}

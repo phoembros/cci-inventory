@@ -207,6 +207,9 @@
 
             .body-odd {
                 box-shadow: none;
+                :hover {                  
+                    cursor: pointer;
+                }
 
                 .body-row {       
                     background-color: $background-table-modal;

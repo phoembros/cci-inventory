@@ -1,4 +1,4 @@
-import { Box, Table, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Stack, Table, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import * as React from "react";
 import "./productgrouplist.scss";
 import { GET_PRODUCT_GROUP_BYPRODUCT_ID } from "../../Schema/product";
@@ -59,7 +59,7 @@ export default function ProductGroupList({productId, storageRoomId, dataUserLogi
                                 <Typography className="title" >Qty On Hand</Typography>
                             </TableCell>                        
                             <TableCell className="header-title">
-                                <Typography className="title">Unit Price </Typography>
+                                <Typography className="title" align="center">Unit Price </Typography>
                             </TableCell>                           
                         </TableRow>
 
@@ -93,8 +93,17 @@ export default function ProductGroupList({productId, storageRoomId, dataUserLogi
                                         </Typography>
                                     </TableCell> 
 
-                                    <TableCell className="body-title" onClick={ () => handleOpenView(row)}>
-                                        <Typography className="title" >${row?.unitPrice} </Typography>
+                                    <TableCell className="body-title" align="center" onClick={ () => handleOpenView(row)}>
+                                        <Stack direction="row" justifyContent="center" >
+                                            <Stack direction="row" justifyContent="center" spacing={4} width="30%">
+                                                <Box  width="50%" display="flex" justifyContent="center">
+                                                    <Typography>$</Typography>
+                                                </Box>                                            
+                                                <Box  width="50%" display="flex" justifyContent="right">
+                                                    <Typography> {(row?.unitPrice)?.toFixed(2)} </Typography>
+                                                </Box>
+                                            </Stack>       
+                                        </Stack>                             
                                     </TableCell>   
 
                                     <TableCell className="body-title" align="right">

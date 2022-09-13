@@ -180,9 +180,29 @@ return (
                                     {PurchaseData?.productsItems?.map((row , index) => (
                                         <TableBody key={index} component={Paper} className="body" >                        
                                             <TableRow  className="body-row">                                
-                                                <TableCell className="body-title" component="th" scope="row" width="250px">{row?.rawMaterialId?.materialName}</TableCell>
-                                                <TableCell className="body-title"  align="center" width="20%">{row?.newQty}-{row?.rawMaterialId?.unit?.unitName}</TableCell>  
-                                                <TableCell className="body-title"  align="center" width="20%" >${row?.unitPrice} </TableCell>
+                                                <TableCell className="body-title" component="th" scope="row" width="200px">{row?.rawMaterialId?.materialName}</TableCell>
+                                                <TableCell className="body-title"  align="center" width="30%">                                                    
+                                                    <Stack direction="row" justifyContent="center" spacing={1} width="100%">
+                                                        <Box  width="50%" display="flex" justifyContent="right">
+                                                            <Typography>{row?.newQty}</Typography>
+                                                        </Box>                                                                                                   
+                                                        <Box  width="50%" display="flex" justifyContent="left">
+                                                            <Typography> {row?.rawMaterialId?.unit?.unitName} </Typography>
+                                                        </Box>
+                                                    </Stack>                                               
+                                                </TableCell>  
+                                                <TableCell className="body-title"  align="center" width="20%" >                                                   
+                                                    <Stack direction="row" justifyContent="center" >
+                                                        <Stack direction="row" justifyContent="center" spacing={4} width="70%">
+                                                            <Box  width="50%" display="flex" justifyContent="center">
+                                                                <Typography>$</Typography>
+                                                            </Box>                                            
+                                                            <Box  width="50%" display="flex" justifyContent="right">
+                                                                <Typography> {(row?.unitPrice)?.toFixed(2)} </Typography>
+                                                            </Box>
+                                                        </Stack>       
+                                                    </Stack>
+                                                </TableCell>
                                                 {/* <TableCell className="body-title"  align="center" width="20%">{row?.suppliersName}</TableCell>  */}
                                                 <TableCell className="body-title" ></TableCell>
                                                 <TableCell className="body-title" ></TableCell>                                                  
