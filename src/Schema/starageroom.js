@@ -95,7 +95,10 @@ query GetPurchaseRawMaterialPagination($storageId: ID!, $page: Int, $limit: Int,
           }
           totalStockAmount
           usedStockAmount
-          unit
+          unit {
+            _id
+            unitName
+          }
           unitPrice
           remark
         }

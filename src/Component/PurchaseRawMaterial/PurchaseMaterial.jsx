@@ -76,6 +76,7 @@ export default function PurchaseMaterial() {
 
     const [dataPurchaseRawMaterial,setDataPurchaseRawMaterial] = React.useState([]);
 
+    
     const { data , refetch } = useQuery(GET_PURCHASE_RAW_MATERIAL_PAGINATION, {
         variables: {           
             page: keyword !== "" ? 1 : page,

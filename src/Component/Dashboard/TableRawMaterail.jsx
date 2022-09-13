@@ -8,6 +8,7 @@ import { useQuery } from "@apollo/client";
 import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined';
 import moment from "moment"
 import { GET_PURCHASE_RAW_MATERAIL_PAGINATION } from "../../Schema/starageroom";
+import { GET_PURCHASE_RAW_MATERIAL_PAGINATION } from "../../Schema/rawmaterial";
 import DescriptionIcon from '@mui/icons-material/Description';
 import PermissionContent from "../Permission/PermissionContent";
 import LoadingPage from "../Permission/LoadingPage";
@@ -26,16 +27,16 @@ function TableRawMaterail({dataUserLogines}) {
 
   const [paymentStatus,setPaymentStatus] = React.useState([])
 
-  const { data: dataPurchaseRaw , refetch : refetchPurchase } = useQuery(GET_PURCHASE_RAW_MATERAIL_PAGINATION, {
-      variables: {
-          storageId: "",       
+  const { data: dataPurchaseRaw , refetch : refetchPurchase } = useQuery(GET_PURCHASE_RAW_MATERIAL_PAGINATION, {
+      variables: {             
           keyword: "",
           pagination: false,
           priority: "",
           status: "",     
-          paymentStatus: paymentStatus,        
+          paymentStatus: paymentStatus?.length !== 0 ? paymentStatus : ["unpaid" , "owe"],        
       },
       onCompleted: ({getPurchaseRawMaterialPagination}) => {
+          console.log(getPurchaseRawMaterialPagination?.purchaseRawMaterial);
           let rows = [];
           getPurchaseRawMaterialPagination?.purchaseRawMaterial?.forEach( element => {
               if(element?.status !== "voided") {
