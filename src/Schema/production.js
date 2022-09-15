@@ -261,26 +261,10 @@ export const GET_PRODUCTION_WITH_PAGINATION =  gql`
           productGroupId {
             _id
             name
-            quantityPerStockUM
-            groupBy {
-              _id
-              productName
-              productId
-              category {
-                _id
-                categoryName
-                remark
-              }
-              unit {
-                _id
-                unitName
-              }
-              completedUnit
-              unitPrice
-              durationProduce
-              totalStockAmount
-              totalSoldAmount
-            }
+            quantityPerStockUM          
+            unit {
+              _id             
+            }  
             updatedAt
             createdAt
           }

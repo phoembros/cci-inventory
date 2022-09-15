@@ -38,6 +38,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Unit from '../Report/Unit';
+import UnitProductGroup from './unitProductGroup';
 
 
 export default function ViewProduction({
@@ -51,7 +52,7 @@ export default function ViewProduction({
     setRefetch,
 }) {
 
-    console.log( "ViewData::",ViewData)
+    // console.log( "ViewData::",ViewData)
 
     const [startDate,setStartDate] = React.useState(new Date());   
     const [endDate,setEndDate] = React.useState(new Date()); 
@@ -106,8 +107,7 @@ export default function ViewProduction({
     });
 
     const [comment,setComment] = React.useState("");
-    const handleUpdateStatus = (e) => {
-       
+    const handleUpdateStatus = (e) => {       
         approveProductions({
             variables: {
                 id: ViewData?._id,
@@ -119,6 +119,7 @@ export default function ViewProduction({
             }
         })
     }
+
 
   return (  
     
@@ -324,8 +325,20 @@ export default function ViewProduction({
                                             <TableBody key={index} component={Paper} className="body">                        
                                                 <TableRow  className="body-row">                                
                                                     <TableCell className="body-title" component="th" scope="row" width="50%"> {row?.label} </TableCell>
-                                                    <TableCell className="body-title" align='right' > {(row?.qtyOfUM)} - U/M </TableCell>    
-                                                                                                    
+                                                    <TableCell className="body-title" align='center' > 
+                                                        
+                                                        <Stack direction="row" justifyContent="center">
+                                                            <Stack direction="row" justifyContent="center" spacing={1} width="80%">
+                                                                <Box display="flex" justifyContent="right" width="65%">
+                                                                    {(row?.qtyOfUM)}
+                                                                </Box>
+                                                                <Box display="flex" justifyContent="left" width="35%">
+                                                                    <UnitProductGroup rows={row} />
+                                                                </Box>
+                                                            </Stack>
+                                                        </Stack>  
+
+                                                    </TableCell>                                        
                                                 </TableRow>
                                             </TableBody>                        
                                         ))}
@@ -348,34 +361,7 @@ export default function ViewProduction({
                                     </TableHead>                    
                                     <TableBody component={Paper} className="body" >                        
                                         <TableRow  className="body-row">
-                                            {/* <TableCell className="body-title" component="th" scope="row" width="25%" >
-                                                <FormControl fullWidth size="small" disabled>                                    
-                                                    <Select
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"           
-                                                        defaultValue={ViewData?.progress}                             
-                                                    >   
-                                                        <MenuItem value="not started">
-                                                            <Stack direction="row" spacing={1}>
-                                                                <PanoramaFishEyeIcon sx={{color:"gray", width:"17px"}} />
-                                                                <Typography>Not started</Typography>
-                                                            </Stack>
-                                                        </MenuItem>
-                                                        <MenuItem value="in progress">
-                                                            <Stack direction="row" spacing={1}>
-                                                                <WifiProtectedSetupIcon sx={{color:"green", width:"17px"}} />
-                                                                <Typography>In Progress</Typography>
-                                                            </Stack>
-                                                        </MenuItem>
-                                                        <MenuItem value="completed">
-                                                            <Stack direction="row" spacing={1}>
-                                                                <CheckCircleIcon sx={{color:"#0969A0", width:"17px"}} />
-                                                                <Typography>Completed</Typography>
-                                                            </Stack>
-                                                        </MenuItem>                                        
-                                                    </Select>
-                                                </FormControl>
-                                            </TableCell> */}
+                                           
                                             <TableCell className="body-title" component="th" align='center' width="25%" >
                                                 <FormControl fullWidth size="small" disabled>                                    
                                                     <Select
@@ -411,15 +397,7 @@ export default function ViewProduction({
                                                 </FormControl>
                                             </TableCell>
                                             <TableCell className="body-title" width="25%" align='center'>
-                                                {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                                    <DatePicker   
-                                                        disabled   
-                                                        value={ViewData?.startDate}                                                       
-                                                        renderInput={(params) => (
-                                                            <TextField size='small' {...params} type="date" fullWidth />
-                                                        )}
-                                                    />
-                                                </LocalizationProvider> */}
+                                               
                                                 <LocalizationProvider className="date-controll" dateAdapter={AdapterMoment}>
                                                     <MobileDatePicker    
                                                         inputFormat="DD/MM/yyyy"                                 
@@ -444,15 +422,7 @@ export default function ViewProduction({
 
                                             </TableCell>   
                                             <TableCell className="body-title" width="25%" align='center'>
-                                                {/* <LocalizationProvider dateAdapter={AdapterDateFns} >
-                                                    <DatePicker      
-                                                        disabled
-                                                        value={ViewData?.dueDate}                                                        
-                                                        renderInput={(params) => (
-                                                            <TextField size='small' {...params} type="date" fullWidth />
-                                                        )}
-                                                    />
-                                                </LocalizationProvider> */}
+                                               
                                                 <LocalizationProvider className="date-controll" dateAdapter={AdapterMoment}>
                                                     <MobileDatePicker    
                                                         inputFormat="DD/MM/yyyy"                                 
