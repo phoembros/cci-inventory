@@ -461,8 +461,23 @@ export default function CreateProduction({
                                                                 <TableCell className="body-title" component="th" scope="row" width="30%"> 
                                                                     {row?.rawMaterialId?.materialName} 
                                                                 </TableCell>
-                                                                <TableCell className="body-title" align='right' width="30%">                                                                    
-                                                                    { (row?.amount*values?.qty)?.toFixed(4)}-{row?.rawMaterialId?.unit?.unitName}
+                                                                <TableCell className="body-title" align='right' width="30%">     
+
+                                                                    <Stack direction="row" justifyContent="center" >
+                                                                        <Stack direction="row" justifyContent="center" spacing={1} width="100%">
+                                                                            <Box  width="65%" display="flex" justifyContent="right">
+                                                                                <Typography>
+                                                                                    { (row?.amount*values?.qty)?.toFixed(4) }
+                                                                                </Typography>
+                                                                            </Box>                                                                                                    
+                                                                            <Box  width="35%" display="flex" justifyContent="left">
+                                                                                <Typography> 
+                                                                                    { row?.rawMaterialId?.unit?.unitName }
+                                                                                </Typography>
+                                                                            </Box>
+                                                                        </Stack>       
+                                                                    </Stack>
+                                                                    
                                                                 </TableCell>    
                                                                 <TableCell className="body-title" width="30%" align='right'>
                                                                     {   (row?.amount*values?.qty) < 1 ?
@@ -471,16 +486,42 @@ export default function CreateProduction({
                                                                                     row?.rawMaterialId?.unit?.unitName === "kilogram" ||
                                                                                     row?.rawMaterialId?.unit?.unitName === "Kilogram" ||
                                                                                     row?.rawMaterialId?.unit?.unitName === "Kg" ||
-                                                                                    row?.rawMaterialId?.unit?.unitName === "kg" ?
-                                                                                        (row?.amount*values?.qty*1000)?.toFixed(2)+"g"
+                                                                                    row?.rawMaterialId?.unit?.unitName === "kg" ?                                                        
+                                                                                        <>
+                                                                                            <Stack direction="row" justifyContent="right" >
+                                                                                                <Stack direction="row" justifyContent="right" spacing={1} width="100%">
+                                                                                                    <Box  width="60%" display="flex" justifyContent="right">
+                                                                                                        <Typography>
+                                                                                                            {(row?.amount*values?.qty*1000)?.toFixed(2)}
+                                                                                                        </Typography>
+                                                                                                    </Box>                                                                                                                        
+                                                                                                    <Box  width="40%" display="flex" justifyContent="left">
+                                                                                                        <Typography>g</Typography>
+                                                                                                    </Box>
+                                                                                                </Stack>       
+                                                                                            </Stack>
+                                                                                        </>
                                                                                     : null
                                                                                 }
                     
                                                                                 {
                                                                                     row?.rawMaterialId?.unit?.unitName === "Liter" ||
                                                                                     row?.rawMaterialId?.unit?.unitName === "L" ||
-                                                                                    row?.rawMaterialId?.unit?.unitName === "l" ?
-                                                                                        (row?.amount*values?.qty*1000)?.toFixed(2)+"ml"
+                                                                                    row?.rawMaterialId?.unit?.unitName === "l" ?                                                                                        
+                                                                                        <>
+                                                                                            <Stack direction="row" justifyContent="right" >
+                                                                                                <Stack direction="row" justifyContent="right" spacing={1} width="100%">
+                                                                                                    <Box  width="60%" display="flex" justifyContent="right">
+                                                                                                        <Typography>
+                                                                                                            {(row?.amount*values?.qty*1000)?.toFixed(2)}
+                                                                                                        </Typography>
+                                                                                                    </Box>                                                                                                                        
+                                                                                                    <Box  width="40%" display="flex" justifyContent="left">
+                                                                                                        <Typography>ml</Typography>
+                                                                                                    </Box>
+                                                                                                </Stack>       
+                                                                                            </Stack>
+                                                                                        </>
                                                                                     : null
                                                                                 }
                                                                             </>
