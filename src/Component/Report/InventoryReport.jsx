@@ -111,7 +111,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                             <TableCell 
                                                 align="center" width="15%"
                                                 className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                sx={{ border: "none" , color: "#0969A0"  , padding: "8px" }}
                                             >
                                                 <Typography variant="body2" className="text">
                                                         Units Sold                                                         
@@ -322,12 +322,10 @@ export default function InventoryReport({ FromData , ToData }) {
                         justifyContent: "center",                            
                     }}
                 >
-
                     <ComponentToPrint 
                         FromData={FromData}
                         ToData={ToData}
                     />
-
                 </Box>  
                               
             </Box>

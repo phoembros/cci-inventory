@@ -122,42 +122,42 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                 <Typography variant="body2" className="text">Item Description</Typography>
                                             </TableCell>      
                                             <TableCell 
-                                                align="center" width="6%"
+                                                align="right" width="6%"
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Qty</Typography>
                                             </TableCell> 
                                             <TableCell 
-                                                align="center" width="6%"
+                                                align="right" width="6%"
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Sale Price</Typography>
                                             </TableCell>
                                             <TableCell 
-                                                align="center" width="6%"
+                                                align="right" width="6%"
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Amount</Typography>
                                             </TableCell> 
                                             <TableCell 
-                                                align="center" width="6%"
+                                                align="right" width="6%"
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Cost of Sales</Typography>
                                             </TableCell> 
                                             <TableCell 
-                                                align="center" width="6%"
+                                                align="right" width="6%"
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Gross Profit</Typography>
                                             </TableCell>  
                                             <TableCell 
-                                                align="center" width="6%"
+                                                align="right" width="6%"
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >

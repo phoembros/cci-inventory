@@ -74,32 +74,34 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                             sx={{backgroundColor: "#d0e3ed"}}
                                         >
                                             <TableCell  
-                                                className="cell-item" width="7%"
+                                                className="cell-item" width="8%"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Item Description</Typography>
                                             </TableCell>
                                             <TableCell 
-                                                className="cell-item" width="15%" align="center"
+                                                className="cell-item" width="15%" align="right"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Qty Stock In</Typography>
                                             </TableCell>     
 
                                             <TableCell 
-                                                className="cell-item" width="15%" align="center"
+                                                className="cell-item" width="15%" align="right"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Qty Stock Out</Typography>
                                             </TableCell>
                                                
+
                                             <TableCell 
-                                                align="center" width="15%" 
+                                                align="right" width="15%" 
                                                 className="cell-item"
                                                 sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
                                             > 
                                                 <Typography variant="body2" className="text">Qty on Hand</Typography>
                                             </TableCell>  
+
 
                                             <TableCell 
                                                 align="left" width="8%"
@@ -108,6 +110,8 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                             >
                                                 <Typography variant="body2" className="text">Unit</Typography>
                                             </TableCell>   
+
+
                                             <TableCell 
                                                 align="center" width="15%"
                                                 className="cell-item"
@@ -128,18 +132,29 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                     <Table sx={{ width:"100%" }}>
                                         <TableBody className='body'>
                                             <TableRow className="body-row">
+
                                                 <TableCell  
-                                                    className="cell-item" width="7%"
-                                                    sx={{border: "none" , padding: "8px"}}
-                                                >
-                                                    <Typography variant="body2" className="text" sx={{color: "black"}}>{item?.materialName}</Typography>
-                                                </TableCell>
-                                                <TableCell 
-                                                    className="cell-item" width="15%" align="center"
+                                                    className="cell-item" width="8%"
                                                     sx={{border: "none" , padding: "8px"}}
                                                 >
                                                     <Stack direction="row" justifyContent="center">
-                                                        <Stack direction="row" justifyContent="center" width="90%">
+                                                        <Stack direction="row" justifyContent="center" width="100%">                                                            
+                                                            <Box  width="50%" display="flex" justifyContent="left">
+                                                                <Typography variant="body2" className="text" sx={{color: "black"}}>
+                                                                    {item?.materialName}
+                                                                </Typography>
+                                                            </Box>                                                            
+                                                            <Box sx={{flexGrow:1}}> </Box>
+                                                        </Stack> 
+                                                    </Stack>                                                                                               
+                                                </TableCell>
+
+                                                <TableCell 
+                                                    className="cell-item" width="15%" align="right"
+                                                    sx={{border: "none" , padding: "8px"}}
+                                                >
+                                                    <Stack direction="row" justifyContent="center">
+                                                        <Stack direction="row" justifyContent="center" width="100%">
                                                             <Box sx={{flexGrow:1}}> </Box>
                                                             <Box  width="50%" display="flex" justifyContent="right">
                                                                 <Typography variant="body2" className="text" sx={{color: "black"}}>
@@ -152,11 +167,11 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                 </TableCell>  
 
                                                 <TableCell 
-                                                    className="cell-item" width="15%" align="center"
+                                                    className="cell-item" width="15%" align="right"
                                                     sx={{border: "none" , padding: "8px"}}
                                                 >
                                                      <Stack direction="row" justifyContent="center">
-                                                        <Stack direction="row" justifyContent="center" width="90%">
+                                                        <Stack direction="row" justifyContent="center" width="100%">
                                                             <Box sx={{flexGrow:1}}> </Box>
                                                             <Box  width="50%" display="flex" justifyContent="right">
                                                                 <Typography variant="body2" className="text" sx={{color: "black"}}>
@@ -174,7 +189,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                     sx={{border: "none" , padding: "8px"}}
                                                 > 
                                                     <Stack direction="row" justifyContent="center">
-                                                        <Stack direction="row" justifyContent="center" width="90%">
+                                                        <Stack direction="row" justifyContent="center" width="100%">
                                                             <Box sx={{flexGrow:1}}> </Box>
                                                             <Box  width="50%" display="flex" justifyContent="right">
                                                                 <Typography variant="body2" className="text" sx={{color: "black"}}>
@@ -187,13 +202,13 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                 </TableCell>  
 
                                                 <TableCell 
-                                                    align="center" width="8%"
+                                                    align="left" width="8%"
                                                     className="cell-item"
                                                     sx={{border: "none" ,   padding: "8px"}}
                                                 >
                                                     <Stack direction="row" justifyContent="center">
-                                                        <Stack direction="row" justifyContent="center" width="80%">
-                                                            <Box  width="50%" display="flex" justifyContent="left">
+                                                        <Stack direction="row" justifyContent="center" width="100%">
+                                                            <Box  width="50%" display="flex" justifyContent="left" sx={{marginLeft: "10px"}}>
                                                                  <Typography variant="body2" className="text" sx={{color: "black"}}>{item?.unit}</Typography>
                                                             </Box>                                                            
                                                             <Box sx={{flexGrow:1}}>                                                                
