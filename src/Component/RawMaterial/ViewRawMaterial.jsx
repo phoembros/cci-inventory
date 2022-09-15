@@ -116,12 +116,14 @@ export default function ViewRawMaterial({handleClose, open , DataRow ,setRefetch
                     </Stack>  */}
 
                     <Stack direction="row" spacing={1} sx={{mt:2 , width: "100%"}} >
-                        <Typography className='header-title'>
-                            Qauntity On Hand:
-                        </Typography>  
-                        <Typography variant='body1'>
-
-                            {/* {(DataRow?.totalStockAmount-DataRow?.usedStockAmount)?.toFixed(4)} -{DataRow?.unit} */}                            
+                        <Box sx={{ width: "50%" }}>
+                            <Typography className='header-title'>
+                                Qauntity On Hand:
+                            </Typography>  
+                        </Box>                       
+                        
+                        {/* {(DataRow?.totalStockAmount-DataRow?.usedStockAmount)?.toFixed(4)} -{DataRow?.unit} */}
+                        <Box sx={{ width: "25%" }}>                         
                             <QtyOnHand 
                                 setRefetchQty={setRefetchQty} 
                                 refetchQty={refetchQty} 
@@ -129,7 +131,7 @@ export default function ViewRawMaterial({handleClose, open , DataRow ,setRefetch
                                 rawMaterialId={DataRow?._id} 
                                 unit={DataRow?.unit?.unitName}
                             />
-                        </Typography>                      
+                        </Box>                     
                     </Stack>  
 
                     <Stack direction="column" spacing={1} sx={{mt:4 , width: "100%"}} >
