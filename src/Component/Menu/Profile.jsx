@@ -15,12 +15,12 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { auth } from "../../firebase";
-import { getAuth, signOut } from "firebase/auth";
+
 import { GET_USER_LOGIN } from "../../Schema/user";
 import { useQuery } from "@apollo/client";
 
-export default function Profile() {
+export default function Profile({handleOpenLogout}) {
+
   const { data: dataUserLogin } = useQuery(GET_USER_LOGIN);
   // console.log(dataUserLogin?.getuserLogin)
 
@@ -32,19 +32,6 @@ export default function Profile() {
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
-  // const auth = getAuth();
-
-  const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        navigate("/login");
-      })
-      .catch((error) => {
-        // An error happened.
-        console.log(error);
-      });
-  };
 
   return (
     <>
@@ -106,23 +93,21 @@ export default function Profile() {
           <Avatar
             src={dataUserLogin?.getuserLogin?.image_src}
             sx={{ width: 100, height: 100 }}
-          />{" "}
+          />
           Profile
         </MenuItem>
 
         <Divider />
 
         <MenuItem onClick={() => navigate("/system-setting")}>
-          <ListItemIcon>
-            {" "}
-            <Settings fontSize="small" />{" "}
+          <ListItemIcon>            
+            <Settings fontSize="small" />
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={() => handleSignOut()}>
+        <MenuItem onClick={() => handleOpenLogout()}>
           <ListItemIcon>
-            {" "}
-            <Logout fontSize="small" sx={{ color: "red" }} />{" "}
+            <Logout fontSize="small" sx={{ color: "red" }} />
           </ListItemIcon>
           <Typography variant="body1">Logout</Typography>
         </MenuItem>
