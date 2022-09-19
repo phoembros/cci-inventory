@@ -61,7 +61,7 @@ export default function Login() {
           setCheckMessage("success");
           setMessage("Login successfull!");
           setTimeout( () => {
-            navigate("/");
+            navigate("/");            
           },1200)
         })
         .catch((error) => {

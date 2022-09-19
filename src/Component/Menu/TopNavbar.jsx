@@ -47,6 +47,7 @@ export default function TopNavbar ({ prefersDarkMode , setPrefersDarkMode , hand
           .then(() => {
             // Sign-out successful.
             navigate("/login");
+            window.localStorage.removeItem("users")
           })
           .catch((error) => {
             // An error happened.

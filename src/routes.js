@@ -36,14 +36,31 @@ import Role from "./Component/Setting/Role";
 import PurchaseMaterial from "./Component/PurchaseRawMaterial/PurchaseMaterial";
 import Unit from "./Component/Setting/Unit";
 import ViewVoid from "./Component/Sales/ViewVoid";
+import { useState } from "react";
 
 export default function Router({ prefersDarkMode, setPrefersDarkMode }) {
 
   //Apollo
-  const { state } = useContext(AuthContext);
-  const { user } = state;
+  const { state } = useContext(AuthContext); 
+  const [user,setUser] = useState(JSON.parse(window.localStorage.getItem("users")));// JSON.parse(window.localStorage.getItem("users")) )
 
-  // console.log(state,'state')
+  React.useEffect( () => {
+    let userStorage = JSON.parse(window.localStorage.getItem("users"))
+    if(userStorage){
+      setUser(userStorage)
+      return
+    }
+
+    if(state?.user){        
+      setTimeout( () => {
+          setUser(state?.user)
+          window.localStorage.setItem("users", JSON.stringify(state?.user) )
+      },1200);
+    } else {
+        setUser(null)
+    }
+
+  },[state?.user])
 
   // const [systemSettingPath, setSystemSettingPath] = React.useState('')
   // const [reportPath, setreportPath] = React.useState('')
@@ -52,7 +69,7 @@ export default function Router({ prefersDarkMode, setPrefersDarkMode }) {
     { path: "", element: <Login /> },
     { path: "login", element: <Login /> },
     { path: "forgotpassword", element: <ForgotPasswork /> },
-    // { path: "*" , element: <Page404 /> },
+    { path: "*" , element: <Login /> },
   ]);
 
   const Content = useRoutes([
@@ -73,8 +90,7 @@ export default function Router({ prefersDarkMode, setPrefersDarkMode }) {
         { path: "storage-room/roomdetail", element: <RoomDetail /> },
         { path: "storage-room/purchase", element: <Purchase /> },
         { path: "storage-room/raw-material", element: <RawMaterialRoom /> },
-       
-        
+               
         { path: "purchase-material", element: <PurchaseMaterial />},
 
         { path: "raw-material", element: <RawMaterial /> },
@@ -94,6 +110,7 @@ export default function Router({ prefersDarkMode, setPrefersDarkMode }) {
         { path: "user", element: <User /> },
         { path: "action", element: <UserActions /> },
         { path: "report", element: <Report /> },
+
         { path: "system-setting", element: <SystemSetting /> },
         { path: "system-setting/role", element: <Role /> },
         { path: "system-setting/unit", element: <Unit /> },
@@ -103,7 +120,7 @@ export default function Router({ prefersDarkMode, setPrefersDarkMode }) {
     },
   ]);
 
-  if (user) {
+  if (user !== undefined && user !== null) {
     return Content;
   } else {
     return LoginPage;
