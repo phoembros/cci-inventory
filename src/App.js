@@ -16,12 +16,18 @@ import { AuthContext } from './context/AuthContext'
 import { useContext } from "react";
 import { setContext } from '@apollo/client/link/context';
 
+import { GlobalDebug } from "./Function/RemoveConsole";
+
 function App() {
     //Apollo
     const { state } = useContext(AuthContext);
     const { user } = state;
-    
-    console.log(state,'state')  
+
+        
+    React.useEffect( () => {
+      (process.env.NODE_ENV === "development" || process.env.React_APP_END_POINT === "https://endpoint-inventory.cci-cambodia.com/graphql") && GlobalDebug(false);
+    }, []);
+
 
     const httpLink = createHttpLink({      
         uri: process.env.React_APP_END_POINT,
