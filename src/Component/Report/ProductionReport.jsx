@@ -45,7 +45,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
                 <Grid container>
                     <Grid item xs={12}>
                         <Stack direction="row" display="flex"  spacing={1} width="400px" sx={{position: "absolute" , zIndex: "1"}}>
-                            <img src={logo} alt="logo" width="60%" style={{marginLeft:"15px"}}/>
+                            <img src={logo} alt="logo" width="55%" style={{marginLeft:"15px"}}/>
                         </Stack>
                         <Stack direction="row" spacing={2}>                            
                             <Box sx={{display: "flex" , justifyContent: "center" , width: "100%"}}>
