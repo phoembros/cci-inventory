@@ -65,9 +65,10 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
 
                        
                     <Grid item xs={12} sx={{mt:5}}>
-                        <Box width="100%">
+                        <Box width="99%">
                             <TableContainer className="table">
                                 <Table sx={{ width:"100%" }}>
+
                                     <TableBody className='header'>
                                         <TableRow 
                                             className="header-row" 
@@ -75,20 +76,20 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                         >
                                             <TableCell  
                                                 className="cell-item" width="8%"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                sx={{border: "none" , color: "#007654"  , padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Item Description</Typography>
                                             </TableCell>
                                             <TableCell 
                                                 className="cell-item" width="15%" align="right"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                sx={{border: "none" , color: "#007654"  , padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Qty Stock In</Typography>
                                             </TableCell>     
 
                                             <TableCell 
                                                 className="cell-item" width="15%" align="right"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                sx={{border: "none" , color: "#007654"  , padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Qty Stock Out</Typography>
                                             </TableCell>
@@ -97,7 +98,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                             <TableCell 
                                                 align="right" width="15%" 
                                                 className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                sx={{border: "none" , color: "#007654"  , padding: "8px"}}
                                             > 
                                                 <Typography variant="body2" className="text">Qty on Hand</Typography>
                                             </TableCell>  
@@ -106,7 +107,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                             <TableCell 
                                                 align="left" width="8%"
                                                 className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  ,   padding: "8px"}}
+                                                sx={{border: "none" , color: "#007654"  ,   padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Unit</Typography>
                                             </TableCell>   
@@ -115,7 +116,7 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                             <TableCell 
                                                 align="center" width="15%"
                                                 className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
+                                                sx={{border: "none" , color: "#007654"  , padding: "8px"}}
                                             >
                                                 <Typography variant="body2" className="text">Unit Price</Typography>
                                             </TableCell>      
@@ -123,129 +124,126 @@ const ComponentToPrint = ({ FromData , ToData } ) => {
                                                                                              
                                         </TableRow>                                                                  
                                     </TableBody>                      
-                                </Table>
-                            </TableContainer>
-
+                        
                         {
                             dataReport?.map( (item,index) => (
-                                <TableContainer key={index} className="table">
-                                    <Table sx={{ width:"100%" }}>
-                                        <TableBody className='body'>
-                                            <TableRow className="body-row">
+                               
+                                    <TableBody key={index} className='body'>
+                                        <TableRow className="body-row">
 
-                                                <TableCell  
-                                                    className="cell-item" width="8%"
-                                                    sx={{border: "none" , padding: "8px"}}
-                                                >
+                                            <TableCell  
+                                                className="cell-item" width="8%"
+                                                sx={{border: "1px solid #f4f4f4" , padding: "8px"}}
+                                            >
+                                                <Stack direction="row" justifyContent="center">
+                                                    <Stack direction="row" justifyContent="center" width="100%">                                                            
+                                                        <Box  width="50%" display="flex" justifyContent="left">
+                                                            <Typography variant="body2" className="text" sx={{color: "black"}}>
+                                                                {item?.materialName}
+                                                            </Typography>
+                                                        </Box>                                                            
+                                                        <Box sx={{flexGrow:1}}> </Box>
+                                                    </Stack> 
+                                                </Stack>                                                                                               
+                                            </TableCell>
+
+                                            <TableCell 
+                                                className="cell-item" width="15%" align="right"
+                                                sx={{border: "1px solid #f4f4f4" , padding: "8px"}}
+                                            >
+                                                <Stack direction="row" justifyContent="center">
+                                                    <Stack direction="row" justifyContent="center" width="100%">
+                                                        <Box sx={{flexGrow:1}}> </Box>
+                                                        <Box  width="50%" display="flex" justifyContent="right">
+                                                            <Typography variant="body2" className="text" sx={{color: "black"}}>
+                                                                {item?.qtyStockIn?.toFixed(2)}
+                                                            </Typography>
+                                                        </Box>                                                            
+                                                        
+                                                    </Stack> 
+                                                </Stack>                                                         
+                                            </TableCell>  
+
+                                            <TableCell 
+                                                className="cell-item" width="15%" align="right"
+                                                sx={{border: "1px solid #f4f4f4" , padding: "8px"}}
+                                            >
                                                     <Stack direction="row" justifyContent="center">
-                                                        <Stack direction="row" justifyContent="center" width="100%">                                                            
-                                                            <Box  width="50%" display="flex" justifyContent="left">
-                                                                <Typography variant="body2" className="text" sx={{color: "black"}}>
-                                                                    {item?.materialName}
-                                                                </Typography>
-                                                            </Box>                                                            
-                                                            <Box sx={{flexGrow:1}}> </Box>
-                                                        </Stack> 
-                                                    </Stack>                                                                                               
-                                                </TableCell>
+                                                    <Stack direction="row" justifyContent="center" width="100%">
+                                                        <Box sx={{flexGrow:1}}> </Box>
+                                                        <Box  width="50%" display="flex" justifyContent="right">
+                                                            <Typography variant="body2" className="text" sx={{color: "black"}}>
+                                                                {item?.qtyStockOut?.toFixed(2)}
+                                                            </Typography>
+                                                        </Box>                                                            
+                                                        
+                                                    </Stack> 
+                                                </Stack>                                                    
+                                            </TableCell>       
 
-                                                <TableCell 
-                                                    className="cell-item" width="15%" align="right"
-                                                    sx={{border: "none" , padding: "8px"}}
-                                                >
-                                                    <Stack direction="row" justifyContent="center">
-                                                        <Stack direction="row" justifyContent="center" width="100%">
-                                                            <Box sx={{flexGrow:1}}> </Box>
-                                                            <Box  width="50%" display="flex" justifyContent="right">
-                                                                <Typography variant="body2" className="text" sx={{color: "black"}}>
-                                                                    {item?.qtyStockIn?.toFixed(2)}
-                                                                </Typography>
-                                                            </Box>                                                            
-                                                            
-                                                        </Stack> 
-                                                    </Stack>                                                         
-                                                </TableCell>  
+                                            <TableCell 
+                                                align="center" width="15%" 
+                                                className="cell-item"
+                                                sx={{border: "1px solid #f4f4f4" , padding: "8px"}}
+                                            > 
+                                                <Stack direction="row" justifyContent="center">
+                                                    <Stack direction="row" justifyContent="center" width="100%">
+                                                        <Box sx={{flexGrow:1}}> </Box>
+                                                        <Box  width="50%" display="flex" justifyContent="right">
+                                                            <Typography variant="body2" className="text" sx={{color: "black"}}>
+                                                                { (item?.qtyStockIn-item?.qtyStockOut).toFixed(2)}
+                                                            </Typography>
+                                                        </Box>                                                            
+                                                        
+                                                    </Stack> 
+                                                </Stack>                                                    
+                                            </TableCell>  
 
-                                                <TableCell 
-                                                    className="cell-item" width="15%" align="right"
-                                                    sx={{border: "none" , padding: "8px"}}
-                                                >
-                                                     <Stack direction="row" justifyContent="center">
-                                                        <Stack direction="row" justifyContent="center" width="100%">
-                                                            <Box sx={{flexGrow:1}}> </Box>
-                                                            <Box  width="50%" display="flex" justifyContent="right">
-                                                                <Typography variant="body2" className="text" sx={{color: "black"}}>
-                                                                    {item?.qtyStockOut?.toFixed(2)}
-                                                                </Typography>
-                                                            </Box>                                                            
-                                                            
-                                                        </Stack> 
-                                                    </Stack>                                                    
-                                                </TableCell>       
+                                            <TableCell 
+                                                align="left" width="8%"
+                                                className="cell-item"
+                                                sx={{border: "1px solid #f4f4f4" ,   padding: "8px"}}
+                                            >
+                                                <Stack direction="row" justifyContent="center">
+                                                    <Stack direction="row" justifyContent="center" width="100%">
+                                                        <Box  width="50%" display="flex" justifyContent="left" sx={{marginLeft: "10px"}}>
+                                                                <Typography variant="body2" className="text" sx={{color: "black"}}>{item?.unit}</Typography>
+                                                        </Box>                                                            
+                                                        <Box sx={{flexGrow:1}}>                                                                
+                                                        </Box>
+                                                    </Stack> 
+                                                </Stack>                                                    
+                                            </TableCell>   
 
-                                                <TableCell 
-                                                    align="center" width="15%" 
-                                                    className="cell-item"
-                                                    sx={{border: "none" , padding: "8px"}}
-                                                > 
-                                                    <Stack direction="row" justifyContent="center">
-                                                        <Stack direction="row" justifyContent="center" width="100%">
-                                                            <Box sx={{flexGrow:1}}> </Box>
-                                                            <Box  width="50%" display="flex" justifyContent="right">
-                                                                <Typography variant="body2" className="text" sx={{color: "black"}}>
-                                                                    { (item?.qtyStockIn-item?.qtyStockOut).toFixed(2)}
-                                                                </Typography>
-                                                            </Box>                                                            
-                                                            
-                                                        </Stack> 
-                                                    </Stack>                                                    
-                                                </TableCell>  
-
-                                                <TableCell 
-                                                    align="left" width="8%"
-                                                    className="cell-item"
-                                                    sx={{border: "none" ,   padding: "8px"}}
-                                                >
-                                                    <Stack direction="row" justifyContent="center">
-                                                        <Stack direction="row" justifyContent="center" width="100%">
-                                                            <Box  width="50%" display="flex" justifyContent="left" sx={{marginLeft: "10px"}}>
-                                                                 <Typography variant="body2" className="text" sx={{color: "black"}}>{item?.unit}</Typography>
-                                                            </Box>                                                            
-                                                            <Box sx={{flexGrow:1}}>                                                                
-                                                            </Box>
-                                                        </Stack> 
-                                                    </Stack>                                                    
-                                                </TableCell>   
-
-                                                <TableCell 
-                                                    align="center" width="15%"
-                                                    className="cell-item"
-                                                    sx={{border: "none" , padding: "8px"}}
-                                                >
-                                                    <Stack direction="row" justifyContent="center">
-                                                        <Stack direction="row" justifyContent="center" width="50%">
-                                                            <Box  width="50%" display="flex" justifyContent="left">
-                                                                <Typography variant="body2" className="text" sx={{color: "black"}}>
-                                                                    $
-                                                                </Typography>
-                                                            </Box>                                                            
-                                                            <Box  width="50%" display="flex" justifyContent="right">
-                                                                <Typography variant="body2" className="text" sx={{color: "black"}}>
-                                                                    {item?.unitPrice}
-                                                                </Typography>
-                                                            </Box>
-                                                        </Stack> 
-                                                    </Stack>
-                                                    
-                                                </TableCell>      
-                                                                                                                                                     
-                                            </TableRow>                                                                  
-                                        </TableBody>                      
-                                    </Table>
-                                </TableContainer>
+                                            <TableCell 
+                                                align="center" width="15%"
+                                                className="cell-item"
+                                                sx={{border: "1px solid #f4f4f4" , padding: "8px"}}
+                                            >
+                                                <Stack direction="row" justifyContent="center">
+                                                    <Stack direction="row" justifyContent="center" width="50%">
+                                                        <Box  width="50%" display="flex" justifyContent="left">
+                                                            <Typography variant="body2" className="text" sx={{color: "black"}}>
+                                                                $
+                                                            </Typography>
+                                                        </Box>                                                            
+                                                        <Box  width="50%" display="flex" justifyContent="right">
+                                                            <Typography variant="body2" className="text" sx={{color: "black"}}>
+                                                                {item?.unitPrice}
+                                                            </Typography>
+                                                        </Box>
+                                                    </Stack> 
+                                                </Stack>
+                                                
+                                            </TableCell>      
+                                                                                                                                                    
+                                        </TableRow>                                                                  
+                                    </TableBody>                      
+                                    
                             ))
                         }   
-                                 
+                                </Table>
+                            </TableContainer>
                             
                         </Box>              
                     </Grid>

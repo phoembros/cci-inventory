@@ -1,33 +1,60 @@
-@import '../../themes.scss';
+@import "../../themes.scss";
 
 .inventory-report-pages {
+    margin-top: 30px;
+    width: 100%;
+    border-radius: 10px;
+    // display: flex;
+    justify-content: center;
 
-    width: 100% !important;   
-    
     .btn {
-
         .btn-text-field {
             display: flex;
             align-items: center;
-            width:300px;
+            width: 300px;
             background-color: #fff;
-            border-radius:10px;
+            border-radius: 10px;
         }
 
         .btn-add-style {
             border-radius: 5px;
             background-color: white;
             text-transform: none;
-                       
+
             .style-add {
-                color:  $primary-color;
+                color: $primary-color;
                 font-size: $font-Size-Subtitle;
                 font-weight: bold;
             }
         }
-
     }
 
+    .grid-report {
+        width: 100% !important;
+        background-color: white;
+
+        .grid-center {            
+            margin-top: 20px;
+
+            .logo {
+                width: 200px;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                z-index: 1;
+                // justify-content: center;
+
+                .logo-size {
+                    width: 100%;
+                }
+            }
+        }
+        .title-Report {
+            text-align: center;
+            font-weight: bold;
+        }
+    }
 
     .container {
         margin-top: 20px;
@@ -46,65 +73,73 @@
             width: 1200px !important;
         }
 
-           
-        .table {
-            width: 100%;
-            height: fit-content;
-            display: table;
-            overflow-x: auto;
-            border-collapse: separate;
-            border-spacing: 0px 8px;
-            white-space: nowrap;
+    .table {
+        width: 100% !important;       
+        display: table;
+        overflow-x: auto;
+        white-space: nowrap !important;
+        border-collapse: collapse !important;
+        border-spacing: 0px 8px !important;     
 
+        .header {
+            box-shadow: none;
+            background-color: $background-table-modal;
 
-            
-            .header{
-                box-shadow: none;    
-                background-color: $background-table-modal;
+            .header-row {
+                .cell-item {
+                    padding: 8px;                   
+                    font-size: $font-Size-Subtitle;
 
-                .header-row {     
-
-                    .cell-item {
-                        padding: 8px;
-                        border: none;
-                        font-size: $font-Size-Subtitle;
-                        
-                        .text {
-                            color: $primary-color;
-                        }
+                    .text {
+                        color: $primary-color;
                     }
                 }
             }
+        }
 
-            .body {
-                box-shadow: none;               
-                               
-                .body-row {       
-                    // background-color: #fff;        
-                    
-                    .cell-item {
-                        padding: 8px;
-                        border: none;
-                        font-size: $font-Size-Subtitle;                        
-                        
-                        .text {
-                            color: black;
-                        }
+        .body {
+            box-shadow: none;
 
-                    }
+            .body-row {
+                // background-color: #fff;
+                .cell-item {
+                    padding: 8px;                 
+                    font-size: 12px;
 
-                    .cell-item-subtitle {
-                        padding: 8px;
-                        border: none;                              
-                        font-size: $font-Size-Subtitle;
+                    .text {
+                        color: black;
                     }
                 }
+
+                .cell-item-subtitle {
+                    padding: 8px;                    
+                    font-size: 12px;
+                }
             }
-
-                       
-
         }
     }
+    }
 
-    
+    // .table {
+    //     width: 100%;
+    //     border-collapse: separate;
+    //     display: table;
+    //     overflow-x: auto;
+    //     white-space: nowrap;
+    //     border-spacing: 0px !important;
+
+    //     .header-title {
+    //         color: $primary-color;
+    //         font-size: $font-Size-Subtitle;
+    //         background-color: #eaf1f7;
+    //         border: 0.5px solid #f4f4f4;
+    //         padding: 15px 10px;
+    //     }
+
+    //     .body-text {
+    //         font-size: $font-Size-Subtitle;
+    //         padding: 8px;
+    //         border: 0.5px solid #f4f4f4;
+    //     }
+    // }
 }

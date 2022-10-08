@@ -44,7 +44,7 @@ const ComponentToPrint = ({FromData , ToData}) => {
             <Box width="100%">
                 <Grid container>
                     <Grid item xs={12}>
-                        <Stack direction="row" display="flex" justifyContent="center" spacing={1} width="400px" sx={{position: "absolute" , zIndex: "1"}}>
+                        <Stack direction="row" display="flex"  spacing={1} width="400px" sx={{position: "absolute" , zIndex: "1"}}>
                             <img src={logo} alt="logo" width="60%" style={{marginLeft:"15px"}}/>
                         </Stack>
                         <Stack direction="row" spacing={2}>                            
@@ -65,288 +65,280 @@ const ComponentToPrint = ({FromData , ToData}) => {
                             </Box>
                         </Stack>
                     </Grid>                    
-
                                    
                     {/* <Grid item xs={12} sx={{mt:5}}>
                         <Divider sx={{border: "1px solid #0969A0"}}/>
                     </Grid> */}
         
-                    <Grid item xs={12} sx={{mt:5}}>
-                        <Box width="100%">
-                            <TableContainer className="table">
-                                <Table sx={{ width:"100%" }}>
-                                    <TableBody className='header'>
-                                        <TableRow 
-                                            className="header-row" 
-                                            sx={{backgroundColor: "#d0e3ed"}}
+                    <Grid item xs={12} sx={{mt:5}}>                        
+                        <Box width="100%">                           
+                                <table 
+                                    className="table" 
+                                    style={{
+                                        width: "100%" ,                        
+                                        whiteSpace: "nowrap" , 
+                                        borderCollapse: "collapse",
+                                        borderSpacing: "0px 8px",
+                                    }}
+                                >
+                                
+                                    <tr 
+                                        className="header-row" 
+                                        style={{ backgroundColor: "#d0e3ed" }}
+                                    >
+                                        <th  
+                                            className="cell-item" width="8%"
+                                            style={{border: "none" , color: "#007654"  , padding: "8px"}}
                                         >
-                                            <TableCell  
-                                                className="cell-item" width="8%"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
-                                            >
-                                                <Typography variant="body2" className="text">Date</Typography>
-                                            </TableCell>
+                                            <Typography variant="body2" className="text">Date</Typography>
+                                        </th>
 
-                                            <TableCell 
-                                                className="cell-item" width="15%"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
-                                            >
-                                                <Typography variant="body2" className="text">Customer Name</Typography>
-                                            </TableCell>         
+                                        <th 
+                                            className="cell-item" width="15%"
+                                            style={{border: "none" , color: "#007654"  , padding: "8px"}}
+                                        >
+                                            <Typography variant="body2" className="text">Customer Name</Typography>
+                                        </th>         
 
-                                            <TableCell 
-                                                width="10%"
-                                                className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
-                                            > 
-                                                <Typography variant="body2" className="text">Batch Card Number</Typography>
-                                            </TableCell>  
+                                        <th 
+                                            width="10%"
+                                            className="cell-item"
+                                            style={{border: "none" , color: "#007654"  , padding: "8px"}}
+                                        > 
+                                            <Typography variant="body2" className="text">Batch Card Number</Typography>
+                                        </th>  
 
-                                            <TableCell 
-                                                width="10%"
-                                                className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  ,   padding: "8px"}}
-                                            >
-                                                <Typography variant="body2" className="text">Item ID</Typography>
-                                            </TableCell>  
+                                        <th 
+                                            width="10%"
+                                            className="cell-item"
+                                            style={{border: "none" , color: "#007654"  ,   padding: "8px"}}
+                                        >
+                                            <Typography variant="body2" className="text">Item ID</Typography>
+                                        </th>  
 
-                                            <TableCell 
-                                                width="10%"
-                                                className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
-                                            >
-                                                <Typography variant="body2" className="text">Item Description</Typography>
-                                            </TableCell> 
+                                        <th 
+                                            width="10%"
+                                            className="cell-item"
+                                            style={{border: "none" , color: "#007654"  , padding: "8px"}}
+                                        >
+                                            <Typography variant="body2" className="text">Item Description</Typography>
+                                        </th> 
 
-                                            <TableCell 
-                                                align="center" width="10%"
-                                                className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
-                                            >
-                                                <Typography variant="body2" className="text">Target production</Typography>
-                                            </TableCell> 
+                                        <th 
+                                            align="center" width="10%"
+                                            className="cell-item"
+                                            style={{border: "none" , color: "#007654"  , padding: "8px"}}
+                                        >
+                                            <Typography variant="body2" className="text">Target production</Typography>
+                                        </th> 
 
-                                            <TableCell 
-                                                align="center" width="15%"
-                                                className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
-                                            >
-                                                <Typography variant="body2" className="text">Actual Production</Typography>
-                                            </TableCell>
+                                        <th 
+                                            align="center" width="15%"
+                                            className="cell-item"
+                                            style={{border: "none" , color: "#007654"  , padding: "8px"}}
+                                        >
+                                            <Typography variant="body2" className="text">Actual Production</Typography>
+                                        </th>
 
-                                            <TableCell 
-                                                align="center" width="10%"
-                                                className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
-                                            >
-                                                <Typography variant="body2" className="text">Cost of Production</Typography>
-                                            </TableCell>
+                                        <th 
+                                            align="center" width="10%"
+                                            className="cell-item"
+                                            style={{border: "none" , color: "#007654"  , padding: "8px"}}
+                                        >
+                                            <Typography variant="body2" className="text">Cost of Production</Typography>
+                                        </th>
 
-                                            <TableCell 
-                                                align="center" width="10%"
-                                                className="cell-item"
-                                                sx={{border: "none" , color: "#0969A0"  , padding: "8px"}}
-                                            >
-                                                <Typography variant="body2" className="text">Working Hours</Typography>
-                                            </TableCell> 
-                                                                                             
-                                        </TableRow>                                                                  
-                                    </TableBody>                      
-                                </Table>
-                            </TableContainer>
-
+                                        <th 
+                                            align="center" width="10%"
+                                            className="cell-item"
+                                            style={{border: "none" , color: "#007654"  , padding: "8px"}}
+                                        >
+                                            <Typography variant="body2" className="text">Working Hours</Typography>
+                                        </th> 
+                                                                                            
+                                    </tr>                                                                
+                                          
                         {
-                            dataReport?.map( (item,index) => (
-                                <TableContainer key={index} className="table">
-                                    <Table sx={{ width:"100%" }}>
-                                        <TableBody className='body'>
-                                            <TableRow className="body-row">
+                            dataReport?.map( (item,index) => (                             
+                                <>
+                                        <tr className="body-row">
 
-                                                <TableCell  
-                                                    className="cell-item" width="8%"
-                                                    sx={{border: "none" ,color: "#0969A0" ,  padding: "8px"}}
-                                                >
-                                                    <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                        {moment(item?.date).format("DD/MMM/YY")}
-                                                    </Typography>
-                                                </TableCell>
+                                            <td  
+                                                className="cell-item"
+                                                style={{border: "1px solid #f4f4f4"  ,color: "#0969A0" ,  padding: "8px"}}
+                                            >
+                                                <Typography variant="body2" sx={{fontWeight:"bold"}}>
+                                                    {moment(item?.date).format("DD/MMM/YY")}
+                                                </Typography>
+                                            </td>
 
-                                                <TableCell 
-                                                    className="cell-item" width="15%"
-                                                    sx={{border: "none" ,color: "#0969A0" ,  padding: "8px"}}
-                                                >
-                                                    <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                        {item?.customerName}
-                                                    </Typography>
-                                                </TableCell>         
+                                            <td 
+                                                className="cell-item"
+                                                style={{border: "1px solid #f4f4f4"  ,color: "#0969A0" ,  padding: "8px"}}
+                                            >
+                                                <Typography variant="body2" sx={{fontWeight:"bold"}}>
+                                                    {item?.customerName}
+                                                </Typography>
+                                            </td>         
 
-                                                <TableCell 
-                                                    width="10%"
-                                                    className="cell-item"
-                                                    sx={{border: "none" ,color: "#0969A0" ,  padding: "8px"}}
-                                                > 
-                                                    <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                        {moment(item?.date).format("YYMM")}-{item?.batchCardNumber}
-                                                    </Typography>
-                                                </TableCell>  
+                                            <td                                                    
+                                                className="cell-item"
+                                                style={{border: "1px solid #f4f4f4"  ,color: "#0969A0" ,  padding: "8px"}}
+                                            > 
+                                                <Typography variant="body2" sx={{fontWeight:"bold"}}>
+                                                    {moment(item?.date).format("YYMM")}-{item?.batchCardNumber}
+                                                </Typography>
+                                            </td>  
 
-                                                <TableCell 
-                                                    width="10%"
-                                                    className="cell-item"
-                                                    sx={{border: "none" ,color: "#0969A0" ,    padding: "8px"}}
-                                                >
-                                                    <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                        {item?.itemID}
-                                                    </Typography>
-                                                </TableCell>  
+                                            <td                                                   
+                                                className="cell-item"
+                                                style={{border: "1px solid #f4f4f4"  ,color: "#0969A0" ,    padding: "8px"}}
+                                            >
+                                                <Typography variant="body2" sx={{fontWeight:"bold"}}>
+                                                    {item?.itemID}
+                                                </Typography>
+                                            </td>  
 
-                                                <TableCell 
-                                                    width="10%"
-                                                    className="cell-item"
-                                                    sx={{border: "none" ,color: "#0969A0" ,  padding: "8px"}}
-                                                >
-                                                    <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                        {item?.itemDescription}
-                                                    </Typography>
-                                                </TableCell> 
+                                            <td                                                     
+                                                className="cell-item"
+                                                style={{border: "1px solid #f4f4f4"  ,color: "#0969A0" ,  padding: "8px"}}
+                                            >
+                                                <Typography variant="body2" sx={{fontWeight:"bold"}}>
+                                                    {item?.itemDescription}
+                                                </Typography>
+                                            </td> 
 
-                                                <TableCell 
-                                                    align="center" width="10%"
-                                                    className="cell-item"
-                                                    sx={{border: "none" ,color: "#0969A0" ,  padding: "8px"}}
-                                                >
-                                                    <Stack direction="row" justifyContent="center">
-                                                        <Stack direction="row" justifyContent="center" width="100%" spacing={1}>
-                                                            <Box width="50%" display="flex" justifyContent="right">
-                                                                <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                                    {item?.targetProduction}
-                                                                </Typography>
-                                                            </Box>
-                                                            <Box  width="50%" display="flex" justifyContent="left">
-                                                                <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                                    {item?.unitVM}
-                                                                </Typography>
-                                                            </Box>
-                                                        </Stack>
+                                            <td 
+                                                align="center" 
+                                                className="cell-item"
+                                                style={{border: "1px solid #f4f4f4"  ,color: "#0969A0" ,  padding: "8px"}}
+                                            >
+                                                <Stack direction="row" justifyContent="center">
+                                                    <Stack direction="row" justifyContent="center" width="100%" spacing={1}>
+                                                        <Box width="50%" display="flex" justifyContent="right">
+                                                            <Typography variant="body2" sx={{fontWeight:"bold"}}>
+                                                                {item?.targetProduction}
+                                                            </Typography>
+                                                        </Box>
+                                                        <Box  width="50%" display="flex" justifyContent="left">
+                                                            <Typography variant="body2" sx={{fontWeight:"bold"}}>
+                                                                {item?.unitVM}
+                                                            </Typography>
+                                                        </Box>
                                                     </Stack>
-                                                </TableCell> 
+                                                </Stack>
+                                            </td> 
 
-                                                <TableCell 
-                                                    align="center" width="15%"
-                                                    className="cell-item"
-                                                    sx={{border: "none" ,color: "#0969A0" ,  padding: "8px"}}
-                                                >
-                                                    <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                        {/* {item?.actualProduction}-{item?.unitUM} */}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell 
-                                                    align="center" width="10%"
-                                                    className="cell-item"
-                                                    sx={{border: "none" ,color: "#0969A0" ,  padding: "8px"}}
-                                                >
+                                            <td 
+                                                align="center"
+                                                className="cell-item"
+                                                style={{border: "1px solid #f4f4f4"  ,color: "#0969A0" ,  padding: "8px"}}
+                                            >
+                                                <Typography variant="body2" sx={{fontWeight:"bold"}}>
+                                                    {/* {item?.actualProduction}-{item?.unitUM} */}
+                                                </Typography>
+                                            </td>
+                                            <td 
+                                                align="center" 
+                                                className="cell-item"
+                                                style={{border: "1px solid #f4f4f4"  ,color: "#0969A0" ,  padding: "8px"}}
+                                            >
 
-                                                    <Stack direction="row" justifyContent="center">
-                                                        <Stack direction="row" justifyContent="center" width="100%" spacing={1}>
-                                                            <Box width="50%" display="flex" justifyContent="left">
-                                                                <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                                    $
-                                                                </Typography>
-                                                            </Box>
+                                                <Stack direction="row" justifyContent="center">
+                                                    <Stack direction="row" justifyContent="center" width="100%" spacing={1}>
+                                                        <Box width="50%" display="flex" justifyContent="left">
+                                                            <Typography variant="body2" sx={{fontWeight:"bold"}}>
+                                                                $
+                                                            </Typography>
+                                                        </Box>
 
-                                                            <Box  width="50%" display="flex" justifyContent="right">
-                                                                <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                                    {item?.costOfProduction?.toFixed(3)}
-                                                                </Typography>
-                                                            </Box>
-                                                        </Stack>
+                                                        <Box  width="50%" display="flex" justifyContent="right">
+                                                            <Typography variant="body2" sx={{fontWeight:"bold"}}>
+                                                                {item?.costOfProduction?.toFixed(3)}
+                                                            </Typography>
+                                                        </Box>
                                                     </Stack>
+                                                </Stack>                                                   
+                                            </td>
+                                            
+                                            <td 
+                                                align="center"
+                                                className="cell-item"
+                                                style={{border: "1px solid #f4f4f4"  ,color: "#0969A0" ,  padding: "8px"}}
+                                            >
+                                                <Typography variant="body2" sx={{fontWeight:"bold"}}>
+                                                    {item?.workingHours}
+                                                </Typography>
+                                            </td>                                                  
 
-
-                                                    {/* <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                        ${item?.costOfProduction?.toFixed(3)}
-                                                    </Typography> */}
-                                                </TableCell>
-                                                
-                                                <TableCell 
-                                                    align="center" width="10%"
-                                                    className="cell-item"
-                                                    sx={{border: "none" ,color: "#0969A0" ,  padding: "8px"}}
-                                                >
-                                                    <Typography variant="body2" sx={{fontWeight:"bold"}}>
-                                                        {item?.workingHours}
-                                                    </Typography>
-                                                </TableCell>                                                  
-
-                                            </TableRow>    
+                                        </tr>    
 
                                         {
                                             item?.actualProduction?.map( (row,index) => (
+                                            <>
+                                            <tr key={index} className="body-row">
 
-                                            <TableRow key={index} className="body-row">
-
-                                                <TableCell  
-                                                    className="cell-item" width="8%"
-                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                <td  
+                                                    className="cell-item"
+                                                    style={{border: "1px solid #f4f4f4"  ,  padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text">
                                                         {/* {moment(item?.date).format("DD/MMM/YY")} */}
                                                     </Typography>
-                                                </TableCell>
+                                                </td>
 
-                                                <TableCell 
-                                                    className="cell-item" width="15%"
-                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                <td 
+                                                    className="cell-item"
+                                                    style={{border: "1px solid #f4f4f4"  ,  padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>
                                                         {/* {item?.customerName} */}
                                                     </Typography>
-                                                </TableCell>         
+                                                </td>         
 
-                                                <TableCell 
-                                                    align="center" width="10%"
+                                                <td 
+                                                    align="center"
                                                     className="cell-item"
-                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                    style={{border: "1px solid #f4f4f4"  ,  padding: "8px"}}
                                                 > 
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>
                                                         {/* {moment(item?.date).format("YYMM")}-{item?.batchCardNumber} */}
                                                     </Typography>
-                                                </TableCell>  
+                                                </td>  
 
-                                                <TableCell 
-                                                    align="center" width="10%"
+                                                <td 
+                                                    align="center"
                                                     className="cell-item"
-                                                    sx={{border: "none" ,    padding: "8px"}}
+                                                    style={{border: "1px solid #f4f4f4"  ,    padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>
                                                         {/* {item?.itemID} */}
                                                     </Typography>
-                                                </TableCell>  
+                                                </td>  
 
-                                                <TableCell 
-                                                    width="10%"
+                                                <td                                                    
                                                     className="cell-item"
-                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                    style={{border: "1px solid #f4f4f4"  ,  padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>
                                                         {row?.productGroupId?.name}
                                                     </Typography>
-                                                </TableCell> 
+                                                </td> 
 
-                                                <TableCell 
-                                                    align="center" width="10%"
+                                                <td 
+                                                    align="center"
                                                     className="cell-item"
-                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                    style={{border: "1px solid #f4f4f4"  ,  padding: "8px"}}
                                                 >
                                                     <Typography variant="body2" className="text" sx={{color: "black"}}>
-                                                        ---
+                                                        
                                                     </Typography>
-                                                </TableCell> 
+                                                </td> 
 
-                                                <TableCell 
-                                                    align="center" width="15%"
+                                                <td 
+                                                    align="center"
                                                     className="cell-item"
-                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                    style={{border: "1px solid #f4f4f4"  ,  padding: "8px"}}
                                                 >
                                                     
                                                         <Stack direction="row" justifyContent="center" spacing={1}>
@@ -363,12 +355,12 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                             </Box>
                                                         </Stack>                                                       
                                                    
-                                                </TableCell>
+                                                </td>
 
-                                                <TableCell 
-                                                    align="center" width="10%"
+                                                <td 
+                                                    align="center"
                                                     className="cell-item"
-                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                    style={{border: "1px solid #f4f4f4"  ,  padding: "8px"}}
                                                 >
 
                                                     <Stack direction="row" justifyContent="center">
@@ -385,34 +377,27 @@ const ComponentToPrint = ({FromData , ToData}) => {
                                                                 </Typography>
                                                             </Box>
                                                         </Stack>
-                                                    </Stack>
-                                                    {/* <Typography variant="body2" className="text" sx={{color: "black"}}>
-                                                        ${(row?.qtyOfUM*row?.unitQtyGroup*(item?.costOfProduction/item?.targetProduction))?.toFixed(3)}
-                                                    </Typography> */}
-
-                                                </TableCell>
+                                                    </Stack>                                                   
+                                                </td>
                                                 
-                                                <TableCell 
-                                                    align="center" width="10%"
+                                                <td 
+                                                    align="center"
                                                     className="cell-item"
-                                                    sx={{border: "none" ,  padding: "8px"}}
+                                                    style={{border: "1px solid #f4f4f4"  ,  padding: "8px"}}
                                                 >
-                                                    <Typography variant="body2" className="text" sx={{color: "black"}}>
-                                                        {/* {item?.workingHours} */}
+                                                    <Typography variant="body2" className="text" sx={{color: "black"}}>                                                        
                                                     </Typography>
-                                                </TableCell>                                                  
+                                                </td>                                                  
 
-                                            </TableRow>  
-
+                                            </tr>  
+                                            </>
                                             ))
                                         }
-
-                                        </TableBody>                      
-                                    </Table>
-                                </TableContainer>
+                                                            
+                                </>    
                             ))
                         }   
-                                 
+                                 </table>                           
                             
                         </Box>              
                     </Grid>
@@ -460,19 +445,17 @@ export default function ProductionReport({FromData , ToData}) {
                         justifyContent: "center",                            
                     }}
                 >
-
                     <ComponentToPrint 
                         FromData={FromData}
                         ToData={ToData}
                     />
 
-                </Box>  
-                              
+                </Box>                                
             </Box>
             <Stack direction="row" sx={{mt:2}}>
                 <Box sx={{flexGrow:1}}></Box>
                 <ReactToPrint 
-                    pageStyle={'@media print { body { -webkit-print-color-adjust: exact; } @page { size: landscape; margin: 12mm 5mm 10mm 5mm  !important; }}'} 
+                    pageStyle={'@media print { body { -webkit-print-color-adjust: exact; } @page { margin: 12mm 5mm 12mm 5mm  !important; }}'}
                     content={() => componentRef.current}         
                     trigger={() => (
                         <Stack direction="row" spacing={2} className="btn">           
